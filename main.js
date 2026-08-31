@@ -498,298 +498,359 @@ function setupEventListeners() {
 }
 
 /* ==========================================================================
-   MOTEUR INTERACTIF DU NOUVEAU FOOTER — ALEC TEAR LETTERING CANVAS & LIQUID CTA
+   NOUVELLE ANIMATION : FINE BARRE DE CANVAS CENTRES D'INTÉRÊT (ZOOM 300%)
+   Défilement continu infini à 60-120 FPS + Zoom x3 et texte affilié au survol / appui
    ========================================================================== */
 
-function hexToRgb(hex) {
-    hex = (hex || '#06b6d4').replace('#', '').trim();
-    if (hex.length === 3) hex = hex.split('').map(c => c + c).join('');
-    const num = parseInt(hex, 16);
-    return [(num >> 16) & 255, (num >> 8) & 255, num & 255];
-}
-
-window.canvasEngines = [];
-let isFooterLoopRunning = false;
-let footerAnimationId = null;
-
-function wakeUpFooterLoop() {
-    if (!isFooterLoopRunning && !document.hidden) {
-        isFooterLoopRunning = true;
-        footerAnimationId = requestAnimationFrame(animateFooterLoop);
+const INTERESTS_CONFIG = [
+    {
+        id: 'gaming',
+        title: 'JEUX VIDÉOS',
+        desc: 'Minecraft is the best',
+        icon: 'fas fa-gamepad',
+        accent: '#10b981',
+        glow: 'rgba(16, 185, 129, 0.45)'
+    },
+    {
+        id: 'moto',
+        title: 'MOTO',
+        desc: 'Speed + Music is a forbidden combo',
+        icon: 'fas fa-motorcycle',
+        accent: '#ef4444',
+        glow: 'rgba(239, 68, 68, 0.45)'
+    },
+    {
+        id: 'music',
+        title: 'MUSIQUE',
+        desc: 'Hayd is my favorite singer',
+        icon: 'fas fa-headphones',
+        accent: '#f59e0b',
+        glow: 'rgba(245, 158, 11, 0.45)'
+    },
+    {
+        id: 'reading',
+        title: 'LECTURE',
+        desc: "Albert Camus - L'étranger",
+        icon: 'fas fa-book-open',
+        accent: '#06b6d4',
+        glow: 'rgba(6, 182, 212, 0.45)'
+    },
+    {
+        id: 'sport',
+        title: 'SPORT',
+        desc: 'Football, Basket, Boxe ou Footing',
+        icon: 'fas fa-dumbbell',
+        accent: '#eab308',
+        glow: 'rgba(234, 179, 8, 0.45)'
+    },
+    {
+        id: 'travel',
+        title: 'VOYAGE',
+        desc: "Budget trop serré sinon j'ai les destinations",
+        icon: 'fas fa-plane-departure',
+        accent: '#14b8a6',
+        glow: 'rgba(20, 184, 166, 0.45)'
+    },
+    {
+        id: 'animes',
+        title: 'ANIME',
+        desc: 'Naruto, je suis fermé au débat',
+        icon: 'fas fa-dragon',
+        accent: '#a855f7',
+        glow: 'rgba(168, 85, 247, 0.45)'
     }
-}
+];
 
-function animateFooterLoop() {
-    if (document.hidden) {
-        isFooterLoopRunning = false;
-        footerAnimationId = null;
-        return;
-    }
+class InterestsTickerCanvasEngine {
+    constructor() {
+        this.wrapper = document.getElementById('interestsTickerWrapper');
+        this.canvas = document.getElementById('interests-ticker-canvas');
+        if (!this.canvas || !this.wrapper) return;
 
-    let hasActiveMotion = false;
-    for (let i = 0; i < window.canvasEngines.length; i++) {
-        const active = window.canvasEngines[i].render();
-        if (active) hasActiveMotion = true;
-    }
-
-    if (hasActiveMotion) {
-        footerAnimationId = requestAnimationFrame(animateFooterLoop);
-    } else {
-        isFooterLoopRunning = false;
-        footerAnimationId = null;
-    }
-}
-
-class LetteringCanvas {
-    constructor(card) {
-        this.card = card;
-        this.canvas = card.querySelector('.interest-canvas');
-        if (!this.canvas) return;
         this.ctx = this.canvas.getContext('2d', { alpha: true });
-        this.text = card.dataset.text || 'LETTERING';
-        this.accentColor = getComputedStyle(card).getPropertyValue('--card-accent').trim() || '#06b6d4';
-        this.accentRgb = hexToRgb(this.accentColor);
-        this.updateBaseColor();
-        
-        this.particles = [];
-        this.mouse = { x: -1000, y: -1000, radius: 95, radiusSq: 9025, isHovering: false };
-        this.cardColorRatio = 0;
-        this.isSettled = false;
-        this.isInitialized = false;
+        this.zoomCard = document.getElementById('interestZoomCard');
+        this.zoomCardGlow = document.getElementById('zoomCardGlow');
+        this.zoomCardIcon = document.getElementById('zoomCardIcon');
+        this.zoomCardTitle = document.getElementById('zoomCardTitle');
+        this.zoomCardDesc = document.getElementById('zoomCardDesc');
+        this.tickerGlow = document.getElementById('tickerAmbientGlow');
 
-        this.bindEvents();
-        // Pré-chargement immédiat
+        this.scrollOffset = 0;
+        this.baseSpeed = 1.15; // vitesse fluide
+        this.currentSpeed = 1.15;
+        this.hoveredIndex = -1;
+        this.touchActive = false;
+        this.items = [];
+        this.totalPatternWidth = 0;
+
+        this.mouseX = -1000;
+        this.mouseY = -1000;
+
+        this.animId = null;
+        this.isRunning = false;
+
         this.init();
-    }
-
-    updateBaseColor() {
-        const isDark = (document.documentElement.getAttribute('data-theme') || 'dark') === 'dark';
-        this.baseRgb = isDark ? [255, 255, 255] : [26, 32, 44];
+        this.bindEvents();
+        this.start();
     }
 
     init() {
-        if (!this.canvas || !this.card) return;
-        const rect = this.card.getBoundingClientRect();
-        const dpr = Math.min(window.devicePixelRatio || 1, 2);
-        
-        this.width = Math.floor(rect.width);
-        this.height = Math.floor(rect.height);
-        if (this.width <= 0 || this.height <= 0) return;
+        const rect = this.wrapper.getBoundingClientRect();
+        this.dpr = Math.min(window.devicePixelRatio || 1, 2);
+        this.width = Math.floor(rect.width) || 1000;
+        this.height = Math.floor(rect.height) || 78;
 
-        this.canvas.width = this.width * dpr;
-        this.canvas.height = this.height * dpr;
+        this.canvas.width = this.width * this.dpr;
+        this.canvas.height = this.height * this.dpr;
         this.ctx.setTransform(1, 0, 0, 1, 0, 0);
-        this.ctx.scale(dpr, dpr);
+        this.ctx.scale(this.dpr, this.dpr);
 
-        this.createTextParticles();
-        this.renderStaticFrame();
-        this.isInitialized = true;
+        this.computeItemDimensions();
     }
 
-    createTextParticles() {
-        this.particles = [];
-        const w = this.width;
-        const h = this.height;
-        if (!w || !h) return;
-        
-        const offCanvas = document.createElement('canvas');
-        const offCtx = offCanvas.getContext('2d');
-        offCanvas.width = w;
-        offCanvas.height = h;
+    computeItemDimensions() {
+        const isDark = (document.documentElement.getAttribute('data-theme') || 'dark') === 'dark';
+        this.baseTextColor = isDark ? 'rgba(255, 255, 255, 0.88)' : 'rgba(17, 24, 39, 0.88)';
+        this.separatorColor = isDark ? 'rgba(6, 182, 212, 0.45)' : 'rgba(6, 182, 212, 0.35)';
 
-        let fontSize = Math.floor(h * 0.42);
-        offCtx.font = `900 ${fontSize}px 'Syne', 'Plus Jakarta Sans', sans-serif`;
-        let metrics = offCtx.measureText(this.text);
-        const maxAllowedWidth = w * 0.85;
+        const baseFontSize = Math.floor(this.height * 0.30);
+        this.baseFontSize = Math.max(15, Math.min(22, baseFontSize));
+        this.ctx.font = `800 ${this.baseFontSize}px 'Plus Jakarta Sans', 'Syne', sans-serif`;
 
-        if (metrics.width > maxAllowedWidth) {
-            fontSize = Math.floor(fontSize * (maxAllowedWidth / metrics.width));
-            offCtx.font = `900 ${fontSize}px 'Syne', 'Plus Jakarta Sans', sans-serif`;
-        }
+        let currentX = 0;
+        const separatorText = '  ✦  ';
+        const sepMetrics = this.ctx.measureText(separatorText);
+        const sepWidth = sepMetrics.width;
 
-        offCtx.fillStyle = '#ffffff';
-        offCtx.textAlign = 'center';
-        offCtx.textBaseline = 'middle';
-        
-        const posX = w * 0.5;
-        const posY = h * 0.52;
-        offCtx.fillText(this.text, posX, posY);
+        this.items = INTERESTS_CONFIG.map((conf, idx) => {
+            const metrics = this.ctx.measureText(conf.title);
+            const itemWidth = metrics.width;
+            const fullSlotWidth = itemWidth + sepWidth + 48; // espacement net
 
-        const imgData = offCtx.getImageData(0, 0, w, h);
-        const data = imgData.data;
-        const step = 3.5;
+            const itemData = {
+                ...conf,
+                index: idx,
+                localX: currentX,
+                textWidth: itemWidth,
+                slotWidth: fullSlotWidth,
+                sepWidth: sepWidth,
+                scale: 1.0,
+                targetScale: 1.0
+            };
+            currentX += fullSlotWidth;
+            return itemData;
+        });
 
-        for (let y = 0; y < h; y += step) {
-            const yInt = Math.floor(y);
-            const rowOffset = yInt * w;
-            for (let x = 0; x < w; x += step) {
-                const xInt = Math.floor(x);
-                const alpha = data[(rowOffset + xInt) * 4 + 3];
-                if (alpha > 120) {
-                    this.particles.push({
-                        originX: x,
-                        originY: y,
-                        x: x,
-                        y: y,
-                        vx: 0,
-                        vy: 0,
-                        size: Math.random() * 0.8 + 1.6,
-                        alpha: Math.random() * 0.15 + 0.65,
-                        baseAlpha: Math.random() * 0.15 + 0.62,
-                        spring: 0.10,
-                        friction: 0.82
-                    });
-                }
-            }
-        }
-        this.isSettled = true;
-    }
-
-    renderStaticFrame() {
-        if (!this.ctx || this.particles.length === 0) return;
-        this.ctx.clearRect(0, 0, this.width, this.height);
-        const currentColorStr = `rgb(${this.baseRgb[0]}, ${this.baseRgb[1]}, ${this.baseRgb[2]})`;
-        this.ctx.fillStyle = currentColorStr;
-
-        for (let i = 0; i < this.particles.length; i++) {
-            const p = this.particles[i];
-            this.ctx.globalAlpha = p.baseAlpha;
-            this.ctx.beginPath();
-            this.ctx.arc(p.originX, p.originY, p.size, 0, Math.PI * 2);
-            this.ctx.fill();
-        }
-        this.ctx.globalAlpha = 1;
+        this.totalPatternWidth = currentX;
     }
 
     bindEvents() {
-        const onEnterOrMove = (clientX, clientY) => {
-            const rect = this.card.getBoundingClientRect();
-            this.mouse.x = clientX - rect.left;
-            this.mouse.y = clientY - rect.top;
-            this.mouse.isHovering = true;
-            this.isSettled = false;
-
-            this.card.style.setProperty('--mouse-x', `${this.mouse.x}px`);
-            this.card.style.setProperty('--mouse-y', `${this.mouse.y}px`);
-
-            const centerX = rect.width / 2;
-            const centerY = rect.height / 2;
-            const rotateX = ((this.mouse.y - centerY) / centerY) * -7;
-            const rotateY = ((this.mouse.x - centerX) / centerX) * 7;
-            this.card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-4px)`;
-
-            wakeUpFooterLoop();
+        const handleMove = (clientX, clientY) => {
+            const rect = this.canvas.getBoundingClientRect();
+            this.mouseX = clientX - rect.left;
+            this.mouseY = clientY - rect.top;
         };
 
-        this.card.addEventListener('mouseenter', (e) => {
-            onEnterOrMove(e.clientX, e.clientY);
+        this.canvas.addEventListener('mousemove', (e) => {
+            handleMove(e.clientX, e.clientY);
         }, { passive: true });
 
-        this.card.addEventListener('mousemove', (e) => {
-            onEnterOrMove(e.clientX, e.clientY);
+        this.canvas.addEventListener('mouseenter', (e) => {
+            this.wrapper.classList.add('has-hover');
+            handleMove(e.clientX, e.clientY);
         }, { passive: true });
 
-        this.card.addEventListener('mouseleave', () => {
-            this.mouse.x = -1000;
-            this.mouse.y = -1000;
-            this.mouse.isHovering = false;
-            this.card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0)';
-            wakeUpFooterLoop();
+        this.canvas.addEventListener('mouseleave', () => {
+            this.mouseX = -1000;
+            this.mouseY = -1000;
+            this.hoveredIndex = -1;
+            this.wrapper.classList.remove('has-hover');
+            this.hideZoomCard();
         });
 
-        this.card.addEventListener('touchstart', (e) => {
+        // Interactions tactiles mobiles
+        this.canvas.addEventListener('touchstart', (e) => {
             if (e.touches.length > 0) {
-                onEnterOrMove(e.touches[0].clientX, e.touches[0].clientY);
+                this.touchActive = true;
+                this.wrapper.classList.add('has-hover');
+                handleMove(e.touches[0].clientX, e.touches[0].clientY);
             }
         }, { passive: true });
 
-        this.card.addEventListener('touchmove', (e) => {
+        this.canvas.addEventListener('touchmove', (e) => {
             if (e.touches.length > 0) {
-                onEnterOrMove(e.touches[0].clientX, e.touches[0].clientY);
+                handleMove(e.touches[0].clientX, e.touches[0].clientY);
             }
         }, { passive: true });
 
-        this.card.addEventListener('touchend', () => {
-            this.mouse.x = -1000;
-            this.mouse.y = -1000;
-            this.mouse.isHovering = false;
-            this.card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0)';
-            wakeUpFooterLoop();
+        this.canvas.addEventListener('touchend', () => {
+            this.touchActive = false;
+            setTimeout(() => {
+                if (!this.touchActive) {
+                    this.mouseX = -1000;
+                    this.mouseY = -1000;
+                    this.hoveredIndex = -1;
+                    this.wrapper.classList.remove('has-hover');
+                    this.hideZoomCard();
+                }
+            }, 1800);
         });
+
+        window.addEventListener('resize', () => {
+            this.init();
+        }, { passive: true });
+    }
+
+    showZoomCard(item, screenCenterX) {
+        if (!this.zoomCard) return;
+
+        this.zoomCard.style.setProperty('--card-accent', item.accent);
+        this.zoomCard.style.setProperty('--card-glow', item.glow);
+
+        if (this.tickerGlow) {
+            this.tickerGlow.style.setProperty('--active-border', item.accent);
+            this.tickerGlow.style.setProperty('--active-glow', item.glow);
+        }
+
+        if (this.zoomCardIcon) this.zoomCardIcon.className = item.icon;
+        if (this.zoomCardTitle) {
+            this.zoomCardTitle.textContent = item.title;
+            this.zoomCardTitle.style.color = item.accent;
+        }
+        if (this.zoomCardDesc) this.zoomCardDesc.textContent = item.desc;
+
+        // Positionnement horizontal dynamique ancré
+        const wrapperRect = this.wrapper.getBoundingClientRect();
+        const clampedLeft = Math.max(130, Math.min(wrapperRect.width - 130, screenCenterX));
+        this.zoomCard.style.left = `${clampedLeft}px`;
+        this.zoomCard.classList.add('is-visible');
+    }
+
+    hideZoomCard() {
+        if (this.zoomCard) {
+            this.zoomCard.classList.remove('is-visible');
+        }
+    }
+
+    start() {
+        if (this.isRunning) return;
+        this.isRunning = true;
+        const loop = () => {
+            if (!this.isRunning) return;
+            if (!document.hidden) {
+                this.render();
+            }
+            this.animId = requestAnimationFrame(loop);
+        };
+        this.animId = requestAnimationFrame(loop);
     }
 
     render() {
-        if (this.isSettled && !this.mouse.isHovering) return false;
+        if (!this.ctx || this.totalPatternWidth <= 0) return;
+
+        // Ralentissement fluide au survol pour confort de lecture
+        const targetSpeed = (this.hoveredIndex !== -1) ? 0.22 : this.baseSpeed;
+        this.currentSpeed += (targetSpeed - this.currentSpeed) * 0.08;
+        this.scrollOffset += this.currentSpeed;
+        if (this.scrollOffset >= this.totalPatternWidth) {
+            this.scrollOffset -= this.totalPatternWidth;
+        }
 
         this.ctx.clearRect(0, 0, this.width, this.height);
 
-        if (this.mouse.isHovering) {
-            this.cardColorRatio = Math.min(1, this.cardColorRatio + 0.12);
-        } else {
-            this.cardColorRatio = Math.max(0, this.cardColorRatio - 0.05);
-        }
+        const centerY = this.height / 2;
+        const isDark = (document.documentElement.getAttribute('data-theme') || 'dark') === 'dark';
+        this.baseTextColor = isDark ? 'rgba(255, 255, 255, 0.88)' : 'rgba(17, 24, 39, 0.88)';
+        this.separatorColor = isDark ? 'rgba(6, 182, 212, 0.45)' : 'rgba(6, 182, 212, 0.35)';
 
-        const r = Math.round(this.baseRgb[0] + (this.accentRgb[0] - this.baseRgb[0]) * this.cardColorRatio);
-        const g = Math.round(this.baseRgb[1] + (this.accentRgb[1] - this.baseRgb[1]) * this.cardColorRatio);
-        const b = Math.round(this.baseRgb[2] + (this.accentRgb[2] - this.baseRgb[2]) * this.cardColorRatio);
-        const currentColorStr = `rgb(${r}, ${g}, ${b})`;
+        const copiesNeeded = Math.ceil(this.width / this.totalPatternWidth) + 2;
 
-        let totalMotion = 0;
-        const rad = this.mouse.radius;
-        const radSq = this.mouse.radiusSq;
-        const mx = this.mouse.x;
-        const my = this.mouse.y;
-        const isHov = this.mouse.isHovering;
+        let currentlyDetectedHover = -1;
+        let detectedItem = null;
+        let detectedScreenX = this.width / 2;
 
-        for (let i = 0; i < this.particles.length; i++) {
-            const p = this.particles[i];
+        // 1. Détection des collisions & mot survolé
+        for (let copy = 0; copy < copiesNeeded; copy++) {
+            const copyBaseX = copy * this.totalPatternWidth - this.scrollOffset;
 
-            const dx = mx - p.x;
-            const dy = my - p.y;
+            for (let i = 0; i < this.items.length; i++) {
+                const item = this.items[i];
+                const itemCenterX = copyBaseX + item.localX + item.textWidth / 2 + 24;
 
-            // Filtrage rapide par boîte englobante (optimisation 98% sans Math.sqrt inutile)
-            if (isHov && Math.abs(dx) < rad && Math.abs(dy) < rad) {
-                const distSq = dx * dx + dy * dy;
-                if (distSq < radSq) {
-                    const dist = Math.sqrt(distSq);
-                    const force = (1 - dist / rad) * 15;
-                    const angle = Math.atan2(dy, dx);
-                    p.vx -= Math.cos(angle) * force;
-                    p.vy -= Math.sin(angle) * force;
-                    p.alpha = Math.min(1, p.alpha + 0.35);
+                if (this.mouseX >= 0 && this.mouseY >= 0 && this.mouseY <= this.height) {
+                    const hitLeft = itemCenterX - item.textWidth * 0.65 - 16;
+                    const hitRight = itemCenterX + item.textWidth * 0.65 + 16;
+                    if (this.mouseX >= hitLeft && this.mouseX <= hitRight) {
+                        currentlyDetectedHover = i;
+                        detectedItem = item;
+                        detectedScreenX = itemCenterX;
+                    }
                 }
-            } else {
-                p.alpha += (p.baseAlpha - p.alpha) * 0.06;
             }
-
-            const springX = (p.originX - p.x) * p.spring;
-            const springY = (p.originY - p.y) * p.spring;
-
-            p.vx += springX;
-            p.vy += springY;
-            p.vx *= p.friction;
-            p.vy *= p.friction;
-
-            p.x += p.vx;
-            p.y += p.vy;
-
-            totalMotion += Math.abs(p.vx) + Math.abs(p.vy);
-
-            this.ctx.fillStyle = currentColorStr;
-            this.ctx.globalAlpha = p.alpha;
-            this.ctx.beginPath();
-            this.ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-            this.ctx.fill();
         }
 
-        this.ctx.globalAlpha = 1;
+        this.hoveredIndex = currentlyDetectedHover;
 
-        if (!isHov && this.cardColorRatio <= 0.01 && totalMotion < 0.1) {
-            this.isSettled = true;
-            return false;
+        if (detectedItem) {
+            this.showZoomCard(detectedItem, detectedScreenX);
+        } else if (this.hoveredIndex === -1 && !this.touchActive) {
+            this.hideZoomCard();
         }
 
-        return true;
+        // 2. Interpolation de l'effet de zoom (x3.0 = 300%)
+        for (let i = 0; i < this.items.length; i++) {
+            const item = this.items[i];
+            const isHovered = (this.hoveredIndex === i);
+            item.targetScale = isHovered ? 3.0 : 1.0;
+            item.scale += (item.targetScale - item.scale) * 0.22;
+        }
+
+        // 3. Rendu Canvas haute définition
+        for (let copy = 0; copy < copiesNeeded; copy++) {
+            const copyBaseX = copy * this.totalPatternWidth - this.scrollOffset;
+
+            for (let i = 0; i < this.items.length; i++) {
+                const item = this.items[i];
+                const itemCenterX = copyBaseX + item.localX + item.textWidth / 2 + 24;
+
+                if (itemCenterX < -200 || itemCenterX > this.width + 200) continue;
+
+                const isZoomed = item.scale > 1.08;
+
+                this.ctx.save();
+                this.ctx.translate(itemCenterX, centerY);
+                this.ctx.scale(item.scale, item.scale);
+
+                // Lueur et couleur d'accent néon sur l'élément avec zoom 300%
+                if (isZoomed) {
+                    this.ctx.shadowColor = item.accent;
+                    this.ctx.shadowBlur = 18 * (item.scale - 1.0);
+                    this.ctx.fillStyle = item.accent;
+                } else {
+                    this.ctx.shadowBlur = 0;
+                    this.ctx.fillStyle = this.baseTextColor;
+                }
+
+                this.ctx.font = `800 ${this.baseFontSize}px 'Plus Jakarta Sans', 'Syne', sans-serif`;
+                this.ctx.textAlign = 'center';
+                this.ctx.textBaseline = 'middle';
+                this.ctx.fillText(item.title, 0, 0);
+
+                this.ctx.restore();
+
+                // Séparateur losange / étoile
+                const sepX = copyBaseX + item.localX + item.textWidth + 24 + item.sepWidth / 2;
+                if (sepX > -50 && sepX < this.width + 50) {
+                    this.ctx.save();
+                    this.ctx.font = `700 ${this.baseFontSize * 0.75}px 'Plus Jakarta Sans', sans-serif`;
+                    this.ctx.fillStyle = this.separatorColor;
+                    this.ctx.textAlign = 'center';
+                    this.ctx.textBaseline = 'middle';
+                    this.ctx.fillText('✦', sepX, centerY);
+                    this.ctx.restore();
+                }
+            }
+        }
     }
 }
 
@@ -819,67 +880,11 @@ function initNewFooter() {
         }
     });
 
-    // 2. Moteur de Canvas Lettering — Pré-chargement Prédictif Anticipé
-    const cards = document.querySelectorAll('.interest-card');
-    if (!cards || cards.length === 0) return;
-
-    window.canvasEngines = [];
-    
-    // Initialisation immédiate des instances pour créer les particules dès que le navigateur est disponible
-    const setupEngines = () => {
-        if (window.canvasEngines.length === 0) {
-            cards.forEach(card => {
-                window.canvasEngines.push(new LetteringCanvas(card));
-            });
-        }
-    };
-
-    if ('requestIdleCallback' in window) {
-        requestIdleCallback(setupEngines, { timeout: 150 });
-    } else {
-        setTimeout(setupEngines, 40);
+    // 2. Moteur de Canvas Ticker pour les Centres d'Intérêt (Zoom 300%)
+    const tickerContainer = document.getElementById('interestsTickerWrapper');
+    if (tickerContainer) {
+        window.interestsTickerEngine = new InterestsTickerCanvasEngine();
     }
-
-    // Réajustement des dimensions au redimensionnement
-    let resizeTimer;
-    window.addEventListener('resize', () => {
-        clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(() => {
-            for (let i = 0; i < window.canvasEngines.length; i++) {
-                window.canvasEngines[i].init();
-            }
-            wakeUpFooterLoop();
-        }, 120);
-    }, { passive: true });
-
-    // 3. Pré-chargement et Réveil Anticipé dès l'Approche des Vagues (1000px avant la vue)
-    const footerTarget = document.querySelector('.new-footer') || document.querySelector('.interests-grid') || document.querySelector('.air');
-    if (footerTarget && 'IntersectionObserver' in window) {
-        const approachObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    // Pré-chauffer et réveiller les tuiles avant même que l'utilisateur n'arrive dessus
-                    setupEngines();
-                    window.canvasEngines.forEach(eng => {
-                        if (!eng.isInitialized) eng.init();
-                        eng.isSettled = false;
-                    });
-                    wakeUpFooterLoop();
-                }
-            });
-        }, { rootMargin: '1000px 0px 800px 0px', threshold: 0.01 });
-
-        approachObserver.observe(footerTarget);
-    } else {
-        setupEngines();
-        wakeUpFooterLoop();
-    }
-
-    document.addEventListener('visibilitychange', () => {
-        if (!document.hidden) {
-            wakeUpFooterLoop();
-        }
-    });
 }
 
 /**

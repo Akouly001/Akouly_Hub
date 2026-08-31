@@ -2057,156 +2057,140 @@ body[data-page="home"] .brand-logo {
     -webkit-text-fill-color: transparent;
 }
 
-/* ── GRILLE MODULAIRE DES CENTRES D'INTÉRÊT (SYSTÈME 24 COLONNES PROPORTIONNEL) ── */
-.interests-grid {
-    display: grid;
-    grid-template-columns: repeat(24, 1fr);
-    gap: 0.75rem;
-    margin-bottom: 1.6rem;
-}
-
-.interest-card {
+/* ── FINE BARRE DE CANVAS CENTRES D'INTÉRÊT (DÉFILEMENT CONTINU & ZOOM 300%) ── */
+.interests-ticker-wrapper {
     position: relative;
-    background: var(--bg-card);
+    width: 100%;
+    max-width: 1200px;
+    height: 78px;
+    margin: 0 auto 2.2rem auto;
+    border-radius: 16px;
+    background: rgba(17, 24, 39, 0.75);
     border: 1px solid var(--border-color);
-    border-radius: var(--radius-md);
-    overflow: hidden;
-    cursor: pointer;
-    transition: transform 0.12s cubic-bezier(0.2, 0, 0, 1), border-color 0.25s ease, box-shadow 0.25s ease;
-    will-change: transform;
-    transform-style: preserve-3d;
-    perspective: 1000px;
     display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    min-height: 220px;
-    padding: 1.5rem;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    align-items: center;
+    justify-content: center;
+    overflow: visible;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+    cursor: pointer;
+    user-select: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.interest-card:hover {
-    border-color: var(--card-accent, var(--accent-cyber));
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4), 0 0 25px var(--card-glow, rgba(6, 182, 212, 0.25));
+[data-theme="light"] .interests-ticker-wrapper {
+    background: rgba(255, 255, 255, 0.88);
+    border-color: rgba(0, 0, 0, 0.1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
 }
 
-[data-theme="light"] .interest-card {
-    background: #ffffff;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
-}
-
-[data-theme="light"] .interest-card:hover {
-    box-shadow: 0 14px 35px rgba(0, 0, 0, 0.09), 0 0 25px var(--card-glow, rgba(6, 182, 212, 0.2));
-}
-
-/* Classes de dimensionnement proportionnel selon le nombre de lettres */
-.card-span-24 { grid-column: span 24; }
-.card-span-16 { grid-column: span 16; } /* JEUX VIDÉOS (11 lettres) */
-.card-span-13 { grid-column: span 13; } /* VOYAGE (6 lettres) */
-.card-span-12 { grid-column: span 12; }
-.card-span-11 { grid-column: span 11; } /* ANIME (5 lettres) */
-.card-span-9  { grid-column: span 9;  } /* MUSIQUE & LECTURE (7 lettres) */
-.card-span-8  { grid-column: span 8;  } /* MOTO (4 lettres) */
-.card-span-7  { grid-column: span 7;  }
-.card-span-6  { grid-column: span 6;  } /* SPORT (5 lettres) */
-.card-span-5  { grid-column: span 5;  }
-.card-span-4  { grid-column: span 4;  }
-
-.interest-canvas {
-    position: absolute;
-    inset: 0;
+.interests-ticker-canvas {
     width: 100%;
     height: 100%;
-    pointer-events: none;
-    z-index: 1;
+    border-radius: inherit;
+    display: block;
+    pointer-events: auto;
 }
 
-.card-ambient-glow {
+.ticker-ambient-glow {
     position: absolute;
-    inset: 0;
-    background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), var(--card-glow, rgba(6, 182, 212, 0.18)) 0%, transparent 65%);
-    opacity: 0;
-    transition: opacity 0.4s ease;
+    inset: -1px;
+    border-radius: inherit;
     pointer-events: none;
-    z-index: 0;
+    opacity: 0;
+    transition: opacity 0.35s ease;
+    box-shadow: 0 0 35px var(--active-glow, rgba(6, 182, 212, 0.35));
+    border: 1px solid var(--active-border, var(--accent-cyber));
 }
 
-.interest-card:hover .card-ambient-glow {
+.interests-ticker-wrapper.has-hover .ticker-ambient-glow {
     opacity: 1;
 }
 
-.card-content {
-    position: relative;
-    z-index: 2;
-    pointer-events: none;
-    transform: translateZ(20px);
-    transition: transform 0.3s ease;
-}
-
-.card-header-row {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    margin-bottom: auto;
+/* ── Carte Flottante de Zoom 300% & Texte Affilié ── */
+.interest-zoom-card {
     position: absolute;
-    top: 1.2rem;
-    left: 1.5rem;
-    right: 1.5rem;
-    z-index: 2;
+    bottom: calc(100% + 14px);
+    left: 50%;
+    transform: translateX(-50%) translateY(12px) scale(0.6);
+    opacity: 0;
+    pointer-events: none;
+    visibility: hidden;
+    z-index: 1000;
+    background: rgba(15, 23, 42, 0.94);
+    border: 1.5px solid var(--card-accent, var(--accent-cyber));
+    border-radius: 16px;
+    padding: 0.85rem 1.4rem;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 35px var(--card-glow, rgba(6, 182, 212, 0.35));
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    transition: opacity 0.28s cubic-bezier(0.16, 1, 0.3, 1), transform 0.32s cubic-bezier(0.34, 1.56, 0.64, 1), visibility 0.28s ease;
+    white-space: nowrap;
+    will-change: transform, opacity;
 }
 
-.card-icon-pill {
-    display: inline-flex;
+[data-theme="light"] .interest-zoom-card {
+    background: rgba(255, 255, 255, 0.96);
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.15), 0 0 30px var(--card-glow, rgba(6, 182, 212, 0.25));
+}
+
+.interest-zoom-card.is-visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0) scale(1);
+}
+
+.zoom-card-body {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.zoom-icon-badge {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid var(--card-accent, var(--accent-cyber));
+    color: var(--card-accent, var(--accent-cyber));
+    display: flex;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
-    border-radius: 12px;
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid var(--border-color);
-    color: rgba(255, 255, 255, 0.65);
-    font-size: 1.15rem;
-    backdrop-filter: blur(8px);
-    transition: all 0.35s ease;
+    font-size: 1.25rem;
+    flex-shrink: 0;
+    box-shadow: 0 0 15px var(--card-glow, rgba(6, 182, 212, 0.3));
 }
 
-[data-theme="light"] .card-icon-pill {
+[data-theme="light"] .zoom-icon-badge {
     background: rgba(0, 0, 0, 0.04);
-    color: rgba(17, 24, 39, 0.6);
 }
 
-.interest-card:hover .card-icon-pill {
-    transform: scale(1.12) rotate(-5deg);
-    color: var(--card-accent);
-    border-color: var(--card-accent);
-    background: rgba(255, 255, 255, 0.12);
+.zoom-text-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    text-align: left;
 }
 
-[data-theme="light"] .interest-card:hover .card-icon-pill {
-    background: rgba(0, 0, 0, 0.06);
+.zoom-main-title {
+    font-family: var(--font-heading);
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: var(--card-accent, var(--text-main));
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
 }
 
-.card-desc {
-    font-size: 0.88rem;
-    color: #ffffff;
-    margin: 0;
-    line-height: 1.5;
-    max-width: 95%;
-    opacity: 0;
-    transform: translateY(12px);
-    transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-    background: rgba(10, 10, 15, 0.85);
-    backdrop-filter: blur(12px);
-    padding: 0.65rem 0.95rem;
-    border-radius: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+.zoom-affiliate-desc {
+    font-family: var(--font-body);
+    font-size: 0.92rem;
+    font-weight: 500;
+    color: var(--text-main);
 }
 
-[data-theme="light"] .card-desc {
-    color: #111827;
-    background: rgba(255, 255, 255, 0.92);
-    border: 1px solid rgba(0, 0, 0, 0.08);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+[data-theme="light"] .zoom-affiliate-desc {
+    color: #0f172a;
 }
 
 .interest-card:hover .card-desc {
@@ -2496,16 +2480,10 @@ body[data-page="home"] .brand-logo {
 
 /* ── RESPONSIVE DESIGN NOUVEAU FOOTER AVEC RESPECT DES 12PX ── */
 @media (max-width: 992px) {
-    .interests-grid {
-        grid-template-columns: repeat(12, 1fr);
-        gap: 0.75rem;
+    .interests-ticker-wrapper {
+        height: 72px;
+        margin-bottom: 2rem;
     }
-    .card-span-16 { grid-column: span 8; }
-    .card-span-8  { grid-column: span 4; }
-    .card-span-9  { grid-column: span 6; }
-    .card-span-6  { grid-column: span 12; }
-    .card-span-13 { grid-column: span 6; }
-    .card-span-11 { grid-column: span 6; }
 }
 
 @media (max-width: 680px) {
@@ -2526,34 +2504,24 @@ body[data-page="home"] .brand-logo {
     .interests-title {
         font-size: 1.8rem;
     }
-    .interests-grid {
-        grid-template-columns: 1fr;
-        gap: 0.65rem;
-        margin-bottom: 1.2rem;
+    .interests-ticker-wrapper {
+        height: 64px;
+        margin-bottom: 1.5rem;
     }
-    .card-span-24, .card-span-16, .card-span-13, .card-span-12,
-    .card-span-11, .card-span-9, .card-span-8, .card-span-7,
-    .card-span-6, .card-span-5, .card-span-4 {
-        grid-column: span 1;
+    .interest-zoom-card {
+        padding: 0.75rem 1.1rem;
+        max-width: 92vw;
     }
-    .interest-card {
-        min-height: 180px;
-        padding: 1.2rem;
+    .zoom-icon-badge {
+        width: 38px;
+        height: 38px;
+        font-size: 1.1rem;
     }
-    .card-header-row {
-        top: 1rem;
-        left: 1.2rem;
-        right: 1.2rem;
+    .zoom-main-title {
+        font-size: 0.95rem;
     }
-    .card-icon-pill {
-        width: 36px;
-        height: 36px;
-        font-size: 1rem;
-        border-radius: 10px;
-    }
-    .card-desc {
+    .zoom-affiliate-desc {
         font-size: 0.82rem;
-        padding: 0.5rem 0.8rem;
     }
     .cta-container {
         margin: 1rem 0 1.5rem;

@@ -678,120 +678,24 @@
                 <h2 class="interests-title">Mes Centres <span>d'Intérêt</span></h2>
             </div>
 
-            <!-- Grille des 7 Centres d'Intérêt (Alec Tear Lettering Canvas) -->
-            <div class="interests-grid">
+            <!-- Fine barre de Canvas interactive (Défilement continu & Effet Zoom 300%) -->
+            <div class="interests-ticker-wrapper" id="interestsTickerWrapper">
+                <div class="ticker-ambient-glow" id="tickerAmbientGlow"></div>
+                <canvas id="interests-ticker-canvas" class="interests-ticker-canvas"></canvas>
 
-                <!-- ── RANGÉE 1 : JEUX VIDÉOS (11 lettres - span 16) & MOTO (4 lettres - span 8) ── -->
-
-                <!-- 1. JEUX VIDÉOS -->
-                <div class="interest-card card-span-16" 
-                     data-interest="gaming" 
-                     data-text="JEUX VIDÉOS" 
-                     style="--card-accent: #10b981; --card-glow: rgba(16, 185, 129, 0.28);">
-                    <div class="card-ambient-glow"></div>
-                    <canvas class="interest-canvas" id="canvas-gaming"></canvas>
-                    <div class="card-header-row">
-                        <div class="card-icon-pill"><i class="fas fa-gamepad"></i></div>
-                    </div>
-                    <div class="card-content">
-                        <p class="card-desc">Minecraft is the best</p>
+                <!-- Carte Flottante de Zoom 300% avec Texte Affilié -->
+                <div class="interest-zoom-card" id="interestZoomCard" aria-hidden="true">
+                    <div class="zoom-card-glow" id="zoomCardGlow"></div>
+                    <div class="zoom-card-body">
+                        <div class="zoom-icon-badge" id="zoomIconBadge">
+                            <i id="zoomCardIcon" class="fas fa-gamepad"></i>
+                        </div>
+                        <div class="zoom-text-group">
+                            <div class="zoom-main-title" id="zoomCardTitle">JEUX VIDÉOS</div>
+                            <div class="zoom-affiliate-desc" id="zoomCardDesc">Minecraft is the best</div>
+                        </div>
                     </div>
                 </div>
-
-                <!-- 2. MOTO -->
-                <div class="interest-card card-span-8" 
-                     data-interest="moto" 
-                     data-text="MOTO" 
-                     style="--card-accent: #ef4444; --card-glow: rgba(239, 68, 68, 0.28);">
-                    <div class="card-ambient-glow"></div>
-                    <canvas class="interest-canvas" id="canvas-moto"></canvas>
-                    <div class="card-header-row">
-                        <div class="card-icon-pill"><i class="fas fa-motorcycle"></i></div>
-                    </div>
-                    <div class="card-content">
-                        <p class="card-desc">Speed + Music is a forbidden combo</p>
-                    </div>
-                </div>
-
-                <!-- ── RANGÉE 2 : MUSIQUE (7 lettres - span 9), LECTURE (7 lettres - span 9) & SPORT (5 lettres - span 6) ── -->
-
-                <!-- 3. MUSIQUE -->
-                <div class="interest-card card-span-9" 
-                     data-interest="music" 
-                     data-text="MUSIQUE" 
-                     style="--card-accent: #f59e0b; --card-glow: rgba(245, 158, 11, 0.28);">
-                    <div class="card-ambient-glow"></div>
-                    <canvas class="interest-canvas" id="canvas-music"></canvas>
-                    <div class="card-header-row">
-                        <div class="card-icon-pill"><i class="fas fa-headphones"></i></div>
-                    </div>
-                    <div class="card-content">
-                        <p class="card-desc">Hayd is my favorite singer</p>
-                    </div>
-                </div>
-
-                <!-- 4. LECTURE -->
-                <div class="interest-card card-span-9" 
-                     data-interest="reading" 
-                     data-text="LECTURE" 
-                     style="--card-accent: #06b6d4; --card-glow: rgba(6, 182, 212, 0.28);">
-                    <div class="card-ambient-glow"></div>
-                    <canvas class="interest-canvas" id="canvas-reading"></canvas>
-                    <div class="card-header-row">
-                        <div class="card-icon-pill"><i class="fas fa-book-open"></i></div>
-                    </div>
-                    <div class="card-content">
-                        <p class="card-desc">Albert Camus - L'étranger</p>
-                    </div>
-                </div>
-
-                <!-- 5. SPORT -->
-                <div class="interest-card card-span-6" 
-                     data-interest="sport" 
-                     data-text="SPORT" 
-                     style="--card-accent: #eab308; --card-glow: rgba(234, 179, 8, 0.28);">
-                    <div class="card-ambient-glow"></div>
-                    <canvas class="interest-canvas" id="canvas-sport"></canvas>
-                    <div class="card-header-row">
-                        <div class="card-icon-pill"><i class="fas fa-dumbbell"></i></div>
-                    </div>
-                    <div class="card-content">
-                        <p class="card-desc">Football, Basket, Boxe ou Footing</p>
-                    </div>
-                </div>
-
-                <!-- ── RANGÉE 3 : VOYAGE (6 lettres - span 13) & ANIME (5 lettres - span 11) ── -->
-
-                <!-- 6. VOYAGE -->
-                <div class="interest-card card-span-13" 
-                     data-interest="travel" 
-                     data-text="VOYAGE" 
-                     style="--card-accent: #14b8a6; --card-glow: rgba(20, 184, 166, 0.28);">
-                    <div class="card-ambient-glow"></div>
-                    <canvas class="interest-canvas" id="canvas-travel"></canvas>
-                    <div class="card-header-row">
-                        <div class="card-icon-pill"><i class="fas fa-plane-departure"></i></div>
-                    </div>
-                    <div class="card-content">
-                        <p class="card-desc">Budget trop serré sinon j'ai les destinations</p>
-                    </div>
-                </div>
-
-                <!-- 7. ANIME -->
-                <div class="interest-card card-span-11" 
-                     data-interest="animes" 
-                     data-text="ANIME" 
-                     style="--card-accent: #a855f7; --card-glow: rgba(168, 85, 247, 0.28);">
-                    <div class="card-ambient-glow"></div>
-                    <canvas class="interest-canvas" id="canvas-animes"></canvas>
-                    <div class="card-header-row">
-                        <div class="card-icon-pill"><i class="fas fa-dragon"></i></div>
-                    </div>
-                    <div class="card-content">
-                        <p class="card-desc">Naruto, je suis fermé au débat</p>
-                    </div>
-                </div>
-
             </div>
 
             <!-- 3. BOUTON PRINCIPAL D'ACTION : "Viens on discute !" (EFFET SÉPARATION LIQUIDE) -->
