@@ -2955,7 +2955,8 @@ body[data-page="lab"] .diy-cursor-img {
 }
 
 @media (hover: none) or (pointer: coarse) {
-    .diy-cursor {
+    .diy-cursor,
+    .lab-particles-canvas {
         display: none !important;
     }
 }

@@ -62,6 +62,7 @@ function initPreloader() {
  * 1. Suivi Curseur Lumineux Ultra-Fluide (GPU 60-120 FPS sans Reflow)
  */
 function initCursorGlow() {
+    if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
     const glow = document.getElementById('cursor-glow');
     if (!glow) return;
 
@@ -968,6 +969,7 @@ function initBusinessCursor() {
  */
 function initLabParticles() {
     if (document.body.getAttribute('data-page') !== 'lab') return;
+    if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
 
     const canvas = document.getElementById('particles-canvas') || document.getElementById('bg-canvas');
     if (!canvas) return;
@@ -1042,10 +1044,6 @@ function initLabParticles() {
     }
 
     window.addEventListener('mousemove', (e) => updateMouse(e.clientX, e.clientY), { passive: true });
-    window.addEventListener('touchmove', (e) => {
-        const t = e.touches[0];
-        if (t) updateMouse(t.clientX, t.clientY);
-    }, { passive: true });
 
     function step() {
         ctx.clearRect(0, 0, width, height);
@@ -1203,6 +1201,7 @@ function initCyberCursor() {
  */
 function initCyberGlitchButtons() {
     if (document.body.getAttribute('data-page') !== 'cyber') return;
+    if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
 
     const CHARS = '!/<>_~*#01';
     const glitchElements = document.querySelectorAll(
