@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Akouly DIY — Origamis, 3D & Projets Personnels</title>
+    <meta name="description" content="Akouly DIY : Art de l'origami, modélisation 3D, fabrication manuelle, DIY Tech, optimisation de workspace et expérimentations.">
+    <link rel="icon" type="image/png" href="images/logo-monogram-1.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body data-page="lab">
+    <!-- ÉCRAN DE CHARGEMENT CIRCULAIRE (PRELOADER) -->
+    <div id="page-preloader" class="preloader-overlay preloader-lab" aria-hidden="true">
+        <div class="loader loader-lab"></div>
+    </div>
+
+
+    <!-- Curseur 3D Rotatif DIY -->
+    <div class="diy-cursor" id="diyCursor">
+        <img loading="lazy" decoding="async" src="images/curseur-diy.png" alt="Curseur DIY" class="diy-cursor-img">
+    </div>
+
+    <!-- Canvas Particules DIY Interactives (Au-dessus des tuiles) -->
+    <canvas id="particles-canvas" class="lab-particles-canvas"></canvas>
+    <div id="cursor-glow"></div>
+
+    <!-- Header Section -->
+    <header class="header">
+        <div class="container nav-wrapper">
+            <a href="index.html" class="brand-logo" title="Page d'accueil Akouly">
+                <img loading="eager" decoding="async" src="images/logo-dark.png" alt="Akouly Logo" class="logo-img">
+            </a>
+            <nav>
+                <ul class="nav-links" id="navLinks">
+                    <li class="mobile-only-link"><a href="index.html" class="nav-link"><i class="fas fa-home"></i> Accueil</a></li>
+                    <li><a href="cyber.html" class="nav-link"><i class="fas fa-shield-halved"></i> Cybersécurité</a></li>
+                    <li><a href="gaming.html" class="nav-link"><i class="fas fa-gamepad"></i> Gaming</a></li>
+                    <li><a href="apps.html" class="nav-link"><i class="fas fa-code"></i> Apps & Dev</a></li>
+                    <li><a href="business.html" class="nav-link"><i class="fas fa-briefcase"></i> Business</a></li>
+                    <li><a href="lab.html" class="nav-link active"><i class="fas fa-scissors"></i> DIY</a></li>
+                </ul>
+            </nav>
+            <div class="nav-actions">
+                <button class="theme-toggle-btn" id="themeToggleBtn" title="Bascule Thème Clair / Sombre">
+                    <i class="fas fa-sun" style="color: #f59e0b;"></i>
+                </button>
+                <button class="menu-toggle" id="menuToggle" aria-label="Menu" aria-expanded="false">
+                    <span class="bar bar-1"></span>
+                    <span class="bar bar-2"></span>
+                    <span class="bar bar-3"></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Page Banner -->
+    <div class="page-banner">
+        <div class="container">
+            <h1 class="page-title"><i class="fas fa-scissors" style="color: var(--accent-lab);"></i> Akouly DIY & Créations</h1>
+            <p style="color: var(--text-muted); max-width: 750px;">
+                Un atelier dédié aux projets personnels manuels : art de l'origami, modélisation 3D, fabrication physique, DIY Tech, aménagement de workspace et expérimentations.
+            </p>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="container" style="padding-top: 3.5rem; padding-bottom: 3.5rem;">
+
+        <div class="projects-grid">
+            
+            <!-- Category 1: Origami -->
+            <div class="project-card">
+                <div style="font-size: 1.8rem; color: var(--accent-lab); margin-bottom: 0.5rem;"><i class="fas fa-scroll"></i></div>
+                <h3 class="project-title">1. Origami & Plio-conception</h3>
+                <p class="project-desc">Exploration des géométries complexes en papier : origamis modulaires, objets décoratifs et pliages géométriques exigeant précision, logique spatiale et patience.</p>
+                <div class="project-tags"><span class="project-tag">Origami</span><span class="project-tag">Design Papier</span><span class="project-tag">Géométrie</span></div>
+            </div>
+
+            <!-- Category 2: 3D -->
+            <div class="project-card">
+                <div style="font-size: 1.8rem; color: var(--accent-cyber); margin-bottom: 0.5rem;"><i class="fas fa-cube"></i></div>
+                <h3 class="project-title">2. Modélisation 3D</h3>
+                <p class="project-desc">Conception d'objets physiques en 3D : modélisation d'un support de casque audio sur-mesure, calcul des cotes techniques et transmission des plans au ferronnier.</p>
+                <div class="project-tags"><span class="project-tag">Modélisation 3D</span><span class="project-tag">Plans Ferronnier</span><span class="project-tag">Support Casque</span></div>
+            </div>
+
+            <!-- Category 3: Fabrication -->
+            <div class="project-card">
+                <div style="font-size: 1.8rem; color: var(--accent-biz); margin-bottom: 0.5rem;"><i class="fas fa-hammer"></i></div>
+                <h3 class="project-title">3. Fabrication Manuelle</h3>
+                <p class="project-desc">Réalisation d'objets et d'aménagements physiques personnalisés combinant bois, métal et impression pour des solutions adaptées aux besoins quotidiens.</p>
+                <div class="project-tags"><span class="project-tag">Fabrication</span><span class="project-tag">Menuiserie / Métal</span><span class="project-tag">Prototypage</span></div>
+            </div>
+
+            <!-- Category 4: Photographie Mobile (Tuile Entièrement Cliquable vers photo.html) -->
+            <a href="photo.html" class="project-card" style="border-left: 4px solid var(--accent-lab); text-decoration: none; display: block; color: inherit; cursor: pointer;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem;">
+                    <div style="font-size: 1.8rem; color: var(--accent-lab);"><i class="fas fa-camera"></i></div>
+                    <span style="font-size: 0.8rem; color: var(--accent-lab); font-weight: 600; display: inline-flex; align-items: center; gap: 0.35rem; background: rgba(244, 63, 94, 0.1); padding: 0.25rem 0.65rem; border-radius: 20px;">
+                        Ouvrir l'album <i class="fas fa-arrow-right"></i>
+                    </span>
+                </div>
+                <h3 class="project-title" style="color: var(--text-main);">4. Photographie Mobile</h3>
+                <p class="project-desc">Prises de vue sur smartphone, composition visuelle, cadrage créatif, capture de textures et retouche photo mobile pour immortaliser des perspectives et détails du quotidien.</p>
+                <div class="project-tags" style="margin-bottom: 1rem;"><span class="project-tag">Photo Mobile</span><span class="project-tag">Composition</span><span class="project-tag">Retouche</span><span class="project-tag" style="border-color: var(--accent-lab); color: var(--accent-lab);">11 Photos</span></div>
+                
+                <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: 0.8rem; display: flex; align-items: center; justify-content: space-between; gap: 0.8rem; flex-wrap: wrap;">
+                    <div>
+                        <div style="font-size: 0.75rem; color: var(--accent-lab); font-weight: 700;">CERTIFICAT CPD</div>
+                        <div style="font-size: 0.88rem; font-weight: 600; color: var(--text-main);">Mobile Photography</div>
+                        <span style="font-size: 0.78rem; color: var(--text-muted);">Alison · 23 Octobre 2024</span>
+                    </div>
+                    <button onclick="event.preventDefault(); event.stopPropagation(); openCertModal('images/certificat-photo-alison.png', 'Mobile Photography Certificate — Alison (CPD Certified)')" class="btn btn-secondary" style="padding: 0.35rem 0.85rem; font-size: 0.8rem; color: var(--accent-lab);">
+                        <i class="fas fa-eye"></i> Voir le certificat
+                    </button>
+                </div>
+            </a>
+
+            <!-- Category 5: Workspace -->
+            <div class="project-card">
+                <div style="font-size: 1.8rem; color: var(--accent-gaming); margin-bottom: 0.5rem;"><i class="fas fa-desktop"></i></div>
+                <h3 class="project-title">5. Workspace & Ergonomie</h3>
+                <p class="project-desc">Aménagement complet d'un espace de travail ergonomique : configuration double écran (24" principal horizontal + 22" secondaire vertical), passe-câbles et rangement bureau.</p>
+                <div class="project-tags"><span class="project-tag">Setup 24"+22"</span><span class="project-tag">Ergonomie</span><span class="project-tag">Cable Management</span></div>
+            </div>
+
+            <!-- Category 6: Expérimentations -->
+            <div class="project-card">
+                <div style="font-size: 1.8rem; color: var(--accent-lab); margin-bottom: 0.5rem;"><i class="fas fa-flask"></i></div>
+                <h3 class="project-title">6. Expérimentations & Scripts</h3>
+                <p class="project-desc">Projets de recherche personnelle : écriture de scripts Python de transfert automatique de fichiers entre 2 PC et tests de petits prototypes domotiques.</p>
+                <div class="project-tags"><span class="project-tag">Python Script</span><span class="project-tag">Migration PC</span><span class="project-tag">Lab Perso</span></div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- Modal Visualiseur de Certificat Protégé -->
+    <div class="modal" id="certModal" oncontextmenu="return false;">
+        <div class="modal-content" style="max-width: 900px; width: 95%; padding: 1.5rem; text-align: center;">
+            <button class="modal-close" onclick="closeCertModal()">&times;</button>
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1rem; padding-right: 2rem; flex-wrap: wrap;">
+                <h3 id="certModalTitle" style="font-family: var(--font-heading); font-size: 1.15rem; color: var(--accent-lab); margin: 0; text-align: left;">
+                    Document Officiel
+                </h3>
+                <div style="display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.78rem; color: var(--accent-green); background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.25); padding: 0.25rem 0.65rem; border-radius: 20px;">
+                    <i class="fas fa-shield-halved"></i> Vue Sécurisée (Téléchargement désactivé)
+                </div>
+            </div>
+            <div style="position: relative; display: inline-block; max-width: 100%; border-radius: var(--radius-sm); overflow: hidden; background: #000; box-shadow: 0 10px 40px rgba(0,0,0,0.6);" oncontextmenu="return false;">
+                <div class="cert-overlay-guard" oncontextmenu="return false;"></div>
+                <img loading="lazy" decoding="async" id="certModalImg" src="" alt="Certificat Officiel" class="protected-cert-img" draggable="false" oncontextmenu="return false;">
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <!-- Barre Inférieure Unique & Centrée -->
+            <div class="footer-bottom">
+                <a href="admin.html">© 2026 <strong>Aboua Junior KOUADJO</strong>, All rights reserved</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="domains.js"></script>
+    <script src="main.js"></script>
+    <script>
+        function openCertModal(imageSrc, title) {
+            const modal = document.getElementById('certModal');
+            const modalImg = document.getElementById('certModalImg');
+            const modalTitle = document.getElementById('certModalTitle');
+            if (modal && modalImg && modalTitle) {
+                modalImg.src = imageSrc;
+                modalTitle.textContent = title;
+                modal.classList.add('active');
+            }
+        }
+
+        function closeCertModal() {
+            const modal = document.getElementById('certModal');
+            if (modal) modal.classList.remove('active');
+        }
+
+        window.addEventListener('click', (e) => {
+            const certModal = document.getElementById('certModal');
+            if (e.target === certModal) closeCertModal();
+        });
+
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeCertModal();
+        });
+
+        document.addEventListener('contextmenu', (e) => {
+            if (e.target.closest('#certModal') || e.target.classList.contains('protected-cert-img') || e.target.classList.contains('cert-overlay-guard')) {
+                e.preventDefault();
+                return false;
+            }
+        });
+    </script>
+</body>
+</html>

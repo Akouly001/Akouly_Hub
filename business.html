@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Akouly Business — Services IT, Sourcing & Devis</title>
+    <meta name="description" content="Akouly Business : Services de maintenance informatique, sourcing de composants, création graphique, e-commerce et demande de devis rapide à Abidjan.">
+    <link rel="icon" type="image/png" href="images/logo-monogram-1.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body data-page="business">
+    <!-- ÉCRAN DE CHARGEMENT CIRCULAIRE (PRELOADER) -->
+    <div id="page-preloader" class="preloader-overlay" aria-hidden="true">
+        <div class="loader loader-business"></div>
+    </div>
+
+
+    <!-- Éléments du curseur personnalisé interactif -->
+    <div class="cursor-dot" id="cursorDot"></div>
+    <div class="cursor-follower" id="cursorFollower"></div>
+
+    <canvas id="bg-canvas"></canvas>
+    <div id="cursor-glow"></div>
+
+    <!-- Header Section -->
+    <header class="header">
+        <div class="container nav-wrapper">
+            <a href="index.html" class="brand-logo" title="Page d'accueil Akouly">
+                <img loading="eager" decoding="async" src="images/logo-dark.png" alt="Akouly Logo" class="logo-img">
+            </a>
+            <nav>
+                <ul class="nav-links" id="navLinks">
+                    <li class="mobile-only-link"><a href="index.html" class="nav-link"><i class="fas fa-home"></i> Accueil</a></li>
+                    <li><a href="cyber.html" class="nav-link"><i class="fas fa-shield-halved"></i> Cybersécurité</a></li>
+                    <li><a href="gaming.html" class="nav-link"><i class="fas fa-gamepad"></i> Gaming</a></li>
+                    <li><a href="apps.html" class="nav-link"><i class="fas fa-code"></i> Apps & Dev</a></li>
+                    <li><a href="business.html" class="nav-link active"><i class="fas fa-briefcase"></i> Business</a></li>
+                    <li><a href="lab.html" class="nav-link"><i class="fas fa-scissors"></i> DIY</a></li>
+                </ul>
+            </nav>
+            <div class="nav-actions">
+                <button class="theme-toggle-btn" id="themeToggleBtn" title="Bascule Thème Clair / Sombre">
+                    <i class="fas fa-sun" style="color: #f59e0b;"></i>
+                </button>
+                <button class="menu-toggle" id="menuToggle" aria-label="Menu" aria-expanded="false">
+                    <span class="bar bar-1"></span>
+                    <span class="bar bar-2"></span>
+                    <span class="bar bar-3"></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Page Banner -->
+    <div class="page-banner">
+        <div class="container">
+            <h1 class="page-title"><i class="fas fa-briefcase" style="color: var(--accent-biz);"></i> Akouly Business</h1>
+            <p style="color: var(--text-muted); max-width: 750px;">
+                Prestations informatiques professionnelles : maintenance informatique, sourcing de composants, création graphique, solutions numériques et demande de devis.
+            </p>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="container" style="padding-top: 3.5rem; padding-bottom: 3.5rem;">
+
+        <!-- Section 1 : Offres de Services -->
+        <section class="scroll-reveal" style="margin-bottom: 4rem;">
+            <div class="section-label">// NOS PRESTATIONS IT</div>
+            <h2 class="section-title">Services & <span>Solutions IT</span></h2>
+
+            <div class="projects-grid">
+                <div class="project-card">
+                    <div style="font-size: 1.8rem; color: var(--accent-biz); margin-bottom: 0.5rem;"><i class="fas fa-screwdriver-wrench"></i></div>
+                    <h3 class="project-title">1. Maintenance Informatique</h3>
+                    <p class="project-desc">Diagnostic de pannes, remplacement de composants (SSD, RAM, écrans), dépoussiérage, remplacement de pâte thermique et optimisation logicielle sur PC et ordinateurs portables.</p>
+                    <div class="project-tags"><span class="project-tag">Diagnostic</span><span class="project-tag">Nettoyage</span><span class="project-tag">SSD/RAM</span></div>
+                </div>
+
+                <div class="project-card">
+                    <div style="font-size: 1.8rem; color: var(--accent-biz); margin-bottom: 0.5rem;"><i class="fas fa-cart-flatbed"></i></div>
+                    <h3 class="project-title">2. Commandes & Sourcing</h3>
+                    <p class="project-desc">Recherche et approvisionnement de matériels informatiques spécifiques, composants d'ordinateurs, casques, claviers et accessoires certifiés au meilleur rapport qualité/prix.</p>
+                    <div class="project-tags"><span class="project-tag">Sourcing</span><span class="project-tag">Approvisionnement</span><span class="project-tag">Matériel</span></div>
+                </div>
+
+                <div class="project-card">
+                    <div style="font-size: 1.8rem; color: var(--accent-biz); margin-bottom: 0.5rem;"><i class="fas fa-palette"></i></div>
+                    <h3 class="project-title">3. Création Graphique</h3>
+                    <p class="project-desc">Conception de visuels professionnels, logos, maquettes UI/UX d'applications et supports de communication de marque avec Figma et outils créatifs.</p>
+                    <div class="project-tags"><span class="project-tag">UI/UX</span><span class="project-tag">Figma</span><span class="project-tag">Branding</span></div>
+                </div>
+
+                <div class="project-card">
+                    <div style="font-size: 1.8rem; color: var(--accent-biz); margin-bottom: 0.5rem;"><i class="fas fa-store"></i></div>
+                    <h3 class="project-title">4. Services Numériques (Angel Shop)</h3>
+                    <p class="project-desc">Solutions e-commerce adaptées au marché ivoirien (boutique Angel Shop), intégration du paiement mobile Wave, Orange Money et MTN.</p>
+                    <div class="project-tags"><span class="project-tag">E-Commerce</span><span class="project-tag">Wave</span><span class="project-tag">Orange Money</span></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2 : Formulaire de Demande de Devis -->
+        <section id="devis" class="scroll-reveal">
+            <div style="background: var(--bg-card); padding: 2.2rem; border-radius: var(--radius-lg); border: 1px solid var(--border-color); box-shadow: var(--shadow-card);">
+                <div class="section-label">// ESTIMATION GRATUITE</div>
+                <h2 style="font-family: var(--font-heading); font-size: 1.8rem; margin-bottom: 0.8rem; color: var(--accent-biz);">
+                    <i class="fas fa-file-signature"></i> Demander un Devis Gratuit
+                </h2>
+                <p style="color: var(--text-muted); margin-bottom: 1.8rem;">
+                    Remplissez ce formulaire pour recevoir une proposition tarifaire détaillée sous 24h pour votre projet de maintenance, montage PC ou service informatique.
+                </p>
+
+                <form onsubmit="handleDevisSubmit(event)">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Nom Complet *</label>
+                            <input type="text" id="devisName" class="form-control" placeholder="ex: Jean Dupont" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Numéro WhatsApp / Téléphone *</label>
+                            <input type="tel" id="devisPhone" class="form-control" placeholder="ex: +225 07 00 00 00 00" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Adresse E-mail *</label>
+                            <input type="email" id="devisEmail" class="form-control" placeholder="votre@email.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Type de Prestation *</label>
+                            <select id="devisService" class="form-control" required>
+                                <option value="maintenance">🛠️ Maintenance & Réparation PC</option>
+                                <option value="montage">🎮 Montage PC Gaming Sur-Mesure</option>
+                                <option value="sourcing">🛒 Sourcing de Composants / Matériel</option>
+                                <option value="graphisme">🎨 Création Graphique & UI/UX</option>
+                                <option value="autre">💡 Autre Service Numérique</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Description détaillée de votre besoin *</label>
+                        <textarea id="devisDetails" class="form-control" rows="4" placeholder="Expliquez la panne, le budget souhaité, les pièces désirées..." required></textarea>
+                    </div>
+
+                    <button type="submit" class="btn-submit" style="background: var(--accent-biz); color: #fff; width: 100%; font-size: 1.05rem;">
+                        <i class="fas fa-paper-plane"></i> Envoyer ma demande de devis
+                    </button>
+                </form>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <!-- Barre Inférieure Unique & Centrée -->
+            <div class="footer-bottom">
+                <a href="admin.html">© 2026 <strong>Aboua Junior KOUADJO</strong>, All rights reserved</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="domains.js"></script>
+    <script src="main.js"></script>
+    <script>
+        function handleDevisSubmit(e) {
+            e.preventDefault();
+            const name = document.getElementById('devisName').value;
+            const phone = document.getElementById('devisPhone').value;
+            const service = document.getElementById('devisService').value;
+            alert(`Merci ${name} ! Votre demande de devis (${service}) a été envoyée. Nous vous contacterons au ${phone} sous 24h.`);
+            e.target.reset();
+        }
+    </script>
+</body>
+</html>

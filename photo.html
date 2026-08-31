@@ -1,0 +1,1190 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Akouly — Photographie Mobile</title>
+<meta name="description" content="Photographie mobile — composition, cadrage et lumière capturés au smartphone.">
+<link rel="icon" type="image/png" href="images/logo-dark.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Space+Grotesk:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+  :root{
+    --bg: #060508;
+    --bg-soft: #121017;
+    --paper: #f2ede1;
+    --ink: #ece6d8;
+    --muted: #8c8676;
+    --accent: #d1893f;
+    --hair: rgba(236,230,216,0.14);
+  }
+
+  *{ box-sizing: border-box; }
+  html{ scroll-behavior: smooth; }
+
+  body{
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Space Grotesk', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* ---------- Canvas WebGL Simulation de Fumée Fluide ---------- */
+  #smoke-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 0;
+    display: block;
+    pointer-events: none;
+  }
+
+  /* ---------- Calque de Grain Argentique (Film Grain) ---------- */
+  .grain-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.16;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  }
+
+  /* Conteneur principal au-dessus du WebGL */
+  .content-layer {
+    position: relative;
+    z-index: 2;
+  }
+
+  h1, h2, h3, .serif{
+    font-family: 'Fraunces', serif;
+    font-weight: 400;
+    margin: 0;
+  }
+
+  a{ color: inherit; }
+
+  ::selection{ background: var(--accent); color: #14130f; }
+
+  /* ---------- Nav ---------- */
+  .nav{
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 40;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.6rem clamp(1.5rem, 5vw, 3.5rem);
+    mix-blend-mode: difference;
+    background: transparent;
+  }
+  .nav-mark{
+    font-family: 'Fraunces', serif;
+    font-size: 1.05rem;
+    letter-spacing: 0.01em;
+  }
+  .nav-links{
+    display: flex;
+    gap: 1.5rem;
+    font-size: 0.88rem;
+    align-items: center;
+  }
+  .nav-links a{
+    text-decoration: none;
+    color: var(--ink);
+    background: rgba(20, 18, 26, 0.75);
+    border: 1px solid rgba(236, 230, 216, 0.25);
+    border-radius: 30px;
+    padding: 0.55rem 1.25rem;
+    font-weight: 500;
+    position: relative;
+    overflow: hidden;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+                border-color 0.3s ease,
+                background-color 0.3s ease,
+                color 0.3s ease;
+  }
+  .nav-links a:hover,
+  .nav-links a:focus-visible{
+    transform: translateY(-2px) scale(1.04);
+    border-color: rgba(255, 255, 255, 0.95);
+    background: rgba(209, 137, 63, 0.35);
+    color: #ffffff;
+    box-shadow: 0 0 25px rgba(209, 137, 63, 0.9),
+                0 0 50px rgba(209, 137, 63, 0.55),
+                0 0 80px rgba(255, 255, 255, 0.35),
+                inset 0 0 15px rgba(255, 255, 255, 0.4);
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.9);
+  }
+
+  /* ---------- Hero narrative ---------- */
+  .hero{
+    position: relative;
+    height: 100vh;
+    height: 100dvh;
+    overflow: hidden;
+  }
+  .hero-stage{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+  }
+  .hero-bg{
+    position: absolute;
+    inset: 0;
+    background-image: url('images/photo/IMG_20221116_093400_a80435.jpg');
+    background-size: cover;
+    background-position: center;
+    filter: grayscale(1) brightness(0.38);
+    opacity: 0.82;
+    transform: scale(1.15);
+    will-change: transform, filter;
+    transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1), filter 0.8s ease;
+  }
+  .hero-bg.stage-2{
+    transform: scale(1.05);
+    filter: grayscale(1) brightness(0.30);
+  }
+  .hero-bg::after{
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(6,5,8,0.25) 0%, rgba(6,5,8,0.85) 100%);
+  }
+  .hero-lines{
+    position: relative;
+    z-index: 2;
+    padding: 0 clamp(1.5rem, 6vw, 4.5rem);
+    width: 100%;
+    height: 180px;
+    display: flex;
+    align-items: center;
+  }
+  .hero-line{
+    position: absolute;
+    left: clamp(1.5rem, 6vw, 4.5rem);
+    right: clamp(1.5rem, 6vw, 4.5rem);
+    font-size: clamp(2.4rem, 7vw, 6rem);
+    line-height: 1.05;
+    opacity: 0;
+    transform: translateY(35px);
+    transition: opacity .55s cubic-bezier(0.16, 1, 0.3, 1), transform .55s cubic-bezier(0.16, 1, 0.3, 1);
+    margin: 0;
+    pointer-events: none;
+    text-shadow: 0 4px 25px rgba(0, 0, 0, 0.8);
+  }
+  .hero-line.is-active{
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+  .hero-line.is-hidden{
+    opacity: 0;
+    transform: translateY(-35px);
+    pointer-events: none;
+  }
+  .hero-line em{
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  /* ---------- Intro Canvas ---------- */
+  .intro{
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 7rem clamp(1.5rem, 6vw, 2rem) 4rem;
+    display: flex;
+    justify-content: center;
+  }
+  .intro-canvas {
+    background: rgba(18, 16, 23, 0.72);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(236, 230, 216, 0.12);
+    border-left: 4px solid var(--accent);
+    border-radius: 12px;
+    padding: clamp(1.6rem, 3.5vw, 2.2rem) clamp(1.8rem, 4vw, 2.8rem);
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.55), 0 0 25px rgba(209, 137, 63, 0.08);
+    transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+  }
+  .intro-canvas:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 20px 48px rgba(0, 0, 0, 0.65), 0 0 35px rgba(209, 137, 63, 0.15);
+    border-color: rgba(209, 137, 63, 0.3);
+    border-left-color: var(--accent);
+  }
+  .intro-canvas-icon {
+    font-size: 1.6rem;
+    color: var(--accent);
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    border-radius: 10px;
+    background: rgba(209, 137, 63, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(209, 137, 63, 0.2);
+  }
+  .single-intro-text{
+    font-size: clamp(1.05rem, 2.2vw, 1.35rem);
+    line-height: 1.55;
+    color: var(--ink);
+    font-family: 'Fraunces', serif;
+    font-weight: 300;
+    margin: 0;
+    letter-spacing: 0.01em;
+  }
+
+  /* ---------- Gallery ---------- */
+  .gallery{
+    padding: 2rem clamp(1.2rem, 5vw, 3.5rem) 9rem;
+    position: relative;
+  }
+  .gallery-head{
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    border-top: 1px solid var(--hair);
+    padding-top: 1.8rem;
+    margin-bottom: 3.5rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  .gallery-head h2{
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    font-weight: 400;
+  }
+  .gallery-head span{
+    color: var(--muted);
+    font-size: 0.85rem;
+    max-width: 320px;
+    text-align: right;
+  }
+
+  /* ── Grille Masonry Parallaxe (Zéro Crop, Zéro Espace Vide) ── */
+  .masonry-gallery {
+    display: flex;
+    gap: clamp(1.2rem, 2.8vw, 2.4rem);
+    align-items: flex-start;
+    width: 100%;
+  }
+
+  .gallery-col {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(1.4rem, 3vw, 2.6rem);
+    will-change: transform;
+  }
+
+  /* Carte Photo avec Révélation au Scroll & Effet Parallaxe */
+  .photo-card {
+    position: relative;
+    border-radius: 4px;
+    overflow: hidden;
+    background: var(--bg-soft);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.65);
+    cursor: pointer;
+    opacity: 0;
+    transform: translateY(50px) scale(0.96);
+    clip-path: inset(12% 0 12% 0 round 4px);
+    transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+                clip-path 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 0.4s ease;
+    will-change: transform, opacity, clip-path;
+  }
+
+  .photo-card.is-revealed {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    clip-path: inset(0% 0 0% 0 round 4px);
+  }
+
+  .photo-card:hover {
+    box-shadow: 0 16px 45px rgba(209, 137, 63, 0.28), 0 0 0 1px rgba(209, 137, 63, 0.45);
+  }
+
+  .photo-wrapper {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    background: #060508;
+  }
+
+  .photo-wrapper img {
+    width: 100%;
+    height: auto; /* Zéro crop : préserve 100% du ratio naturel et du cadrage d'origine */
+    display: block;
+    object-fit: contain;
+    filter: grayscale(1) contrast(1.03) brightness(0.96);
+    transform: scale(1.04);
+    transition: filter 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform, filter;
+  }
+
+  .photo-card:hover .photo-wrapper img {
+    filter: grayscale(0) contrast(1.02) brightness(1.02);
+    transform: scale(1.0);
+  }
+
+  @media (max-width: 860px) {
+    .masonry-gallery {
+      gap: 1.2rem;
+    }
+    .gallery-col {
+      gap: 1.4rem;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .masonry-gallery {
+      flex-direction: column;
+      gap: 1.6rem;
+    }
+  }
+
+  /* ---------- Credential ---------- */
+  .credential{
+    border-top: 1px solid var(--hair);
+    border-bottom: 1px solid var(--hair);
+    padding: 3.2rem clamp(1.2rem, 5vw, 3rem);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+    background: rgba(255, 255, 255, 0.015);
+    backdrop-filter: blur(8px);
+  }
+  .credential h3{
+    font-size: clamp(1.3rem, 2.6vw, 1.7rem);
+    font-weight: 400;
+    max-width: 520px;
+  }
+  .credential .meta{
+    color: var(--accent);
+    font-size: 0.9rem;
+    text-align: right;
+    font-weight: 600;
+  }
+
+  /* ---------- Footer ---------- */
+  footer{
+    padding: 5rem clamp(1.2rem, 5vw, 3rem) 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 2rem;
+  }
+  footer .big{
+    font-size: clamp(1.25rem, 2.8vw, 2.2rem);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    font-family: 'Fraunces', serif;
+  }
+  footer .big span {
+    color: var(--ink);
+  }
+  footer .big a{
+    text-decoration: none;
+    color: #fff;
+    background: rgba(209, 137, 63, 0.18);
+    border: 1px solid rgba(209, 137, 63, 0.45);
+    border-radius: 30px;
+    padding: 0.45rem 1.3rem;
+    font-size: clamp(1rem, 2.2vw, 1.35rem);
+    position: relative;
+    overflow: hidden;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    box-shadow: 0 4px 18px rgba(209, 137, 63, 0.2);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+                border-color 0.3s ease,
+                background-color 0.3s ease,
+                color 0.3s ease;
+  }
+  footer .big a:hover,
+  footer .big a:focus-visible{
+    transform: translateY(-2px) scale(1.04);
+    border-color: rgba(255, 255, 255, 0.95);
+    background: rgba(209, 137, 63, 0.4);
+    color: #ffffff;
+    box-shadow: 0 0 25px rgba(209, 137, 63, 0.9),
+                0 0 50px rgba(209, 137, 63, 0.55),
+                0 0 80px rgba(255, 255, 255, 0.35),
+                inset 0 0 15px rgba(255, 255, 255, 0.4);
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.9);
+  }
+  footer .links{
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+    font-size: 0.85rem;
+    color: var(--muted);
+    text-align: right;
+  }
+  footer .links a{ text-decoration: none; color: var(--muted); transition: color .2s ease; }
+  footer .links a:hover{ color: var(--ink); }
+
+  /* ── Effet de Flash Périodique (Balayage toutes les 5s en boucle) ── */
+  .nav-links a::after,
+  footer .big a::after,
+  .lightbox-close::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -160%;
+    width: 80%;
+    height: 200%;
+    background: linear-gradient(
+      120deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.15) 30%,
+      rgba(255, 255, 255, 0.95) 50%,
+      rgba(209, 137, 63, 0.8) 65%,
+      transparent 100%
+    );
+    transform: skewX(-25deg);
+    pointer-events: none;
+    animation: buttonFlashLoop 5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  }
+
+  @keyframes buttonFlashLoop {
+    0%, 72% {
+      left: -160%;
+      opacity: 0;
+    }
+    73% {
+      opacity: 1;
+    }
+    88% {
+      left: 220%;
+      opacity: 1;
+    }
+    89%, 100% {
+      left: 220%;
+      opacity: 0;
+    }
+  }
+
+  /* ---------- Lightbox Modal ---------- */
+  .lightbox-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.95);
+    backdrop-filter: blur(16px);
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.35s ease, visibility 0.35s ease;
+    padding: 2rem;
+  }
+  .lightbox-modal.active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+  .lightbox-content {
+    max-width: 94vw;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+  }
+  .lightbox-img {
+    max-width: 100%;
+    max-height: 86vh;
+    object-fit: contain;
+    border-radius: 4px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+    transform: scale(0.96);
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .lightbox-modal.active .lightbox-img {
+    transform: scale(1);
+  }
+  .lightbox-close {
+    position: absolute;
+    top: 1.5rem;
+    right: 2rem;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: #fff;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    transition: background 0.2s ease, transform 0.2s ease;
+  }
+  .lightbox-close:hover {
+    background: rgba(255,255,255,0.25);
+    transform: scale(1.08);
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ transition: none !important; scroll-behavior: auto !important; }
+    .hero-bg{ transform: none !important; }
+    .photo-card{ opacity: 1 !important; transform: none !important; clip-path: none !important; }
+    .photo-wrapper img{ transform: none !important; }
+    #smoke-canvas { display: none !important; }
+  }
+</style>
+</head>
+<body>
+
+  <!-- Canvas WebGL de la simulation de fumée fluide -->
+  <canvas id="smoke-canvas"></canvas>
+  
+  <!-- Calque de grain photographique (Film Grain) -->
+  <div class="grain-overlay"></div>
+
+  <div class="content-layer">
+    <nav class="nav">
+      <div class="nav-mark">Akouly — Photographie Mobile</div>
+      <div class="nav-links">
+        <a href="lab.html"><i class="fas fa-arrow-left"></i> Retour à DIY</a>
+      </div>
+    </nav>
+
+    <section class="hero" id="heroSection">
+      <div class="hero-stage">
+        <div class="hero-bg" id="heroBg"></div>
+        <div class="hero-lines">
+          <!-- Texte 1 actif par défaut à l'arrivée -->
+          <p class="hero-line is-active" id="line1">Faire beaucoup<br>avec <em>peu</em>.</p>
+          <!-- Texte 2 masqué initialement -->
+          <p class="hero-line" id="line2">Juste un capteur<br>suffit.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="intro" id="introSection">
+      <div class="intro-canvas">
+        <div class="intro-canvas-icon"><i class="fas fa-camera"></i></div>
+        <p class="single-intro-text">Chaque image ci-dessous est pensée et capturée entièrement au smartphone.</p>
+      </div>
+    </section>
+
+    <section class="gallery" id="gallerySection">
+      <div class="gallery-head">
+        <h2>Sélection</h2>
+        <span>Survolez ou touchez une image pour révéler sa couleur d'origine.</span>
+      </div>
+      
+      <div class="masonry-gallery" id="masonryGallery">
+
+        <!-- Colonne 1 (Parallaxe vitesse 1) -->
+        <div class="gallery-col col-1" data-speed="0.05">
+          <div class="photo-card">
+            <div class="photo-wrapper">
+              <img decoding="async" src="images/photo/1001846086-01.jpeg" alt="Photographie mobile Akouly - Paysage" loading="lazy">
+            </div>
+          </div>
+          <div class="photo-card">
+            <div class="photo-wrapper">
+              <img decoding="async" src="images/photo/1670443503631-01.jpeg" alt="Photographie mobile Akouly - Lignes urbaines" loading="lazy">
+            </div>
+          </div>
+          <div class="photo-card">
+            <div class="photo-wrapper">
+              <img decoding="async" src="images/photo/IMG_20221116_133009.jpg" alt="Photographie mobile Akouly - Détails" loading="lazy">
+            </div>
+          </div>
+          <div class="photo-card">
+            <div class="photo-wrapper">
+              <img decoding="async" src="images/photo/IMG_20260501_175515.jpg" alt="Photographie mobile Akouly - Lumière" loading="lazy">
+            </div>
+          </div>
+        </div>
+
+        <!-- Colonne 2 (Parallaxe vitesse 2 - Décalage fluide) -->
+        <div class="gallery-col col-2" data-speed="-0.035">
+          <div class="photo-card">
+            <div class="photo-wrapper">
+              <img decoding="async" src="images/photo/1669341282569-01.jpeg" alt="Photographie mobile Akouly - Macro texture" loading="lazy">
+            </div>
+          </div>
+          <div class="photo-card">
+            <div class="photo-wrapper">
+              <img decoding="async" src="images/photo/IMG_20221116_093400_a80435.jpg" alt="Photographie mobile Akouly - Perspective" loading="lazy">
+            </div>
+          </div>
+          <div class="photo-card">
+            <div class="photo-wrapper">
+              <img decoding="async" src="images/photo/IMG_20221124_124247_edited.jpeg" alt="Photographie mobile Akouly - Portrait" loading="lazy">
+            </div>
+          </div>
+          <div class="photo-card">
+            <div class="photo-wrapper">
+              <img decoding="async" src="images/photo/IMG_20260530_155620.jpg" alt="Photographie mobile Akouly - Cadrage" loading="lazy">
+            </div>
+          </div>
+        </div>
+
+        <!-- Colonne 3 (Parallaxe vitesse 3) -->
+        <div class="gallery-col col-3" data-speed="0.065">
+          <div class="photo-card">
+            <div class="photo-wrapper">
+              <img decoding="async" src="images/photo/IMG_20221116_085907_ec9b63.jpg" alt="Photographie mobile Akouly - Nature" loading="lazy">
+            </div>
+          </div>
+          <div class="photo-card">
+            <div class="photo-wrapper">
+              <img decoding="async" src="images/photo/IMG_20221205_184734-01.jpeg" alt="Photographie mobile Akouly - Ombre et lumière" loading="lazy">
+            </div>
+          </div>
+          <div class="photo-card">
+            <div class="photo-wrapper">
+              <img decoding="async" src="images/photo/IMG_20221208_145914-01.jpeg" alt="Photographie mobile Akouly - Scène urbaine" loading="lazy">
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="credential">
+      <h3>Certificat CPD — Mobile Photography, délivré par Alison.</h3>
+      <div class="meta">23 octobre 2024</div>
+    </section>
+
+    <footer>
+      <div class="big">
+        <span>Une image à partager ?</span> <a href="mailto:kouadjoabouajunior@gmail.com">Écrire un mail →</a>
+      </div>
+      <div class="links">
+        <span>Abidjan, Côte d'Ivoire</span>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Lightbox Modal -->
+  <div class="lightbox-modal" id="lightboxModal" aria-hidden="true">
+    <button class="lightbox-close" id="lightboxClose" aria-label="Fermer"><i class="fas fa-times"></i></button>
+    <div class="lightbox-content">
+      <img loading="lazy" decoding="async" src="" alt="" class="lightbox-img" id="lightboxImg">
+    </div>
+  </div>
+
+<!-- Simulation WebGL Fluide de Fumée -->
+<script>
+  (function initSmokeSimulation() {
+    const canvas = document.getElementById('smoke-canvas');
+    if (!canvas) return;
+
+    const gl = canvas.getContext('webgl', { alpha: false, preserveDrawingBuffer: false });
+    if (!gl) {
+      console.warn("WebGL n'est pas supporté sur cet appareil.");
+      return;
+    }
+
+    const SIM_RES = 512;
+
+    function createShader(gl, type, source) {
+      const shader = gl.createShader(type);
+      gl.shaderSource(shader, source);
+      gl.compileShader(shader);
+      if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+        console.error(gl.getShaderInfoLog(shader));
+        gl.deleteShader(shader);
+        return null;
+      }
+      return shader;
+    }
+
+    function createProgram(vs, fs) {
+      const prog = gl.createProgram();
+      gl.attachShader(prog, createShader(gl, gl.VERTEX_SHADER, vs));
+      gl.attachShader(prog, createShader(gl, gl.FRAGMENT_SHADER, fs));
+      gl.linkProgram(prog);
+      return prog;
+    }
+
+    const baseVS = `
+      attribute vec2 a_position;
+      varying vec2 v_uv;
+      void main() {
+        v_uv = (a_position + 1.0) * 0.5;
+        gl_Position = vec4(a_position, 0.0, 1.0);
+      }
+    `;
+
+    const simFS = `
+      precision highp float;
+      varying vec2 v_uv;
+
+      uniform sampler2D u_prevTexture;
+      uniform vec2 u_resolution;
+      uniform vec2 u_mouse;
+      uniform vec2 u_prevMouse;
+      uniform vec3 u_color;
+      uniform float u_time;
+      uniform float u_speed;
+      uniform float u_decay;
+
+      float hash(vec2 p) {
+        return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453123);
+      }
+
+      float noise(vec2 p) {
+        vec2 i = floor(p);
+        vec2 f = fract(p);
+        vec2 u = f * f * (3.0 - 2.0 * f);
+        return mix(mix(hash(i + vec2(0.0,0.0)), hash(i + vec2(1.0,0.0)), u.x),
+                   mix(hash(i + vec2(0.0,1.0)), hash(i + vec2(1.0,1.0)), u.x), u.y);
+      }
+
+      float segDist(vec2 p, vec2 a, vec2 b) {
+        vec2 pa = p - a, ba = b - a;
+        float h = clamp(dot(pa, ba) / max(dot(ba, ba), 0.00001), 0.0, 1.0);
+        return length(pa - ba * h);
+      }
+
+      void main() {
+        vec2 uv = v_uv;
+        float aspect = u_resolution.x / u_resolution.y;
+
+        vec2 noiseUv = uv * 3.0 + vec2(u_time * 0.07, -u_time * 0.05);
+        vec2 flow = vec2(
+          noise(noiseUv) - 0.5,
+          noise(noiseUv + vec2(7.2, 3.8)) - 0.5
+        ) * 0.0055;
+
+        vec2 sampleUv = uv - flow;
+
+        vec2 texel = 1.0 / u_resolution;
+        vec4 pL = texture2D(u_prevTexture, sampleUv - vec2(texel.x, 0.0));
+        vec4 pR = texture2D(u_prevTexture, sampleUv + vec2(texel.x, 0.0));
+        vec4 pU = texture2D(u_prevTexture, sampleUv + vec2(0.0, texel.y));
+        vec4 pD = texture2D(u_prevTexture, sampleUv - vec2(0.0, texel.y));
+        vec4 prev = mix(texture2D(u_prevTexture, sampleUv), (pL + pR + pU + pD) * 0.25, 0.22);
+
+        prev.rgb *= u_decay;
+
+        vec2 pAspect = uv; pAspect.x *= aspect;
+        vec2 m1 = u_mouse; m1.x *= aspect;
+        vec2 m0 = u_prevMouse; m0.x *= aspect;
+
+        float dist = segDist(pAspect, m0, m1);
+        float radius = 0.13 + min(u_speed * 0.10, 0.09);
+        float splat = smoothstep(radius, 0.0, dist) * clamp(u_speed * 8.0 + 0.35, 0.0, 1.0);
+
+        vec3 injected = u_color * splat * 0.95;
+
+        gl_FragColor = vec4(prev.rgb + injected, 1.0);
+      }
+    `;
+
+    const displayFS = `
+      precision highp float;
+      varying vec2 v_uv;
+      uniform sampler2D u_texture;
+
+      void main() {
+        vec4 smoke = texture2D(u_texture, v_uv);
+        vec3 col = smoke.rgb;
+
+        col = pow(col, vec3(0.94));
+
+        vec3 bg = vec3(0.024, 0.02, 0.032);
+        col = max(col, bg);
+
+        float vignette = 1.0 - smoothstep(0.38, 1.45, length(v_uv - 0.5));
+        col *= vignette;
+
+        gl_FragColor = vec4(col, 1.0);
+      }
+    `;
+
+    const simProg = createProgram(baseVS, simFS);
+    const displayProg = createProgram(baseVS, displayFS);
+
+    const quadBuffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, quadBuffer);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([
+      -1, -1,  1, -1, -1,  1,
+      -1,  1,  1, -1,  1,  1
+    ]), gl.STATIC_DRAW);
+
+    function setupAttributes(prog) {
+      const pos = gl.getAttribLocation(prog, "a_position");
+      gl.enableVertexAttribArray(pos);
+      gl.vertexAttribPointer(pos, 2, gl.FLOAT, false, 0, 0);
+    }
+
+    function createFBO(size) {
+      const tex = gl.createTexture();
+      gl.bindTexture(gl.TEXTURE_2D, tex);
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, size, size, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+
+      const fb = gl.createFramebuffer();
+      gl.bindFramebuffer(gl.FRAMEBUFFER, fb);
+      gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, tex, 0);
+
+      gl.clearColor(0.0, 0.0, 0.0, 1.0);
+      gl.clear(gl.COLOR_BUFFER_BIT);
+
+      return { fb, tex };
+    }
+
+    let fboA = createFBO(SIM_RES);
+    let fboB = createFBO(SIM_RES);
+
+    function getColorFromHue(h) {
+      const r = Math.sin(h) * 0.5 + 0.5;
+      const g = Math.sin(h + 2.094) * 0.5 + 0.5;
+      const b = Math.sin(h + 4.188) * 0.5 + 0.5;
+      return [r * 1.45, g * 1.25, b * 1.65];
+    }
+
+    let mouse = { x: 0.5, y: 0.5 };
+    let currentSimPos = { x: 0.5, y: 0.5 };
+    let prevSimPos = { x: 0.5, y: 0.5 };
+
+    let userActivity = 0.0;
+    let lastMouseMoveTime = 0;
+    let hue = 0;
+
+    function onPointerMove(x, y) {
+      mouse.x = x / window.innerWidth;
+      mouse.y = 1.0 - (y / window.innerHeight);
+      lastMouseMoveTime = performance.now();
+    }
+
+    window.addEventListener('mousemove', (e) => onPointerMove(e.clientX, e.clientY), { passive: true });
+    window.addEventListener('touchmove', (e) => {
+      if (e.touches.length > 0) {
+        onPointerMove(e.touches[0].clientX, e.touches[0].clientY);
+      }
+    }, { passive: true });
+
+    function resize() {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = window.innerWidth * dpr;
+      canvas.height = window.innerHeight * dpr;
+    }
+    window.addEventListener('resize', resize, { passive: true });
+    resize();
+
+    let startTime = performance.now();
+    let isSmokeLoopRunning = false;
+
+    function renderSmoke() {
+      if (document.hidden) {
+        isSmokeLoopRunning = false;
+        return;
+      }
+
+      const now = performance.now();
+      const time = (now - startTime) * 0.001;
+      const idleDuration = now - lastMouseMoveTime;
+
+      if (idleDuration > 700) {
+        userActivity = Math.max(0.0, userActivity - 0.025);
+      } else {
+        userActivity = Math.min(1.0, userActivity + 0.06);
+      }
+
+      const autoX = 0.5 + Math.sin(time * 0.85) * 0.32 + Math.cos(time * 1.7) * 0.07;
+      const autoY = 0.5 + Math.cos(time * 0.65) * 0.28 + Math.sin(time * 1.4) * 0.07;
+
+      const targetX = autoX * (1.0 - userActivity) + mouse.x * userActivity;
+      const targetY = autoY * (1.0 - userActivity) + mouse.y * userActivity;
+
+      const followSpeed = 0.08 + userActivity * 0.12;
+      currentSimPos.x += (targetX - currentSimPos.x) * followSpeed;
+      currentSimPos.y += (targetY - currentSimPos.y) * followSpeed;
+
+      const dx = currentSimPos.x - prevSimPos.x;
+      const dy = currentSimPos.y - prevSimPos.y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      const speed = Math.min(dist * 7.0 + 0.08, 1.0);
+
+      hue += dist * 4.5 + 0.006;
+      const currentColor = getColorFromHue(hue);
+
+      gl.viewport(0, 0, SIM_RES, SIM_RES);
+      gl.bindFramebuffer(gl.FRAMEBUFFER, fboB.fb);
+      gl.useProgram(simProg);
+      setupAttributes(simProg);
+
+      gl.activeTexture(gl.TEXTURE0);
+      gl.bindTexture(gl.TEXTURE_2D, fboA.tex);
+      gl.uniform1i(gl.getUniformLocation(simProg, "u_prevTexture"), 0);
+
+      gl.uniform2f(gl.getUniformLocation(simProg, "u_resolution"), SIM_RES, SIM_RES);
+      gl.uniform2f(gl.getUniformLocation(simProg, "u_mouse"), currentSimPos.x, currentSimPos.y);
+      gl.uniform2f(gl.getUniformLocation(simProg, "u_prevMouse"), prevSimPos.x, prevSimPos.y);
+      gl.uniform3f(gl.getUniformLocation(simProg, "u_color"), currentColor[0], currentColor[1], currentColor[2]);
+      gl.uniform1f(gl.getUniformLocation(simProg, "u_time"), time);
+      gl.uniform1f(gl.getUniformLocation(simProg, "u_speed"), speed);
+      gl.uniform1f(gl.getUniformLocation(simProg, "u_decay"), 0.968);
+
+      gl.drawArrays(gl.TRIANGLES, 0, 6);
+
+      gl.viewport(0, 0, canvas.width, canvas.height);
+      gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+      gl.useProgram(displayProg);
+      setupAttributes(displayProg);
+
+      gl.activeTexture(gl.TEXTURE0);
+      gl.bindTexture(gl.TEXTURE_2D, fboB.tex);
+      gl.uniform1i(gl.getUniformLocation(displayProg, "u_texture"), 0);
+
+      gl.drawArrays(gl.TRIANGLES, 0, 6);
+
+      const temp = fboA;
+      fboA = fboB;
+      fboB = temp;
+
+      prevSimPos.x = currentSimPos.x;
+      prevSimPos.y = currentSimPos.y;
+
+      requestAnimationFrame(renderSmoke);
+    }
+
+    function wakeSmokeLoop() {
+      if (!isSmokeLoopRunning && !document.hidden) {
+        isSmokeLoopRunning = true;
+        requestAnimationFrame(renderSmoke);
+      }
+    }
+
+    document.addEventListener('visibilitychange', () => {
+      if (!document.hidden) wakeSmokeLoop();
+    });
+
+    wakeSmokeLoop();
+  })();
+</script>
+
+<!-- Scripts de Navigation, Hero et Lightbox -->
+<script>
+  // ── 1. Contrôleur Étape par Étape du Hero : "Un roulement, un texte" ──
+  const heroSection = document.getElementById('heroSection');
+  const heroBg = document.getElementById('heroBg');
+  const line1 = document.getElementById('line1');
+  const line2 = document.getElementById('line2');
+  const introSection = document.getElementById('introSection');
+
+  let currentStep = 0; // 0 = Texte 1 | 1 = Texte 2 | 2 = Défilement libre
+  let isAnimating = false;
+
+  function setStep(step) {
+    if (step === currentStep) return;
+    isAnimating = true;
+    currentStep = step;
+
+    if (currentStep === 0) {
+      line1.classList.remove('is-hidden');
+      line1.classList.add('is-active');
+      line2.classList.remove('is-active');
+      line2.classList.remove('is-hidden');
+      heroBg.classList.remove('stage-2');
+    } else if (currentStep === 1) {
+      line1.classList.remove('is-active');
+      line1.classList.add('is-hidden');
+      line2.classList.remove('is-hidden');
+      line2.classList.add('is-active');
+      heroBg.classList.add('stage-2');
+    } else if (currentStep === 2) {
+      introSection.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    setTimeout(() => {
+      isAnimating = false;
+    }, 650);
+  }
+
+  window.addEventListener('wheel', (e) => {
+    const scrollY = window.scrollY || window.pageYOffset;
+    const heroHeight = heroSection.offsetHeight;
+
+    if (scrollY < 10) {
+      if (isAnimating) {
+        e.preventDefault();
+        return;
+      }
+
+      if (e.deltaY > 0) {
+        if (currentStep === 0) {
+          e.preventDefault();
+          setStep(1);
+        } else if (currentStep === 1) {
+          e.preventDefault();
+          setStep(2);
+        }
+      } else if (e.deltaY < 0) {
+        if (currentStep === 1) {
+          e.preventDefault();
+          setStep(0);
+        }
+      }
+    } else if (scrollY <= heroHeight && e.deltaY < 0 && scrollY < 80) {
+      if (currentStep === 2) {
+        currentStep = 1;
+        setStep(1);
+      }
+    }
+  }, { passive: false });
+
+  let touchStartY = 0;
+  window.addEventListener('touchstart', (e) => {
+    touchStartY = e.touches[0].clientY;
+  }, { passive: true });
+
+  window.addEventListener('touchend', (e) => {
+    const scrollY = window.scrollY || window.pageYOffset;
+    const touchEndY = e.changedTouches[0].clientY;
+    const deltaY = touchStartY - touchEndY;
+
+    if (scrollY < 10 && Math.abs(deltaY) > 40) {
+      if (isAnimating) return;
+
+      if (deltaY > 0) {
+        if (currentStep === 0) setStep(1);
+        else if (currentStep === 1) setStep(2);
+      } else {
+        if (currentStep === 1) setStep(0);
+      }
+    }
+  }, { passive: true });
+
+  // ── 2. Révélation au Scroll Progressive des Photos (Curtain Reveal) ──
+  const photoCards = document.querySelectorAll('.photo-card');
+  const revealObserver = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-revealed');
+      }
+    });
+  }, {
+    threshold: 0.12,
+    rootMargin: '0px 0px -40px 0px'
+  });
+
+  photoCards.forEach(card => {
+    revealObserver.observe(card);
+  });
+
+  // ── 3. Parallaxe Multi-Colonnes au Défilement ──
+  const columns = document.querySelectorAll('.gallery-col');
+  const gallerySection = document.getElementById('gallerySection');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function updateParallax() {
+    if (reduceMotion || window.innerWidth <= 600) return;
+    
+    const galleryRect = gallerySection.getBoundingClientRect();
+    const vh = window.innerHeight;
+
+    if (galleryRect.top < vh && galleryRect.bottom > 0) {
+      const scrollProgress = (vh - galleryRect.top) / (vh + galleryRect.height);
+      const centerDelta = (scrollProgress - 0.5) * 400;
+
+      columns.forEach(col => {
+        const speed = parseFloat(col.getAttribute('data-speed')) || 0;
+        const translateY = centerDelta * speed * 2.5;
+        col.style.transform = 'translateY(' + translateY.toFixed(1) + 'px)';
+      });
+    }
+  }
+
+  let ticking = false;
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      requestAnimationFrame(() => {
+        updateParallax();
+        ticking = false;
+      });
+      ticking = true;
+    }
+  }, { passive: true });
+
+  window.addEventListener('resize', updateParallax);
+  updateParallax();
+
+  // ── 4. Lightbox Plein Écran ──
+  const lightboxModal = document.getElementById('lightboxModal');
+  const lightboxImg = document.getElementById('lightboxImg');
+  const lightboxClose = document.getElementById('lightboxClose');
+
+  photoCards.forEach(card => {
+    card.addEventListener('click', () => {
+      const img = card.querySelector('img');
+      if (!img) return;
+      lightboxImg.src = img.src;
+      lightboxImg.alt = img.alt;
+      
+      lightboxModal.classList.add('active');
+      lightboxModal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    });
+  });
+
+  function closeLightbox() {
+    lightboxModal.classList.remove('active');
+    lightboxModal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  if (lightboxClose) {
+    lightboxClose.addEventListener('click', closeLightbox);
+  }
+
+  lightboxModal.addEventListener('click', (e) => {
+    if (e.target === lightboxModal) {
+      closeLightbox();
+    }
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && lightboxModal.classList.contains('active')) {
+      closeLightbox();
+    }
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,10 @@
+# Backups / nested exports
+Akouly_netlify/
+Akouly-main_github/
+
+# OS / Editor temporary files
+.DS_Store
+Thumbs.db
+*.tmp
+.vscode/
+.idea/

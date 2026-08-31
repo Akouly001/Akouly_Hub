@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Applications & Dev — Aboua Junior KOUADJO</title>
+    <meta name="description" content="Portfolio d'Aboua Junior Kouadjo, créateur d'applications mobiles et intelligentes avec l'IA.">
+    <link rel="icon" type="image/png" href="images/logo-monogram-1.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body data-page="apps">
+    <!-- ÉCRAN DE CHARGEMENT CIRCULAIRE (PRELOADER) -->
+    <div id="page-preloader" class="preloader-overlay" aria-hidden="true">
+        <div class="loader loader-apps"></div>
+    </div>
+
+
+    <!-- Canvas d'animation de fond sur-mesure Code-Matrix & Digital Nodes pour l'onglet Apps -->
+    <canvas id="apps-bg-canvas"></canvas>
+    <div id="cursor-glow"></div>
+
+    <!-- Header Section -->
+    <header class="header">
+        <div class="container nav-wrapper">
+            <a href="index.html" class="brand-logo" title="Page d'accueil Akouly">
+                <img loading="eager" decoding="async" src="images/logo-dark.png" alt="Akouly Logo" class="logo-img">
+            </a>
+            <nav>
+                <ul class="nav-links" id="navLinks">
+                    <li class="mobile-only-link"><a href="index.html" class="nav-link"><i class="fas fa-home"></i> Accueil</a></li>
+                    <li><a href="cyber.html" class="nav-link"><i class="fas fa-shield-halved"></i> Cybersécurité</a></li>
+                    <li><a href="gaming.html" class="nav-link"><i class="fas fa-gamepad"></i> Gaming</a></li>
+                    <li><a href="apps.html" class="nav-link active"><i class="fas fa-code"></i> Apps & Dev</a></li>
+                    <li><a href="business.html" class="nav-link"><i class="fas fa-briefcase"></i> Business</a></li>
+                    <li><a href="lab.html" class="nav-link"><i class="fas fa-scissors"></i> DIY</a></li>
+                </ul>
+            </nav>
+            <div class="nav-actions">
+                <button class="theme-toggle-btn" id="themeToggleBtn" title="Bascule Thème Clair / Sombre">
+                    <i class="fas fa-sun" style="color: #f59e0b;"></i>
+                </button>
+                <button class="menu-toggle" id="menuToggle" aria-label="Menu" aria-expanded="false">
+                    <span class="bar bar-1"></span>
+                    <span class="bar bar-2"></span>
+                    <span class="bar bar-3"></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero scroll-reveal" id="home">
+        <div class="container" style="text-align: center;">
+
+            <div class="hero-tag">
+                <i class="fas fa-mobile-screen"></i> Créateur d'Applications Mobile & Solutions Intelligentes
+            </div>
+            <h1 class="hero-title">
+                Je conçois des applications qui <span class="gradient-text">racontent des histoires</span> et créent des connexions.
+            </h1>
+            <p class="hero-subtitle" style="max-width: 750px; margin: 0 auto 2rem auto;">
+                Développement d'expériences logicielles et mobiles centrées sur l'utilisateur, allant d'applications Flutter aux jeux multijoueurs locaux et assistants IA.
+            </p>
+            <div style="display: flex; justify-content: center; gap: 0.8rem; flex-wrap: wrap;">
+                <a href="#projects" class="btn btn-primary"><i class="fas fa-mobile-screen"></i> Découvrir mes applications</a>
+                <a href="#about" class="btn btn-secondary"><i class="fas fa-user"></i> En savoir plus</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Projets / Apps -->
+    <section id="projects" class="scroll-reveal" style="padding-top: 4rem; padding-bottom: 4rem;">
+        <div class="container">
+            <div class="section-label">// APPLICATIONS COMPLÈTES</div>
+            <h2 class="section-title">Mes <span>Applications</span></h2>
+
+            <div class="projects-grid">
+                <!-- App 1: Too -->
+                <div class="project-card">
+                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                        <img loading="lazy" decoding="async" src="images/Too-Logo.png" alt="Logo Too" style="width: 56px; height: 56px; border-radius: 14px; object-fit: contain; background: rgba(125,125,125,0.06); padding: 4px;">
+                        <div>
+                            <h3 style="font-family: var(--font-heading); font-size: 1.35rem; font-weight: 700;">Too</h3>
+                            <span style="font-size: 0.8rem; color: var(--text-dim);"><i class="far fa-calendar-alt"></i> Juillet 2025</span>
+                        </div>
+                    </div>
+                    <p class="project-desc">
+                        Too est une application mobile pensée pour les couples, combinant défis complices, gages romantiques et activités ludiques pour renforcer l'intimité et pimenter le quotidien.
+                    </p>
+
+                    <!-- Galerie Aperçu Rapide -->
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; margin-bottom: 1.2rem; cursor: pointer;" onclick="openDimModal('dimModal-too-gallery')" title="Cliquez pour agrandir en carrousel (4:5)">
+                        <img loading="lazy" decoding="async" src="images/Too-Capture 1.jpg" alt="Écran Too 1" style="width: 100%; height: 110px; object-fit: cover; border-radius: 8px; border: 1px solid var(--border-color); transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.03)'" onmouseout="this.style.transform='scale(1)'">
+                        <img loading="lazy" decoding="async" src="images/Too-Capture 2.jpg" alt="Écran Too 2" style="width: 100%; height: 110px; object-fit: cover; border-radius: 8px; border: 1px solid var(--border-color); transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.03)'" onmouseout="this.style.transform='scale(1)'">
+                        <img loading="lazy" decoding="async" src="images/Too-Capture 3.jpg" alt="Écran Too 3" style="width: 100%; height: 110px; object-fit: cover; border-radius: 8px; border: 1px solid var(--border-color); transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.03)'" onmouseout="this.style.transform='scale(1)'">
+                    </div>
+
+                    <div class="project-tags">
+                        <span class="project-tag">Flutter</span>
+                        <span class="project-tag">Firebase</span>
+                        <span class="project-tag">Dart</span>
+                    </div>
+
+                    <div class="project-footer" style="margin-top: 1rem;">
+                        <span class="project-status">✓ Disponible en APK</span>
+                        <a href="https://mega.nz/file/n7RGzLQB#aufvRIxvM5E7QMoDLh3O3Ln86oDTgVsNtLjBl3iL5KU" target="_blank" class="project-link">
+                            <i class="fas fa-download"></i> Télécharger l'APK &rarr;
+                        </a>
+                    </div>
+
+                    <!-- 3 Boutons d'Action Immersifs (Style Dimension) -->
+                    <div class="project-action-bar">
+                        <button class="btn-dim-action" onclick="openDimModal('dimModal-too-gallery')">
+                            <i class="fas fa-images" style="color: var(--accent-dev);"></i> Galerie
+                        </button>
+                        <button class="btn-dim-action" onclick="openDimModal('dimModal-too-tech')">
+                            <i class="fas fa-microchip" style="color: var(--accent-cyber);"></i> Technologie
+                        </button>
+                        <button class="btn-dim-action btn-support" onclick="openDimModal('dimModal-too-support')">
+                            <i class="fas fa-cookie-bite" style="color: #f59e0b;"></i> Soutenir le projet
+                        </button>
+                    </div>
+                </div>
+
+                <!-- App 2: Vivi IA -->
+                <div class="project-card">
+                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                        <div style="width: 56px; height: 56px; border-radius: 14px; background: rgba(139,92,246,0.1); color: var(--accent-dev); display: flex; align-items: center; justify-content: center; font-size: 1.6rem;">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <div>
+                            <h3 style="font-family: var(--font-heading); font-size: 1.35rem; font-weight: 700;">Vivi IA</h3>
+                            <span style="font-size: 0.8rem; color: var(--text-dim);"><i class="far fa-clock"></i> Projet en cours</span>
+                        </div>
+                    </div>
+                    <p class="project-desc">
+                        Projet en cours de développement.
+                    </p>
+                    <div class="project-footer">
+                        <span class="project-status" style="color: var(--text-dim);">⏳ En cours de développement</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Jeux & Game Design : Contrix -->
+    <section class="scroll-reveal" style="padding-bottom: 4rem;">
+        <div class="container">
+            <div class="section-label">// JEUX & GAME DESIGN</div>
+            <h2 class="section-title">Projet <span>Contrix & Gameplay</span></h2>
+
+            <div class="project-card" style="background: rgba(139, 92, 246, 0.05); border-color: rgba(139, 92, 246, 0.3);">
+                <div style="display: flex; align-items: center; gap: 1.2rem; margin-bottom: 1.2rem; flex-wrap: wrap;">
+                    <img loading="lazy" decoding="async" src="images/logo-contrix.png" alt="Logo Contrix" style="height: 52px; width: auto; object-fit: contain; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.3));">
+                    <div>
+                        <span style="font-size: 0.85rem; color: var(--accent-dev); font-weight: 600; font-family: var(--font-code);">[Jeu Multijoueur Local · Téléphones = Manettes]</span>
+                    </div>
+                </div>
+                <p class="project-desc" style="font-size: 1rem; line-height: 1.7; margin-bottom: 1.2rem;">
+                    Contrix est une plateforme de jeu vidéo multijoueur où les joueurs utilisent leurs propres téléphones portables comme manettes de jeu connectées en temps réel à un ordinateur portable via WebSockets. Le jeu intègre un mode offline africain, un quiz culturel interactif sur la Côte d'Ivoire et un système d'activation anti-piratage.
+                </p>
+                
+                <h4 style="font-family: var(--font-heading); font-size: 1.1rem; margin: 1.2rem 0 0.6rem 0; color: var(--text-main);">
+                    Concepts & Règles de Game Design Élaborés :
+                </h4>
+                <ul class="skill-items" style="font-size: 0.9rem; margin-bottom: 1.5rem;">
+                    <li><strong>Volleyball 2v2</strong> : Collisions entre coéquipiers, accélération progressive du ballon.</li>
+                    <li><strong>Fighter2D</strong> : Combat 2D avec attaques spéciales et gestion d'endurance.</li>
+                    <li><strong>Quiz Reflex & Flappy Bird</strong> : Mini-jeux de rapidité et de concentration.</li>
+                </ul>
+
+                <div class="project-tags" style="margin-bottom: 1.2rem;">
+                    <span class="project-tag">Python</span>
+                    <span class="project-tag">Pygame</span>
+                    <span class="project-tag">WebSockets</span>
+                    <span class="project-tag">Game Design</span>
+                </div>
+
+                <div class="project-footer">
+                    <span class="project-status">✓ MVP Opérationnel</span>
+                </div>
+
+                <!-- 3 Boutons d'Action Immersifs (Style Dimension) -->
+                <div class="project-action-bar">
+                    <button class="btn-dim-action" onclick="openDimModal('dimModal-contrix-gallery')">
+                        <i class="fas fa-images" style="color: var(--accent-dev);"></i> Galerie
+                    </button>
+                    <button class="btn-dim-action" onclick="openDimModal('dimModal-contrix-tech')">
+                        <i class="fas fa-microchip" style="color: var(--accent-cyber);"></i> Technologie
+                    </button>
+                    <button class="btn-dim-action btn-support" onclick="openDimModal('dimModal-contrix-support')">
+                        <i class="fas fa-cookie-bite" style="color: #f59e0b;"></i> Soutenir le projet
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section À propos de moi & Philosophie IA -->
+    <section id="about" class="scroll-reveal" style="padding-top: 4rem; padding-bottom: 4rem; background: rgba(125,125,125,0.03);">
+        <div class="container">
+            <div class="section-label">// MON PARCOURS DEV</div>
+            <h2 class="section-title">À propos <span>de moi</span></h2>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2.5rem; align-items: center;">
+                <div style="text-align: center;">
+                    <img loading="lazy" decoding="async" src="images/Profile.jpg" alt="Aboua Junior Kouadjo" style="width: 100%; max-width: 260px; border-radius: var(--radius-md); border: 4px solid var(--bg-card); box-shadow: var(--shadow-card); margin: 0 auto;">
+                </div>
+                <div>
+                    <p style="font-size: 1.05rem; margin-bottom: 1rem; color: var(--text-main); line-height: 1.7;">
+                        Bonjour ! Je suis Aboua Junior Kouadjo, un créateur passionné par la conception d'applications qui répondent à des besoins réels.
+                    </p>
+                    
+                    <!-- Bloc philosophie de création avec IA -->
+                    <div style="background: rgba(139,92,246,0.08); border-left: 4px solid var(--accent-dev); padding: 1.5rem; border-radius: var(--radius-sm); margin-top: 1rem;">
+                        <h4 style="font-family: var(--font-heading); font-size: 1.1rem; color: var(--accent-dev); margin-bottom: 0.6rem;">
+                            <i class="fas fa-robot"></i> Approche & Philosophie de Création
+                        </h4>
+                        <p style="color: var(--text-main); font-size: 1.02rem; line-height: 1.7; font-style: italic; margin-bottom: 1.2rem;">
+                            « Je ne maîtrise aucun langage de programmation — au mieux, je sais en reconnaître un. Je compte apprendre Python, mais pour le reste, ma force réside dans ma capacité à exploiter au maximum l'intelligence artificielle pour concevoir, structurer et réaliser mes objectifs. »
+                        </p>
+                        
+                        <!-- Certification IA -->
+                        <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: 1rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap;">
+                            <div>
+                                <div style="font-size: 0.78rem; color: var(--accent-dev); font-weight: 700; text-transform: uppercase;">Certification IA</div>
+                                <h5 style="font-family: var(--font-heading); font-size: 0.98rem; margin: 0.2rem 0; color: var(--text-main);">Prompt Engineering for ChatGPT</h5>
+                                <span style="font-size: 0.82rem; color: var(--text-muted);">Great Learning Academy · Octobre 2024</span>
+                            </div>
+                            <button onclick="openCertModal('images/certificat-prompt-ia.png', 'Prompt Engineering for ChatGPT — Great Learning Academy')" class="btn btn-secondary" style="padding: 0.35rem 0.85rem; font-size: 0.82rem; color: var(--accent-dev);">
+                                <i class="fas fa-eye"></i> Voir le certificat
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================================================
+         DIMENSION MODALS (Expérience SPA Immersive Floutée)
+         ========================================================================== -->
+
+    <!-- MODAL 1A: Too — Galerie Carrousel 4:5 -->
+    <div class="dim-modal" id="dimModal-too-gallery">
+        <div class="dim-card">
+            <button class="dim-close" onclick="closeDimModal('dimModal-too-gallery')">&times;</button>
+            <div style="display: flex; align-items: center; gap: 0.8rem; margin-bottom: 1rem;">
+                <img loading="lazy" decoding="async" src="images/Too-Logo.png" alt="Logo Too" style="width: 42px; height: 42px; border-radius: 10px; object-fit: contain;">
+                <div>
+                    <h3 style="font-family: var(--font-heading); font-size: 1.3rem; margin: 0; color: var(--accent-dev);">Too — Galerie (4:5)</h3>
+                    <p style="font-size: 0.82rem; color: var(--text-muted); margin: 0;">Captures réelles de l'application mobile de couple</p>
+                </div>
+            </div>
+
+            <!-- Carrousel 4:5 -->
+            <div class="carousel-container-4-5" id="carousel-too">
+                <button class="carousel-nav-btn prev" onclick="moveCarousel('carousel-too', -1)"><i class="fas fa-chevron-left"></i></button>
+                <button class="carousel-nav-btn next" onclick="moveCarousel('carousel-too', 1)"><i class="fas fa-chevron-right"></i></button>
+                
+                <div class="carousel-track">
+                    <div class="carousel-slide">
+                        <img loading="lazy" decoding="async" src="images/Too-Capture 1.jpg" alt="Too Capture 1">
+                        <div class="carousel-slide-caption">1/3 · Écran d'accueil & sélection des modes de jeux en duo</div>
+                    </div>
+                    <div class="carousel-slide">
+                        <img loading="lazy" decoding="async" src="images/Too-Capture 2.jpg" alt="Too Capture 2">
+                        <div class="carousel-slide-caption">2/3 · Défis romantiques & gages personnalisés</div>
+                    </div>
+                    <div class="carousel-slide">
+                        <img loading="lazy" decoding="async" src="images/Too-Capture 3.jpg" alt="Too Capture 3">
+                        <div class="carousel-slide-caption">3/3 · Interface interactive & animations ludiques</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Points indicateurs -->
+            <div class="carousel-dots" id="dots-carousel-too">
+                <span class="carousel-dot active" onclick="setCarouselSlide('carousel-too', 0)"></span>
+                <span class="carousel-dot" onclick="setCarouselSlide('carousel-too', 1)"></span>
+                <span class="carousel-dot" onclick="setCarouselSlide('carousel-too', 2)"></span>
+            </div>
+
+            <div style="margin-top: 1.2rem; text-align: center;">
+                <a href="https://mega.nz/file/n7RGzLQB#aufvRIxvM5E7QMoDLh3O3Ln86oDTgVsNtLjBl3iL5KU" target="_blank" class="btn btn-primary" style="padding: 0.5rem 1.2rem; font-size: 0.88rem;">
+                    <i class="fas fa-download"></i> Télécharger l'APK Android (Too)
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 1B: Too — Technologie -->
+    <div class="dim-modal" id="dimModal-too-tech">
+        <div class="dim-card">
+            <button class="dim-close" onclick="closeDimModal('dimModal-too-tech')">&times;</button>
+            <div style="display: flex; align-items: center; gap: 0.8rem; margin-bottom: 1.2rem;">
+                <div style="width: 44px; height: 44px; border-radius: 10px; background: rgba(139,92,246,0.1); color: var(--accent-dev); display: flex; align-items: center; justify-content: center; font-size: 1.3rem;">
+                    <i class="fas fa-microchip"></i>
+                </div>
+                <div>
+                    <h3 style="font-family: var(--font-heading); font-size: 1.3rem; margin: 0; color: var(--accent-dev);">Too — Technologie</h3>
+                    <p style="font-size: 0.82rem; color: var(--text-muted); margin: 0;">Objectif du projet et justification des choix techniques</p>
+                </div>
+            </div>
+
+            <div style="font-size: 0.93rem; line-height: 1.7; color: var(--text-main);">
+                <div style="background: var(--bg-dark); border-left: 4px solid var(--accent-dev); padding: 1rem; border-radius: var(--radius-sm); margin-bottom: 1.2rem;">
+                    <h4 style="font-size: 1rem; color: var(--accent-dev); margin-bottom: 0.3rem;"><i class="fas fa-bullseye"></i> But Visé du Projet :</h4>
+                    <p style="margin: 0; color: var(--text-muted);">
+                        Créer une expérience mobile intime et sécurisée pour dynamiser les relations de couple. L'objectif était de concevoir une application fluide, chaleureuse et captivante sans complexité superflue, permettant à deux partenaires de lancer instantanément des défis interactifs.
+                    </p>
+                </div>
+
+                <h4 style="font-family: var(--font-heading); font-size: 1.05rem; margin: 1rem 0 0.5rem; color: var(--text-main);">
+                    Pourquoi ce Choix Technologique ?
+                </h4>
+                <ul class="skill-items" style="margin-bottom: 1.2rem;">
+                    <li><strong>Flutter & Dart</strong> : Sélectionnés pour le rendu graphique natif à 60 images/seconde, la réactivité des micro-animations et la capacité à déployer une base de code unique sur Android et iOS.</li>
+                    <li><strong>Architecture Firebase Serverless</strong> : Permet une synchronisation instantanée en temps réel des actions et scores entre les deux téléphones sans latence perceptible.</li>
+                    <li><strong>State Management & UI/UX</strong> : Design axé sur la confidentialité des utilisateurs, un thème sombre immersif et une ergonomie conçue pour être utilisée confortablement à une main.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 1C: Too — Soutenir le Projet -->
+    <div class="dim-modal" id="dimModal-too-support">
+        <div class="dim-card" style="text-align: center;">
+            <button class="dim-close" onclick="closeDimModal('dimModal-too-support')">&times;</button>
+            
+            <h3 style="font-family: var(--font-heading); font-size: 1.4rem; margin-bottom: 0.4rem; color: #f59e0b;">
+                Soutenir le Projet Too
+            </h3>
+            <p style="font-size: 0.95rem; color: var(--text-muted); max-width: 500px; margin: 0 auto 1.2rem auto; line-height: 1.6;">
+                Vous appréciez l'application Too et souhaitez encourager son développement ? Votre soutien contribue directement aux futures améliorations et aux nouveaux défis interactifs !
+            </p>
+
+            <!-- Cadre Unique Logo Paiement à Bords Arrondis -->
+            <div style="margin: 1.5rem auto; max-width: 320px; border-radius: var(--radius-md); overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.35); border: 1px solid var(--border-color); background: var(--bg-dark); padding: 0.6rem; display: flex; align-items: center; justify-content: center;">
+                <img loading="lazy" decoding="async" src="images/logo-paiement.png" alt="Moyens de Paiement Sécurisés" style="width: 100%; height: auto; object-fit: contain; border-radius: calc(var(--radius-md) - 4px); display: block;">
+            </div>
+
+            <!-- Bloc Paiement Wave -->
+            <div class="wave-card-box">
+                <div style="font-size: 0.82rem; text-transform: uppercase; font-weight: 700; color: var(--accent-cyber); letter-spacing: 0.05em; margin-bottom: 1.2rem;">
+                    Paiement & Don Direct via Wave
+                </div>
+
+                <a href="https://pay.wave.com/m/M_muNN3vOBhspi/c/ci/" target="_blank" class="btn btn-primary" style="background: linear-gradient(135deg, #1e3a8a, #06b6d4); color: #fff; border: none; font-weight: 700; padding: 0.85rem 2rem; border-radius: 30px; display: inline-flex; align-items: center; gap: 0.6rem; box-shadow: 0 4px 20px rgba(6, 182, 212, 0.35); text-decoration: none; font-size: 1rem;">
+                    <i class="fas fa-heart"></i> Faire un don via Wave &rarr;
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 2A: Contrix — Galerie (4:5) -->
+    <div class="dim-modal" id="dimModal-contrix-gallery">
+        <div class="dim-card">
+            <button class="dim-close" onclick="closeDimModal('dimModal-contrix-gallery')">&times;</button>
+            <div style="display: flex; align-items: center; gap: 0.8rem; margin-bottom: 1rem;">
+                <img loading="lazy" decoding="async" src="images/logo-contrix.png" alt="Logo Contrix" style="height: 38px; width: auto; object-fit: contain;">
+                <div>
+                    <h3 style="font-family: var(--font-heading); font-size: 1.3rem; margin: 0; color: var(--accent-dev);">Contrix — Galerie (4:5)</h3>
+                    <p style="font-size: 0.82rem; color: var(--text-muted); margin: 0;">Univers de jeu multijoueur local (Smartphones = Manettes)</p>
+                </div>
+            </div>
+
+            <!-- Carrousel 4:5 Contrix -->
+            <div class="carousel-container-4-5" id="carousel-contrix">
+                <button class="carousel-nav-btn prev" onclick="moveCarousel('carousel-contrix', -1)"><i class="fas fa-chevron-left"></i></button>
+                <button class="carousel-nav-btn next" onclick="moveCarousel('carousel-contrix', 1)"><i class="fas fa-chevron-right"></i></button>
+                
+                <div class="carousel-track">
+                    <div class="carousel-slide" style="background: radial-gradient(circle at center, rgba(139,92,246,0.25), #0a0a0f); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2rem;">
+                        <img loading="lazy" decoding="async" src="images/logo-contrix.png" alt="Logo Contrix" style="width: 75%; height: auto; object-fit: contain; filter: drop-shadow(0 10px 25px rgba(0,0,0,0.6));">
+                        <div class="carousel-slide-caption">1/3 · Logo officiel & identité visuelle du projet Contrix</div>
+                    </div>
+                    <div class="carousel-slide" style="background: linear-gradient(135deg, #090d16, #161b26); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 1.5rem; text-align: center; color: #fff;">
+                        <div style="font-size: 3rem; margin-bottom: 0.5rem;">🏐 ⚔️ 🎯</div>
+                        <h4 style="font-family: var(--font-heading); font-size: 1.2rem; color: var(--accent-cyber); margin-bottom: 0.5rem;">Mini-Jeux & Game Design</h4>
+                        <p style="font-size: 0.88rem; color: var(--text-muted); max-width: 280px; line-height: 1.6;">
+                            • Volleyball 2v2 avec gestion de physique<br>
+                            • Fighter2D avec combos tactiques<br>
+                            • Quiz Reflex culturel ivoirien
+                        </p>
+                        <div class="carousel-slide-caption">2/3 · Fiches & règles de Game Design élaborées</div>
+                    </div>
+                    <div class="carousel-slide" style="background: linear-gradient(135deg, #101726, #0b1120); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 1.5rem; text-align: center; color: #fff;">
+                        <div style="font-size: 3rem; margin-bottom: 0.5rem;">📱 ⇄ 💻</div>
+                        <h4 style="font-family: var(--font-heading); font-size: 1.2rem; color: var(--accent-dev); margin-bottom: 0.5rem;">Architecture Réseau</h4>
+                        <p style="font-size: 0.88rem; color: var(--text-muted); max-width: 280px; line-height: 1.6;">
+                            Le smartphone scanne le QR code affiché sur l'écran du PC et devient instantanément un gamepad tactile via WebSockets locaux.
+                        </p>
+                        <div class="carousel-slide-caption">3/3 · Synchronisation en temps réel sans latence</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Points indicateurs -->
+            <div class="carousel-dots" id="dots-carousel-contrix">
+                <span class="carousel-dot active" onclick="setCarouselSlide('carousel-contrix', 0)"></span>
+                <span class="carousel-dot" onclick="setCarouselSlide('carousel-contrix', 1)"></span>
+                <span class="carousel-dot" onclick="setCarouselSlide('carousel-contrix', 2)"></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 2B: Contrix — Technologie -->
+    <div class="dim-modal" id="dimModal-contrix-tech">
+        <div class="dim-card">
+            <button class="dim-close" onclick="closeDimModal('dimModal-contrix-tech')">&times;</button>
+            <div style="display: flex; align-items: center; gap: 0.8rem; margin-bottom: 1.2rem;">
+                <div style="width: 44px; height: 44px; border-radius: 10px; background: rgba(139,92,246,0.1); color: var(--accent-dev); display: flex; align-items: center; justify-content: center; font-size: 1.3rem;">
+                    <i class="fas fa-gamepad"></i>
+                </div>
+                <div>
+                    <h3 style="font-family: var(--font-heading); font-size: 1.3rem; margin: 0; color: var(--accent-dev);">Contrix — Technologie</h3>
+                    <p style="font-size: 0.82rem; color: var(--text-muted); margin: 0;">Objectif du jeu multijoueur et choix technologiques</p>
+                </div>
+            </div>
+
+            <div style="font-size: 0.93rem; line-height: 1.7; color: var(--text-main);">
+                <div style="background: var(--bg-dark); border-left: 4px solid var(--accent-dev); padding: 1rem; border-radius: var(--radius-sm); margin-bottom: 1.2rem;">
+                    <h4 style="font-size: 1rem; color: var(--accent-dev); margin-bottom: 0.3rem;"><i class="fas fa-bullseye"></i> But Visé du Projet :</h4>
+                    <p style="margin: 0; color: var(--text-muted);">
+                        Permettre à un groupe d'amis ou à une famille de jouer ensemble instantanément sur un même écran d'ordinateur sans devoir acheter de manettes dédiées coûteuses. Chaque joueur utilise simplement son smartphone personnel connecté au même réseau Wi-Fi local.
+                    </p>
+                </div>
+
+                <h4 style="font-family: var(--font-heading); font-size: 1.05rem; margin: 1rem 0 0.5rem; color: var(--text-main);">
+                    Pourquoi ce Choix Technologique ?
+                </h4>
+                <ul class="skill-items" style="margin-bottom: 1.2rem;">
+                    <li><strong>Python & Pygame</strong> : Offre un contrôle total sur la boucle de jeu (*game loop*), la détection des collisions 2D et un rendu ultra-léger capable de tourner sur n'importe quel ordinateur portable même modeste.</li>
+                    <li><strong>WebSockets Locaux</strong> : Transmission bidirectionnelle ultra-rapide des inputs tactiles (*joystick virtuel, boutons d'action*) avec une latence quasi-nulle (< 10 ms).</li>
+                    <li><strong>Mode 100% Offline Africain</strong> : Fonctionne intégralement sur un point d'accès Wi-Fi local sans consommer de data mobile ni nécessiter de connexion Internet externe.</li>
+                    <li><strong>Protection Anti-Piratage</strong> : Intégration d'un système de clé de licence pour sécuriser la distribution du jeu.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 2C: Contrix — Soutenir le Projet -->
+    <div class="dim-modal" id="dimModal-contrix-support">
+        <div class="dim-card" style="text-align: center;">
+            <button class="dim-close" onclick="closeDimModal('dimModal-contrix-support')">&times;</button>
+            
+            <h3 style="font-family: var(--font-heading); font-size: 1.4rem; margin-bottom: 0.4rem; color: #f59e0b;">
+                Soutenir le Jeu Contrix
+            </h3>
+            <p style="font-size: 0.95rem; color: var(--text-muted); max-width: 500px; margin: 0 auto 1.2rem auto; line-height: 1.6;">
+                Contrix est un projet de jeu vidéo 100% indépendant conçu pour le divertissement local. Votre soutien accélère directement le prototypage et l'ajout des prochains mini-jeux !
+            </p>
+
+            <!-- Cadre Unique Logo Paiement à Bords Arrondis -->
+            <div style="margin: 1.5rem auto; max-width: 320px; border-radius: var(--radius-md); overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.35); border: 1px solid var(--border-color); background: var(--bg-dark); padding: 0.6rem; display: flex; align-items: center; justify-content: center;">
+                <img loading="lazy" decoding="async" src="images/logo-paiement.png" alt="Moyens de Paiement Sécurisés" style="width: 100%; height: auto; object-fit: contain; border-radius: calc(var(--radius-md) - 4px); display: block;">
+            </div>
+
+            <!-- Bloc Paiement Wave -->
+            <div class="wave-card-box">
+                <div style="font-size: 0.82rem; text-transform: uppercase; font-weight: 700; color: var(--accent-cyber); letter-spacing: 0.05em; margin-bottom: 1.2rem;">
+                    Don d'Encouragement via Wave
+                </div>
+
+                <a href="https://pay.wave.com/m/M_muNN3vOBhspi/c/ci/" target="_blank" class="btn btn-primary" style="background: linear-gradient(135deg, #1e3a8a, #06b6d4); color: #fff; border: none; font-weight: 700; padding: 0.85rem 2rem; border-radius: 30px; display: inline-flex; align-items: center; gap: 0.6rem; box-shadow: 0 4px 20px rgba(6, 182, 212, 0.35); text-decoration: none; font-size: 1rem;">
+                    <i class="fas fa-heart"></i> Faire un don via Wave &rarr;
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Visualiseur de Certificat Protégé -->
+    <div class="modal" id="certModal" oncontextmenu="return false;">
+        <div class="modal-content" style="max-width: 900px; width: 95%; padding: 1.5rem; text-align: center;">
+            <button class="modal-close" onclick="closeCertModal()">&times;</button>
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1rem; padding-right: 2rem; flex-wrap: wrap;">
+                <h3 id="certModalTitle" style="font-family: var(--font-heading); font-size: 1.15rem; color: var(--accent-dev); margin: 0; text-align: left;">
+                    Document Officiel
+                </h3>
+                <div style="display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.78rem; color: var(--accent-green); background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.25); padding: 0.25rem 0.65rem; border-radius: 20px;">
+                    <i class="fas fa-shield-halved"></i> Vue Sécurisée (Téléchargement désactivé)
+                </div>
+            </div>
+            <div style="position: relative; display: inline-block; max-width: 100%; border-radius: var(--radius-sm); overflow: hidden; background: #000; box-shadow: 0 10px 40px rgba(0,0,0,0.6);" oncontextmenu="return false;">
+                <div class="cert-overlay-guard" oncontextmenu="return false;"></div>
+                <img loading="lazy" decoding="async" id="certModalImg" src="" alt="Certificat Officiel" class="protected-cert-img" draggable="false" oncontextmenu="return false;">
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <!-- Barre Inférieure Unique & Centrée -->
+            <div class="footer-bottom">
+                <a href="admin.html">© 2026 <strong>Aboua Junior KOUADJO</strong>, All rights reserved</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="domains.js"></script>
+    <script src="main.js"></script>
+    <script>
+        // Dimension Modal System
+        function openDimModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeDimModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        }
+
+        // Close Dimension modals on backdrop click
+        window.addEventListener('click', (e) => {
+            if (e.target.classList.contains('dim-modal')) {
+                e.target.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+            const certModal = document.getElementById('certModal');
+            if (e.target === certModal) closeCertModal();
+        });
+
+        // Close on Escape key
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.dim-modal.active').forEach(m => {
+                    m.classList.remove('active');
+                });
+                document.body.style.overflow = '';
+                closeCertModal();
+            }
+        });
+
+        // Carousel 4:5 Logic
+        const carouselStates = {};
+
+        function moveCarousel(carouselId, direction) {
+            const carousel = document.getElementById(carouselId);
+            if (!carousel) return;
+            const track = carousel.querySelector('.carousel-track');
+            const slides = carousel.querySelectorAll('.carousel-slide');
+            const total = slides.length;
+
+            if (!carouselStates[carouselId]) carouselStates[carouselId] = 0;
+            carouselStates[carouselId] = (carouselStates[carouselId] + direction + total) % total;
+
+            updateCarouselView(carouselId, carouselStates[carouselId]);
+        }
+
+        function setCarouselSlide(carouselId, index) {
+            carouselStates[carouselId] = index;
+            updateCarouselView(carouselId, index);
+        }
+
+        function updateCarouselView(carouselId, index) {
+            const carousel = document.getElementById(carouselId);
+            if (!carousel) return;
+            const track = carousel.querySelector('.carousel-track');
+            track.style.transform = `translateX(-${index * 100}%)`;
+
+            // Update dots
+            const dotsContainer = document.getElementById('dots-' + carouselId);
+            if (dotsContainer) {
+                const dots = dotsContainer.querySelectorAll('.carousel-dot');
+                dots.forEach((d, idx) => {
+                    if (idx === index) d.classList.add('active');
+                    else d.classList.remove('active');
+                });
+            }
+        }
+
+        // Copy Wave Number Helper
+        function copyWaveNumber(num) {
+            navigator.clipboard.writeText(num).then(() => {
+                alert('Numéro Wave copié : ' + num);
+            }).catch(() => {
+                prompt('Copiez le numéro Wave :', num);
+            });
+        }
+
+        // Certificate modal functions
+        function openCertModal(imageSrc, title) {
+            const modal = document.getElementById('certModal');
+            const modalImg = document.getElementById('certModalImg');
+            const modalTitle = document.getElementById('certModalTitle');
+            if (modal && modalImg && modalTitle) {
+                modalImg.src = imageSrc;
+                modalTitle.textContent = title;
+                modal.classList.add('active');
+            }
+        }
+
+        function closeCertModal() {
+            const modal = document.getElementById('certModal');
+            if (modal) modal.classList.remove('active');
+        }
+
+        document.addEventListener('contextmenu', (e) => {
+            if (e.target.closest('#certModal') || e.target.classList.contains('protected-cert-img') || e.target.classList.contains('cert-overlay-guard')) {
+                e.preventDefault();
+                return false;
+            }
+        });
+    </script>
+</body>
+</html>

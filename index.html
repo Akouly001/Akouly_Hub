@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Akouly Ecosystem — Accueil</title>
+    <meta name="description" content="Écosystème Numérique & Plateforme d'Activités d'Aboua Junior KOUADJO — Cybersécurité, Gaming, Apps, Business, DIY.">
+    <link rel="icon" type="image/png" href="images/logo-monogram-1.png">
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* ── Hero Accueil ──────────────────────────────────────────── */
+        .home-hero {
+            position: relative;
+            min-height: 88vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            overflow: hidden;
+            padding: 4rem 12px 2.5rem;
+        }
+        .home-hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(6,182,212,.15) 0%, transparent 70%),
+                        radial-gradient(ellipse 60% 40% at 80% 80%, rgba(139,92,246,.10) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+        .home-hero > * { position: relative; z-index: 1; }
+
+        .hero-logo {
+            height: 90px;
+            width: auto;
+            filter: drop-shadow(0 8px 24px rgba(0,0,0,.6));
+            margin-bottom: 1.5rem;
+            transition: transform .3s ease;
+        }
+        .hero-logo:hover { transform: scale(1.05); }
+
+        .hero-eyebrow {
+            font-family: var(--font-code);
+            font-size: .85rem;
+            color: var(--text-muted);
+            letter-spacing: .08em;
+            margin-bottom: 0.8rem;
+        }
+        .hero-h1 {
+            font-family: var(--font-heading);
+            font-size: clamp(2rem, 5vw, 3.4rem);
+            font-weight: 800;
+            line-height: 1.15;
+            letter-spacing: -.03em;
+            margin-bottom: 1.2rem;
+            color: var(--text-main);
+        }
+        .hero-h1 .g {
+            background: linear-gradient(135deg, #f9fafb 0%, #9ca3af 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        [data-theme="light"] .hero-h1 .g {
+            background: linear-gradient(135deg, #111827 0%, #4b5563 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero-sub {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            max-width: 680px;
+            margin: 0 auto 2.2rem;
+            line-height: 1.7;
+        }
+        .hero-cta-row {
+            display: flex;
+            gap: 0.8rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 2.5rem;
+        }
+        .scroll-hint {
+            position: absolute;
+            bottom: 1.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--text-dim);
+            font-size: .8rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: .3rem;
+            animation: bounce 2s infinite;
+        }
+        @keyframes bounce {
+            0%,100% { transform: translateX(-50%) translateY(0); }
+            50%      { transform: translateX(-50%) translateY(6px); }
+        }
+
+        /* ── 5 Univers Grid ───────────────────────────────────────── */
+        .univers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+            gap: 1.2rem;
+        }
+        .univers-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 2rem 1.4rem;
+            text-align: center;
+            text-decoration: none;
+            color: var(--text-main);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: .7rem;
+        }
+        .univers-card:hover {
+            transform: translateY(-5px) scale(1.03);
+            box-shadow: var(--shadow-card);
+        }
+        .univers-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: .2rem;
+            transition: var(--transition);
+        }
+        .univers-card:hover .univers-icon { transform: scale(1.1); }
+        .univers-name {
+            font-family: var(--font-heading);
+            font-size: 1.08rem;
+            font-weight: 700;
+        }
+        .univers-desc {
+            font-size: .83rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        /* ── Contrix Banner ───────────────────────────────────────── */
+        .contrix-banner {
+            background: linear-gradient(135deg, rgba(16,185,129,.1), rgba(6,182,212,.08));
+            border: 1.5px solid #10b981;
+            border-radius: var(--radius-lg);
+            padding: 2.2rem;
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .contrix-icon-box {
+            width: 76px;
+            height: 76px;
+            border-radius: 20px;
+            background: rgba(16,185,129,.12);
+            border: 1.5px solid #10b981;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.2rem;
+            color: #10b981;
+            flex-shrink: 0;
+            box-shadow: 0 0 20px rgba(16,185,129,.25);
+        }
+        .contrix-body { flex: 1; min-width: 240px; }
+        .contrix-label {
+            font-family: var(--font-code);
+            font-size: .78rem;
+            color: #10b981;
+            font-weight: 700;
+            letter-spacing: .06em;
+            margin-bottom: .4rem;
+        }
+        .contrix-title {
+            font-family: var(--font-heading);
+            font-size: 1.55rem;
+            font-weight: 800;
+            margin-bottom: .6rem;
+        }
+        .contrix-desc {
+            color: var(--text-muted);
+            font-size: .95rem;
+            line-height: 1.7;
+            margin-bottom: 1.2rem;
+        }
+        .contrix-actions { display: flex; gap: .8rem; flex-wrap: wrap; }
+
+        /* ── Profil Card ──────────────────────────────────────────── */
+        .profil-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 2.2rem;
+            display: flex;
+            gap: 2rem;
+            align-items: flex-start;
+            flex-wrap: wrap;
+        }
+        .profil-avatar-placeholder {
+            width: 76px;
+            height: 76px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-cyber), var(--accent-dev));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.9rem;
+            color: #fff;
+            flex-shrink: 0;
+        }
+        .profil-body { flex: 1; min-width: 240px; }
+        .profil-name {
+            font-family: var(--font-heading);
+            font-size: 1.45rem;
+            font-weight: 800;
+            margin-bottom: .3rem;
+        }
+        .profil-subtitle {
+            color: var(--accent-cyber);
+            font-size: .88rem;
+            font-weight: 600;
+            margin-bottom: 0.9rem;
+        }
+        .profil-bio {
+            color: var(--text-muted);
+            font-size: .95rem;
+            line-height: 1.7;
+            margin-bottom: 1.2rem;
+        }
+        .profil-tags { display: flex; flex-wrap: wrap; gap: .45rem; margin-bottom: 1.4rem; }
+        .profil-tag {
+            font-size: .75rem;
+            padding: .25rem .7rem;
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+            font-family: var(--font-code);
+        }
+        .profil-actions { display: flex; gap: .8rem; flex-wrap: wrap; }
+
+        /* ── Actions Rapides ─────────────────────────────────────── */
+        .actions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.2rem;
+        }
+        .action-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 1.6rem;
+            text-decoration: none;
+            color: var(--text-main);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            gap: .6rem;
+        }
+        .action-card:hover {
+            transform: translateY(-4px) scale(1.03);
+            border-color: var(--accent-cyber);
+            box-shadow: var(--shadow-card);
+        }
+        .action-card-icon { font-size: 1.6rem; }
+        .action-card-title {
+            font-family: var(--font-heading);
+            font-size: 1.05rem;
+            font-weight: 700;
+        }
+        .action-card-desc { font-size: .875rem; color: var(--text-muted); }
+        .action-card-arrow {
+            margin-top: auto;
+            font-size: .8rem;
+            color: var(--accent-cyber);
+            font-weight: 600;
+        }
+
+        /* ── MOTEUR DE PASTILLES CSS (BOKEH HAUTE PERFORMANCE 60 FPS) ──────────────── */
+        .css-particles-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 1;
+            contain: strict;
+        }
+
+        .pastille {
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+            will-change: transform;
+            transform: translateZ(0);
+            animation: floatUp linear infinite;
+        }
+
+        /* Orbes Lumineux Optimisés (Dégradés Radiaux Purs sans Box-Shadow GPU-Lourd) */
+        .p-cyan {
+            background: radial-gradient(circle, rgba(6, 182, 212, 0.85) 0%, rgba(6, 182, 212, 0.35) 45%, rgba(6, 182, 212, 0) 72%);
+        }
+        .p-purple {
+            background: radial-gradient(circle, rgba(168, 85, 247, 0.85) 0%, rgba(139, 92, 246, 0.35) 45%, rgba(139, 92, 246, 0) 72%);
+        }
+        .p-green {
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.85) 0%, rgba(16, 185, 129, 0.35) 45%, rgba(16, 185, 129, 0) 72%);
+        }
+        .p-pink {
+            background: radial-gradient(circle, rgba(236, 72, 153, 0.85) 0%, rgba(236, 72, 153, 0.35) 45%, rgba(236, 72, 153, 0) 72%);
+        }
+        .p-amber {
+            background: radial-gradient(circle, rgba(245, 158, 11, 0.85) 0%, rgba(245, 158, 11, 0.35) 45%, rgba(245, 158, 11, 0) 72%);
+        }
+
+        /* 3 Niveaux de Profondeur Fluides */
+        .blur-none { opacity: 0.85; }
+        .blur-sm   { opacity: 0.65; }
+        .blur-md   { opacity: 0.45; }
+
+        @keyframes floatUp {
+            0% {
+                transform: translate3d(0, 105vh, 0) scale(0.85);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.9;
+            }
+            90% {
+                opacity: 0.9;
+            }
+            100% {
+                transform: translate3d(25px, -15vh, 0) scale(1.1);
+                opacity: 0;
+            }
+        }
+
+        @keyframes floatDrift {
+            0% {
+                transform: translate3d(0, 105vh, 0) scale(0.9);
+                opacity: 0;
+            }
+            15% {
+                opacity: 0.85;
+            }
+            85% {
+                opacity: 0.85;
+            }
+            100% {
+                transform: translate3d(-35px, -15vh, 0) scale(1.05);
+                opacity: 0;
+            }
+        }
+
+        /* ── Animated Waves Background (Accélération Matérielle) ── */
+        .waves-section {
+            position: relative;
+            width: 100%;
+            height: 180px;
+            overflow: hidden;
+            margin-top: 1rem;
+            margin-bottom: -1px;
+            z-index: 3;
+            contain: layout paint;
+        }
+
+        .air {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: url('images/wave.png');
+            background-repeat: repeat-x;
+            will-change: background-position;
+            transform: translateZ(0);
+        }
+        .air.air1 {
+            animation: wave 30s linear infinite;
+            z-index: 1000;
+            opacity: 0.95;
+            animation-delay: 0s;
+            bottom: 0;
+            height: 110px;
+            background-size: 1280px 110px;
+        }
+        .air.air2 {
+            animation: wave2 18s linear infinite;
+            z-index: 999;
+            opacity: 0.65;
+            animation-delay: -5s;
+            bottom: 0;
+            height: 125px;
+            background-size: 1280px 125px;
+        }
+        .air.air3 {
+            animation: wave 24s linear infinite;
+            z-index: 998;
+            opacity: 0.40;
+            animation-delay: -2s;
+            bottom: 0;
+            height: 140px;
+            background-size: 1280px 140px;
+        }
+        .air.air4 {
+            animation: wave2 8s linear infinite;
+            z-index: 997;
+            opacity: 0.25;
+            animation-delay: -5s;
+            bottom: 0;
+            height: 155px;
+            background-size: 1280px 155px;
+        }
+        @keyframes wave {
+            0% { background-position-x: 0px; }
+            100% { background-position-x: 1280px; }
+        }
+        @keyframes wave2 {
+            0% { background-position-x: 0px; }
+            100% { background-position-x: -1280px; }
+        }
+
+        /* Coloration fluide des vagues selon le thème */
+        [data-theme="dark"] .air,
+        .air {
+            filter: brightness(0);
+        }
+        [data-theme="light"] .air {
+            filter: brightness(1) drop-shadow(0 -3px 8px rgba(0, 0, 0, 0.04));
+        }
+        [data-theme="light"] .air.air1 { opacity: 1; }
+        [data-theme="light"] .air.air2 { opacity: 0.70; }
+        [data-theme="light"] .air.air3 { opacity: 0.45; }
+        [data-theme="light"] .air.air4 { opacity: 0.25; }
+
+        /* ── Footer Accueil ──────────────────────────────────────── */
+        .home-footer {
+            background: var(--bg-card);
+            border-top: 1px solid var(--border-color);
+            padding: 3rem 0 1.5rem;
+            margin-top: 0;
+            position: relative;
+            z-index: 4;
+        }
+
+        @media (max-width: 640px) {
+            .home-hero { min-height: 80vh; padding: 3rem 12px 2rem; }
+            .hero-logo { height: 75px; }
+            .contrix-banner { flex-direction: column; }
+            .profil-card { flex-direction: column; }
+            .waves-section { height: 140px; }
+            .air { height: 100px; }
+        }
+    </style>
+<body data-page="home">
+    <!-- ÉCRAN DE CHARGEMENT CIRCULAIRE (PRELOADER) -->
+    <div id="page-preloader" class="preloader-overlay" aria-hidden="true">
+        <div class="loader loader-home"></div>
+    </div>
+
+
+    
+
+    <!-- CONTENEUR DES PASTILLES CSS (BOKEH HAUTE PERFORMANCE 60 FPS) -->
+    <div class="css-particles-container" aria-hidden="true">
+        <div class="pastille p-cyan blur-none" style="width: 18px; height: 18px; left: 10vw; animation-duration: 20s; animation-delay: -2s;"></div>
+        <div class="pastille p-purple blur-sm" style="width: 32px; height: 32px; left: 26vw; animation-duration: 25s; animation-delay: -7s; animation-name: floatDrift;"></div>
+        <div class="pastille p-green blur-none" style="width: 16px; height: 16px; left: 45vw; animation-duration: 18s; animation-delay: -11s;"></div>
+        <div class="pastille p-pink blur-md" style="width: 54px; height: 54px; left: 65vw; animation-duration: 30s; animation-delay: -4s; animation-name: floatDrift;"></div>
+        <div class="pastille p-amber blur-none" style="width: 20px; height: 20px; left: 85vw; animation-duration: 22s; animation-delay: -14s;"></div>
+        <div class="pastille p-cyan blur-md" style="width: 60px; height: 60px; left: 6vw; animation-duration: 32s; animation-delay: -8s; animation-name: floatDrift;"></div>
+        <div class="pastille p-purple blur-none" style="width: 22px; height: 22px; left: 52vw; animation-duration: 24s; animation-delay: -15s;"></div>
+        <div class="pastille p-green blur-sm" style="width: 36px; height: 36px; left: 74vw; animation-duration: 28s; animation-delay: -9s; animation-name: floatDrift;"></div>
+        <div class="pastille p-amber blur-sm" style="width: 30px; height: 30px; left: 36vw; animation-duration: 26s; animation-delay: -18s; animation-name: floatDrift;"></div>
+        <div class="pastille p-pink blur-none" style="width: 15px; height: 15px; left: 93vw; animation-duration: 21s; animation-delay: -3s;"></div>
+    </div>
+
+    <div id="cursor-glow"></div>
+
+    <!-- Header / Navbar -->
+    <header class="header">
+        <div class="container nav-wrapper">
+            <a href="index.html" class="brand-logo" title="Accueil Akouly">
+                <img loading="eager" decoding="async" src="images/logo-dark.png" alt="Akouly Logo" class="logo-img">
+            </a>
+            <nav>
+                <ul class="nav-links" id="navLinks">
+                    <li class="mobile-only-link"><a href="index.html" class="nav-link active"><i class="fas fa-home"></i> Accueil</a></li>
+                    <li><a href="cyber.html" class="nav-link"><i class="fas fa-shield-halved"></i> Cybersécurité</a></li>
+                    <li><a href="gaming.html" class="nav-link"><i class="fas fa-gamepad"></i> Gaming</a></li>
+                    <li><a href="apps.html" class="nav-link"><i class="fas fa-code"></i> Apps & Dev</a></li>
+                    <li><a href="business.html" class="nav-link"><i class="fas fa-briefcase"></i> Business</a></li>
+                    <li><a href="lab.html" class="nav-link"><i class="fas fa-scissors"></i> DIY</a></li>
+                </ul>
+            </nav>
+            <div class="nav-actions">
+                <button class="theme-toggle-btn" id="themeToggleBtn" title="Thème Clair / Sombre">
+                    <i class="fas fa-sun" style="color: #f59e0b;"></i>
+                </button>
+                <button class="menu-toggle" id="menuToggle" aria-label="Menu" aria-expanded="false">
+                    <span class="bar bar-1"></span>
+                    <span class="bar bar-2"></span>
+                    <span class="bar bar-3"></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="home-hero">
+        <img loading="eager" decoding="async" src="images/logo-dark.png" alt="Akouly" class="hero-logo">
+        <div class="hero-eyebrow">// Aboua Junior KOUADJO · Abidjan, Côte d'Ivoire</div>
+        <h1 class="hero-h1">
+            Écosystème Numérique<br>
+            <span class="g">& Plateforme d'Activités</span>
+        </h1>
+        <p class="hero-sub">
+            Analyste Cybersécurité · Créateur assisté par l'IA · Passionné de Gaming & Hardware —
+            5 univers thématiques réunis en un seul espace.
+        </p>
+        <div class="hero-cta-row">
+            <a href="#univers" class="btn btn-primary"><i class="fas fa-compass"></i> Explorer les univers</a>
+            <a href="business.html#devis" class="btn btn-secondary"><i class="fas fa-file-invoice"></i> Demander un devis</a>
+        </div>
+        <div class="scroll-hint">
+            <i class="fas fa-chevron-down"></i>
+            <span>Défiler</span>
+        </div>
+    </section>
+
+    <!-- 5 Univers -->
+    <section id="univers" class="container scroll-reveal" style="padding-top: 4rem; padding-bottom: 4rem;">
+        <div class="section-label">// 5 UNIVERS THÉMATIQUES</div>
+        <h2 class="section-title">L'Écosystème <span>Akouly</span></h2>
+        <div class="univers-grid">
+            <a href="cyber.html" class="univers-card" style="border-top: 3px solid var(--accent-cyber);">
+                <div class="univers-icon" style="background:rgba(6,182,212,.12);color:var(--accent-cyber);">
+                    <i class="fas fa-shield-halved"></i>
+                </div>
+                <div class="univers-name">Cybersécurité</div>
+                <div class="univers-desc">Analyste WeCode 2026, Pentest PTES, Suricata IDS/IPS, NIST CSF 2.0, EBIOS RM.</div>
+            </a>
+            <a href="gaming.html" class="univers-card" style="border-top: 3px solid var(--accent-gaming);">
+                <div class="univers-icon" style="background:rgba(16,185,129,.12);color:var(--accent-gaming);">
+                    <i class="fas fa-gamepad"></i>
+                </div>
+                <div class="univers-name">Gaming</div>
+                <div class="univers-desc">Montage PC sur-mesure, configurateur, composants, optimisation & reviews hardware.</div>
+            </a>
+            <a href="apps.html" class="univers-card" style="border-top: 3px solid var(--accent-dev);">
+                <div class="univers-icon" style="background:rgba(139,92,246,.12);color:var(--accent-dev);">
+                    <i class="fas fa-code"></i>
+                </div>
+                <div class="univers-name">Apps & Dev</div>
+                <div class="univers-desc">Jeu Contrix, app Too, Vivi IA (en cours), automatisation et création par l'IA.</div>
+            </a>
+            <a href="business.html" class="univers-card" style="border-top: 3px solid var(--accent-biz);">
+                <div class="univers-icon" style="background:rgba(239,68,68,.12);color:var(--accent-biz);">
+                    <i class="fas fa-briefcase"></i>
+                </div>
+                <div class="univers-name">Business</div>
+                <div class="univers-desc">Maintenance informatique, sourcing de composants, création graphique & devis.</div>
+            </a>
+            <a href="lab.html" class="univers-card" style="border-top: 3px solid var(--accent-lab);">
+                <div class="univers-icon" style="background:rgba(249,115,22,.12);color:var(--accent-lab);">
+                    <i class="fas fa-scissors"></i>
+                </div>
+                <div class="univers-name">DIY & Créations</div>
+                <div class="univers-desc">Origami, modélisation 3D, photographie mobile, workspace ergonomique & expérimentations.</div>
+            </a>
+        </div>
+    </section>
+
+    <!-- Projet à la Une : Contrix -->
+    <section class="container scroll-reveal" style="padding-bottom: 4rem;">
+        <div class="section-label">// PROJET À LA UNE</div>
+        <div class="contrix-banner">
+            <div class="contrix-icon-box">
+                <i class="fas fa-gamepad"></i>
+            </div>
+            <div class="contrix-body">
+                <div class="contrix-label">★ PROJET PHARE · GAME DESIGN</div>
+                <div class="contrix-title">🎮 Contrix — Jeu Multijoueur Local</div>
+                <p class="contrix-desc">
+                    Les smartphones des joueurs deviennent des manettes connectées en temps réel à un écran PC via WebSockets.
+                    Mode offline africain, quiz culturel Côte d'Ivoire, système anti-piratage. Développé avec Pygame & Python.
+                </p>
+                <div class="contrix-actions">
+                    <a href="apps.html" class="btn btn-primary" style="background:var(--accent-dev);"><i class="fas fa-gamepad"></i> Découvrir Contrix dans Apps & Dev</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Profil / À Propos -->
+    <section id="profil" class="container scroll-reveal" style="padding-bottom: 4rem;">
+        <div class="section-label">// QUI SUIS-JE ?</div>
+        <div class="profil-card">
+            <div class="profil-avatar-placeholder">
+                <i class="fas fa-user"></i>
+            </div>
+            <div class="profil-body">
+                <div class="profil-name">Aboua Junior KOUADJO</div>
+                <div class="profil-subtitle">Analyste Cybersécurité · Master 1 Droit Privé · Créateur IA</div>
+                <p class="profil-bio">
+                    Mon profil combine la rigueur d'analyse juridique et la maîtrise technique de la cybersécurité.
+                    Qu'il s'agisse d'audits NIST CSF 2.0, de tests d'intrusion PTES, de conception d'applications
+                    ou de maintenance IT — chaque projet est exécuté avec précision et stratégie.
+                </p>
+                <div class="profil-tags">
+                    <span class="profil-tag">WeCode 2026</span>
+                    <span class="profil-tag">Master 1 Droit Privé · UFHB</span>
+                    <span class="profil-tag">Pentest PTES</span>
+                    <span class="profil-tag">NIST CSF 2.0</span>
+                    <span class="profil-tag">Abidjan · Côte d'Ivoire</span>
+                </div>
+                <div class="profil-actions">
+                    <a href="cyber.html" class="btn btn-primary"><i class="fas fa-shield-halved"></i> Profil Cybersécurité</a>
+                    <a href="mailto:kouadjoabouajunior@gmail.com" class="btn btn-secondary"><i class="fas fa-envelope"></i> Me contacter</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Actions Rapides -->
+    <section class="container scroll-reveal" style="padding-bottom: 2rem;">
+        <div class="section-label">// ACCÈS DIRECT</div>
+        <h2 class="section-title">Actions <span>Rapides</span></h2>
+        <div class="actions-grid">
+            <a href="business.html#devis" class="action-card" style="border-left:3px solid var(--accent-biz);">
+                <div class="action-card-icon" style="color:var(--accent-biz);">💼</div>
+                <div class="action-card-title">Demander un Devis</div>
+                <div class="action-card-desc">Maintenance PC, montage sur-mesure, sourcing de composants ou création graphique.</div>
+                <div class="action-card-arrow">Demander →</div>
+            </a>
+            <a href="cyber.html#certifications" class="action-card" style="border-left:3px solid var(--accent-cyber);">
+                <div class="action-card-icon" style="color:var(--accent-cyber);">🛡️</div>
+                <div class="action-card-title">Toutes les Certifications (13)</div>
+                <div class="action-card-desc">Google Cyber, We.Code, XSec, Cisco, EBIOS RM, D-CLIC OIF, Prompt IA, Photo & Bénévolat.</div>
+                <div class="action-card-arrow">Consulter la galerie →</div>
+            </a>
+            <a href="apps.html" class="action-card" style="border-left:3px solid var(--accent-dev);">
+                <div class="action-card-icon" style="color:var(--accent-dev);">📱</div>
+                <div class="action-card-title">Tester les Apps</div>
+                <div class="action-card-desc">APK de l'application Too, prototypes IA et projets en développement actif.</div>
+                <div class="action-card-arrow">Explorer →</div>
+            </a>
+        </div>
+    </section>
+
+    <!-- Animated Waves Background Transition (Plein Affichage Sans Coupure) -->
+    <div class="waves-section">
+        <div class="air air1"></div>
+        <div class="air air2"></div>
+        <div class="air air3"></div>
+        <div class="air air4"></div>
+    </div>
+
+    <!-- 2. NOUVEAU FOOTER SOUS LES VAGUES -->
+    <footer class="new-footer">
+        <div class="container">
+            
+            <!-- En-tête de la section Passions -->
+            <div class="interests-header">
+                <h2 class="interests-title">Mes Centres <span>d'Intérêt</span></h2>
+            </div>
+
+            <!-- Grille des 7 Centres d'Intérêt (Alec Tear Lettering Canvas) -->
+            <div class="interests-grid">
+
+                <!-- ── RANGÉE 1 : JEUX VIDÉOS (11 lettres - span 16) & MOTO (4 lettres - span 8) ── -->
+
+                <!-- 1. JEUX VIDÉOS -->
+                <div class="interest-card card-span-16" 
+                     data-interest="gaming" 
+                     data-text="JEUX VIDÉOS" 
+                     style="--card-accent: #10b981; --card-glow: rgba(16, 185, 129, 0.28);">
+                    <div class="card-ambient-glow"></div>
+                    <canvas class="interest-canvas" id="canvas-gaming"></canvas>
+                    <div class="card-header-row">
+                        <div class="card-icon-pill"><i class="fas fa-gamepad"></i></div>
+                    </div>
+                    <div class="card-content">
+                        <p class="card-desc">Minecraft is the best</p>
+                    </div>
+                </div>
+
+                <!-- 2. MOTO -->
+                <div class="interest-card card-span-8" 
+                     data-interest="moto" 
+                     data-text="MOTO" 
+                     style="--card-accent: #ef4444; --card-glow: rgba(239, 68, 68, 0.28);">
+                    <div class="card-ambient-glow"></div>
+                    <canvas class="interest-canvas" id="canvas-moto"></canvas>
+                    <div class="card-header-row">
+                        <div class="card-icon-pill"><i class="fas fa-motorcycle"></i></div>
+                    </div>
+                    <div class="card-content">
+                        <p class="card-desc">Speed + Music is a forbidden combo</p>
+                    </div>
+                </div>
+
+                <!-- ── RANGÉE 2 : MUSIQUE (7 lettres - span 9), LECTURE (7 lettres - span 9) & SPORT (5 lettres - span 6) ── -->
+
+                <!-- 3. MUSIQUE -->
+                <div class="interest-card card-span-9" 
+                     data-interest="music" 
+                     data-text="MUSIQUE" 
+                     style="--card-accent: #f59e0b; --card-glow: rgba(245, 158, 11, 0.28);">
+                    <div class="card-ambient-glow"></div>
+                    <canvas class="interest-canvas" id="canvas-music"></canvas>
+                    <div class="card-header-row">
+                        <div class="card-icon-pill"><i class="fas fa-headphones"></i></div>
+                    </div>
+                    <div class="card-content">
+                        <p class="card-desc">Hayd is my favorite singer</p>
+                    </div>
+                </div>
+
+                <!-- 4. LECTURE -->
+                <div class="interest-card card-span-9" 
+                     data-interest="reading" 
+                     data-text="LECTURE" 
+                     style="--card-accent: #06b6d4; --card-glow: rgba(6, 182, 212, 0.28);">
+                    <div class="card-ambient-glow"></div>
+                    <canvas class="interest-canvas" id="canvas-reading"></canvas>
+                    <div class="card-header-row">
+                        <div class="card-icon-pill"><i class="fas fa-book-open"></i></div>
+                    </div>
+                    <div class="card-content">
+                        <p class="card-desc">Albert Camus - L'étranger</p>
+                    </div>
+                </div>
+
+                <!-- 5. SPORT -->
+                <div class="interest-card card-span-6" 
+                     data-interest="sport" 
+                     data-text="SPORT" 
+                     style="--card-accent: #eab308; --card-glow: rgba(234, 179, 8, 0.28);">
+                    <div class="card-ambient-glow"></div>
+                    <canvas class="interest-canvas" id="canvas-sport"></canvas>
+                    <div class="card-header-row">
+                        <div class="card-icon-pill"><i class="fas fa-dumbbell"></i></div>
+                    </div>
+                    <div class="card-content">
+                        <p class="card-desc">Football, Basket, Boxe ou Footing</p>
+                    </div>
+                </div>
+
+                <!-- ── RANGÉE 3 : VOYAGE (6 lettres - span 13) & ANIME (5 lettres - span 11) ── -->
+
+                <!-- 6. VOYAGE -->
+                <div class="interest-card card-span-13" 
+                     data-interest="travel" 
+                     data-text="VOYAGE" 
+                     style="--card-accent: #14b8a6; --card-glow: rgba(20, 184, 166, 0.28);">
+                    <div class="card-ambient-glow"></div>
+                    <canvas class="interest-canvas" id="canvas-travel"></canvas>
+                    <div class="card-header-row">
+                        <div class="card-icon-pill"><i class="fas fa-plane-departure"></i></div>
+                    </div>
+                    <div class="card-content">
+                        <p class="card-desc">Budget trop serré sinon j'ai les destinations</p>
+                    </div>
+                </div>
+
+                <!-- 7. ANIME -->
+                <div class="interest-card card-span-11" 
+                     data-interest="animes" 
+                     data-text="ANIME" 
+                     style="--card-accent: #a855f7; --card-glow: rgba(168, 85, 247, 0.28);">
+                    <div class="card-ambient-glow"></div>
+                    <canvas class="interest-canvas" id="canvas-animes"></canvas>
+                    <div class="card-header-row">
+                        <div class="card-icon-pill"><i class="fas fa-dragon"></i></div>
+                    </div>
+                    <div class="card-content">
+                        <p class="card-desc">Naruto, je suis fermé au débat</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- 3. BOUTON PRINCIPAL D'ACTION : "Viens on discute !" (EFFET SÉPARATION LIQUIDE) -->
+            <div class="cta-container">
+                <!-- SVG Filter Liquide pour effet gooey organique -->
+                <svg style="position: absolute; width: 0; height: 0; pointer-events: none;" aria-hidden="true">
+                    <defs>
+                        <filter id="liquid-goo">
+                            <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
+                            <feColorMatrix in="blur" mode="matrix" values="
+                                1 0 0 0 0
+                                0 1 0 0 0
+                                0 0 1 0 0
+                                0 0 0 28 -10
+                            " result="goo" />
+                            <feComposite in="SourceGraphic" in2="goo" operator="atop" />
+                        </filter>
+                    </defs>
+                </svg>
+
+                <div class="liquid-cta-wrapper" id="liquidCtaWrapper">
+                    <!-- Calque liquide déformable -->
+                    <div class="liquid-goo-layer">
+                        <div class="goo-base" id="gooBase"></div>
+                        <div class="goo-left" id="gooLeft"></div>
+                        <div class="goo-right" id="gooRight"></div>
+                    </div>
+
+                    <!-- Éléments interactifs cliquables -->
+                    <div class="cta-elements">
+                        <!-- Bouton Rectangulaire aux bords arrondis (Initial) -->
+                        <button type="button" class="btn-liquid-main" id="btnLiquidMain" aria-label="Viens on discute !">
+                            <span class="btn-talk-pulse"></span>
+                            <i class="fas fa-comments"></i>
+                            <span>Viens on discute !</span>
+                            <i class="fas fa-arrow-right" style="font-size: 0.88rem; transition: transform 0.2s;"></i>
+                        </button>
+
+                        <!-- Deux Boutons Circulaires Révélés après Séparation Liquide -->
+                        <div class="split-circles" id="splitCircles">
+                            <a href="https://www.linkedin.com/in/kouadjo-aboua/" target="_blank" rel="noopener noreferrer" class="btn-liquid-circle btn-linkedin" title="Profil LinkedIn — Aboua Junior KOUADJO" aria-label="LinkedIn">
+                                <i class="fab fa-linkedin-in"></i>
+                                <span class="circle-label">LinkedIn</span>
+                            </a>
+
+                            <button type="button" class="btn-rejoin-toggle" id="btnRejoin" title="Refermer le bouton" aria-label="Refermer">
+                                <i class="fas fa-times"></i>
+                            </button>
+
+                            <a href="mailto:kouadjoabouajunior@gmail.com" class="btn-liquid-circle btn-gmail" title="Écrire sur Gmail" aria-label="Gmail">
+                                <i class="fas fa-envelope"></i>
+                                <span class="circle-label">Gmail</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. SÉPARATEUR HORIZONTAL -->
+            <hr class="footer-separator">
+
+            <!-- 5. LIGNE DE COPYRIGHT OFFICIELLE (POINTANT VERS ADMIN) -->
+            <div class="footer-copyright">
+                <a href="admin.html">© 2026 Aboua Junior KOUADJO, All rights reserved</a>
+            </div>
+
+        </div>
+    </footer>
+
+    <script src="domains.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>

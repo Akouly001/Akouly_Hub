@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portail d'Authentification Sécurisé — CTF Admin</title>
+    <link rel="icon" type="image/png" href="images/logo-monogram-1.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .ctf-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 75vh;
+            padding: 2rem 1rem;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        .ctf-card {
+            background-color: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 30px;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+            text-align: center;
+            box-sizing: border-box;
+        }
+
+        .ctf-card h2 {
+            color: #58a6ff;
+            margin-bottom: 15px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 1.4rem;
+            font-weight: bold;
+            letter-spacing: 0.05em;
+        }
+
+        .ctf-input {
+            width: 100%;
+            padding: 12px;
+            background: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 4px;
+            color: #58a6ff;
+            font-size: 14px;
+            font-family: 'Courier New', Courier, monospace;
+            margin-bottom: 15px;
+            text-align: center;
+            outline: none;
+            box-sizing: border-box;
+            transition: border-color 0.2s ease;
+        }
+
+        .ctf-input:focus {
+            border-color: #58a6ff;
+            box-shadow: 0 0 8px rgba(88, 166, 255, 0.2);
+        }
+
+        .ctf-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: #238636;
+            border: none;
+            border-radius: 4px;
+            color: #ffffff;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 14px;
+            font-family: 'Courier New', Courier, monospace;
+            transition: background-color 0.2s ease, transform 0.15s ease;
+            box-sizing: border-box;
+        }
+
+        .ctf-btn:hover {
+            background-color: #2ea043;
+            transform: scale(1.02);
+        }
+
+        .ctf-footer {
+            margin-top: 30px;
+            font-size: 11px;
+            color: #8b949e;
+            text-align: center;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        .rate-limit-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.35rem 0.8rem;
+            background: rgba(88, 166, 255, 0.1);
+            border: 1px solid rgba(88, 166, 255, 0.25);
+            border-radius: 20px;
+            color: #58a6ff;
+            font-size: 0.78rem;
+            margin-top: 15px;
+            font-family: var(--font-code);
+        }
+
+        .rate-limit-locked {
+            background: rgba(248, 81, 73, 0.12) !important;
+            border-color: rgba(248, 81, 73, 0.4) !important;
+            color: #ff7b72 !important;
+        }
+
+        .auth-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 2.5rem 2rem;
+            max-width: 440px;
+            margin: 0 auto;
+            text-align: center;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .otp-box {
+            display: flex;
+            justify-content: center;
+            gap: 0.6rem;
+            margin: 1.5rem 0;
+        }
+
+        .otp-input {
+            width: 46px;
+            height: 52px;
+            font-size: 1.5rem;
+            text-align: center;
+            font-family: var(--font-code);
+            font-weight: 700;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            background: var(--bg-dark);
+            color: var(--accent-cyber);
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .otp-input:focus {
+            border-color: var(--accent-cyber);
+            box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.2);
+        }
+
+        .ctf-popup-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 99999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.2rem;
+            box-sizing: border-box;
+        }
+
+        .ctf-popup-backdrop {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.78);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+
+        .ctf-popup-card {
+            position: relative;
+            z-index: 100000;
+            background-color: #161b22;
+            border: 1px solid #f85149;
+            border-radius: 8px;
+            padding: 24px;
+            width: 100%;
+            max-width: 380px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.85), 0 0 25px rgba(248, 81, 73, 0.3);
+            text-align: center;
+            animation: popupSlideIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            box-sizing: border-box;
+        }
+
+        @keyframes popupSlideIn {
+            from {
+                opacity: 0;
+                transform: scale(0.88) translateY(12px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .ctf-popup-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: rgba(248, 81, 73, 0.12);
+            border: 1px solid rgba(248, 81, 73, 0.35);
+            color: #ff7b72;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            margin: 0 auto 1.1rem auto;
+        }
+    </style>
+</head>
+<body data-page="home">
+    <!-- ÉCRAN DE CHARGEMENT CIRCULAIRE (PRELOADER) -->
+    <div id="page-preloader" class="preloader-overlay" aria-hidden="true">
+        <div class="loader loader-cyber"></div>
+    </div>
+
+
+    <div id="errorModal" class="ctf-popup-modal" style="display: none;">
+        <div class="ctf-popup-backdrop" id="errorModalBackdrop"></div>
+        <div class="ctf-popup-card">
+            <div class="ctf-popup-icon">
+                <i class="fas fa-triangle-exclamation"></i>
+            </div>
+            <h3 style="color: #ff7b72; margin-bottom: 0.8rem; font-family: 'Courier New', Courier, monospace; font-size: 1.25rem; font-weight: bold; letter-spacing: 0.04em;">
+                [ACCÈS REFUSÉ]
+            </h3>
+            <p id="errorModalText" style="color: #c9d1d9; font-size: 0.95rem; margin-bottom: 1.5rem; line-height: 1.5; font-family: 'Courier New', Courier, monospace;">
+                Message d'erreur...
+            </p>
+            <button type="button" id="closeErrorModalBtn" class="ctf-btn" style="background-color: #21262d; border: 1px solid #30363d; color: #58a6ff; width: 100%;">
+                <i class="fas fa-xmark"></i> Fermer
+            </button>
+        </div>
+    </div>
+
+    <header class="header">
+        <div class="container nav-wrapper">
+            <a href="index.html" class="brand-logo" title="Page d'accueil Akouly">
+                <img src="images/logo-dark.png" alt="Akouly Logo" class="logo-img">
+            </a>
+            <nav>
+                <ul class="nav-links" id="navLinks">
+                    <li class="mobile-only-link"><a href="index.html" class="nav-link"><i class="fas fa-home"></i> Accueil</a></li>
+                    <li><a href="cyber.html" class="nav-link"><i class="fas fa-shield-halved"></i> Cybersécurité</a></li>
+                    <li><a href="gaming.html" class="nav-link"><i class="fas fa-gamepad"></i> Gaming</a></li>
+                    <li><a href="apps.html" class="nav-link"><i class="fas fa-code"></i> Apps & Dev</a></li>
+                    <li><a href="business.html" class="nav-link"><i class="fas fa-briefcase"></i> Business</a></li>
+                    <li><a href="lab.html" class="nav-link"><i class="fas fa-scissors"></i> DIY</a></li>
+                </ul>
+            </nav>
+            <div class="nav-actions">
+                <button class="theme-toggle-btn" id="themeToggleBtn" title="Bascule Thème Clair / Sombre">
+                    <i class="fas fa-sun" style="color: #f59e0b;"></i>
+                </button>
+                <button id="logoutBtn" class="nav-link" style="display: none; color: var(--accent-danger); border: 1px solid var(--accent-danger);">
+                    <i class="fas fa-power-off"></i> Verrouiller
+                </button>
+                <button class="menu-toggle" id="menuToggle" aria-label="Menu" aria-expanded="false">
+                    <span class="bar bar-1"></span>
+                    <span class="bar bar-2"></span>
+                    <span class="bar bar-3"></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div id="ctfSection" class="ctf-wrapper">
+        <div class="ctf-card" id="login-card">
+            <h2>PORTAIL ADMIN</h2>
+            <p style="font-size: 13px; color: #8b949e; margin-bottom: 20px;">Entrez la clé d'autorisation pour déverrouiller la console.</p>
+            <form id="auth-form">
+                <input type="text" id="auth-key" class="ctf-input" placeholder="Clé d'accès..." autocomplete="off" required>
+                <button type="submit" id="auth-submit-btn" class="ctf-btn">Valider</button>
+            </form>
+        </div>
+
+        <footer class="ctf-footer">
+            &copy; 2026 Corporation Sécurisée — Tous droits réservés.
+        </footer>
+    </div>
+
+    <!-- 
+    +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++.+++++++++++++++++++++++++++++.-------------------------------------.-------------------------.+++++++++++++++++++++++++++++.++++++++++.----------------------------------.++++++++++++++++++++++++++++++++++++++++++++++++++++++++.---------.-------------.---------.++++++++++++++++++++++++++++++++++++.--------------------------.-------------------------------------.+++++++++++++++++++++++++++++++++++++++++++++++++++++.--.---------------------.+++++++++++++++++++++++++.------------------------.++++++++++++++++++++++++++++++++++++++++.---------------------------------------------.+++++++++++++++++++++++++++++++++++++++++++++.---------------------------------.-----------------------------------------.++++++++++++++++++++++++++++++++++++++++.----------------------------------------...+++++++++++++++++++++++++++++++++++++++++++++++++++.------------------------------------------------.++++++++++++++++++++++++++++++.+++++++++++++++++++++++++++++++++++++++++.-----------------------.++++.------------------------------------------..
+    -->
+
+    <div id="secureAppContainer"></div>
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script src="domains.js"></script>
+    <script src="main.js"></script>
+
+    <script>
+    (function() {
+        'use strict';
+
+        const ERROR_MESSAGES = [
+            "C'est un jeu pour toi ?",
+            "Tu vas durer ici hein.",
+            "Faut quitter ici pardon.",
+            "0 hint, faut te débrouiller !"
+        ];
+
+        let _modalCloseCallback = null;
+        let _cooldownActive = false;
+        let _active = false;
+        let _pollTimer = null;
+
+        function getTierConfig(t) {
+            if (t === 0) return { maxAttempts: 10, lockoutMinutes: 30 };
+            const waitHours = Math.pow(2, t - 1);
+            return { maxAttempts: 5, lockoutMinutes: waitHours * 60 };
+        }
+
+        function getRateState() {
+            try {
+                const raw = localStorage.getItem('AKOULY_DEVICE_RATE_LIMIT');
+                if (raw) return JSON.parse(raw);
+            } catch(e) {}
+            return { currentTier: 0, failedInTier: 0, lockoutUntil: 0, lockoutMinutes: 30 };
+        }
+
+        function saveRateState(s) {
+            try {
+                localStorage.setItem('AKOULY_DEVICE_RATE_LIMIT', JSON.stringify(s));
+            } catch(e) {}
+        }
+
+        window.checkDeviceLockout = function() {
+            const state = getRateState();
+            const now = Date.now();
+            const cfg = getTierConfig(state.currentTier);
+
+            if (state.lockoutUntil && now < state.lockoutUntil) {
+                const diff = state.lockoutUntil - now;
+                const sec = Math.ceil(diff / 1000);
+                const m = Math.floor(sec / 60);
+                const s = sec % 60;
+                return {
+                    isLocked: true,
+                    remainingSeconds: sec,
+                    formattedRemaining: m > 0 ? `${m}m ${s}s` : `${s}s`,
+                    lockoutMinutes: state.lockoutMinutes || cfg.lockoutMinutes
+                };
+            }
+
+            if (state.lockoutUntil && now >= state.lockoutUntil) {
+                state.lockoutUntil = 0;
+                state.failedInTier = 0;
+                saveRateState(state);
+            }
+
+            return {
+                isLocked: false,
+                attemptsLeft: Math.max(0, cfg.maxAttempts - (state.failedInTier || 0)),
+                maxAttempts: cfg.maxAttempts
+            };
+        };
+
+        window.recordDeviceFailure = function() {
+            const state = getRateState();
+            const cfg = getTierConfig(state.currentTier);
+            state.failedInTier = (state.failedInTier || 0) + 1;
+
+            if (state.failedInTier >= cfg.maxAttempts) {
+                const dur = cfg.lockoutMinutes;
+                state.lockoutUntil = Date.now() + (dur * 60 * 1000);
+                state.lockoutMinutes = dur;
+                state.currentTier = state.currentTier + 1;
+                state.failedInTier = 0;
+                saveRateState(state);
+
+                return {
+                    isLocked: true,
+                    lockoutMinutes: dur,
+                    attemptsLeft: 0
+                };
+            }
+
+            saveRateState(state);
+            return {
+                isLocked: false,
+                attemptsLeft: cfg.maxAttempts - state.failedInTier,
+                lockoutMinutes: cfg.lockoutMinutes
+            };
+        };
+
+        window.resetDeviceRateLimiter = function() {
+            try {
+                localStorage.removeItem('AKOULY_DEVICE_RATE_LIMIT');
+            } catch(e) {}
+        };
+
+        window.showErrorModal = function(msg, onClose) {
+            const modal = document.getElementById('errorModal');
+            const textEl = document.getElementById('errorModalText');
+            if (textEl) textEl.textContent = msg;
+            if (modal) modal.style.display = 'flex';
+            _modalCloseCallback = onClose || null;
+            const closeBtn = document.getElementById('closeErrorModalBtn');
+            if (closeBtn) closeBtn.focus();
+        };
+
+        window.closeErrorModal = function() {
+            const modal = document.getElementById('errorModal');
+            if (modal) modal.style.display = 'none';
+            if (typeof _modalCloseCallback === 'function') {
+                const cb = _modalCloseCallback;
+                _modalCloseCallback = null;
+                cb();
+            }
+        };
+
+        async function _initSession(k) {
+            try {
+                const resp = await fetch('vault.dat');
+                if (!resp.ok) return false;
+                const buffer = new Uint8Array(await resp.arrayBuffer());
+
+                const iv = buffer.subarray(0, 12);
+                const tag = buffer.subarray(12, 28);
+                const data = buffer.subarray(28);
+
+                const enc = new TextEncoder();
+                const kh = await crypto.subtle.digest('SHA-256', enc.encode(k));
+                const ck = await crypto.subtle.importKey('raw', kh, { name: 'AES-GCM' }, false, ['decrypt']);
+
+                const cipherAndTag = new Uint8Array(data.length + tag.length);
+                cipherAndTag.set(data);
+                cipherAndTag.set(tag, data.length);
+
+                const dec = await crypto.subtle.decrypt({ name: 'AES-GCM', iv: iv, tagLength: 128 }, ck, cipherAndTag);
+                const code = new TextDecoder().decode(dec);
+
+                const ctfSec = document.getElementById('ctfSection');
+                if (ctfSec) ctfSec.style.display = 'none';
+
+                const run = new Function(code);
+                run();
+                _active = true;
+                return true;
+            } catch (err) {
+                return false;
+            }
+        }
+
+        window.lockAllViews = function() {
+            _active = false;
+            sessionStorage.clear();
+            const ctf = document.getElementById('ctfSection');
+            const container = document.getElementById('secureAppContainer');
+            const logout = document.getElementById('logoutBtn');
+
+            if (ctf) ctf.style.display = 'flex';
+            if (container) container.innerHTML = '';
+            if (logout) logout.style.display = 'none';
+        };
+
+        async function handleCtfSubmit(e) {
+            e.preventDefault();
+            if (_cooldownActive) return;
+
+            const lockStatus = window.checkDeviceLockout();
+            if (lockStatus.isLocked) {
+                window.showErrorModal(`Périphérique temporairement verrouillé suite à trop d'échecs. Temps d'attente restant : ${lockStatus.formattedRemaining}`);
+                return;
+            }
+
+            const input = document.getElementById('auth-key');
+            const btn = document.getElementById('auth-submit-btn');
+            if (!input) return;
+
+            const val = input.value.trim();
+            if (!val) return;
+
+            btn.disabled = true;
+
+            const ok = await _initSession(val);
+
+            if (ok) {
+                sessionStorage.setItem('AKOULY_VAULT_KEY', val);
+                const timestamp = Date.now();
+                sessionStorage.setItem('AKOULY_VAULT_CTF_SIG', JSON.stringify({ action: 'CTF_STAGE_CLEARED', timestamp }));
+
+                if (typeof showToast === 'function') {
+                    showToast("Clé validée avec succès.");
+                }
+                btn.disabled = false;
+            } else {
+                const failResult = window.recordDeviceFailure();
+                input.value = '';
+                _cooldownActive = true;
+
+                let secondsLeft = 3;
+                btn.innerHTML = `<i class="fas fa-hourglass-half"></i> Patientez (${secondsLeft}s)...`;
+                btn.style.backgroundColor = '#30363d';
+                btn.style.cursor = 'not-allowed';
+
+                const cooldownTimer = setInterval(() => {
+                    secondsLeft--;
+                    if (secondsLeft > 0) {
+                        btn.innerHTML = `<i class="fas fa-hourglass-half"></i> Patientez (${secondsLeft}s)...`;
+                    } else {
+                        clearInterval(cooldownTimer);
+                        _cooldownActive = false;
+                        btn.disabled = false;
+                        btn.innerHTML = 'Valider';
+                        btn.style.backgroundColor = '#238636';
+                        btn.style.cursor = 'pointer';
+                    }
+                }, 1000);
+
+                let errorText = '';
+                if (failResult.isLocked) {
+                    errorText = `Nombre maximal de tentatives atteint. Ce périphérique est verrouillé pendant ${failResult.lockoutMinutes} minutes.`;
+                } else {
+                    errorText = ERROR_MESSAGES[Math.floor(Math.random() * ERROR_MESSAGES.length)];
+                }
+
+                window.showErrorModal(errorText, () => {
+                    input.focus();
+                });
+            }
+        }
+
+        async function initSecurity() {
+            refreshBadge();
+
+            const savedKey = sessionStorage.getItem('AKOULY_VAULT_KEY');
+            const ctfToken = sessionStorage.getItem('AKOULY_VAULT_CTF_SIG');
+
+            if (savedKey && ctfToken) {
+                try {
+                    const ok = await _initSession(savedKey);
+                    if (ok) return;
+                } catch(e) {}
+            }
+
+            window.lockAllViews();
+        }
+
+        function setupEventListeners() {
+            const closeBtn = document.getElementById('closeErrorModalBtn');
+            if (closeBtn) closeBtn.addEventListener('click', window.closeErrorModal);
+
+            const backdrop = document.getElementById('errorModalBackdrop');
+            if (backdrop) backdrop.addEventListener('click', window.closeErrorModal);
+
+            document.addEventListener('keydown', (e) => {
+                const modal = document.getElementById('errorModal');
+                if (modal && modal.style.display === 'flex') {
+                    if (e.key === 'Escape' || e.key === 'Enter') {
+                        e.preventDefault();
+                        window.closeErrorModal();
+                    }
+                }
+            });
+
+            const authForm = document.getElementById('auth-form');
+            if (authForm) authForm.addEventListener('submit', handleCtfSubmit);
+
+            const logoutHeaderBtn = document.getElementById('logoutBtn');
+            if (logoutHeaderBtn) logoutHeaderBtn.addEventListener('click', window.lockAllViews);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            setupEventListeners();
+            initSecurity();
+        });
+    })();
+    </script>
+</body>
+</html>

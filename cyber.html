@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cybersécurité & Audit — Aboua Junior KOUADJO</title>
+    <meta name="description" content="Portfolio Cybersécurité d'Aboua Junior KOUADJO : Profil, Compétences, Labs & Pentest, Google Cybersecurity Certificate, XSec, ANSSI EBIOS RM et Parcours Droit & Cyber.">
+    <link rel="icon" type="image/png" href="images/logo-monogram-1.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body data-page="cyber">
+    <!-- ÉCRAN DE CHARGEMENT CIRCULAIRE (PRELOADER) -->
+    <div id="page-preloader" class="preloader-overlay" aria-hidden="true">
+        <div class="loader loader-cyber"></div>
+    </div>
+
+
+    <!-- Curseur Cyber Personnalisé (Clé de Sécurité) -->
+    <div class="cyber-cursor" id="cyberCursor">
+        <img loading="lazy" decoding="async" src="images/black-key-symbol-icon-6.png" alt="Curseur Clé Cyber" class="cyber-cursor-img">
+    </div>
+
+    <canvas id="bg-canvas"></canvas>
+    <div id="cursor-glow"></div>
+
+    <!-- Header Section -->
+    <header class="header">
+        <div class="container nav-wrapper">
+            <a href="index.html" class="brand-logo" title="Page d'accueil Akouly">
+                <img loading="eager" decoding="async" src="images/logo-dark.png" alt="Akouly Logo" class="logo-img">
+            </a>
+
+            <nav>
+                <ul class="nav-links" id="navLinks">
+                    <li class="mobile-only-link"><a href="index.html" class="nav-link"><i class="fas fa-home"></i> Accueil</a></li>
+                    <li><a href="cyber.html" class="nav-link active"><i class="fas fa-shield-halved"></i> Cybersécurité</a></li>
+                    <li><a href="gaming.html" class="nav-link"><i class="fas fa-gamepad"></i> Gaming</a></li>
+                    <li><a href="apps.html" class="nav-link"><i class="fas fa-code"></i> Apps & Dev</a></li>
+                    <li><a href="business.html" class="nav-link"><i class="fas fa-briefcase"></i> Business</a></li>
+                    <li><a href="lab.html" class="nav-link"><i class="fas fa-scissors"></i> DIY</a></li>
+                </ul>
+            </nav>
+            <div class="nav-actions">
+                <button class="theme-toggle-btn" id="themeToggleBtn" title="Bascule Thème Clair / Sombre">
+                    <i class="fas fa-sun" style="color: #f59e0b;"></i>
+                </button>
+                <button class="menu-toggle" id="menuToggle" aria-label="Menu" aria-expanded="false">
+                    <span class="bar bar-1"></span>
+                    <span class="bar bar-2"></span>
+                    <span class="bar bar-3"></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section / Profil -->
+    <section class="hero scroll-reveal" id="profil">
+        <div class="container hero-grid">
+            <div class="hero-content">
+                <div class="logo-terminal" id="terminal-trigger" style="display: inline-block; margin-bottom: 1rem;" title="Cliquez pour exécuter une commande terminal">
+                    akouly@portfolio-web:~$ <span id="terminal-typed"></span><span class="cursor-blink">|</span>
+                </div>
+                <br>
+                <div class="hero-tag">
+                    <i class="fas fa-shield-halved"></i> Profil Analyste Cybersécurité · Red Team & GRC
+                </div>
+                <h1 class="hero-title">
+                    Aboua Junior <span class="gradient-text">KOUADJO</span>
+                </h1>
+                <p class="hero-subtitle">
+                    Analyste Cybersécurité passionné par la protection des systèmes d'information. Juriste de formation, je conjugue rigueur analytique et culture technique pour défendre les organisations face aux menaces numériques.
+                </p>
+                 <div class="hero-actions">
+                    <a href="#projets" class="btn btn-primary"><i class="fas fa-layer-group"></i> Voir mes projets & labs</a>
+                    <a href="#certifications" class="btn btn-secondary"><i class="fas fa-certificate"></i> Certifications</a>
+                </div>
+            </div>
+
+            <!-- Profile Card -->
+            <div class="profile-card">
+                <div class="avatar-container">
+                    <img loading="lazy" decoding="async" src="images/photo-cyber.jpg" alt="Aboua Junior KOUADJO">
+                </div>
+                <h3 class="profile-name">Aboua Junior KOUADJO</h3>
+                <p class="profile-title">Analyste Cybersécurité · RSSI en devenir</p>
+                
+                <div class="profile-details">
+                    <div class="detail-item">
+                        <span>🎓</span> <span>CAP Analyste Cyber — WeCode 2026</span>
+                    </div>
+                    <div class="detail-item">
+                        <span>📜</span> <span>Google Cybersecurity Certificate</span>
+                    </div>
+                    <div class="detail-item">
+                        <span>⚖️</span> <span>Master 1 Droit Privé — UFHB</span>
+                    </div>
+                    <div class="detail-item">
+                        <span>📍</span> <span>Abidjan, Côte d'Ivoire</span>
+                    </div>
+                </div>
+                
+                <div class="profile-tags">
+                    <span class="tag-pill cyan">IDS/IPS</span>
+                    <span class="tag-pill cyan">Suricata</span>
+                    <span class="tag-pill">PTES</span>
+                    <span class="tag-pill cyan">SQLi/RCE</span>
+                    <span class="tag-pill">Cisco</span>
+                    <span class="tag-pill cyan">EBIOS RM</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="container" style="padding-top: 3rem; padding-bottom: 3rem;">
+
+        <!-- Section 1 : Compétences Techniques (6 blocs) -->
+        <section class="scroll-reveal" id="competences">
+            <div class="section-label">// EXPERTISE TECHNIQUE</div>
+            <h2 class="section-title">Domaines de <span>Compétences</span></h2>
+
+            <div class="skills-grid">
+                <!-- 1. Détection & Protection -->
+                <div class="skill-card">
+                    <div class="skill-icon" style="color: var(--accent-cyber);"><i class="fas fa-shield-virus"></i></div>
+                    <h3 class="skill-title">🛡️ Détection & Protection</h3>
+                    <ul class="skill-items">
+                        <li>Suricata IDS/IPS</li>
+                        <li>Règles de détection</li>
+                        <li>SIEM / Log Analysis</li>
+                        <li>UFW Firewall & NFQUEUE</li>
+                    </ul>
+                </div>
+
+                <!-- 2. Pentest & Exploitation -->
+                <div class="skill-card">
+                    <div class="skill-icon" style="color: #ef4444;"><i class="fas fa-fire"></i></div>
+                    <h3 class="skill-title">🔥 Pentest & Exploitation</h3>
+                    <ul class="skill-items">
+                        <li>SQL Injection / RCE</li>
+                        <li>LFI & Log Poisoning</li>
+                        <li>Hydra & Burp Suite</li>
+                        <li>Méthodologie PTES</li>
+                    </ul>
+                </div>
+
+                <!-- 3. OSINT & Reconnaissance -->
+                <div class="skill-card">
+                    <div class="skill-icon" style="color: #f59e0b;"><i class="fas fa-magnifying-glass"></i></div>
+                    <h3 class="skill-title">🔍 OSINT & Reconnaissance</h3>
+                    <ul class="skill-items">
+                        <li>DNS Enumeration</li>
+                        <li>Subdomain Discovery</li>
+                        <li>Configuration Exposure</li>
+                        <li>HTTP POST Brute Force</li>
+                    </ul>
+                </div>
+
+                <!-- 4. Réseaux & Infra -->
+                <div class="skill-card">
+                    <div class="skill-icon" style="color: var(--accent-dev);"><i class="fas fa-network-wired"></i></div>
+                    <h3 class="skill-title">🌐 Réseaux & Infra</h3>
+                    <ul class="skill-items">
+                        <li>Cisco Packet Tracer</li>
+                        <li>Protocoles OSPF / VLSM</li>
+                        <li>VLANs & PPP/CHAP</li>
+                        <li>VPN (OpenVPN)</li>
+                    </ul>
+                </div>
+
+                <!-- 5. Audit & Conformité -->
+                <div class="skill-card">
+                    <div class="skill-icon" style="color: var(--accent-gaming);"><i class="fas fa-clipboard-check"></i></div>
+                    <h3 class="skill-title">📋 Audit & Conformité</h3>
+                    <ul class="skill-items">
+                        <li>Cadre NIST CSF 2.0</li>
+                        <li>Méthode EBIOS RM</li>
+                        <li>Audit de sécurité IT</li>
+                        <li>Droit & RGPD</li>
+                    </ul>
+                </div>
+
+                <!-- 6. Systèmes & Envs -->
+                <div class="skill-card">
+                    <div class="skill-icon" style="color: #06b6d4;"><i class="fas fa-laptop-code"></i></div>
+                    <h3 class="skill-title">💻 Systèmes & Envs</h3>
+                    <ul class="skill-items">
+                        <li>Kali Linux (VMware)</li>
+                        <li>Ubuntu (VirtualBox)</li>
+                        <li>Scripting Bash / CLI</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2 : Projets & Labs Réalisés -->
+        <section class="scroll-reveal" id="projets">
+            <div class="section-label">// TRAVAUX PRATIQUES & LABS</div>
+            <h2 class="section-title">Projets & <span>Rapports d'Audit</span></h2>
+
+            <div class="projects-grid">
+                <div class="project-card">
+                    <div class="project-tags">
+                        <span class="project-tag">IDS/IPS</span>
+                        <span class="project-tag">Suricata</span>
+                        <span class="project-tag">Linux</span>
+                    </div>
+                    <h3 class="project-title">Déploiement & Configuration IDS/IPS Suricata</h3>
+                    <p class="project-desc">Mise en place d'un système de détection et prévention d'intrusions sur machine Linux. Écriture de règles personnalisées pour intercepter des attaques réseau, alertes en temps réel et blocage automatique via NFQUEUE.</p>
+                    <div class="project-footer">
+                        <span class="project-status">✓ Lab Validé</span>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-tags">
+                        <span class="project-tag">Pentest</span>
+                        <span class="project-tag">PTES</span>
+                        <span class="project-tag">Web Security</span>
+                    </div>
+                    <h3 class="project-title">Rapport d'Audit & Test d'Intrusion Web</h3>
+                    <p class="project-desc">Audit offensif suivant la méthodologie PTES : découverte de failles SQLi et Log Poisoning, exploitation contrôlée, élévation de privilèges et rédaction d'un rapport de remédiation technique et exécutif.</p>
+                    <div class="project-footer">
+                        <span class="project-status">✓ Rapport Réalisé</span>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-tags">
+                        <span class="project-tag">EBIOS RM</span>
+                        <span class="project-tag">GRC</span>
+                        <span class="project-tag">ANSSI</span>
+                    </div>
+                    <h3 class="project-title">Analyse de Risques selon EBIOS RM</h3>
+                    <p class="project-desc">Cartographie complète des risques sur un SI critique : identification des valeurs métiers, analyse des événements redoutés, scénarios de menaces et élaboration du plan de traitement des risques.</p>
+                    <div class="project-footer">
+                        <span class="project-status">✓ Étude Complétée</span>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-tags">
+                        <span class="project-tag">Cisco</span>
+                        <span class="project-tag">Packet Tracer</span>
+                        <span class="project-tag">Réseaux</span>
+                    </div>
+                    <h3 class="project-title">Architecture Réseau Sécurisée & VLANs</h3>
+                    <p class="project-desc">Conception d'une infrastructure d'entreprise sous Cisco Packet Tracer : segmentation en VLANs, routage inter-VLAN sécurisé, listes de contrôle d'accès (ACLs) et configuration VPN IPsec/OpenVPN.</p>
+                    <div class="project-footer">
+                        <span class="project-status">✓ Topologie Déployée</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3 : Certifications & Formations -->
+        <section class="scroll-reveal" id="certifications">
+            <div class="section-label">// VALIDATION DES COMPÉTENCES</div>
+            <h2 class="section-title">Certifications & <span>Diplômes</span></h2>
+
+            <!-- 1. Google Cybersecurity Certificate -->
+            <div style="margin-bottom: 2.5rem;">
+                <h3 style="font-family: var(--font-heading); font-size: 1.3rem; margin-bottom: 1rem; color: var(--accent-cyber);">
+                    <i class="fab fa-google"></i> 1. Google Cybersecurity Certificate
+                </h3>
+                <div class="certifications-flow">
+                    <div class="cert-card" style="border-left: 4px solid var(--accent-cyber);">
+                        <div class="cert-year">27 Mars 2026</div>
+                        <h4 class="cert-title">Google Cybersecurity Professional Certificate</h4>
+                        <p class="cert-issuer">Google Career Certificates · Coursera</p>
+                        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.8rem;">
+                            Spécialisation professionnelle de 9 cours couvrant les compétences clés en cybersécurité : Python, Linux, SQL, SIEM, IDS/IPS et gestion des risques.
+                        </p>
+                        <div style="display: flex; gap: 0.6rem; align-items: center; flex-wrap: wrap;">
+                            <span class="cert-badge cyber">Obtenu</span>
+                            <button onclick="openCertModal('images/certificat-google.png', 'Google Cybersecurity Professional Certificate — Google Career Certificates')" class="btn btn-secondary" style="padding: 0.35rem 0.85rem; font-size: 0.82rem; color: var(--accent-cyber);">
+                                <i class="fas fa-eye"></i> Voir le certificat
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. XSec – Certificat de participation -->
+            <div style="margin-bottom: 2.5rem;">
+                <h3 style="font-family: var(--font-heading); font-size: 1.3rem; margin-bottom: 1rem; color: var(--accent-dev);">
+                    <i class="fas fa-award"></i> 2. XSec — Certificat de Participation
+                </h3>
+                <div class="certifications-flow">
+                    <div class="cert-card" style="border-left: 4px solid var(--accent-dev);">
+                        <div class="cert-year">11 Août 2026</div>
+                        <h4 class="cert-title">Certificate of Participation — XSec CTF Easy #1 2026</h4>
+                        <p class="cert-issuer">XSec Solutions · Capture The Flag (CTF)</p>
+                        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.8rem;">
+                            Délivré à <strong>Aboua Junior Désiré KOUADJO</strong> pour sa participation avec succès à la compétition Capture The Flag en ligne organisée par XSec Solutions.
+                        </p>
+                        <div style="display: flex; gap: 0.6rem; align-items: center; flex-wrap: wrap;">
+                            <span class="cert-badge" style="color: var(--accent-dev); background: rgba(139, 92, 246, 0.1);">CTF Compétition</span>
+                            <button onclick="openCertModal('images/certificat-xsec.png', 'XSec CTF Easy #1 2026 — Certificate of Participation (XSec Solutions)')" class="btn btn-secondary" style="padding: 0.35rem 0.85rem; font-size: 0.82rem; color: var(--accent-dev);">
+                                <i class="fas fa-eye"></i> Voir le certificat
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. Autres certifications & Diplômes -->
+            <div>
+                <h3 style="font-family: var(--font-heading); font-size: 1.3rem; margin-bottom: 1rem; color: var(--accent-biz);">
+                    <i class="fas fa-graduation-cap"></i> 3. Autres Certifications & Diplômes
+                </h3>
+                <div class="certifications-flow">
+                    <!-- WeCode Attestation -->
+                    <div class="cert-card" style="border-left: 4px solid var(--accent-cyber);">
+                        <div class="cert-year">17 Juillet 2026</div>
+                        <h4 class="cert-title">Attestation de Formation — Sécurité Numérique</h4>
+                        <p class="cert-issuer">Programme We.Code · FORPRODE / GIZ / EPITECH</p>
+                        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.8rem;">
+                            Formation qualifiante intensive de 6 mois (janvier à juin 2026) délivrée à M. KOUADJO ABOUA JUNIOR DESIRE.
+                        </p>
+                        <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;">
+                            <span class="cert-badge cyber">Diplômé</span>
+                            <button onclick="openCertModal('images/certificat-wecode.png', 'Attestation de Formation — We.Code / FORPRODE / GIZ (Sécurité Numérique)')" class="btn btn-secondary" style="padding: 0.35rem 0.85rem; font-size: 0.82rem; color: var(--accent-cyber);">
+                                <i class="fas fa-eye"></i> Voir l'attestation
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Cisco Introduction to Cybersecurity -->
+                    <div class="cert-card" style="border-left: 4px solid var(--accent-cyber);">
+                        <div class="cert-year">26 Décembre 2025</div>
+                        <h4 class="cert-title">Introduction to Cybersecurity</h4>
+                        <p class="cert-issuer">Cisco Networking Academy</p>
+                        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.8rem;">
+                            Fondamentaux de la sécurité des réseaux, menaces modernes, cryptographie et défense des systèmes.
+                        </p>
+                        <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;">
+                            <span class="cert-badge cyber">Obtenu</span>
+                            <button onclick="openCertModal('images/certificat-cisco.png', 'Introduction to Cybersecurity — Cisco Networking Academy')" class="btn btn-secondary" style="padding: 0.35rem 0.85rem; font-size: 0.82rem; color: var(--accent-cyber);">
+                                <i class="fas fa-eye"></i> Voir le certificat
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- EBIOS Risk Manager -->
+                    <div class="cert-card" style="border-left: 4px solid var(--accent-biz);">
+                        <div class="cert-year">17 Octobre 2025</div>
+                        <h4 class="cert-title">Introduction à la méthode EBIOS Risk Manager</h4>
+                        <p class="cert-issuer">Club EBIOS · ANSSI</p>
+                        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.8rem;">
+                            MooC certifiant sur les 5 ateliers de gestion et traitement des risques cyber selon le standard ANSSI.
+                        </p>
+                        <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;">
+                            <span class="cert-badge ebios">Complété</span>
+                            <button onclick="openCertModal('images/certificat-ebios.png', 'Certificat de Réalisation — EBIOS Risk Manager (Club EBIOS)')" class="btn btn-secondary" style="padding: 0.35rem 0.85rem; font-size: 0.82rem; color: var(--accent-biz);">
+                                <i class="fas fa-eye"></i> Voir le certificat
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- D-CLIC OIF -->
+                    <div class="cert-card" style="border-left: 4px solid var(--accent-dev);">
+                        <div class="cert-year">21 Novembre 2025</div>
+                        <h4 class="cert-title">Développement Mobile — Niveau Débutant</h4>
+                        <p class="cert-issuer">Organisation Internationale de la Francophonie (OIF) · Projet D-CLIC</p>
+                        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.8rem;">
+                            Formation tutorée de 60h validée à distance avec succès (Code : 3FtKcnXUun).
+                        </p>
+                        <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;">
+                            <span class="cert-badge" style="color: var(--accent-dev); background: rgba(139, 92, 246, 0.1);">Certifié OIF</span>
+                            <button onclick="openCertModal('images/certificat-dclic.png', 'Attestation de Formation D-CLIC — Organisation Internationale de la Francophonie (OIF)')" class="btn btn-secondary" style="padding: 0.35rem 0.85rem; font-size: 0.82rem; color: var(--accent-dev);">
+                                <i class="fas fa-eye"></i> Voir le certificat
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bouton Unique : Toutes mes certifications (13) -->
+            <div style="margin-top: 2.5rem; text-align: center;">
+                <button onclick="openAllCertsModal()" class="btn btn-primary" style="background: linear-gradient(135deg, var(--accent-cyber), var(--accent-dev)); border: none; color: #fff; padding: 0.85rem 2rem; font-size: 0.95rem; font-weight: 600; box-shadow: 0 4px 20px rgba(6,182,212,0.3); border-radius: 30px; cursor: pointer; transition: var(--transition);">
+                    <i class="fas fa-layer-group"></i> Toutes mes certifications (13) &rarr;
+                </button>
+            </div>
+        </section>
+
+        <!-- Section 4 : Parcours Hybride Droit & Cybersécurité -->
+        <section class="scroll-reveal" id="parcours" style="margin-top: 4rem;">
+            <div class="section-label">// TRAJECTOIRE PROFESSIONNELLE</div>
+            <h2 class="section-title">Parcours <span>Hybride</span></h2>
+
+            <div class="parcours-grid">
+                <div class="parcours-narrative">
+                    <h3 style="font-family: var(--font-heading); font-size: 1.3rem; margin-bottom: 1rem; color: var(--accent-cyber);">
+                        De l'Analyse Juridique à la Sécurité Numérique
+                    </h3>
+                    <p style="margin-bottom: 1rem;">
+                        Titulaire d'un Master 1 en Droit Privé à l'Université Félix Houphouët-Boigny, j'ai développé une rigueur d'analyse, un sens critique et une capacité à structurer des raisonnements complexes.
+                    </p>
+                    <p style="margin-bottom: 1rem;">
+                        La cybersécurité s'est imposée comme une suite logique : les systèmes d'information ont besoin d'analystes capables de comprendre à la fois les contraintes réglementaires (RGPD, conformité, gouvernance) et les vecteurs d'attaque techniques.
+                    </p>
+                    <blockquote>
+                        « Mon objectif est de devenir un RSSI complet, capable de dialoguer aussi bien avec les équipes techniques Red/Blue Team qu'avec les directions générales et juridiques. »
+                    </blockquote>
+                </div>
+
+                <div class="timeline">
+                    <div class="timeline-item in-progress">
+                        <div class="timeline-date">2026 — FORMATION COMPLÉTÉE</div>
+                        <div class="timeline-title">CAP Analyste Cybersécurité</div>
+                        <div class="timeline-subtitle">WeCode Academy</div>
+                        <div class="timeline-desc">Spécialisation offensive & défensive : pentest, IDS/IPS Suricata, analyse de logs, GRC, conformité.</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-date">2024 — 2025</div>
+                        <div class="timeline-title">Auto-formation & Labs Pratiques</div>
+                        <div class="timeline-subtitle">Plateformes d'apprentissage</div>
+                        <div class="timeline-desc">TryHackMe, Cisco Networking Academy, SecNumacadémie ANSSI. Pratique quotidienne sur machines virtuelles.</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-date">2020 — 2024</div>
+                        <div class="timeline-title">Master 1 Droit Privé</div>
+                        <div class="timeline-subtitle">Université Félix Houphouët-Boigny (Abidjan)</div>
+                        <div class="timeline-desc">Droit des affaires, droit des obligations, méthodologie d'analyse et rédaction juridique.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Modal Contact -->
+    <div class="modal" id="contactModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeContactModal()">&times;</button>
+            <h3 style="font-family: var(--font-heading); font-size: 1.4rem; margin-bottom: 0.5rem; color: var(--accent-cyber);">
+                <i class="fas fa-envelope"></i> Contact Professionnel
+            </h3>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">
+                Disponible pour des opportunités en tant qu'Analyste Cybersécurité, missions d'audit ou collaborations.
+            </p>
+            <div style="display: flex; flex-direction: column; gap: 0.8rem; text-align: left; font-size: 0.95rem;">
+                <div style="display: flex; align-items: center; gap: 0.8rem; padding: 0.8rem; background: var(--bg-dark); border-radius: var(--radius-sm); border: 1px solid var(--border-color);">
+                    <i class="fas fa-envelope" style="color: var(--accent-cyber); font-size: 1.2rem;"></i>
+                    <a href="mailto:kouadjoabouajunior@gmail.com" style="color: var(--text-main); word-break: break-all;">kouadjoabouajunior@gmail.com</a>
+                </div>
+                <div style="display: flex; align-items: center; gap: 0.8rem; padding: 0.8rem; background: var(--bg-dark); border-radius: var(--radius-sm); border: 1px solid var(--border-color);">
+                    <i class="fab fa-github" style="color: var(--accent-dev); font-size: 1.2rem;"></i>
+                    <a href="https://github.com/akouly001" target="_blank" style="color: var(--text-main);">github.com/akouly001</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Hub : Toutes les Certifications (Galerie Complète - 13 Certifications) -->
+    <div class="modal" id="allCertsModal" oncontextmenu="return false;">
+        <div class="modal-content" style="max-width: 1050px; width: 95%; padding: 1.8rem; text-align: center;">
+            <button class="modal-close" onclick="closeAllCertsModal()">&times;</button>
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1.2rem; padding-right: 2rem; flex-wrap: wrap;">
+                <div>
+                    <h3 style="font-family: var(--font-heading); font-size: 1.35rem; color: var(--accent-cyber); margin: 0; text-align: left;">
+                        <i class="fas fa-certificate"></i> Galerie de Toutes les Certifications (13)
+                    </h3>
+                    <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0.2rem 0 0; text-align: left;">
+                        Diplômes, spécialisations techniques et attestations d'engagement obtenus par Aboua Junior KOUADJO.
+                    </p>
+                </div>
+                <div style="display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.78rem; color: var(--accent-green); background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.25); padding: 0.25rem 0.65rem; border-radius: 20px;">
+                    <i class="fas fa-shield-halved"></i> Protection Anti-Téléchargement Active
+                </div>
+            </div>
+
+            <!-- Filtres par catégorie -->
+            <div class="cert-hub-filter">
+                <button class="cert-filter-btn active" onclick="filterCertHub('all', this)">Tous (13)</button>
+                <button class="cert-filter-btn" onclick="filterCertHub('cyber', this)">🛡️ Cybersécurité (5)</button>
+                <button class="cert-filter-btn" onclick="filterCertHub('dev', this)">📱 Apps, Dev & IA (2)</button>
+                <button class="cert-filter-btn" onclick="filterCertHub('diy', this)">📸 DIY & Photo (1)</button>
+                <button class="cert-filter-btn" onclick="filterCertHub('benevolat', this)">🤝 Engagement & Bénévolat (5)</button>
+            </div>
+
+            <!-- Grille des 13 Certifications (Classées du plus récent au plus ancien) -->
+            <div class="cert-hub-grid" id="certHubGrid">
+                
+                <!-- 1. XSec CTF — 11 Août 2026 -->
+                <div class="cert-hub-card" data-cat="cyber" style="border-left: 4px solid var(--accent-dev);">
+                    <div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
+                            <span class="cert-badge" style="color: var(--accent-dev); background: rgba(139,92,246,0.1);">CTF Compétition</span>
+                            <span style="font-size: 0.78rem; color: var(--text-muted); font-family: var(--font-code);">11 Août 2026</span>
+                        </div>
+                        <h4 style="font-size: 1.02rem; font-family: var(--font-heading); margin-bottom: 0.3rem;">Participation XSec CTF Easy #1</h4>
+                        <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.8rem;">XSec Solutions · Capture The Flag en ligne</p>
+                    </div>
+                    <button onclick="openCertModal('images/certificat-xsec.png', 'XSec CTF Easy #1 2026 — Certificate of Participation (XSec Solutions)')" class="btn btn-secondary" style="padding: 0.35rem 0.8rem; font-size: 0.8rem; color: var(--accent-dev); width: 100%;">
+                        <i class="fas fa-eye"></i> Visualiser
+                    </button>
+                </div>
+
+                <!-- 2. WeCode Formation Qualifiante — 17 Juil 2026 -->
+                <div class="cert-hub-card" data-cat="cyber" style="border-left: 4px solid var(--accent-cyber);">
+                    <div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
+                            <span class="cert-badge cyber">Sécurité Numérique</span>
+                            <span style="font-size: 0.78rem; color: var(--text-muted); font-family: var(--font-code);">17 Juil 2026</span>
+                        </div>
+                        <h4 style="font-size: 1.02rem; font-family: var(--font-heading); margin-bottom: 0.3rem;">Attestation de Formation Qualifiante</h4>
+                        <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.8rem;">Programme We.Code · FORPRODE / GIZ / EPITECH</p>
+                    </div>
+                    <button onclick="openCertModal('images/certificat-wecode.png', 'Attestation de Formation — We.Code / FORPRODE / GIZ (Sécurité Numérique)')" class="btn btn-secondary" style="padding: 0.35rem 0.8rem; font-size: 0.8rem; color: var(--accent-cyber); width: 100%;">
+                        <i class="fas fa-eye"></i> Visualiser
+                    </button>
+                </div>
+
+                <!-- 3. Google Cybersecurity Professional — 27 Mars 2026 -->
+                <div class="cert-hub-card" data-cat="cyber" style="border-left: 4px solid var(--accent-cyber);">
+                    <div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
+                            <span class="cert-badge cyber">Cybersécurité</span>
+                            <span style="font-size: 0.78rem; color: var(--text-muted); font-family: var(--font-code);">27 Mars 2026</span>
+                        </div>
+                        <h4 style="font-size: 1.02rem; font-family: var(--font-heading); margin-bottom: 0.3rem;">Google Cybersecurity Professional</h4>
+                        <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.8rem;">Google Career Certificates · Coursera (9 cours)</p>
+                    </div>
+                    <button onclick="openCertModal('images/certificat-google.png', 'Google Cybersecurity Professional Certificate — Google Career Certificates')" class="btn btn-secondary" style="padding: 0.35rem 0.8rem; font-size: 0.8rem; color: var(--accent-cyber); width: 100%;">
+                        <i class="fas fa-eye"></i> Visualiser
+                    </button>
+                </div>
+
+                <!-- 4. Cisco Introduction to Cybersecurity — 26 Déc 2025 -->
+                <div class="cert-hub-card" data-cat="cyber" style="border-left: 4px solid var(--accent-cyber);">
+                    <div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
+                            <span class="cert-badge cyber">Réseaux & Cyber</span>
+                            <span style="font-size: 0.78rem; color: var(--text-muted); font-family: var(--font-code);">26 Déc 2025</span>
+                        </div>
+                        <h4 style="font-size: 1.02rem; font-family: var(--font-heading); margin-bottom: 0.3rem;">Introduction to Cybersecurity</h4>
+                        <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.8rem;">Cisco Networking Academy</p>
+                    </div>
+                    <button onclick="openCertModal('images/certificat-cisco.png', 'Introduction to Cybersecurity — Cisco Networking Academy')" class="btn btn-secondary" style="padding: 0.35rem 0.8rem; font-size: 0.8rem; color: var(--accent-cyber); width: 100%;">
+                        <i class="fas fa-eye"></i> Visualiser
+                    </button>
+                </div>
+
+                <!-- 5. D-CLIC OIF Développement Mobile — 21 Nov 2025 -->
+                <div class="cert-hub-card" data-cat="dev" style="border-left: 4px solid var(--accent-dev);">
+                    <div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
+                            <span class="cert-badge" style="color: var(--accent-dev); background: rgba(139,92,246,0.1);">Développement Mobile</span>
+                            <span style="font-size: 0.78rem; color: var(--text-muted); font-family: var(--font-code);">21 Nov 2025</span>
+                        </div>
+                        <h4 style="font-size: 1.02rem; font-family: var(--font-heading); margin-bottom: 0.3rem;">Développement Mobile (Débutant)</h4>
+                        <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.8rem;">Organisation Internationale de la Francophonie (D-CLIC)</p>
+                    </div>
+                    <button onclick="openCertModal('images/certificat-dclic.png', 'Attestation de Formation D-CLIC — Organisation Internationale de la Francophonie (OIF)')" class="btn btn-secondary" style="padding: 0.35rem 0.8rem; font-size: 0.8rem; color: var(--accent-dev); width: 100%;">
+                        <i class="fas fa-eye"></i> Visualiser
+                    </button>
+                </div>
+
+                <!-- 6. Club EBIOS / ANSSI — 17 Oct 2025 -->
+                <div class="cert-hub-card" data-cat="cyber" style="border-left: 4px solid var(--accent-biz);">
+                    <div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
+                            <span class="cert-badge ebios">GRC / Risques</span>
+                            <span style="font-size: 0.78rem; color: var(--text-muted); font-family: var(--font-code);">17 Oct 2025</span>
+                        </div>
+                        <h4 style="font-size: 1.02rem; font-family: var(--font-heading); margin-bottom: 0.3rem;">Introduction Méthode EBIOS RM</h4>
+                        <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.8rem;">Club EBIOS · ANSSI (MooC Certifiant)</p>
+                    </div>
+                    <button onclick="openCertModal('images/certificat-ebios.png', 'Certificat de Réalisation — EBIOS Risk Manager (Club EBIOS)')" class="btn btn-secondary" style="padding: 0.35rem 0.8rem; font-size: 0.8rem; color: var(--accent-biz); width: 100%;">
+                        <i class="fas fa-eye"></i> Visualiser
+                    </button>
+                </div>
+
+                <!-- 7. Fondation LYA — 2025 -->
+                <div class="cert-hub-card" data-cat="benevolat" style="border-left: 4px solid #10b981;">
+                    <div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
+                            <span class="cert-badge" style="color: #10b981; background: rgba(16,185,129,0.1);">Bénévolat & Social</span>
+                            <span style="font-size: 0.78rem; color: var(--text-muted); font-family: var(--font-code);">2025</span>
+                        </div>
+                        <h4 style="font-size: 1.02rem; font-family: var(--font-heading); margin-bottom: 0.3rem;">Attestation de Bénévolat 2025</h4>
+                        <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.8rem;">Fondation LYA — Vivre avec la drépanocytose</p>
+                    </div>
+                    <button onclick="openCertModal('images/certificat-lya-2025.png', 'Attestation de Bénévolat 2025 — Fondation LYA')" class="btn btn-secondary" style="padding: 0.35rem 0.8rem; font-size: 0.8rem; color: #10b981; width: 100%;">
+                        <i class="fas fa-eye"></i> Visualiser
+                    </button>
+                </div>
+
+                <!-- 8. Alison Mobile Photography — 23 Oct 2024 -->
+                <div class="cert-hub-card" data-cat="diy" style="border-left: 4px solid var(--accent-lab);">
+                    <div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
+                            <span class="cert-badge" style="color: var(--accent-lab); background: rgba(249,115,22,0.1);">Photographie</span>
+                            <span style="font-size: 0.78rem; color: var(--text-muted); font-family: var(--font-code);">23 Oct 2024</span>
+                        </div>
+                        <h4 style="font-size: 1.02rem; font-family: var(--font-heading); margin-bottom: 0.3rem;">Mobile Photography (CPD Certified)</h4>
+                        <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.8rem;">Alison · The CPD Certification Service</p>
+                    </div>
+                    <button onclick="openCertModal('images/certificat-photo-alison.png', 'Mobile Photography Certificate — Alison (CPD Certified)')" class="btn btn-secondary" style="padding: 0.35rem 0.8rem; font-size: 0.8rem; color: var(--accent-lab); width: 100%;">
+                        <i class="fas fa-eye"></i> Visualiser
+                    </button>
+                </div>
+
+                <!-- 9. Great Learning Prompt IA — Oct 2024 -->
+                <div class="cert-hub-card" data-cat="dev" style="border-left: 4px solid var(--accent-dev);">
+                    <div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
+                            <span class="cert-badge" style="color: var(--accent-dev); background: rgba(139,92,246,0.1);">Intelligence Artificielle</span>
+                            <span style="font-size: 0.78rem; color: var(--text-muted); font-family: var(--font-code);">Oct 2024</span>
+                        </div>
+                        <h4 style="font-size: 1.02rem; font-family: var(--font-heading); margin-bottom: 0.3rem;">Prompt Engineering for ChatGPT</h4>
+                        <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.8rem;">Great Learning Academy</p>
+                    </div>
+                    <button onclick="openCertModal('images/certificat-prompt-ia.png', 'Prompt Engineering for ChatGPT — Great Learning Academy')" class="btn btn-secondary" style="padding: 0.35rem 0.8rem; font-size: 0.8rem; color: var(--accent-dev); width: 100%;">
+                        <i class="fas fa-eye"></i> Visualiser
+                    </button>
+                </div>
+
+                <!-- 10. Fondation LYA — 2024 -->
+                <div class="cert-hub-card" data-cat="benevolat" style="border-left: 4px solid #10b981;">
+                    <div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
+                            <span class="cert-badge" style="color: #10b981; background: rgba(16,185,129,0.1);">Bénévolat & Social</span>
+                            <span style="font-size: 0.78rem; color: var(--text-muted); font-family: var(--font-code);">2024</span>
+                        </div>
+                        <h4 style="font-size: 1.02rem; font-family: var(--font-heading); margin-bottom: 0.3rem;">Attestation de Bénévolat 2024</h4>
+                        <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.8rem;">Fondation LYA (Dîner de bienfaisance « Voyage au pays de l'épicurisme »)</p>
+                    </div>
+                    <button onclick="openCertModal('images/certificat-lya-2024.png', 'Attestation de Bénévolat 2024 — Fondation LYA')" class="btn btn-secondary" style="padding: 0.35rem 0.8rem; font-size: 0.8rem; color: #10b981; width: 100%;">
+                        <i class="fas fa-eye"></i> Visualiser
+                    </button>
+                </div>
+
+                <!-- 11. Fondation LYA — 21 Déc 2023 -->
+                <div class="cert-hub-card" data-cat="benevolat" style="border-left: 4px solid #10b981;">
+                    <div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
+                            <span class="cert-badge" style="color: #10b981; background: rgba(16,185,129,0.1);">Bénévolat & Social</span>
+                            <span style="font-size: 0.78rem; color: var(--text-muted); font-family: var(--font-code);">21 Déc 2023</span>
+                        </div>
+                        <h4 style="font-size: 1.02rem; font-family: var(--font-heading); margin-bottom: 0.3rem;">Attestation de Bénévolat 2023</h4>
+                        <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.8rem;">Fondation LYA (Sous le parrainage de l'Ambassade des USA en Côte d'Ivoire)</p>
+                    </div>
+                    <button onclick="openCertModal('images/certificat-lya-2023.png', 'Attestation de Bénévolat 2023 — Fondation LYA (Ambassade des USA)')" class="btn btn-secondary" style="padding: 0.35rem 0.8rem; font-size: 0.8rem; color: #10b981; width: 100%;">
+                        <i class="fas fa-eye"></i> Visualiser
+                    </button>
+                </div>
+
+                <!-- 12. Fondation LYA — 2022 -->
+                <div class="cert-hub-card" data-cat="benevolat" style="border-left: 4px solid #10b981;">
+                    <div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
+                            <span class="cert-badge" style="color: #10b981; background: rgba(16,185,129,0.1);">Bénévolat & Social</span>
+                            <span style="font-size: 0.78rem; color: var(--text-muted); font-family: var(--font-code);">2022</span>
+                        </div>
+                        <h4 style="font-size: 1.02rem; font-family: var(--font-heading); margin-bottom: 0.3rem;">Attestation de Bénévolat 2022</h4>
+                        <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.8rem;">Fondation LYA (Cérémonie de remise de prix concours de logo & slogan)</p>
+                    </div>
+                    <button onclick="openCertModal('images/certificat-lya-2022.png', 'Attestation de Bénévolat 2022 — Fondation LYA')" class="btn btn-secondary" style="padding: 0.35rem 0.8rem; font-size: 0.8rem; color: #10b981; width: 100%;">
+                        <i class="fas fa-eye"></i> Visualiser
+                    </button>
+                </div>
+
+                <!-- 13. OSIWA / Centre ESD / CPI — 20 Juil 2018 -->
+                <div class="cert-hub-card" data-cat="benevolat" style="border-left: 4px solid var(--accent-biz);">
+                    <div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
+                            <span class="cert-badge" style="color: var(--accent-biz); background: rgba(239,68,68,0.1);">Droit & Concours</span>
+                            <span style="font-size: 0.78rem; color: var(--text-muted); font-family: var(--font-code);">20 Juil 2018</span>
+                        </div>
+                        <h4 style="font-size: 1.02rem; font-family: var(--font-heading); margin-bottom: 0.3rem;">Concours « Génies en herbe » OpenRight</h4>
+                        <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.8rem;">Centre ESD · Cour Pénale Internationale (CPI) · OSIWA</p>
+                    </div>
+                    <button onclick="openCertModal('images/certificat-osiwa.png', 'Certificat de Participation — Concours OpenRight & Cour Pénale Internationale (Centre ESD / OSIWA)')" class="btn btn-secondary" style="padding: 0.35rem 0.8rem; font-size: 0.8rem; color: var(--accent-biz); width: 100%;">
+                        <i class="fas fa-eye"></i> Visualiser
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Visualiseur de Certificat Protégé (Anti-Téléchargement) -->
+    <div class="modal" id="certModal" oncontextmenu="return false;" style="z-index: 300;">
+        <div class="modal-content" style="max-width: 900px; width: 95%; padding: 1.5rem; text-align: center;">
+            <button class="modal-close" onclick="closeCertModal()">&times;</button>
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1rem; padding-right: 2rem; flex-wrap: wrap;">
+                <h3 id="certModalTitle" style="font-family: var(--font-heading); font-size: 1.15rem; color: var(--accent-cyber); margin: 0; text-align: left;">
+                    Document Officiel
+                </h3>
+                <div style="display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.78rem; color: var(--accent-green); background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.25); padding: 0.25rem 0.65rem; border-radius: 20px;">
+                    <i class="fas fa-shield-halved"></i> Vue Sécurisée (Téléchargement désactivé)
+                </div>
+            </div>
+            <div style="position: relative; display: inline-block; max-width: 100%; border-radius: var(--radius-sm); overflow: hidden; background: #000; box-shadow: 0 10px 40px rgba(0,0,0,0.6);" oncontextmenu="return false;">
+                <div class="cert-overlay-guard" oncontextmenu="return false;"></div>
+                <img loading="lazy" decoding="async" id="certModalImg" src="" alt="Certificat Officiel" class="protected-cert-img" draggable="false" oncontextmenu="return false;">
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <!-- Barre Inférieure Unique & Centrée -->
+            <div class="footer-bottom">
+                <a href="admin.html">© 2026 <strong>Aboua Junior KOUADJO</strong>, All rights reserved</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="domains.js"></script>
+    <script src="main.js"></script>
+    <script>
+        function openContactModal() {
+            document.getElementById('contactModal').classList.add('active');
+        }
+        function closeContactModal() {
+            document.getElementById('contactModal').classList.remove('active');
+        }
+
+        function openAllCertsModal() {
+            const modal = document.getElementById('allCertsModal');
+            if (modal) modal.classList.add('active');
+        }
+        function closeAllCertsModal() {
+            const modal = document.getElementById('allCertsModal');
+            if (modal) modal.classList.remove('active');
+        }
+
+        function filterCertHub(cat, btn) {
+            const buttons = document.querySelectorAll('.cert-filter-btn');
+            buttons.forEach(b => b.classList.remove('active'));
+            if (btn) btn.classList.add('active');
+
+            const cards = document.querySelectorAll('.cert-hub-card');
+            cards.forEach(card => {
+                if (cat === 'all' || card.getAttribute('data-cat') === cat) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        function openCertModal(imageSrc, title) {
+            const modal = document.getElementById('certModal');
+            const modalImg = document.getElementById('certModalImg');
+            const modalTitle = document.getElementById('certModalTitle');
+            if (modal && modalImg && modalTitle) {
+                modalImg.src = imageSrc;
+                modalTitle.textContent = title;
+                modal.classList.add('active');
+            }
+        }
+
+        function closeCertModal() {
+            const modal = document.getElementById('certModal');
+            if (modal) modal.classList.remove('active');
+        }
+
+        window.addEventListener('click', (e) => {
+            const contactModal = document.getElementById('contactModal');
+            const certModal = document.getElementById('certModal');
+            const allCertsModal = document.getElementById('allCertsModal');
+            if (e.target === contactModal) closeContactModal();
+            if (e.target === certModal) closeCertModal();
+            if (e.target === allCertsModal) closeAllCertsModal();
+        });
+
+        // Fermeture avec la touche Échap (Escape)
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeContactModal();
+                closeCertModal();
+                closeAllCertsModal();
+            }
+        });
+
+        // Empêcher le clic droit et le menu contextuel sur la fenêtre flottante
+        document.addEventListener('contextmenu', (e) => {
+            if (e.target.closest('#certModal') || e.target.closest('#allCertsModal') || e.target.classList.contains('protected-cert-img') || e.target.classList.contains('cert-overlay-guard')) {
+                e.preventDefault();
+                return false;
+            }
+        });
+    </script>
+</body>
+</html>
