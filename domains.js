@@ -63,7 +63,7 @@ const DEFAULT_AKOULY_CONFIG = {
             icon: "fas fa-scissors",
             badge: "ATELIER & CRÉATION",
             color: "var(--accent-lab)",
-            link: "lab.html",
+            link: "creations.html",
             description: "Atelier de création manuelle : Art de l'origami, modélisation 3D pour ferronnier, photographie mobile et aménagement workspace.",
             highlights: ["Art de l'Origami modulaire", "Modélisation 3D Support Casque", "Photographie Mobile"],
             stats: "6 Catégories DIY"

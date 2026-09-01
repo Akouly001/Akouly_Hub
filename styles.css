@@ -3051,6 +3051,7 @@ body.ring-grow #cursor-ring {
    Appliqué exclusivement aux boutons "Retour à DIY" et "Écrire un mail"
    ========================================================================== */
 .btn-diy-back,
+.nav-links a[href="creations.html"],
 .nav-links a[href="lab.html"],
 .btn-mail,
 .btn-send-mail,
@@ -3060,6 +3061,7 @@ a[href*="mailto:"] {
 }
 
 .btn-diy-back::after,
+.nav-links a[href="creations.html"]::after,
 .nav-links a[href="lab.html"]::after,
 .btn-mail::after,
 .btn-send-mail::after,
