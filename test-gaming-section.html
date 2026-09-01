@@ -3,38 +3,22 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Akouly Hub — Section Gaming Fluide (Test Standalone)</title>
+  <title>Akouly Hub — Showcase Gaming Épuré (3 Produits Visibles)</title>
 
-  <!-- Google Fonts : Orbitron & Inter & Fira Code -->
+  <!-- Google Fonts : Orbitron & Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@400;500;600;700&family=Orbitron:wght@600;700;800;900&display=swap" rel="stylesheet">
-
-  <!-- FontAwesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Inter:wght@400;600&display=swap" rel="stylesheet">
 
   <!-- Swiper.js CSS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
   <style>
-    /* ==========================================================================
-       VARIABLES DE COULEURS CYBER-GAMING & FLUIDITÉ
-       ========================================================================== */
     :root {
       --bg-dark: #07090e;
-      --panel-bg: rgba(13, 17, 27, 0.65);
       --neon-cyan: #00f0ff;
       --neon-violet: #8b5cf6;
-      --neon-purple: #a855f7;
       --neon-pink: #ec4899;
-      --text-main: #f8fafc;
-      --text-muted: #94a3b8;
-      --font-body: 'Inter', system-ui, sans-serif;
-      --font-display: 'Orbitron', sans-serif;
-      --font-code: 'Fira Code', monospace;
-      --gradient-gaming: linear-gradient(135deg, #00f0ff 0%, #8b5cf6 50%, #ec4899 100%);
-      --glow-cyan: rgba(0, 240, 255, 0.4);
-      --glow-violet: rgba(139, 92, 246, 0.4);
     }
 
     *, *::before, *::after {
@@ -45,782 +29,258 @@
 
     body {
       background-color: var(--bg-dark);
-      color: var(--text-main);
-      font-family: var(--font-body);
       min-height: 100vh;
       display: flex;
-      flex-direction: column;
       align-items: center;
       justify-content: center;
       overflow-x: hidden;
+      margin: 0;
       position: relative;
       background-image: 
-        radial-gradient(circle at 15% 25%, rgba(0, 240, 255, 0.09) 0%, transparent 45%),
-        radial-gradient(circle at 85% 75%, rgba(139, 92, 246, 0.12) 0%, transparent 50%),
-        radial-gradient(circle at 50% 50%, rgba(236, 72, 153, 0.05) 0%, transparent 60%);
+        radial-gradient(circle at 50% 50%, rgba(0, 240, 255, 0.08) 0%, rgba(139, 92, 246, 0.06) 40%, transparent 70%);
       background-attachment: fixed;
     }
 
-    /* Grille d'arrière-plan cyber discrète */
-    .cyber-grid-bg {
-      position: fixed;
-      inset: 0;
-      background-image:
-        linear-gradient(rgba(0, 240, 255, 0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0, 240, 255, 0.03) 1px, transparent 1px);
-      background-size: 40px 40px;
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    /* Halo ambiant suiveur de focus */
-    .ambient-glow {
-      position: absolute;
-      width: 600px;
-      height: 600px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(0, 240, 255, 0.15) 0%, rgba(139, 92, 246, 0.08) 40%, transparent 70%);
-      top: 50%;
-      right: 15%;
-      transform: translate(50%, -50%);
-      filter: blur(60px);
-      pointer-events: none;
-      z-index: 1;
-      animation: ambientFloat 8s ease-in-out infinite alternate;
-    }
-
-    @keyframes ambientFloat {
-      0% { transform: translate(45%, -45%) scale(0.9); opacity: 0.7; }
-      100% { transform: translate(55%, -55%) scale(1.15); opacity: 1; }
-    }
-
-    /* ==========================================================================
-       SECTION GAMING LAYOUT (2 COLONNES 50/50 SANS COUPURE NETTE)
-       ========================================================================== */
-    .gaming-section {
+    /* Conteneur principal plein écran centré */
+    .showcase-section {
       width: 100%;
-      max-width: 1360px;
+      max-width: 1200px;
       margin: 0 auto;
-      padding: 4.5rem 2.5rem;
-      position: relative;
-      z-index: 2;
-    }
-
-    .gaming-container {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 3.5rem;
-    }
-
-    .gaming-col-text,
-    .gaming-col-carousel {
-      flex: 1 1 50%;
-      min-width: 0;
-    }
-
-    /* ==========================================================================
-       COLONNE GAUCHE : IDENTITÉ, TITRE & APPEL À L'ACTION
-       ========================================================================== */
-    .gaming-col-text {
+      padding: 2rem 1rem;
       display: flex;
       flex-direction: column;
-      align-items: flex-start;
-      z-index: 2;
-    }
-
-    .badge-tag {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.6rem;
-      padding: 0.45rem 1.1rem;
-      border-radius: 9999px;
-      background: rgba(0, 240, 255, 0.08);
-      border: 1px solid rgba(0, 240, 255, 0.25);
-      color: var(--neon-cyan);
-      font-family: var(--font-display);
-      font-size: 0.76rem;
-      font-weight: 700;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      margin-bottom: 1.5rem;
-      box-shadow: 0 0 15px rgba(0, 240, 255, 0.15);
-      backdrop-filter: blur(8px);
-    }
-
-    .badge-tag-dot {
-      width: 7px;
-      height: 7px;
-      background: var(--neon-cyan);
-      border-radius: 50%;
-      box-shadow: 0 0 10px var(--neon-cyan);
-      animation: pulseDot 2s infinite;
-    }
-
-    @keyframes pulseDot {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.4; transform: scale(0.7); }
-    }
-
-    .gaming-title {
-      font-family: var(--font-display);
-      font-size: clamp(2.3rem, 4vw, 3.5rem);
-      font-weight: 900;
-      line-height: 1.12;
-      text-transform: uppercase;
-      letter-spacing: -0.5px;
-      margin-bottom: 1.4rem;
-    }
-
-    .gaming-title .highlight {
-      background: var(--gradient-gaming);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      filter: drop-shadow(0 0 25px rgba(0, 240, 255, 0.35));
-    }
-
-    .gaming-description {
-      color: var(--text-muted);
-      font-size: 1.05rem;
-      line-height: 1.7;
-      max-width: 500px;
-      margin-bottom: 2.2rem;
-    }
-
-    .features-list {
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-      margin-bottom: 2.4rem;
-    }
-
-    .feature-item {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      font-size: 0.95rem;
-      color: #cbd5e1;
-    }
-
-    .feature-item i {
-      color: var(--neon-cyan);
-      font-size: 1rem;
-    }
-
-    .gaming-actions {
-      display: flex;
-      align-items: center;
-      gap: 1.2rem;
-      flex-wrap: wrap;
-    }
-
-    .cta-button-primary {
-      display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 0.8rem;
-      padding: 1rem 2.2rem;
-      font-family: var(--font-display);
-      font-size: 0.92rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 1.2px;
-      color: #07090e;
-      background: var(--gradient-gaming);
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      text-decoration: none;
-      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-      box-shadow: 0 6px 24px rgba(0, 240, 255, 0.35);
-    }
-
-    .cta-button-primary:hover {
-      transform: translateY(-3px) scale(1.02);
-      box-shadow: 0 10px 35px rgba(0, 240, 255, 0.6);
-    }
-
-    .cta-button-secondary {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.6rem;
-      padding: 1rem 1.6rem;
-      font-family: var(--font-body);
-      font-size: 0.92rem;
-      font-weight: 600;
-      color: var(--text-main);
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 10px;
-      text-decoration: none;
-      transition: all 0.3s ease;
-      backdrop-filter: blur(10px);
-    }
-
-    .cta-button-secondary:hover {
-      background: rgba(255, 255, 255, 0.1);
-      border-color: rgba(255, 255, 255, 0.25);
-      color: #fff;
-    }
-
-    /* ==========================================================================
-       COLONNE DROITE : CARROUSEL COVERFLOW 3D FLUIDE (SANS SÉPARATION NETTE)
-       ========================================================================== */
-    .gaming-col-carousel {
       position: relative;
-      padding: 1rem 0;
+    }
+
+    /* Swiper Container */
+    .swiper-container-gaming {
+      width: 100%;
+      max-width: 1000px;
+      padding: 60px 0;
+      overflow: hidden; /* Masque le 4ème élément en dehors des 3 visibles */
+      position: relative;
     }
 
     .swiper {
       width: 100%;
-      padding-top: 35px;
-      padding-bottom: 55px;
       overflow: visible !important;
     }
 
-    /* SLIDE FLUIDE SANS BORDURES RIGIDES */
+    .swiper-wrapper {
+      display: flex;
+      align-items: center;
+    }
+
+    /* SLIDE : 0 texte, 0 bouton, 0 bordure rigide */
     .swiper-slide {
-      width: 290px;
-      height: 420px;
-      border-radius: 20px;
-      background: linear-gradient(160deg, rgba(26, 34, 53, 0.75) 0%, rgba(13, 17, 27, 0.65) 100%);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      padding: 1.6rem;
-      position: relative;
-      cursor: pointer;
-      overflow: hidden;
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.45);
-      transition: all 0.45s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .swiper-slide::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      border-radius: 20px;
-      padding: 1px;
-      background: linear-gradient(135deg, rgba(0, 240, 255, 0.2), rgba(139, 92, 246, 0.1), transparent 60%);
-      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-      -webkit-mask-composite: xor;
-      mask-composite: exclude;
-      pointer-events: none;
-      opacity: 0.6;
-      transition: opacity 0.4s ease;
-    }
-
-    .swiper-slide-active {
-      transform: scale(1.05);
-      box-shadow: 
-        0 20px 50px rgba(0, 0, 0, 0.7),
-        0 0 30px rgba(0, 240, 255, 0.25),
-        0 0 60px rgba(139, 92, 246, 0.15);
-    }
-
-    .swiper-slide-active::before {
-      opacity: 1;
-      background: linear-gradient(135deg, rgba(0, 240, 255, 0.65), rgba(139, 92, 246, 0.5), rgba(236, 72, 153, 0.4));
-    }
-
-    /* ZONE IMAGE PRODUIT */
-    .product-img-wrapper {
-      width: 100%;
-      height: 190px;
-      border-radius: 14px;
-      background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.06) 0%, rgba(0, 0, 0, 0.2) 80%);
+      width: 280px;
+      height: 360px;
       display: flex;
       align-items: center;
       justify-content: center;
       position: relative;
-      overflow: hidden;
-      padding: 10px;
-    }
-
-    .product-real-img {
-      max-width: 85%;
-      max-height: 85%;
-      object-fit: contain;
-      filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.6)) drop-shadow(0 0 15px rgba(0, 240, 255, 0.2));
-      transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.4s ease;
-      will-change: transform;
-    }
-
-    .swiper-slide:hover .product-real-img,
-    .swiper-slide-active .product-real-img {
-      transform: scale(1.1) translateY(-4px);
-      filter: drop-shadow(0 14px 28px rgba(0, 0, 0, 0.8)) drop-shadow(0 0 25px rgba(0, 240, 255, 0.4));
-    }
-
-    .product-badge {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      background: rgba(0, 240, 255, 0.12);
-      border: 1px solid rgba(0, 240, 255, 0.35);
-      padding: 3px 9px;
-      border-radius: 6px;
-      font-size: 0.68rem;
-      font-weight: 700;
-      color: var(--neon-cyan);
-      text-transform: uppercase;
-      letter-spacing: 0.8px;
-      font-family: var(--font-display);
-      backdrop-filter: blur(6px);
-    }
-
-    .product-info {
-      margin-top: 0.8rem;
-    }
-
-    .product-category {
-      font-size: 0.75rem;
-      color: var(--neon-violet);
-      font-family: var(--font-code);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-bottom: 0.2rem;
-      font-weight: 600;
-    }
-
-    .product-name {
-      font-size: 1.15rem;
-      font-weight: 700;
-      color: var(--text-main);
-      margin-bottom: 0.4rem;
-      line-height: 1.3;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .product-price-row {
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      margin-top: 0.4rem;
-    }
-
-    .product-price {
-      font-family: var(--font-display);
-      font-size: 1.15rem;
-      font-weight: 800;
-      color: var(--neon-cyan);
-      letter-spacing: 0.5px;
-    }
-
-    .product-status {
-      font-size: 0.72rem;
-      color: #10b981;
-      display: flex;
-      align-items: center;
-      gap: 0.3rem;
-      font-weight: 600;
-    }
-
-    .btn-card-action {
-      width: 100%;
-      margin-top: 0.85rem;
-      padding: 0.75rem 1rem;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      color: var(--text-main);
-      border-radius: 10px;
-      font-size: 0.85rem;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.6rem;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      text-decoration: none;
-    }
-
-    .btn-card-action:hover {
-      background: rgba(0, 240, 255, 0.15);
-      border-color: var(--neon-cyan);
-      color: var(--neon-cyan);
-      box-shadow: 0 0 15px rgba(0, 240, 255, 0.25);
-    }
-
-    .swiper-button-prev,
-    .swiper-button-next {
-      color: var(--neon-cyan) !important;
-      background: rgba(13, 17, 27, 0.75);
-      border: 1px solid rgba(0, 240, 255, 0.3);
-      width: 46px;
-      height: 46px;
-      border-radius: 50%;
-      backdrop-filter: blur(12px);
-      transition: all 0.35s ease;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-    }
-
-    .swiper-button-prev::after,
-    .swiper-button-next::after {
-      font-size: 1.05rem !important;
-      font-weight: bold;
-    }
-
-    .swiper-button-prev:hover,
-    .swiper-button-next:hover {
-      background: var(--neon-cyan);
-      color: #07090e !important;
-      box-shadow: 0 0 20px var(--neon-cyan);
-      transform: scale(1.08);
-    }
-
-    .swiper-pagination {
-      bottom: 10px !important;
-    }
-
-    .swiper-pagination-bullet {
-      background: var(--text-muted);
-      opacity: 0.35;
-      width: 8px;
-      height: 8px;
-      transition: all 0.35s ease;
-    }
-
-    .swiper-pagination-bullet-active {
-      background: var(--neon-cyan) !important;
-      opacity: 1;
-      width: 28px;
-      border-radius: 4px;
-      box-shadow: 0 0 12px var(--neon-cyan);
-    }
-
-    .modal-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.85);
-      backdrop-filter: blur(16px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 999;
-      opacity: 0;
-      visibility: hidden;
-      transition: all 0.3s ease;
-      padding: 1.5rem;
-    }
-
-    .modal-overlay.active {
-      opacity: 1;
-      visibility: visible;
-    }
-
-    .modal-box {
-      background: #0d111b;
-      border: 1px solid rgba(0, 240, 255, 0.35);
-      border-radius: 18px;
-      width: 100%;
-      max-width: 480px;
-      padding: 2.2rem;
-      position: relative;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), 0 0 30px rgba(0, 240, 255, 0.2);
-    }
-
-    .modal-close {
-      position: absolute;
-      top: 1.2rem;
-      right: 1.2rem;
       background: transparent;
       border: none;
-      color: var(--text-muted);
-      font-size: 1.6rem;
-      cursor: pointer;
-      transition: color 0.2s;
+      box-shadow: none;
+      cursor: grab;
+      user-select: none;
+      -webkit-user-select: none;
+      
+      /* État par défaut pour le 4ème élément masqué */
+      opacity: 0;
+      pointer-events: none;
+      transform: scale(0.65);
+      transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    .modal-close:hover {
-      color: var(--neon-cyan);
+    .swiper-slide:active {
+      cursor: grabbing;
     }
 
-    @media (max-width: 992px) {
-      .gaming-container {
-        flex-direction: column;
-        text-align: center;
-        gap: 3rem;
-      }
-      .gaming-col-text {
-        align-items: center;
-      }
-      .gaming-description {
-        margin-left: auto;
-        margin-right: auto;
-      }
-      .features-list {
-        align-items: center;
-      }
-      .gaming-actions {
-        justify-content: center;
-      }
-      .ambient-glow {
-        top: 65%;
-        right: 50%;
-        transform: translate(50%, -50%);
-      }
+    /* SEULS LES 3 ÉLÉMENTS (Précédent, Actif, Suivant) SONT VISIBLES */
+    .swiper-slide-active,
+    .swiper-slide-prev,
+    .swiper-slide-next {
+      opacity: 1;
+      pointer-events: auto;
     }
 
-    @media (max-width: 640px) {
-      .gaming-section {
-        padding: 3rem 1.2rem;
-      }
+    /* CONTENEUR DE L'IMAGE DU PRODUIT (FLOTTANTE ET ÉPURÉE) */
+    .product-holder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* IMAGE RÉELLE DU PRODUIT */
+    .product-img {
+      max-width: 90%;
+      max-height: 90%;
+      object-fit: contain;
+      pointer-events: none;
+      transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1), filter 0.55s ease;
+      will-change: transform, filter;
+    }
+
+    /* 1. PRODUIT CENTRAL (Actif - Hero Focus) */
+    .swiper-slide-active .product-holder {
+      transform: scale(1.18);
+    }
+    .swiper-slide-active .product-img {
+      filter: 
+        drop-shadow(0 20px 40px rgba(0, 0, 0, 0.8)) 
+        drop-shadow(0 0 35px rgba(0, 240, 255, 0.45));
+      animation: floatActive 4s ease-in-out infinite alternate;
+    }
+
+    /* 2. PRODUITS GAUCHE & DROITE (Effet de zoom léger et symétrique) */
+    .swiper-slide-prev .product-holder,
+    .swiper-slide-next .product-holder {
+      transform: scale(0.92);
+      opacity: 0.82;
+    }
+
+    .swiper-slide-prev .product-img,
+    .swiper-slide-next .product-img {
+      filter: 
+        drop-shadow(0 12px 25px rgba(0, 0, 0, 0.7)) 
+        drop-shadow(0 0 20px rgba(139, 92, 246, 0.3));
+    }
+
+    /* Hover interactif sur les côtés gauche et droite */
+    .swiper-slide-prev:hover .product-holder,
+    .swiper-slide-next:hover .product-holder {
+      transform: scale(0.98);
+      opacity: 1;
+    }
+
+    @keyframes floatActive {
+      0% { transform: translateY(0px) scale(1); }
+      100% { transform: translateY(-8px) scale(1.02); }
+    }
+
+    /* Halo lumineux doux sous le produit actif */
+    .glow-floor {
+      position: absolute;
+      width: 220px;
+      height: 40px;
+      background: radial-gradient(ellipse, rgba(0, 240, 255, 0.4) 0%, rgba(139, 92, 246, 0.15) 50%, transparent 75%);
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      pointer-events: none;
+      filter: blur(14px);
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+
+    .swiper-slide-active .glow-floor {
+      opacity: 1;
+    }
+
+    @media (max-width: 768px) {
       .swiper-slide {
-        width: 260px;
-        height: 390px;
-        padding: 1.2rem;
+        width: 210px;
+        height: 280px;
       }
-      .product-img-wrapper {
-        height: 160px;
+      .swiper-slide-active .product-holder {
+        transform: scale(1.12);
       }
-      .swiper-button-prev,
-      .swiper-button-next {
-        display: none;
+      .swiper-slide-prev .product-holder,
+      .swiper-slide-next .product-holder {
+        transform: scale(0.85);
       }
     }
   </style>
 </head>
 <body>
 
-  <!-- Grille & Halo Cyber -->
-  <div class="cyber-grid-bg"></div>
-  <div class="ambient-glow"></div>
-
-  <!-- SECTION GAMING (2 Colonnes 50/50) -->
-  <section class="gaming-section" id="akouly-gaming">
-    <div class="gaming-container">
-      
-      <!-- Colonne Gauche : Titre, Explications & CTA -->
-      <div class="gaming-col-text">
-        <div class="badge-tag">
-          <span class="badge-tag-dot"></span>
-          <span>Akouly Hub Gaming</span>
-        </div>
-        
-        <h2 class="gaming-title">
-          Boostez votre <br />
-          <span class="highlight">Setup Gaming</span>
-        </h2>
-        
-        <p class="gaming-description">
-          Débloquez des performances extrêmes et dominez vos parties avec nos composants haute précision certifiés, optimisés pour la fluidité 144Hz+ et le multitâche lourd.
-        </p>
-
-        <div class="features-list">
-          <div class="feature-item">
-            <i class="fas fa-check-circle"></i>
-            <span>Composants certifiés neufs & garantis</span>
+  <section class="showcase-section">
+    <div class="swiper-container-gaming">
+      <div class="swiper">
+        <div class="swiper-wrapper">
+          
+          <!-- 1. Processeur AMD Ryzen -->
+          <div class="swiper-slide">
+            <div class="product-holder">
+              <img src="images/gaming-cpu-ryzen.png" alt="AMD Ryzen" class="product-img">
+              <div class="glow-floor"></div>
+            </div>
           </div>
-          <div class="feature-item">
-            <i class="fas fa-check-circle"></i>
-            <span>Conseil personnalisé & devis d'assemblage sur-mesure</span>
-          </div>
-          <div class="feature-item">
-            <i class="fas fa-check-circle"></i>
-            <span>Disponibilité rapide & livraison à Abidjan</span>
-          </div>
-        </div>
 
-        <div class="gaming-actions">
-          <button onclick="openOrderModal('Setup Complet')" class="cta-button-primary">
-            <span>Commander</span>
-            <i class="fas fa-arrow-right"></i>
-          </button>
-          <a href="gaming.html" class="cta-button-secondary">
-            <i class="fas fa-gamepad"></i>
-            <span>Voir l'univers Gaming</span>
-          </a>
+          <!-- 2. Carte Mère MSI Gaming Plus WiFi -->
+          <div class="swiper-slide">
+            <div class="product-holder">
+              <img src="images/gaming-mobo-msi.png" alt="MSI Gaming Plus WiFi" class="product-img">
+              <div class="glow-floor"></div>
+            </div>
+          </div>
+
+          <!-- 3. RAM Corsair Vengeance RGB PRO SL -->
+          <div class="swiper-slide">
+            <div class="product-holder">
+              <img src="images/gaming-ram-corsair.png" alt="Corsair Vengeance RGB PRO" class="product-img">
+              <div class="glow-floor"></div>
+            </div>
+          </div>
+
+          <!-- 4. SSD Kingston KC3000 PCIe 4.0 NVMe -->
+          <div class="swiper-slide">
+            <div class="product-holder">
+              <img src="images/gaming-ssd-kingston.png" alt="Kingston KC3000 SSD" class="product-img">
+              <div class="glow-floor"></div>
+            </div>
+          </div>
+
         </div>
       </div>
-
-      <!-- Colonne Droite : Swiper 3D Coverflow Fluide avec les 4 Vrais Produits -->
-      <div class="gaming-col-carousel">
-        <div class="swiper">
-          <div class="swiper-wrapper">
-            
-            <!-- Produit 1 : Processeur AMD Ryzen -->
-            <div class="swiper-slide">
-              <div class="product-img-wrapper">
-                <span class="product-badge">5.4 GHz</span>
-                <img loading="lazy" decoding="async" src="images/gaming-cpu-ryzen.png" alt="Processeur AMD Ryzen 7000 Series" class="product-real-img">
-              </div>
-              <div class="product-info">
-                <div class="product-category">CPU · Octa-Core</div>
-                <h3 class="product-name" title="AMD Ryzen 7000 Series">AMD Ryzen 7000 Series</h3>
-                <div class="product-price-row">
-                  <div class="product-price">190 000 FCFA</div>
-                  <div class="product-status"><i class="fas fa-shield-halved"></i> En stock</div>
-                </div>
-              </div>
-              <button class="btn-card-action" onclick="openOrderModal('AMD Ryzen 7000 Series (190 000 FCFA)')">
-                <i class="fas fa-cart-plus"></i> Commander ce composant
-              </button>
-            </div>
-
-            <!-- Produit 2 : Carte Mère MSI Gaming Plus WiFi -->
-            <div class="swiper-slide">
-              <div class="product-img-wrapper">
-                <span class="product-badge">PCIe 5.0 · DDR5</span>
-                <img loading="lazy" decoding="async" src="images/gaming-mobo-msi.png" alt="Carte Mère MSI B650 Gaming Plus WiFi" class="product-real-img">
-              </div>
-              <div class="product-info">
-                <div class="product-category">Carte Mère · ATX</div>
-                <h3 class="product-name" title="MSI B650 Gaming Plus WiFi">MSI Gaming Plus WiFi</h3>
-                <div class="product-price-row">
-                  <div class="product-price">140 000 FCFA</div>
-                  <div class="product-status"><i class="fas fa-shield-halved"></i> En stock</div>
-                </div>
-              </div>
-              <button class="btn-card-action" onclick="openOrderModal('MSI B650 Gaming Plus WiFi (140 000 FCFA)')">
-                <i class="fas fa-cart-plus"></i> Commander ce composant
-              </button>
-            </div>
-
-            <!-- Produit 3 : RAM Corsair Vengeance RGB PRO SL -->
-            <div class="swiper-slide">
-              <div class="product-img-wrapper">
-                <span class="product-badge">RGB 6000MHz</span>
-                <img loading="lazy" decoding="async" src="images/gaming-ram-corsair.png" alt="RAM Corsair Vengeance RGB PRO SL 32Go" class="product-real-img">
-              </div>
-              <div class="product-info">
-                <div class="product-category">Mémoire · Dual Channel</div>
-                <h3 class="product-name" title="Corsair Vengeance RGB PRO SL 32 Go">Corsair RGB PRO 32 Go</h3>
-                <div class="product-price-row">
-                  <div class="product-price">65 000 FCFA</div>
-                  <div class="product-status"><i class="fas fa-shield-halved"></i> En stock</div>
-                </div>
-              </div>
-              <button class="btn-card-action" onclick="openOrderModal('Corsair Vengeance RGB PRO 32 Go (65 000 FCFA)')">
-                <i class="fas fa-cart-plus"></i> Commander ce composant
-              </button>
-            </div>
-
-            <!-- Produit 4 : SSD Kingston KC3000 PCIe 4.0 NVMe M.2 -->
-            <div class="swiper-slide">
-              <div class="product-img-wrapper">
-                <span class="product-badge">7000 Mo/s · Gen 4</span>
-                <img loading="lazy" decoding="async" src="images/gaming-ssd-kingston.png" alt="SSD Kingston KC3000 PCIe 4.0 NVMe M.2 1To" class="product-real-img">
-              </div>
-              <div class="product-info">
-                <div class="product-category">Stockage · M.2 NVMe</div>
-                <h3 class="product-name" title="Kingston KC3000 NVMe M.2 1 To">Kingston KC3000 1 To</h3>
-                <div class="product-price-row">
-                  <div class="product-price">45 000 FCFA</div>
-                  <div class="product-status"><i class="fas fa-shield-halved"></i> En stock</div>
-                </div>
-              </div>
-              <button class="btn-card-action" onclick="openOrderModal('SSD Kingston KC3000 1 To (45 000 FCFA)')">
-                <i class="fas fa-cart-plus"></i> Commander ce composant
-              </button>
-            </div>
-
-          </div>
-
-          <!-- Pagination & Navigation -->
-          <div class="swiper-pagination"></div>
-          <div class="swiper-button-prev"></div>
-          <div class="swiper-button-next"></div>
-        </div>
-      </div>
-
     </div>
   </section>
 
-  <!-- Modal Démo de Commande Interactive -->
-  <div class="modal-overlay" id="orderModal" onclick="closeOrderModal(event)">
-    <div class="modal-box" onclick="event.stopPropagation()">
-      <button class="modal-close" onclick="closeOrderModal()">&times;</button>
-      <div style="font-size: 0.8rem; color: var(--neon-cyan); font-family: var(--font-display); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 0.4rem;">
-        Akouly Gaming · Commande Directe
-      </div>
-      <h3 style="font-family: var(--font-display); font-size: 1.35rem; margin-bottom: 0.8rem; color: #fff;" id="modalProductTitle">
-        Commander un composant
-      </h3>
-      <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.6; margin-bottom: 1.5rem;">
-        Envoyez directement votre demande via WhatsApp ou par formulaire pour valider la disponibilité et convenir du retrait ou de la livraison.
-      </p>
-
-      <div style="display: flex; flex-direction: column; gap: 0.8rem;">
-        <a id="whatsappBtn" href="https://wa.me/2250700000000" target="_blank" class="cta-button-primary" style="text-align: center; background: #25D366; color: #000; box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);">
-          <i class="fab fa-whatsapp" style="font-size: 1.2rem;"></i>
-          <span>Commander sur WhatsApp</span>
-        </a>
-        <button onclick="closeOrderModal()" class="cta-button-secondary" style="justify-content: center;">
-          <span>Fermer</span>
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Swiper.js Script & Initialisation -->
+  <!-- Swiper.js -->
   <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       const swiper = new Swiper('.swiper', {
-        // Module Coverflow 3D
         effect: 'coverflow',
         grabCursor: true,
         centeredSlides: true,
-        slidesPerView: 'auto',
+        slidesPerView: 3, /* Strictement 3 objets visibles à la fois */
         loop: true,
         slideToClickedSlide: true,
         speed: 650,
 
-        // Transition ultra-fluide sans angle dur
+        // Transition 3D coverflow fluide sans rupture
         coverflowEffect: {
-          rotate: 18,
-          stretch: 12,
-          depth: 130,
+          rotate: 15,
+          stretch: 15,
+          depth: 140,
           modifier: 1,
-          slideShadows: false, /* Désactive les ombres rigides pour une transition plus fluide */
+          slideShadows: false, /* 0 ombre dure, pure fluidité lumineuse */
         },
 
-        // Défilement automatique doux
+        // Défilement automatique fluide
         autoplay: {
-          delay: 3800,
+          delay: 3200,
           disableOnInteraction: false,
           pauseOnMouseEnter: true,
         },
 
-        // Pagination interactive
-        pagination: {
-          el: '.swiper-pagination',
-          clickable: true,
+        // Support complet molette et tactile
+        mousewheel: {
+          forceToAxis: true,
+          sensitivity: 1,
         },
-
-        // Flèches de navigation
-        navigation: {
-          nextEl: '.swiper-button-next',
-          prevEl: '.swiper-button-prev',
+        keyboard: {
+          enabled: true,
         },
       });
-    });
-
-    function openOrderModal(productName) {
-      const modal = document.getElementById('orderModal');
-      const title = document.getElementById('modalProductTitle');
-      const waBtn = document.getElementById('whatsappBtn');
-      if (modal && title) {
-        title.textContent = productName;
-        const msg = encodeURIComponent(`Bonjour Akouly, je souhaite commander le composant suivant : ${productName}`);
-        waBtn.href = `https://wa.me/2250700000000?text=${msg}`;
-        modal.classList.add('active');
-      }
-    }
-
-    function closeOrderModal(e) {
-      const modal = document.getElementById('orderModal');
-      if (modal) modal.classList.remove('active');
-    }
-
-    window.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') closeOrderModal();
     });
   </script>
 </body>
