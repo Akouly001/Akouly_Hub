@@ -3047,20 +3047,23 @@ body.ring-grow #cursor-ring {
 }
 
 /* ==========================================================================
-   Effet de Flash Périodique (5s) sur les Boutons Utilisables du Site
+   Effet de Flash Lent (10s - Vitesse divisée par 2)
+   Appliqué exclusivement aux boutons "Retour à DIY" et "Écrire un mail"
    ========================================================================== */
-.btn-primary,
-.btn-secondary,
-.btn-submit,
-.action-card-btn {
+.btn-diy-back,
+.nav-links a[href="lab.html"],
+.btn-mail,
+.btn-send-mail,
+a[href*="mailto:"] {
     position: relative;
     overflow: hidden;
 }
 
-.btn-primary::after,
-.btn-secondary::after,
-.btn-submit::after,
-.action-card-btn::after {
+.btn-diy-back::after,
+.nav-links a[href="lab.html"]::after,
+.btn-mail::after,
+.btn-send-mail::after,
+a[href*="mailto:"]::after {
     content: '';
     position: absolute;
     top: -50%;
@@ -3077,10 +3080,10 @@ body.ring-grow #cursor-ring {
     );
     transform: skewX(-25deg);
     pointer-events: none;
-    animation: globalButtonFlash 5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    animation: slowButtonFlash 10s cubic-bezier(0.4, 0, 0.2, 1) infinite;
 }
 
-@keyframes globalButtonFlash {
+@keyframes slowButtonFlash {
     0%, 72% {
         left: -160%;
         opacity: 0;
