@@ -2587,7 +2587,7 @@ img, video, iframe {
    Écran de Préchargement & Révélation Circulaire Progressive (Tous Univers)
    ========================================================================== */
 /* ==========================================================================
-   Écran de Préchargement & Révélation Circulaire Progressive (Tous Univers)
+   Écran de Préchargement & Révélation Fluide (Tous Univers)
    ========================================================================== */
 .preloader-overlay {
     position: fixed;
@@ -2602,19 +2602,22 @@ img, video, iframe {
     align-items: center;
     justify-content: center;
     pointer-events: auto;
-    transition: opacity 0.5s ease 0.4s, visibility 0.5s ease 0.4s;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.4s cubic-bezier(0.25, 1, 0.5, 1), visibility 0.4s ease;
+    will-change: opacity;
 }
 
 .preloader-overlay.loaded {
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
 }
 
 .preloader-overlay.loaded .loader {
-    transform: scale(0.6);
+    transform: scale(0.65);
     opacity: 0;
-    transition: transform 0.4s ease, opacity 0.4s ease;
+    transition: transform 0.35s ease, opacity 0.35s ease;
 }
 
 /* ── 1. Loader Accueil (Orbital Circles - l11) sur Fond Noir ── */
@@ -2798,23 +2801,6 @@ img, video, iframe {
     0%, 10%  { background-size: 20% 100%; }
     50%      { background-size: 20% 20%; }
     90%, 100%{ background-size: 100% 20%; }
-}
-
-/* ── Révélation Circulaire Progressive depuis le Centre sur Toutes les Pages ── */
-@keyframes irisCircularReveal {
-    0% {
-        clip-path: circle(0% at 50% 50%);
-        -webkit-clip-path: circle(0% at 50% 50%);
-    }
-    100% {
-        clip-path: circle(160% at 50% 50%);
-        -webkit-clip-path: circle(160% at 50% 50%);
-    }
-}
-
-body.page-revealing > *:not(.preloader-overlay) {
-    animation: irisCircularReveal 0.95s cubic-bezier(0.77, 0, 0.175, 1) forwards;
-    will-change: clip-path;
 }
 
 /* ==========================================================================

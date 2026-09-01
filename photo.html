@@ -572,17 +572,20 @@
     align-items: center;
     justify-content: center;
     pointer-events: auto;
-    transition: opacity 0.5s ease 0.4s, visibility 0.5s ease 0.4s;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.4s cubic-bezier(0.25, 1, 0.5, 1), visibility 0.4s ease;
+    will-change: opacity;
   }
   .preloader-overlay.loaded {
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
   }
   .preloader-overlay.loaded .loader {
-    transform: scale(0.6);
+    transform: scale(0.65);
     opacity: 0;
-    transition: transform 0.4s ease, opacity 0.4s ease;
+    transition: transform 0.35s ease, opacity 0.35s ease;
   }
   .loader-lab {
     width: 64px;
@@ -633,20 +636,6 @@
       calc(1*100%/3) calc(1*100%/3), calc(2*100%/3) calc(1*100%/3), calc(1*100%/3) calc(2*100%/3), calc(2*100%/3) calc(2*100%/3),
       calc(1*100%/3) calc(1*100%/3), calc(2*100%/3) calc(1*100%/3), calc(1*100%/3) calc(2*100%/3), calc(2*100%/3) calc(2*100%/3),
       calc(1*100%/3) calc(1*100%/3), calc(2*100%/3) calc(1*100%/3), calc(1*100%/3) calc(2*100%/3), calc(2*100%/3) calc(2*100%/3); }
-  }
-  @keyframes irisCircularReveal {
-    0% {
-      clip-path: circle(0% at 50% 50%);
-      -webkit-clip-path: circle(0% at 50% 50%);
-    }
-    100% {
-      clip-path: circle(160% at 50% 50%);
-      -webkit-clip-path: circle(160% at 50% 50%);
-    }
-  }
-  body.page-revealing > *:not(.preloader-overlay) {
-    animation: irisCircularReveal 0.95s cubic-bezier(0.77, 0, 0.175, 1) forwards;
-    will-change: clip-path;
   }
 
   @media (prefers-reduced-motion: reduce){
@@ -1287,32 +1276,42 @@
     if (!preloader) return;
 
     const startTime = Date.now();
-    const minDisplayTime = 800;
+    const minDisplayTime = 600;
     let isRevealed = false;
+    let isWindowLoaded = (document.readyState === 'complete');
 
-    function revealPage() {
+    function dismissPreloader() {
       if (isRevealed) return;
       isRevealed = true;
 
-      const elapsed = Date.now() - startTime;
-      const remaining = Math.max(0, minDisplayTime - elapsed);
+      preloader.classList.add('loaded');
 
       setTimeout(() => {
-        document.body.classList.add('page-revealing');
-        preloader.classList.add('loaded');
-
-        setTimeout(() => {
-          preloader.style.display = 'none';
-          document.body.classList.remove('page-revealing');
-        }, 1050);
-      }, remaining);
+        preloader.style.display = 'none';
+      }, 450);
     }
 
-    if (document.readyState === 'complete') {
-      revealPage();
+    function checkAndDismiss() {
+      if (!isWindowLoaded) return;
+      const elapsed = Date.now() - startTime;
+      const remaining = Math.max(0, minDisplayTime - elapsed);
+      setTimeout(dismissPreloader, remaining);
+    }
+
+    if (isWindowLoaded) {
+      checkAndDismiss();
     } else {
-      window.addEventListener('load', revealPage);
-      setTimeout(revealPage, 2500);
+      window.addEventListener('load', () => {
+        isWindowLoaded = true;
+        checkAndDismiss();
+      }, { once: true });
+
+      setTimeout(() => {
+        if (!isRevealed) {
+          isWindowLoaded = true;
+          checkAndDismiss();
+        }
+      }, 5000);
     }
   })();
 </script>

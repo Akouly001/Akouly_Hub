@@ -20,39 +20,51 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /**
- * 0. Préchargeur Circulaire avec Révélation Progressive depuis le Centre
+ * 0. Préchargeur Fluide & Révélation Immédiate dès Chargement Complet (Optimisé 60-120 FPS)
  */
 function initPreloader() {
     const preloader = document.getElementById('page-preloader');
     if (!preloader) return;
 
     const startTime = Date.now();
-    const minDisplayTime = 800;
+    const minDisplayTime = 600; // Durée minimale fluide pour admirer l'animation
     let isRevealed = false;
+    let isWindowLoaded = (document.readyState === 'complete');
 
-    function revealPage() {
+    function dismissPreloader() {
         if (isRevealed) return;
         isRevealed = true;
 
-        const elapsed = Date.now() - startTime;
-        const remaining = Math.max(0, minDisplayTime - elapsed);
+        preloader.classList.add('loaded');
 
+        // Retrait propre du DOM après la transition CSS fluide
         setTimeout(() => {
-            document.body.classList.add('page-revealing');
-            preloader.classList.add('loaded');
-
-            setTimeout(() => {
-                preloader.style.display = 'none';
-                document.body.classList.remove('page-revealing');
-            }, 1050);
-        }, remaining);
+            preloader.style.display = 'none';
+        }, 450);
     }
 
-    if (document.readyState === 'complete') {
-        revealPage();
+    function checkAndDismiss() {
+        if (!isWindowLoaded) return; // Reste en boucle tant que la page n'est pas 100% chargée
+        const elapsed = Date.now() - startTime;
+        const remaining = Math.max(0, minDisplayTime - elapsed);
+        setTimeout(dismissPreloader, remaining);
+    }
+
+    if (isWindowLoaded) {
+        checkAndDismiss();
     } else {
-        window.addEventListener('load', revealPage);
-        setTimeout(revealPage, 2500);
+        window.addEventListener('load', () => {
+            isWindowLoaded = true;
+            checkAndDismiss();
+        }, { once: true });
+
+        // Sécurité maximale (5s) si une ressource externe / CDN tiers est bloquée
+        setTimeout(() => {
+            if (!isRevealed) {
+                isWindowLoaded = true;
+                checkAndDismiss();
+            }
+        }, 5000);
     }
 }
 
