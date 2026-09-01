@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
     renderDomains();
     setupEventListeners();
     initNewFooter();
+    initHomeCursor();
     initBusinessCursor();
     initLabParticles();
     initDiyCursor();
@@ -801,6 +802,79 @@ function initNewFooter() {
     if (tickerContainer) {
         window.interestsTickerEngine = new InterestsTickerCanvasEngine();
     }
+}
+
+/**
+ * ==========================================================================
+ * CURSEUR SOBRE ACCUEIL — VARIANTE 1 (POINT + ANNEAU RESPIRANT À INERTIE)
+ * Spécifique à la page Accueil (data-page="home")
+ * ==========================================================================
+ */
+function initHomeCursor() {
+    if (document.body.getAttribute('data-page') !== 'home') return;
+    if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+
+    const dot1 = document.getElementById('dot1');
+    const ring1 = document.getElementById('ring1');
+    if (!dot1 || !ring1) return;
+
+    let mx = window.innerWidth / 2;
+    let my = window.innerHeight / 2;
+    let rx = mx;
+    let ry = my;
+    let isVisible = false;
+
+    window.addEventListener('mousemove', (e) => {
+        mx = e.clientX;
+        my = e.clientY;
+
+        if (!isVisible) {
+            isVisible = true;
+            dot1.style.opacity = '1';
+            ring1.style.opacity = '1';
+        }
+
+        dot1.style.left = `${mx}px`;
+        dot1.style.top = `${my}px`;
+    }, { passive: true });
+
+    function renderRing() {
+        rx += (mx - rx) * 0.22;
+        ry += (my - ry) * 0.22;
+        ring1.style.left = `${rx}px`;
+        ring1.style.top = `${ry}px`;
+        requestAnimationFrame(renderRing);
+    }
+    requestAnimationFrame(renderRing);
+
+    function attachHoverHandlers() {
+        const interactables = document.querySelectorAll(
+            'a, button, input, select, textarea, .action-card, .univers-card, .menu-toggle, .theme-toggle-btn, .btn, .nav-link, .interests-ticker-wrapper, .profil-card, .hero-cta-row a, .contrix-banner a'
+        );
+
+        interactables.forEach((el) => {
+            el.addEventListener('mouseenter', () => {
+                document.body.classList.add('grow1');
+            });
+            el.addEventListener('mouseleave', () => {
+                document.body.classList.remove('grow1');
+            });
+        });
+    }
+
+    attachHoverHandlers();
+
+    document.addEventListener('mouseleave', () => {
+        dot1.style.opacity = '0';
+        ring1.style.opacity = '0';
+        isVisible = false;
+    });
+
+    document.addEventListener('mouseenter', () => {
+        dot1.style.opacity = '1';
+        ring1.style.opacity = '1';
+        isVisible = true;
+    });
 }
 
 /**
