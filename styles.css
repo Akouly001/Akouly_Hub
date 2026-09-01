@@ -3069,6 +3069,87 @@ body[data-page="cyber"] .glitch-target:hover {
     transform: translateY(-1px);
 }
 
+/* ==========================================================================
+   NOUVEAUX FONDS DE PAGE : APPS & DEV & BUSINESS
+   ========================================================================== */
+
+/* ── FOND APPS & DEV : LIGNES DE CODE EN FONDU (DÉFILEMENT LENT) ── */
+.apps-code-background {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.apps-code-background .code-scroll {
+    position: absolute;
+    inset: 0;
+    margin: 0;
+    padding: 1.5rem;
+    font-family: 'Consolas', 'Fira Code', monospace;
+    font-size: 13px;
+    color: #8b5cf6;
+    opacity: 0.14;
+    line-height: 1.85;
+    white-space: pre;
+    pointer-events: none;
+    animation: appCodeScrollUp 22s linear infinite;
+    user-select: none;
+}
+
+[data-theme="light"] .apps-code-background .code-scroll {
+    color: #7c3aed;
+    opacity: 0.12;
+}
+
+@keyframes appCodeScrollUp {
+    from { transform: translateY(0); }
+    to { transform: translateY(-50%); }
+}
+
+/* ── FOND BUSINESS : GRILLE MINIMALE + HALO UNIQUE RESPIRANT ── */
+body[data-page="business"] .business-bg-grid {
+    position: fixed;
+    inset: 0;
+    background-image:
+        linear-gradient(var(--border-color) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border-color) 1px, transparent 1px);
+    background-size: 60px 60px;
+    opacity: 0.22;
+    pointer-events: none;
+    z-index: 0;
+}
+
+body[data-page="business"] .business-halo {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 520px;
+    height: 520px;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(circle, rgba(224, 163, 65, 0.16) 0%, rgba(224, 163, 65, 0) 70%);
+    animation: businessHaloBreathe 6.5s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 0;
+    border-radius: 50%;
+}
+
+[data-theme="light"] body[data-page="business"] .business-halo {
+    background: radial-gradient(circle, rgba(217, 119, 6, 0.14) 0%, rgba(217, 119, 6, 0) 70%);
+}
+
+@keyframes businessHaloBreathe {
+    0%, 100% {
+        transform: translate(-50%, -50%) scale(0.9);
+        opacity: 0.65;
+    }
+    50% {
+        transform: translate(-50%, -50%) scale(1.12);
+        opacity: 1;
+    }
+}
+
 
 
 

@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initPreloader();
     initCursorGlow();
     initCanvasBackground();
-    initAppsCanvasBackground();
+    initAppsCodeBackground();
     initTerminalTyping();
     initScrollReveal();
     renderDomains();
@@ -192,117 +192,33 @@ function initCanvasBackground() {
 }
 
 /**
- * 3. Canvas Animé Code-Matrix & Digital Nodes pour Apps & Dev (Optimisé 60 FPS)
+ * 3. Fond Lignes de Code Défilantes en Fondu pour Apps & Dev
  */
-function initAppsCanvasBackground() {
-    const canvas = document.getElementById('apps-bg-canvas');
-    if (!canvas) return;
+function initAppsCodeBackground() {
+    if (document.body.getAttribute('data-page') !== 'apps') return;
+    const pre = document.getElementById('codeScroll');
+    if (!pre) return;
 
-    const ctx = canvas.getContext('2d');
-    let animationFrameId;
-    let isVisible = true;
+    const snippets = [
+        'const scan = await audit.run(target);',
+        'if (vuln.severity === "high") alert(vuln);',
+        'export function connect(socket) { ... }',
+        '// TODO: refactor auth middleware',
+        'suricata -c suricata.yaml -i eth0',
+        'class Contrix extends GameEngine {',
+        'const socket = io.connect("https://api.akouly.dev");',
+        'async function renderScene(renderer, camera) {',
+        'ssh user@server -p 2222',
+        'await brain.predict(inputTensor);',
+        'export const routes = express.Router();',
+        'return response.status(200).json({ status: "ok" });'
+    ];
 
-    function resizeCanvas() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+    let codeText = '';
+    for (let i = 0; i < 30; i++) {
+        codeText += snippets[i % snippets.length] + '\n';
     }
-    resizeCanvas();
-    window.addEventListener('resize', resizeCanvas, { passive: true });
-
-    const symbols = ['{ }', '</>', 'fn()', 'AI', 'λ', '01', 'git', 'API', 'Dart', 'Py'];
-    const nodes = [];
-    const nodeCount = Math.min(24, Math.floor((canvas.width * canvas.height) / 45000));
-    const connectionDist = 140;
-    const mouse = { x: null, y: null, radius: 150 };
-
-    class AppNode {
-        constructor() {
-            this.x = Math.random() * canvas.width;
-            this.y = Math.random() * canvas.height;
-            this.vx = (Math.random() - 0.5) * 0.35;
-            this.vy = (Math.random() - 0.5) * 0.35;
-            this.symbol = symbols[Math.floor(Math.random() * symbols.length)];
-            this.size = Math.random() * 5 + 10;
-            this.alpha = Math.random() * 0.4 + 0.2;
-            this.color = Math.random() > 0.5 ? '139, 92, 246' : '6, 182, 212';
-        }
-
-        update() {
-            this.x += this.vx;
-            this.y += this.vy;
-
-            if (this.x < -30) this.x = canvas.width + 30;
-            if (this.x > canvas.width + 30) this.x = -30;
-            if (this.y < -30) this.y = canvas.height + 30;
-            if (this.y > canvas.height + 30) this.y = -30;
-
-            if (mouse.x != null && mouse.y != null) {
-                const dx = mouse.x - this.x;
-                const dy = mouse.y - this.y;
-                const dist = Math.sqrt(dx * dx + dy * dy);
-                if (dist < mouse.radius) {
-                    const force = (mouse.radius - dist) / mouse.radius;
-                    this.x -= (dx / dist) * force * 2;
-                    this.y -= (dy / dist) * force * 2;
-                }
-            }
-        }
-
-        draw() {
-            ctx.font = `${this.size}px 'Fira Code', monospace`;
-            ctx.fillStyle = `rgba(${this.color}, ${this.alpha})`;
-            ctx.fillText(this.symbol, this.x, this.y);
-        }
-    }
-
-    for (let i = 0; i < nodeCount; i++) {
-        nodes.push(new AppNode());
-    }
-
-    window.addEventListener('mousemove', (e) => {
-        mouse.x = e.clientX;
-        mouse.y = e.clientY;
-    }, { passive: true });
-
-    window.addEventListener('mouseleave', () => {
-        mouse.x = null;
-        mouse.y = null;
-    });
-
-    document.addEventListener('visibilitychange', () => {
-        isVisible = !document.hidden;
-        if (isVisible) animate();
-    });
-
-    function animate() {
-        if (!isVisible) return;
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        for (let i = 0; i < nodes.length; i++) {
-            nodes[i].update();
-            nodes[i].draw();
-
-            for (let j = i + 1; j < nodes.length; j++) {
-                const dx = nodes[i].x - nodes[j].x;
-                const dy = nodes[i].y - nodes[j].y;
-                const dist = Math.sqrt(dx * dx + dy * dy);
-
-                if (dist < connectionDist) {
-                    const alpha = (1 - (dist / connectionDist)) * 0.15;
-                    ctx.beginPath();
-                    ctx.moveTo(nodes[i].x, nodes[i].y);
-                    ctx.lineTo(nodes[j].x, nodes[j].y);
-                    ctx.strokeStyle = `rgba(139, 92, 246, ${alpha})`;
-                    ctx.lineWidth = 0.8;
-                    ctx.stroke();
-                }
-            }
-        }
-
-        animationFrameId = requestAnimationFrame(animate);
-    }
-
-    animate();
+    pre.textContent = codeText + codeText;
 }
 
 /**
