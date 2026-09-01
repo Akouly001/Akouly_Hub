@@ -43,7 +43,7 @@ const DEFAULT_AKOULY_CONFIG = {
             color: "var(--accent-dev)",
             link: "apps.html",
             description: "Conception d'applications mobiles, jeux et solutions logicielles : App Too, Jeu multijoueur Contrix et création assistée par l'IA.",
-            highlights: ["Jeu Multijoueur Contrix", "App Too (APK disponible)", "Vivi IA (En cours)"],
+            highlights: ["Jeu Multijoueur Contrix", "App Too (APK disponible)", "Vivi (En cours)"],
             stats: "Apps, Jeux & IA"
         },
         {
