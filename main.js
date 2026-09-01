@@ -532,14 +532,16 @@ class InterestsTickerCanvasEngine {
         this.ctx.font = `800 ${this.baseFontSize}px 'Plus Jakarta Sans', 'Syne', sans-serif`;
 
         let currentX = 0;
-        const separatorText = '       '; // Même espacement propre sans étoile
+        const separatorText = '       ';
         const sepMetrics = this.ctx.measureText(separatorText);
         const sepWidth = sepMetrics.width;
+        // +1cm d'espacement supplémentaire (~38px supplémentaires)
+        const extraSpacing1cm = 38;
 
         this.items = INTERESTS_CONFIG.map((conf, idx) => {
             const metrics = this.ctx.measureText(conf.title);
             const itemWidth = metrics.width;
-            const fullSlotWidth = itemWidth + sepWidth + 48; // espacement identique préservé
+            const fullSlotWidth = itemWidth + sepWidth + 48 + extraSpacing1cm;
 
             const itemData = {
                 ...conf,
@@ -549,8 +551,7 @@ class InterestsTickerCanvasEngine {
                 slotWidth: fullSlotWidth,
                 sepWidth: sepWidth,
                 scale: 1.0,
-                targetScale: 1.0,
-                pushOffset: 0
+                targetScale: 1.0
             };
             currentX += fullSlotWidth;
             return itemData;
@@ -686,7 +687,7 @@ class InterestsTickerCanvasEngine {
 
             for (let i = 0; i < this.items.length; i++) {
                 const item = this.items[i];
-                const itemCenterX = copyBaseX + item.localX + item.textWidth / 2 + 24 + (item.pushOffset || 0);
+                const itemCenterX = copyBaseX + item.localX + item.textWidth / 2 + 24;
 
                 if (this.mouseX >= 0 && this.mouseY >= 0 && this.mouseY <= this.height) {
                     const hitLeft = itemCenterX - item.textWidth * 0.65 - 16;
@@ -708,39 +709,21 @@ class InterestsTickerCanvasEngine {
             this.hideZoomCard();
         }
 
-        // 2. Interpolation du zoom (300%) et poussée dynamique des voisins gauche/droite
+        // 2. Interpolation pure du zoom (300% / x3.0) sans poussée
         for (let i = 0; i < this.items.length; i++) {
             const item = this.items[i];
             const isHovered = (this.hoveredIndex === i);
             item.targetScale = isHovered ? 3.0 : 1.0;
             item.scale += (item.targetScale - item.scale) * 0.22;
-
-            // Calcul du décalage de poussée (pushOffset) vers la gauche ou la droite
-            let targetPush = 0;
-            if (this.hoveredIndex !== -1 && this.hoveredIndex !== i) {
-                const hoveredItem = this.items[this.hoveredIndex];
-                const zoomFactor = Math.max(0, hoveredItem.scale - 1.0); // 0 -> 2.0
-                const pushMag = (hoveredItem.textWidth * 0.85 + 40) * (zoomFactor / 2.0);
-
-                if (i < this.hoveredIndex) {
-                    const dist = this.hoveredIndex - i;
-                    targetPush = -pushMag / Math.sqrt(dist);
-                } else if (i > this.hoveredIndex) {
-                    const dist = i - this.hoveredIndex;
-                    targetPush = pushMag / Math.sqrt(dist);
-                }
-            }
-            item.pushOffset = item.pushOffset || 0;
-            item.pushOffset += (targetPush - item.pushOffset) * 0.22;
         }
 
-        // 3. Rendu Canvas haute définition (sans étoile)
+        // 3. Rendu Canvas haute définition
         for (let copy = 0; copy < copiesNeeded; copy++) {
             const copyBaseX = copy * this.totalPatternWidth - this.scrollOffset;
 
             for (let i = 0; i < this.items.length; i++) {
                 const item = this.items[i];
-                const itemCenterX = copyBaseX + item.localX + item.textWidth / 2 + 24 + (item.pushOffset || 0);
+                const itemCenterX = copyBaseX + item.localX + item.textWidth / 2 + 24;
 
                 if (itemCenterX < -200 || itemCenterX > this.width + 200) continue;
 
