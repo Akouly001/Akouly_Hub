@@ -1074,6 +1074,37 @@ function initUniverseCursors() {
     }
 }
 
+/**
+ * Déroulement / Rétractation fluide de la biographie détaillée (Section Qui Suis-je)
+ */
+function toggleBioExpand() {
+    const content = document.getElementById('bioExpandedContent');
+    const btnText = document.getElementById('btnToggleBioText');
+    const btnIcon = document.getElementById('btnToggleBioIcon');
+    const btn = document.getElementById('btnToggleBio');
+    if (!content) return;
+
+    const isExpanded = content.classList.contains('is-open');
+
+    if (!isExpanded) {
+        content.classList.add('is-open');
+        content.style.maxHeight = content.scrollHeight + 'px';
+        content.style.opacity = '1';
+        content.style.marginTop = '0.5rem';
+        if (btnText) btnText.textContent = 'Réduire';
+        if (btnIcon) btnIcon.style.transform = 'rotate(180deg)';
+        if (btn) btn.setAttribute('aria-expanded', 'true');
+    } else {
+        content.classList.remove('is-open');
+        content.style.maxHeight = '0';
+        content.style.opacity = '0';
+        content.style.marginTop = '0';
+        if (btnText) btnText.textContent = 'En savoir plus';
+        if (btnIcon) btnIcon.style.transform = 'rotate(0deg)';
+        if (btn) btn.setAttribute('aria-expanded', 'false');
+    }
+}
+
 
 
 

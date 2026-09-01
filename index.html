@@ -635,9 +635,7 @@
                 <div class="profil-name">Aboua Junior KOUADJO</div>
                 <div class="profil-subtitle">Analyste Cybersécurité · Master 1 Droit Privé · Créateur IA</div>
                 <p class="profil-bio">
-                    Mon profil combine la rigueur d'analyse juridique et la maîtrise technique de la cybersécurité.
-                    Qu'il s'agisse d'audits NIST CSF 2.0, de tests d'intrusion PTES, de conception d'applications
-                    ou de maintenance IT — chaque projet est exécuté avec précision et stratégie.
+                    Je n'aime pas seulement utiliser les choses. Je veux comprendre comment elles fonctionnent, les modifier, les améliorer et, quand je ne trouve pas ce que je veux, je le construis moi-même.
                 </p>
                 <div class="profil-tags">
                     <span class="profil-tag">WeCode 2026</span>
@@ -647,8 +645,26 @@
                     <span class="profil-tag">Abidjan · Côte d'Ivoire</span>
                 </div>
                 <div class="profil-actions">
-                    <a href="cyber.html" class="btn btn-primary"><i class="fas fa-shield-halved"></i> Profil Cybersécurité</a>
-                    <a href="mailto:kouadjoabouajunior@gmail.com" class="btn btn-secondary"><i class="fas fa-envelope"></i> Me contacter</a>
+                    <button class="btn btn-primary" id="btnToggleBio" onclick="toggleBioExpand()" aria-expanded="false" style="cursor: pointer; display: inline-flex; align-items: center; gap: 0.6rem; border: none;">
+                        <span id="btnToggleBioText">En savoir plus</span> <i class="fas fa-chevron-down" id="btnToggleBioIcon" style="transition: transform 0.3s ease;"></i>
+                    </button>
+                </div>
+                <!-- Texte Déroulable Détaillé -->
+                <div id="bioExpandedContent" class="bio-expanded-content" style="max-height: 0; overflow: hidden; opacity: 0; transition: max-height 0.45s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease, margin-top 0.35s ease; margin-top: 0; width: 100%;">
+                    <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 1.3rem 1.4rem; margin-top: 1rem; font-size: 0.93rem; line-height: 1.75; color: var(--text-main);">
+                        <p style="margin-top: 0; margin-bottom: 0.9rem;">
+                            Je suis juriste de formation, mais l’informatique a fini par me rattraper… et maintenant, je suis dedans jusqu’au cou.
+                        </p>
+                        <p style="margin-bottom: 0.9rem;">
+                            J’ai commencé par la maintenance informatique, puis je me suis tourné vers la cybersécurité, avec un intérêt particulier pour le Red Team. À côté de ça, j’aime créer des applications, des jeux, bricoler des projets et tester de nouvelles idées.
+                        </p>
+                        <p style="margin-bottom: 0.9rem;">
+                            J’apprends surtout en faisant : une idée, un prototype, quelques bugs (beaucoup parfois), et on recommence.
+                        </p>
+                        <p style="margin-bottom: 0;">
+                            Aujourd’hui, je me définis comme un créateur, un technicien et un entrepreneur. Mon objectif est simple : transformer mes idées en projets concrets… et éviter de laisser 47 projets commencés dans mes dossiers 😂.
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
