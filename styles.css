@@ -3129,19 +3129,7 @@ body.ring-grow #cursor-ring {
     to { transform: translateY(-50%); }
 }
 
-/* ── FOND BUSINESS : GRILLE MINIMALE + HALO UNIQUE RESPIRANT ── */
-body[data-page="business"] .business-bg-grid {
-    position: fixed;
-    inset: 0;
-    background-image:
-        linear-gradient(var(--border-color) 1px, transparent 1px),
-        linear-gradient(90deg, var(--border-color) 1px, transparent 1px);
-    background-size: 60px 60px;
-    opacity: 0.22;
-    pointer-events: none;
-    z-index: 0;
-}
-
+/* ── FOND BUSINESS : FOND UNI + HALO UNIQUE RESPIRANT ── */
 body[data-page="business"] .business-halo {
     position: fixed;
     top: 50%;
