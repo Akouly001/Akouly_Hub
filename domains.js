@@ -59,7 +59,7 @@ const DEFAULT_AKOULY_CONFIG = {
         },
         {
             id: "lab",
-            title: "Akouly DIY",
+            title: "Akouly Créations",
             icon: "fas fa-scissors",
             badge: "ATELIER & CRÉATION",
             color: "var(--accent-lab)",
