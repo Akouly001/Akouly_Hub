@@ -294,8 +294,7 @@ img, video, iframe {
 
 /* ── EFFET DE PULSATION (STYLE GOUTTE D'EAU RADIALE 2S) ── */
 .pulse,
-.nav-link.active,
-body[data-page="home"] .brand-logo {
+.nav-link.active {
     position: relative;
     animation: pulse-animation 2s infinite cubic-bezier(0.25, 0.8, 0.25, 1);
     will-change: box-shadow;
@@ -307,13 +306,6 @@ body[data-page="home"] .brand-logo {
     border: 1px solid var(--pulse-border);
     font-weight: 600;
     border-radius: var(--radius-sm);
-}
-
-body[data-page="home"] .brand-logo {
-    border-radius: 10px;
-    padding: 3px 8px;
-    background: var(--pulse-bg);
-    border: 1px solid var(--pulse-border);
 }
 
 @keyframes pulse-animation {
@@ -343,6 +335,7 @@ body[data-page="home"] .brand-logo {
     position: relative;
 }
 
+/* ── LOGO AKOULY AVEC PULSATION BLANCHE (NOIRE EN CLAIR) ── */
 .brand-logo {
     display: flex;
     align-items: center;
@@ -350,6 +343,36 @@ body[data-page="home"] .brand-logo {
     text-decoration: none;
     position: relative;
     z-index: 100005 !important; /* Toujours visible en haut à gauche avec ou sans menu ouvert */
+    border-radius: 10px;
+    padding: 3px 8px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    animation: akoulyBrandPulse 2.2s infinite cubic-bezier(0.25, 0.8, 0.25, 1);
+    will-change: box-shadow;
+}
+
+[data-theme="light"] .brand-logo {
+    background: rgba(0, 0, 0, 0.04);
+    border: 1px solid rgba(0, 0, 0, 0.18);
+    animation: akoulyBrandPulseLight 2.2s infinite cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+@keyframes akoulyBrandPulse {
+    0% {
+        box-shadow: 0 0 0 0px rgba(255, 255, 255, 0.65);
+    }
+    100% {
+        box-shadow: 0 0 0 18px rgba(255, 255, 255, 0);
+    }
+}
+
+@keyframes akoulyBrandPulseLight {
+    0% {
+        box-shadow: 0 0 0 0px rgba(15, 23, 42, 0.45);
+    }
+    100% {
+        box-shadow: 0 0 0 18px rgba(15, 23, 42, 0);
+    }
 }
 
 .logo-img {
@@ -3129,7 +3152,19 @@ body.ring-grow #cursor-ring {
     to { transform: translateY(-50%); }
 }
 
-/* ── FOND BUSINESS : FOND UNI + HALO UNIQUE RESPIRANT ── */
+/* ── FOND BUSINESS : GRILLE MINIMALE + HALO UNIQUE RESPIRANT ── */
+body[data-page="business"] .business-bg-grid {
+    position: fixed;
+    inset: 0;
+    background-image:
+        linear-gradient(var(--border-color) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border-color) 1px, transparent 1px);
+    background-size: 60px 60px;
+    opacity: 0.22;
+    pointer-events: none;
+    z-index: 0;
+}
+
 body[data-page="business"] .business-halo {
     position: fixed;
     top: 50%;
