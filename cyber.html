@@ -376,10 +376,10 @@
                 </div>
             </div>
 
-            <!-- Bouton Unique : Toutes mes certifications (13) -->
+            <!-- Bouton Unique : Toutes mes certifications (14) -->
             <div style="margin-top: 2.5rem; text-align: center;">
                 <button onclick="openAllCertsModal()" class="btn btn-primary" style="background: linear-gradient(135deg, var(--accent-cyber), var(--accent-dev)); border: none; color: #fff; padding: 0.85rem 2rem; font-size: 0.95rem; font-weight: 600; box-shadow: 0 4px 20px rgba(6,182,212,0.3); border-radius: 30px; cursor: pointer; transition: var(--transition);">
-                    <i class="fas fa-layer-group"></i> Toutes mes certifications (13) &rarr;
+                    <i class="fas fa-layer-group"></i> Toutes mes certifications (14) &rarr;
                 </button>
             </div>
         </section>
@@ -459,7 +459,7 @@
             <div style="display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1.2rem; padding-right: 2rem; flex-wrap: wrap;">
                 <div>
                     <h3 style="font-family: var(--font-heading); font-size: 1.35rem; color: var(--accent-cyber); margin: 0; text-align: left;">
-                        <i class="fas fa-certificate"></i> Galerie de Toutes les Certifications (13)
+                        <i class="fas fa-certificate"></i> Galerie de Toutes les Certifications (14)
                     </h3>
                     <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0.2rem 0 0; text-align: left;">
                         Diplômes, spécialisations techniques et attestations d'engagement obtenus par Aboua Junior KOUADJO.
@@ -469,17 +469,31 @@
 
             <!-- Filtres par catégorie -->
             <div class="cert-hub-filter">
-                <button class="cert-filter-btn active" onclick="filterCertHub('all', this)">Tous (13)</button>
+                <button class="cert-filter-btn active" onclick="filterCertHub('all', this)">Tous (14)</button>
                 <button class="cert-filter-btn" onclick="filterCertHub('cyber', this)">🛡️ Cybersécurité (5)</button>
-                <button class="cert-filter-btn" onclick="filterCertHub('dev', this)">📱 Apps, Dev & IA (2)</button>
+                <button class="cert-filter-btn" onclick="filterCertHub('dev', this)">📱 Apps, Dev & IA (3)</button>
                 <button class="cert-filter-btn" onclick="filterCertHub('diy', this)">📸 DIY & Photo (1)</button>
                 <button class="cert-filter-btn" onclick="filterCertHub('benevolat', this)">🤝 Engagement & Bénévolat (5)</button>
             </div>
 
             <!-- Grille des 13 Certifications (Classées du plus récent au plus ancien) -->
             <div class="cert-hub-grid" id="certHubGrid">
-                
-                <!-- 1. XSec CTF — 11 Août 2026 -->
+                <!-- 1. Cisco Introduction to Modern AI — 31 Août 2026 -->
+                <div class="cert-hub-card" data-cat="dev" style="border-left: 4px solid var(--accent-dev);">
+                    <div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
+                            <span class="cert-badge" style="color: var(--accent-dev); background: rgba(139,92,246,0.1);">Intelligence Artificielle</span>
+                            <span style="font-size: 0.78rem; color: var(--text-muted); font-family: var(--font-code);">31 Août 2026</span>
+                        </div>
+                        <h4 style="font-size: 1.02rem; font-family: var(--font-heading); margin-bottom: 0.3rem;">Introduction to Modern AI</h4>
+                        <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.8rem;">Cisco Networking Academy · Machine Learning, LLMs & Prompting</p>
+                    </div>
+                    <button onclick="openCertModal('images/certificat-cisco-ai.png', 'Introduction to Modern AI — Cisco Networking Academy')" class="btn btn-secondary" style="padding: 0.35rem 0.8rem; font-size: 0.8rem; color: var(--accent-dev); width: 100%;">
+                        <i class="fas fa-eye"></i> Visualiser
+                    </button>
+                </div>
+
+                <!-- 2. XSec CTF — 11 Août 2026 -->
                 <div class="cert-hub-card" data-cat="cyber" style="border-left: 4px solid var(--accent-dev);">
                     <div>
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
