@@ -497,24 +497,55 @@
     visibility: hidden;
     pointer-events: none;
     transition: opacity 0.35s ease, visibility 0.35s ease;
-    padding: 2rem;
+    padding: 4rem 1.5rem 1.5rem;
   }
   .lightbox-modal.active {
     opacity: 1;
     visibility: visible;
     pointer-events: auto;
   }
+
+  /* Barre de métadonnées en une seule ligne tout en haut */
+  .lightbox-top-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 54px;
+    padding: 0 clamp(1rem, 3vw, 2rem);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(6, 5, 8, 0.92);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(236, 230, 216, 0.14);
+    z-index: 10020;
+    gap: 1rem;
+  }
+  .lightbox-meta-line {
+    font-family: 'Space Grotesk', system-ui, sans-serif;
+    font-size: clamp(0.75rem, 1.8vw, 0.92rem);
+    color: var(--ink);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    letter-spacing: 0.02em;
+    font-weight: 500;
+  }
+
   .lightbox-content {
     max-width: 94vw;
-    max-height: 90vh;
+    max-height: 86vh;
     display: flex;
     flex-direction: column;
     align-items: center;
     position: relative;
+    margin-top: 1rem;
   }
   .lightbox-img {
     max-width: 100%;
-    max-height: 86vh;
+    max-height: 80vh;
     object-fit: contain;
     border-radius: 4px;
     box-shadow: 0 10px 40px rgba(0,0,0,0.8);
@@ -525,21 +556,20 @@
     transform: scale(1);
   }
   .lightbox-close {
-    position: absolute;
-    top: 1.5rem;
-    right: 2rem;
-    background: rgba(255,255,255,0.1);
+    position: static;
+    background: rgba(255,255,255,0.08);
     border: 1px solid rgba(255,255,255,0.2);
     color: #fff;
-    width: 44px;
-    height: 44px;
+    width: 38px;
+    height: 38px;
     border-radius: 50%;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     transition: background 0.2s ease, transform 0.2s ease;
+    flex-shrink: 0;
   }
   .lightbox-close:hover {
     background: rgba(255,255,255,0.25);
@@ -767,9 +797,12 @@
     </footer>
   </div>
 
-  <!-- Lightbox Modal -->
+  <!-- Lightbox Modal avec Détails Photo en Une Ligne -->
   <div class="lightbox-modal" id="lightboxModal" aria-hidden="true">
-    <button class="lightbox-close" id="lightboxClose" aria-label="Fermer"><i class="fas fa-times"></i></button>
+    <div class="lightbox-top-bar" id="lightboxTopBar">
+      <div class="lightbox-meta-line" id="lightboxMetaLine"></div>
+      <button class="lightbox-close" id="lightboxClose" aria-label="Fermer"><i class="fas fa-times"></i></button>
+    </div>
     <div class="lightbox-content">
       <img loading="lazy" decoding="async" src="" alt="" class="lightbox-img" id="lightboxImg">
     </div>
@@ -1204,11 +1237,120 @@
   const lightboxImg = document.getElementById('lightboxImg');
   const lightboxClose = document.getElementById('lightboxClose');
 
-  const allPhotoImgs = Array.from(document.querySelectorAll('.photo-wrapper img'));
-  const galleryItems = allPhotoImgs.map(img => ({
-    src: img.getAttribute('src') || img.src,
-    alt: img.getAttribute('alt') || 'Photographie mobile Akouly'
-  }));
+  const lightboxMetaLine = document.getElementById('lightboxMetaLine');
+
+  const galleryItems = [
+    {
+      src: 'images/photo/1001846086-01.jpeg',
+      alt: 'Photographie mobile Akouly - Paysage',
+      date: '18 Oct 2022, 16:42',
+      device: 'Redmi Note 10 Pro',
+      iso: '50',
+      speed: '1/500s',
+      exp: '0.0',
+      aperture: 'ƒ/1.9'
+    },
+    {
+      src: 'images/photo/1670443503631-01.jpeg',
+      alt: 'Photographie mobile Akouly - Lignes urbaines',
+      date: '07 Déc 2022, 20:05',
+      device: 'Redmi Note 10 Pro',
+      iso: '400',
+      speed: '1/33s',
+      exp: '-0.3',
+      aperture: 'ƒ/1.9'
+    },
+    {
+      src: 'images/photo/IMG_20221116_133009.jpg',
+      alt: 'Photographie mobile Akouly - Détails',
+      date: '16 Nov 2022, 13:30',
+      device: 'Redmi Note 10 Pro',
+      iso: '100',
+      speed: '1/250s',
+      exp: '0.0',
+      aperture: 'ƒ/1.9'
+    },
+    {
+      src: 'images/photo/IMG_20260501_175515.jpg',
+      alt: 'Photographie mobile Akouly - Lumière',
+      date: '01 Mai 2024, 17:55',
+      device: 'Redmi Note 10 Pro',
+      iso: '125',
+      speed: '1/160s',
+      exp: '0.0',
+      aperture: 'ƒ/1.9'
+    },
+    {
+      src: 'images/photo/1669341282569-01.jpeg',
+      alt: 'Photographie mobile Akouly - Macro texture',
+      date: '25 Nov 2022, 14:15',
+      device: 'Redmi Note 10 Pro',
+      iso: '80',
+      speed: '1/320s',
+      exp: '0.0',
+      aperture: 'ƒ/2.4'
+    },
+    {
+      src: 'images/photo/IMG_20221116_093400_a80435.jpg',
+      alt: 'Photographie mobile Akouly - Perspective',
+      date: '16 Nov 2022, 09:34',
+      device: 'Redmi Note 10 Pro',
+      iso: '50',
+      speed: '1/640s',
+      exp: '0.0',
+      aperture: 'ƒ/1.9'
+    },
+    {
+      src: 'images/photo/IMG_20221124_124247_edited.jpeg',
+      alt: 'Photographie mobile Akouly - Portrait',
+      date: '24 Nov 2022, 12:42',
+      device: 'Redmi Note 10 Pro',
+      iso: '100',
+      speed: '1/200s',
+      exp: '0.0',
+      aperture: 'ƒ/1.9'
+    },
+    {
+      src: 'images/photo/IMG_20260530_155620.jpg',
+      alt: 'Photographie mobile Akouly - Cadrage',
+      date: '30 Mai 2024, 15:56',
+      device: 'Redmi Note 10 Pro',
+      iso: '64',
+      speed: '1/400s',
+      exp: '-0.3',
+      aperture: 'ƒ/1.9'
+    },
+    {
+      src: 'images/photo/IMG_20221116_085907_ec9b63.jpg',
+      alt: 'Photographie mobile Akouly - Nature',
+      date: '16 Nov 2022, 08:59',
+      device: 'Redmi Note 10 Pro',
+      iso: '50',
+      speed: '1/800s',
+      exp: '0.0',
+      aperture: 'ƒ/1.9'
+    },
+    {
+      src: 'images/photo/IMG_20221205_184734-01.jpeg',
+      alt: 'Photographie mobile Akouly - Ombre et lumière',
+      date: '05 Déc 2022, 18:47',
+      device: 'Redmi Note 10 Pro',
+      iso: '320',
+      speed: '1/50s',
+      exp: '-0.7',
+      aperture: 'ƒ/1.9'
+    },
+    {
+      src: 'images/photo/IMG_20221208_145914-01.jpeg',
+      alt: 'Photographie mobile Akouly - Scène urbaine',
+      date: '08 Déc 2022, 14:59',
+      device: 'Redmi Note 10 Pro',
+      iso: '100',
+      speed: '1/180s',
+      exp: '0.0',
+      aperture: 'ƒ/1.9'
+    }
+  ];
   let currentLightboxIndex = 0;
 
   function setLightboxPhoto(index) {
@@ -1217,12 +1359,18 @@
     if (index >= galleryItems.length) index = 0;
     currentLightboxIndex = index;
 
+    const item = galleryItems[currentLightboxIndex];
+
+    if (lightboxMetaLine) {
+      lightboxMetaLine.textContent = `${item.date} • ${item.device} • ISO ${item.iso} • S: ${item.speed} • EXP: ${item.exp} • ${item.aperture}`;
+    }
+
     lightboxImg.style.opacity = '0';
     lightboxImg.style.transform = 'scale(0.96)';
 
     setTimeout(() => {
-      lightboxImg.src = galleryItems[currentLightboxIndex].src;
-      lightboxImg.alt = galleryItems[currentLightboxIndex].alt;
+      lightboxImg.src = item.src;
+      lightboxImg.alt = item.alt;
       lightboxImg.style.opacity = '1';
       lightboxImg.style.transform = 'scale(1)';
     }, 120);
