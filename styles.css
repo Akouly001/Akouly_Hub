@@ -179,7 +179,7 @@ img, video, iframe {
 /* ==========================================================================
    Cyber Mesh Canvas & Cursor Glow Effects
    ========================================================================== */
-#bg-canvas, #apps-bg-canvas, #particles-canvas, .lab-particles-canvas {
+#bg-canvas, #apps-bg-canvas, #diy-canvas, .diy-canvas-bg, #particles-canvas, .lab-particles-canvas {
     position: fixed;
     top: 0;
     left: 0;
@@ -187,6 +187,25 @@ img, video, iframe {
     height: 100vh;
     pointer-events: none;
     z-index: 0;
+}
+
+/* Grille Calque Atelier DIY / Créations */
+body[data-page="lab"] {
+    background-color: #0d1117;
+    background-image:
+        linear-gradient(rgba(224, 163, 57, 0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(224, 163, 57, 0.06) 1px, transparent 1px);
+    background-size: 26px 26px;
+    background-attachment: fixed;
+}
+
+[data-theme="light"] body[data-page="lab"] {
+    background-color: #f8fafc;
+    background-image:
+        linear-gradient(rgba(217, 119, 6, 0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(217, 119, 6, 0.06) 1px, transparent 1px);
+    background-size: 26px 26px;
+    background-attachment: fixed;
 }
 
 #cursor-glow {

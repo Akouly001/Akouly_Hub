@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initCursorGlow();
     initCanvasBackground();
     initAppsCodeBackground();
+    initDiyBackground();
     initTerminalTyping();
     initScrollReveal();
     renderDomains();
@@ -229,6 +230,239 @@ function initAppsCodeBackground() {
         codeText += snippets[i % snippets.length] + '\n';
     }
     pre.textContent = codeText + codeText;
+}
+
+/**
+ * 3b. Fond Animé Créations & DIY : Objets d'atelier vectoriels en chute fluide (10 outils)
+ */
+function initDiyBackground() {
+    if (document.body.getAttribute('data-page') !== 'lab') return;
+    const canvas = document.getElementById('diy-canvas') || document.getElementById('bg-canvas');
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+    let animationFrameId;
+    let isVisible = true;
+
+    function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas, { passive: true });
+
+    const TOOL_TYPES = [
+        'stylo',
+        'crayon',
+        'regle',
+        'equerre',
+        'compas',
+        'ciseaux',
+        'colle',
+        'papier',
+        'pointe',
+        'metre'
+    ];
+
+    const mouse = { x: null, y: null, radius: 140 };
+
+    class FallingTool {
+        constructor(initial = false) {
+            this.reset(initial);
+        }
+
+        reset(initial = false) {
+            const w = canvas.width || window.innerWidth || 1200;
+            const h = canvas.height || window.innerHeight || 800;
+            this.x = Math.random() * w;
+            this.y = initial ? Math.random() * h : -60;
+            this.speed = 0.35 + Math.random() * 0.45;
+            this.size = 14 + Math.random() * 22;
+            this.rotation = Math.random() * Math.PI * 2;
+            this.rotSpeed = (Math.random() - 0.5) * 0.012;
+            this.type = TOOL_TYPES[Math.floor(Math.random() * TOOL_TYPES.length)];
+            this.opacity = 0.22 + Math.random() * 0.38;
+            this.swayAngle = Math.random() * Math.PI * 2;
+            this.swaySpeed = 0.012 + Math.random() * 0.014;
+            this.vx = 0;
+        }
+
+        update() {
+            this.y += this.speed;
+            this.rotation += this.rotSpeed;
+            this.swayAngle += this.swaySpeed;
+            this.x += Math.sin(this.swayAngle) * 0.4 + this.vx;
+            this.vx *= 0.94;
+
+            if (mouse.x !== null && mouse.y !== null) {
+                const dx = this.x - mouse.x;
+                const dy = this.y - mouse.y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                if (dist < mouse.radius && dist > 0) {
+                    const force = (mouse.radius - dist) / mouse.radius;
+                    this.vx += (dx / dist) * force * 0.9;
+                    this.rotation += (dx > 0 ? 0.02 : -0.02) * force;
+                }
+            }
+
+            const h = canvas.height || window.innerHeight || 800;
+            if (this.y > h + 60) {
+                this.reset(false);
+            }
+        }
+
+        draw(ctx, isLight) {
+            ctx.save();
+            ctx.translate(this.x, this.y);
+            ctx.rotate(this.rotation);
+            ctx.scale(this.size / 20, this.size / 20);
+
+            const strokeColor = isLight
+                ? `rgba(180, 83, 9, ${this.opacity * 0.85})`
+                : `rgba(224, 163, 57, ${this.opacity})`;
+            const fillColor = isLight
+                ? `rgba(180, 83, 9, ${this.opacity * 0.12})`
+                : `rgba(224, 163, 57, ${this.opacity * 0.15})`;
+
+            ctx.strokeStyle = strokeColor;
+            ctx.fillStyle = fillColor;
+            ctx.lineWidth = 1.6;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+
+            switch(this.type) {
+                case 'stylo':
+                    ctx.beginPath();
+                    ctx.strokeRect(-12, -3, 20, 6);
+                    ctx.moveTo(8, -3); ctx.lineTo(15, 0); ctx.lineTo(8, 3);
+                    ctx.moveTo(-12, -1.5); ctx.lineTo(-15, -1.5); ctx.lineTo(-15, 1.5); ctx.lineTo(-12, 1.5);
+                    ctx.moveTo(-9, -3); ctx.lineTo(-9, -6); ctx.lineTo(-2, -6); ctx.lineTo(-2, -3);
+                    ctx.stroke();
+                    break;
+
+                case 'crayon':
+                    ctx.beginPath();
+                    ctx.strokeRect(-14, -3.5, 20, 7);
+                    ctx.moveTo(-14, 0); ctx.lineTo(6, 0);
+                    ctx.moveTo(6, -3.5); ctx.lineTo(14, 0); ctx.lineTo(6, 3.5);
+                    ctx.moveTo(11, -1.3); ctx.lineTo(14, 0); ctx.lineTo(11, 1.3);
+                    ctx.stroke();
+                    break;
+
+                case 'regle':
+                    ctx.strokeRect(-18, -5, 36, 10);
+                    for(let i = -14; i <= 14; i += 4) {
+                        ctx.beginPath();
+                        ctx.moveTo(i, -5);
+                        ctx.lineTo(i, (i % 8 === 0) ? 0 : -2);
+                        ctx.stroke();
+                    }
+                    break;
+
+                case 'equerre':
+                    ctx.beginPath();
+                    ctx.moveTo(-14, -14); ctx.lineTo(-14, 14); ctx.lineTo(14, 14); ctx.closePath();
+                    ctx.stroke();
+                    ctx.beginPath();
+                    ctx.moveTo(-10, -5); ctx.lineTo(-10, 10); ctx.lineTo(5, 10); ctx.closePath();
+                    ctx.stroke();
+                    break;
+
+                case 'compas':
+                    ctx.beginPath();
+                    ctx.arc(0, -14, 2.5, 0, Math.PI * 2);
+                    ctx.moveTo(0, -11.5); ctx.lineTo(-9, 14);
+                    ctx.moveTo(0, -11.5); ctx.lineTo(9, 14);
+                    ctx.moveTo(-5, 1); ctx.lineTo(5, 1);
+                    ctx.arc(0, 1, 1.5, 0, Math.PI * 2);
+                    ctx.stroke();
+                    break;
+
+                case 'ciseaux':
+                    ctx.beginPath();
+                    ctx.moveTo(-14, -8); ctx.lineTo(8, 3);
+                    ctx.moveTo(-14, 8); ctx.lineTo(8, -3);
+                    ctx.stroke();
+                    ctx.beginPath();
+                    ctx.arc(13, 6, 4.5, 0, Math.PI * 2);
+                    ctx.arc(13, -6, 4.5, 0, Math.PI * 2);
+                    ctx.stroke();
+                    break;
+
+                case 'colle':
+                    ctx.beginPath();
+                    ctx.strokeRect(-7, -14, 14, 28);
+                    ctx.moveTo(-7, -4); ctx.lineTo(7, -4);
+                    ctx.moveTo(-7, 9); ctx.lineTo(7, 9);
+                    ctx.strokeRect(-5, -17, 10, 3);
+                    ctx.stroke();
+                    break;
+
+                case 'papier':
+                    ctx.beginPath();
+                    ctx.moveTo(-12, -12); ctx.lineTo(4, -12); ctx.lineTo(12, -4);
+                    ctx.lineTo(12, 12); ctx.lineTo(-12, 12); ctx.closePath();
+                    ctx.stroke();
+                    ctx.beginPath();
+                    ctx.moveTo(4, -12); ctx.lineTo(4, -4); ctx.lineTo(12, -4);
+                    ctx.moveTo(-8, 1); ctx.lineTo(6, 1);
+                    ctx.moveTo(-8, 6); ctx.lineTo(2, 6);
+                    ctx.stroke();
+                    break;
+
+                case 'pointe':
+                    ctx.beginPath();
+                    ctx.strokeRect(-5, -14, 10, 2.5);
+                    ctx.moveTo(0, -11.5); ctx.lineTo(0, 10);
+                    ctx.lineTo(-1.5, 10); ctx.lineTo(0, 15); ctx.lineTo(1.5, 10); ctx.lineTo(0, 10);
+                    ctx.stroke();
+                    break;
+
+                case 'metre':
+                    ctx.beginPath();
+                    ctx.strokeRect(-11, -10, 20, 19);
+                    ctx.arc(-1, -0.5, 4.5, 0, Math.PI * 2);
+                    ctx.moveTo(9, 6); ctx.lineTo(15, 6); ctx.lineTo(15, 9);
+                    ctx.stroke();
+                    break;
+            }
+            ctx.restore();
+        }
+    }
+
+    const toolCount = window.innerWidth < 768 ? 8 : 16;
+    const tools = Array.from({ length: toolCount }, () => new FallingTool(true));
+
+    window.addEventListener('mousemove', (e) => {
+        mouse.x = e.clientX;
+        mouse.y = e.clientY;
+    }, { passive: true });
+
+    window.addEventListener('mouseleave', () => {
+        mouse.x = null;
+        mouse.y = null;
+    });
+
+    document.addEventListener('visibilitychange', () => {
+        isVisible = !document.hidden;
+        if (isVisible) animate();
+    });
+
+    function animate() {
+        if (!isVisible) return;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+
+        tools.forEach(tool => {
+            tool.update();
+            tool.draw(ctx, isLight);
+        });
+
+        animationFrameId = requestAnimationFrame(animate);
+    }
+
+    animate();
 }
 
 /**
