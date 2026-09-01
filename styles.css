@@ -179,7 +179,7 @@ img, video, iframe {
 /* ==========================================================================
    Cyber Mesh Canvas & Cursor Glow Effects
    ========================================================================== */
-#bg-canvas, #apps-bg-canvas {
+#bg-canvas, #apps-bg-canvas, #particles-canvas, .lab-particles-canvas {
     position: fixed;
     top: 0;
     left: 0;
