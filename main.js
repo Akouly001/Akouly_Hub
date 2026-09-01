@@ -16,10 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initNewFooter();
     initHomeCursor();
     initBusinessCursor();
-    initLabParticles();
-    initDiyCursor();
-    initCyberCursor();
-    initCyberGlitchButtons();
+    initUniverseCursors();
 });
 
 /**
@@ -958,313 +955,125 @@ function initBusinessCursor() {
 
 /**
  * ==========================================================================
- * PARTICULES DIY INTERACTIVES AU SUIVI DE SOURIS (+100% DE PARTICULES)
- * Spécifique à l'onglet DIY & Créations (data-page="lab")
+ * CURSEURS MULTI-UNIVERS & EFFETS LIÉS : CYBER, GAMING, APPS & DEV, DIY
  * ==========================================================================
  */
-function initLabParticles() {
-    if (document.body.getAttribute('data-page') !== 'lab') return;
+function initUniverseCursors() {
+    const page = document.body.getAttribute('data-page');
+    const validPages = ['cyber', 'gaming', 'apps', 'lab'];
+    if (!validPages.includes(page)) return;
     if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
 
-    const canvas = document.getElementById('particles-canvas') || document.getElementById('bg-canvas');
-    if (!canvas) return;
+    const dot = document.getElementById('cursor-dot');
+    const ring = document.getElementById('cursor-ring');
+    if (!dot || !ring) return;
 
-    const ctx = canvas.getContext('2d');
-    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    // Configuration augmentée : +100% en quantité et +100% en taille des particules
-    const CONFIG = {
-        colors: ['#d1893f', '#3fa7b3', '#c45a78', '#ece6d8', '#f43f5e', '#fbbf24'],
-        spawnPerMove: 6,       // Particules générées par mouvement
-        minSize: 3.2,          // +100% taille doublée (était 1.6)
-        maxSize: 10.0,         // +100% taille doublée (était 5.0)
-        minLife: 45,           // durée de vie
-        maxLife: 105,
-        gravity: 0.018,        // légère gravité
-        drag: 0.968,           // frottement
-        speedFromMouse: 0.38,  // inertie
-        maxParticles: 800      // limite maximale
-    };
-
-    let width = canvas.width = window.innerWidth;
-    let height = canvas.height = window.innerHeight;
-
-    function resize() {
-        width = canvas.width = window.innerWidth;
-        height = canvas.height = window.innerHeight;
-    }
-    window.addEventListener('resize', resize, { passive: true });
-
-    let particles = [];
-    let mouse = { x: width / 2, y: height / 2, px: width / 2, py: height / 2, vx: 0, vy: 0 };
-    let lastMoveTime = performance.now();
-
-    function rand(min, max) { return min + Math.random() * (max - min); }
-    function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
-
-    function spawnParticle(x, y, vx, vy) {
-        particles.push({
-            x, y,
-            vx: vx + rand(-1.4, 1.4),
-            vy: vy + rand(-1.4, 1.4),
-            size: rand(CONFIG.minSize, CONFIG.maxSize),
-            life: 0,
-            maxLife: rand(CONFIG.minLife, CONFIG.maxLife),
-            color: pick(CONFIG.colors)
-        });
-        if (particles.length > CONFIG.maxParticles) {
-            particles.splice(0, particles.length - CONFIG.maxParticles);
-        }
-    }
-
-    function updateMouse(x, y) {
-        lastMoveTime = performance.now();
-        mouse.px = mouse.x;
-        mouse.py = mouse.y;
-        mouse.x = x;
-        mouse.y = y;
-        mouse.vx = mouse.x - mouse.px;
-        mouse.vy = mouse.y - mouse.py;
-
-        if (reduceMotion) return;
-
-        for (let i = 0; i < CONFIG.spawnPerMove; i++) {
-            spawnParticle(
-                mouse.x + rand(-8, 8),
-                mouse.y + rand(-8, 8),
-                mouse.vx * CONFIG.speedFromMouse,
-                mouse.vy * CONFIG.speedFromMouse
-            );
-        }
-    }
-
-    window.addEventListener('mousemove', (e) => updateMouse(e.clientX, e.clientY), { passive: true });
-
-    function step() {
-        ctx.clearRect(0, 0, width, height);
-
-        for (let i = particles.length - 1; i >= 0; i--) {
-            const p = particles[i];
-            p.life++;
-            if (p.life >= p.maxLife) {
-                particles.splice(i, 1);
-                continue;
-            }
-
-            p.vy += CONFIG.gravity;
-            p.vx *= CONFIG.drag;
-            p.vy *= CONFIG.drag;
-            p.x += p.vx;
-            p.y += p.vy;
-
-            const t = p.life / p.maxLife;
-            const alpha = 1 - t;
-            const size = p.size * (1 - t * 0.55);
-
-            ctx.beginPath();
-            ctx.arc(p.x, p.y, Math.max(size, 0.1), 0, Math.PI * 2);
-            ctx.fillStyle = p.color;
-            ctx.globalAlpha = alpha;
-            ctx.fill();
-        }
-        ctx.globalAlpha = 1;
-
-        requestAnimationFrame(step);
-    }
-    step();
-}
-
-/**
- * ==========================================================================
- * CURSEUR 3D ROTATIF SUR 3 AXES (DIY)
- * Spécifique à l'onglet DIY & Créations (data-page="lab")
- * ==========================================================================
- */
-function initDiyCursor() {
-    if (document.body.getAttribute('data-page') !== 'lab') return;
-    if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
-
-    const cursor = document.getElementById('diyCursor');
-    if (!cursor) return;
-
-    let mouseX = window.innerWidth / 2;
-    let mouseY = window.innerHeight / 2;
+    let mx = window.innerWidth / 2;
+    let my = window.innerHeight / 2;
+    let rx = mx;
+    let ry = my;
     let isVisible = false;
 
     window.addEventListener('mousemove', (e) => {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
+        mx = e.clientX;
+        my = e.clientY;
 
         if (!isVisible) {
             isVisible = true;
-            cursor.style.opacity = '1';
+            dot.style.opacity = '1';
+            ring.style.opacity = '1';
         }
 
-        cursor.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0) translate(-50%, -50%)`;
+        dot.style.left = `${mx}px`;
+        dot.style.top = `${my}px`;
     }, { passive: true });
 
-    function attachInteractableHover() {
+    function renderRing() {
+        rx += (mx - rx) * 0.18;
+        ry += (my - ry) * 0.18;
+        ring.style.left = `${rx}px`;
+        ring.style.top = `${ry}px`;
+        requestAnimationFrame(renderRing);
+    }
+    requestAnimationFrame(renderRing);
+
+    // Effet de grossissement sur les cibles interactives
+    function attachHoverHandlers() {
         const interactables = document.querySelectorAll(
-            'a, button, input, select, textarea, .project-card, .menu-toggle, .theme-toggle-btn, .btn-submit, label, .nav-link'
+            'a, button, input, select, textarea, .btn, .nav-link, .menu-toggle, .theme-toggle-btn, .project-card, .service-card, .tool-tag, .cert-filter-btn, .dim-close, .carousel-nav-btn, .carousel-dot, .glitch-target, .target, .cert-item, .contact-card, .spec-item'
         );
 
         interactables.forEach((el) => {
             el.addEventListener('mouseenter', () => {
-                cursor.classList.add('is-hovered');
+                document.body.classList.add('ring-grow');
             });
             el.addEventListener('mouseleave', () => {
-                cursor.classList.remove('is-hovered');
+                document.body.classList.remove('ring-grow');
             });
         });
     }
-
-    attachInteractableHover();
+    attachHoverHandlers();
 
     document.addEventListener('mouseleave', () => {
-        cursor.style.opacity = '0';
+        dot.style.opacity = '0';
+        ring.style.opacity = '0';
         isVisible = false;
     });
 
     document.addEventListener('mouseenter', () => {
-        cursor.style.opacity = '1';
+        dot.style.opacity = '1';
+        ring.style.opacity = '1';
         isVisible = true;
     });
-}
 
-/**
- * ==========================================================================
- * CURSEUR CYBER PERSONNALISÉ (Cyber mouse.png)
- * Spécifique à l'onglet Cybersécurité (data-page="cyber")
- * ==========================================================================
- */
-function initCyberCursor() {
-    if (document.body.getAttribute('data-page') !== 'cyber') return;
-    if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+    // ── 1. EFFET CYBERSÉCURITÉ : Traînée Scan (caractères de terminal) ──
+    if (page === 'cyber') {
+        const scanChars = '01アカウリ#$%&<>';
+        window.addEventListener('mousemove', (e) => {
+            if (Math.random() > 0.32) return;
+            const el = document.createElement('span');
+            el.className = 'scan-char';
+            el.textContent = scanChars[Math.floor(Math.random() * scanChars.length)];
+            el.style.left = `${e.clientX + (Math.random() * 16 - 8)}px`;
+            el.style.top = `${e.clientY + (Math.random() * 16 - 8)}px`;
+            document.body.appendChild(el);
+            setTimeout(() => el.remove(), 700);
+        }, { passive: true });
+    }
 
-    const cursor = document.getElementById('cyberCursor');
-    if (!cursor) return;
-
-    let mouseX = window.innerWidth / 2;
-    let mouseY = window.innerHeight / 2;
-    let isVisible = false;
-
-    window.addEventListener('mousemove', (e) => {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
-
-        if (!isVisible) {
-            isVisible = true;
-            cursor.style.opacity = '1';
-        }
-
-        cursor.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0)`;
-    }, { passive: true });
-
-    function attachInteractableHover() {
-        const interactables = document.querySelectorAll(
-            'a, button, input, select, textarea, .project-card, .menu-toggle, .theme-toggle-btn, .btn-submit, label, .nav-link, .cert-filter-btn'
-        );
-
-        interactables.forEach((el) => {
-            el.addEventListener('mouseenter', () => {
-                cursor.classList.add('is-hovered');
-            });
-            el.addEventListener('mouseleave', () => {
-                cursor.classList.remove('is-hovered');
-            });
+    // ── 2. EFFET GAMING : Étincelles au Clic ──
+    if (page === 'gaming') {
+        window.addEventListener('click', (e) => {
+            for (let i = 0; i < 10; i++) {
+                const s = document.createElement('div');
+                s.className = 'spark';
+                const angle = Math.random() * Math.PI * 2;
+                const dist = 20 + Math.random() * 32;
+                s.style.setProperty('--dx', `${Math.cos(angle) * dist}px`);
+                s.style.setProperty('--dy', `${Math.sin(angle) * dist}px`);
+                s.style.left = `${e.clientX}px`;
+                s.style.top = `${e.clientY}px`;
+                document.body.appendChild(s);
+                setTimeout(() => s.remove(), 500);
+            }
         });
     }
 
-    attachInteractableHover();
-
-    document.addEventListener('mouseleave', () => {
-        cursor.style.opacity = '0';
-        isVisible = false;
-    });
-
-    document.addEventListener('mouseenter', () => {
-        cursor.style.opacity = '1';
-        isVisible = true;
-    });
-}
-
-/**
- * ==========================================================================
- * EFFET CYBER PHOTON GLITCH & EXTENDED ALTERATION POUR LES BOUTONS CYBER
- * Zéro duplication de texte — Gestion ciblée et sécurisée du nœud de texte
- * ==========================================================================
- */
-function initCyberGlitchButtons() {
-    if (document.body.getAttribute('data-page') !== 'cyber') return;
-    if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
-
-    const CHARS = '!/<>_~*#01';
-    const glitchElements = document.querySelectorAll(
-        'body[data-page="cyber"] .btn, body[data-page="cyber"] .cert-filter-btn, body[data-page="cyber"] .glitch-target'
-    );
-
-    glitchElements.forEach((btn) => {
-        // Trouver le nœud de texte significatif à l'intérieur du bouton
-        let targetTextNode = null;
-        for (let i = 0; i < btn.childNodes.length; i++) {
-            const node = btn.childNodes[i];
-            if (node.nodeType === Node.TEXT_NODE && node.nodeValue.trim().length > 0) {
-                targetTextNode = node;
-                break;
-            }
-        }
-
-        const originalText = targetTextNode ? targetTextNode.nodeValue.trim() : btn.innerText.trim();
-        if (!originalText) return;
-
-        btn.setAttribute('data-original', originalText);
-
-        function restore() {
-            if (btn.flickerTimer) {
-                clearInterval(btn.flickerTimer);
-                btn.flickerTimer = null;
-            }
-            if (targetTextNode) {
-                targetTextNode.nodeValue = ' ' + originalText;
-            } else {
-                btn.innerText = originalText;
-            }
-        }
-
-        function trigger() {
-            let frame = 0;
-            const totalFrames = 7;
-
-            if (btn.flickerTimer) clearInterval(btn.flickerTimer);
-
-            btn.flickerTimer = setInterval(() => {
-                frame++;
-
-                if (frame <= totalFrames) {
-                    const altered = originalText
-                        .split('')
-                        .map((char) => {
-                            if (char === ' ') return ' ';
-                            return Math.random() < 0.35
-                                ? CHARS[Math.floor(Math.random() * CHARS.length)]
-                                : char;
-                        })
-                        .join('');
-
-                    if (targetTextNode) {
-                        targetTextNode.nodeValue = ' ' + altered;
-                    } else {
-                        btn.innerText = altered;
-                    }
-                } else {
-                    restore();
-                }
-            }, 35);
-        }
-
-        btn.addEventListener('mouseenter', trigger);
-        btn.addEventListener('mouseleave', restore);
-    });
+    // ── 3. EFFET DIY : Trait Crayon Multicolore ──
+    if (page === 'lab') {
+        const diyPalette = ['#22d3ee', '#10b981', '#8b5cf6', '#f97316', '#f43f5e', '#eab308'];
+        let diyColorIndex = 0;
+        window.addEventListener('mousemove', (e) => {
+            const p = document.createElement('div');
+            p.className = 'pencil-trail';
+            p.style.background = diyPalette[diyColorIndex % diyPalette.length];
+            diyColorIndex++;
+            p.style.left = `${e.clientX}px`;
+            p.style.top = `${e.clientY}px`;
+            document.body.appendChild(p);
+            setTimeout(() => p.remove(), 600);
+        }, { passive: true });
+    }
 }
 
 

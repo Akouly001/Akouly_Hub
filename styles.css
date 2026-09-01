@@ -2855,76 +2855,185 @@ body[data-page="business"] .cursor-follower.is-hovered {
 }
 
 /* ==========================================================================
-   Particules DIY Interactives & Curseur 3D (Onglet Lab / DIY)
+   NOUVEAUX CURSEURS MULTI-UNIVERS : CYBER, GAMING, APPS & DEV, DIY
    ========================================================================== */
 @media (hover: hover) and (pointer: fine) {
+    body[data-page="cyber"],
+    body[data-page="cyber"] *,
+    body[data-page="gaming"],
+    body[data-page="gaming"] *,
+    body[data-page="apps"],
+    body[data-page="apps"] *,
     body[data-page="lab"],
     body[data-page="lab"] * {
         cursor: none !important;
     }
 }
 
-.lab-particles-canvas {
+/* ── Éléments de Base du Curseur ── */
+#cursor-dot,
+#cursor-ring {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: 100000; /* Fonctionne au-dessus des tuiles et cartes */
     pointer-events: none;
-    display: block;
-}
-
-body[data-page="lab"] .diy-cursor {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 38px;
-    height: 38px;
-    pointer-events: none;
-    z-index: 1000001;
-    opacity: 0;
+    z-index: 999999;
+    border-radius: 50%;
     transform: translate(-50%, -50%);
-    filter: none !important;
-    transition: opacity 0.2s ease, width 0.2s ease, height 0.2s ease;
+    opacity: 0;
+    will-change: transform, left, top;
 }
 
-body[data-page="lab"] .diy-cursor.is-hovered {
-    width: 46px;
-    height: 46px;
-    filter: none !important;
+#cursor-dot {
+    width: 6px;
+    height: 6px;
+    transition: opacity 0.2s ease, background-color 0.25s ease;
 }
 
-body[data-page="lab"] .diy-cursor-img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    display: block;
-    filter: none !important;
-    animation: rotate3Steps120 3s cubic-bezier(0.25, 1, 0.5, 1) infinite;
-    transform-origin: 50% 50%;
-    will-change: transform;
+#cursor-ring {
+    width: 28px;
+    height: 28px;
+    background: transparent;
+    border: 1.5px solid transparent;
+    transition: width 0.18s cubic-bezier(0.25, 1, 0.5, 1),
+                height 0.18s cubic-bezier(0.25, 1, 0.5, 1),
+                opacity 0.2s ease,
+                background-color 0.2s ease,
+                border-color 0.25s ease,
+                box-shadow 0.25s ease;
 }
 
-/* 3 mouvements bien distincts de 120° (120° -> 240° -> 360°), 1s chacun (cycle de 3s) */
-@keyframes rotate3Steps120 {
+/* ── 1. UNIVERS CYBERSÉCURITÉ : Cyan (#4ee6c9) + Traînée Scan ── */
+body[data-page="cyber"] #cursor-dot {
+    background: #4ee6c9;
+}
+body[data-page="cyber"] #cursor-ring {
+    border-color: #4ee6c9;
+    box-shadow: 0 0 10px rgba(78, 230, 201, 0.25);
+}
+
+.scan-char {
+    position: fixed;
+    pointer-events: none;
+    color: #4ee6c9;
+    font-family: 'Fira Code', 'Consolas', monospace;
+    font-size: 13px;
+    font-weight: 700;
+    z-index: 999990;
+    transform: translate(-50%, -50%);
+    animation: fadeScan 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    user-select: none;
+}
+@keyframes fadeScan {
     0% {
-        transform: rotateZ(0deg);
+        opacity: 0.9;
+        transform: translate(-50%, -50%) translateY(0);
     }
-    24%, 33.33% {
-        transform: rotateZ(120deg);
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) translateY(14px);
     }
-    57%, 66.66% {
-        transform: rotateZ(240deg);
+}
+
+/* ── 2. UNIVERS GAMING : Violet Néon (#8a7cff) + Étincelles au Clic ── */
+body[data-page="gaming"] #cursor-dot {
+    background: #8a7cff;
+}
+body[data-page="gaming"] #cursor-ring {
+    border-color: #8a7cff;
+    box-shadow: 0 0 14px 3px rgba(138, 124, 255, 0.45);
+}
+
+.spark {
+    position: fixed;
+    width: 4px;
+    height: 4px;
+    background: #8a7cff;
+    box-shadow: 0 0 8px #8a7cff;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 999990;
+    transform: translate(-50%, -50%);
+    animation: sparkOut 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+@keyframes sparkOut {
+    0% {
+        opacity: 1;
+        transform: translate(-50%, -50%) translate(0, 0) scale(1.2);
     }
-    90%, 100% {
-        transform: rotateZ(360deg);
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) translate(var(--dx), var(--dy)) scale(0);
     }
+}
+
+/* ── 3. UNIVERS APPS & DEV : Orange (#ff9a4d) + Glitch au Survol ── */
+body[data-page="apps"] #cursor-dot {
+    background: #ff9a4d;
+}
+body[data-page="apps"] #cursor-ring {
+    border-color: #ff9a4d;
+    box-shadow: 0 0 10px rgba(255, 154, 77, 0.25);
+}
+
+body[data-page="apps"] .glitch-target:hover,
+body[data-page="apps"] .btn:hover,
+body[data-page="apps"] .action-card-btn:hover {
+    animation: appGlitch 0.28s steps(2, end) 2;
+}
+@keyframes appGlitch {
+    0% { text-shadow: 2.5px 0 #ff9a4d, -2.5px 0 #8a7cff; }
+    50% { text-shadow: -2.5px 0 #ff9a4d, 2.5px 0 #8a7cff; }
+    100% { text-shadow: none; }
+}
+
+/* ── 4. UNIVERS DIY : Ocre/Or (#e0a339) + Trait Crayon Multicolore ── */
+body[data-page="lab"] #cursor-dot {
+    background: #e0a339;
+}
+body[data-page="lab"] #cursor-ring {
+    border-color: #e0a339;
+    box-shadow: 0 0 10px rgba(224, 163, 57, 0.25);
+}
+
+.pencil-trail {
+    position: fixed;
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 999990;
+    transform: translate(-50%, -50%);
+    opacity: 0.75;
+    animation: pencilFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+@keyframes pencilFade {
+    0% {
+        opacity: 0.85;
+        transform: translate(-50%, -50%) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.2);
+    }
+}
+
+/* ── Effet de Grossissement au Survol (Ring Grow) ── */
+body.ring-grow #cursor-ring {
+    width: 44px;
+    height: 44px;
+    background: rgba(255, 255, 255, 0.06);
+}
+[data-theme="light"] body.ring-grow #cursor-ring {
+    background: rgba(15, 23, 42, 0.06);
 }
 
 @media (hover: none) or (pointer: coarse) {
-    .diy-cursor,
-    .lab-particles-canvas {
+    #cursor-dot,
+    #cursor-ring,
+    .scan-char,
+    .spark,
+    .pencil-trail {
         display: none !important;
     }
 }
@@ -2979,94 +3088,6 @@ body[data-page="lab"] .diy-cursor-img {
         left: 220%;
         opacity: 0;
     }
-}
-
-/* ==========================================================================
-   Curseur Cyber Personnalisé (Cyber mouse.png)
-   ========================================================================== */
-@media (hover: hover) and (pointer: fine) {
-    body[data-page="cyber"],
-    body[data-page="cyber"] * {
-        cursor: none !important;
-    }
-}
-
-body[data-page="cyber"] .cyber-cursor {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 38px;  /* Réduit de 40% (était 64px) */
-    height: 38px; /* Réduit de 40% (était 64px) */
-    pointer-events: none;
-    z-index: 1000001;
-    opacity: 0;
-    transform: translate(0, 0);
-    mix-blend-mode: difference; /* Inversion automatique selon le fond */
-    transition: opacity 0.2s ease, width 0.2s ease, height 0.2s ease;
-    will-change: transform;
-}
-
-body[data-page="cyber"] .cyber-cursor.is-hovered {
-    width: 48px;  /* Réduit de 40% (était 80px) */
-    height: 48px; /* Réduit de 40% (était 80px) */
-}
-
-body[data-page="cyber"] .cyber-cursor-img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    display: block;
-    /* Blanc pur par défaut : avec mix-blend-mode: difference, devient blanc sur fond noir et noir sur fond blanc */
-    filter: brightness(0) invert(1);
-    transition: filter 0.2s ease;
-}
-
-/* Prise en charge explicite selon le thème du site */
-html[data-theme="light"] body[data-page="cyber"] .cyber-cursor {
-    mix-blend-mode: normal;
-}
-html[data-theme="light"] body[data-page="cyber"] .cyber-cursor-img {
-    filter: brightness(0); /* Noir pur sur fond blanc / clair */
-}
-
-html[data-theme="dark"] body[data-page="cyber"] .cyber-cursor {
-    mix-blend-mode: difference;
-}
-html[data-theme="dark"] body[data-page="cyber"] .cyber-cursor-img {
-    filter: brightness(0) invert(1); /* Blanc pur sur fond noir / sombre */
-}
-
-@media (hover: none) or (pointer: coarse) {
-    .cyber-cursor {
-        display: none !important;
-    }
-}
-
-/* ==========================================================================
-   Effet Cyber Photon Glitch & Chromatic Aberration pour les Boutons Cyber
-   (Zéro duplication de texte, rendu net sur le texte et les icônes)
-   ========================================================================== */
-body[data-page="cyber"] {
-    --cyan-slice: #00f0ff;
-    --magenta-slice: #ff0055;
-}
-
-body[data-page="cyber"] .btn,
-body[data-page="cyber"] .cert-filter-btn,
-body[data-page="cyber"] .glitch-target {
-    position: relative;
-    user-select: none;
-    transition: transform 0.2s ease, box-shadow 0.2s ease, text-shadow 0.2s ease, border-color 0.2s ease, color 0.2s ease;
-}
-
-/* Effet Chromatique Photon Glitch au Survol (Cyan + Magenta Split sans duplication) */
-body[data-page="cyber"] .btn:hover,
-body[data-page="cyber"] .cert-filter-btn:hover,
-body[data-page="cyber"] .glitch-target:hover {
-    text-shadow: -1.5px 0 var(--cyan-slice), 1.5px 0 var(--magenta-slice), 0 0 12px rgba(0, 240, 255, 0.8);
-    border-color: rgba(0, 240, 255, 0.85) !important;
-    box-shadow: 0 0 20px rgba(0, 240, 255, 0.35), inset 0 0 10px rgba(0, 240, 255, 0.15);
-    transform: translateY(-1px);
 }
 
 /* ==========================================================================
