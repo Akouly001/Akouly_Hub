@@ -147,7 +147,7 @@
     <!-- Section Jeux & Game Design : Contrix -->
     <section class="scroll-reveal" style="padding-bottom: 4rem;">
         <div class="container">
-                        <h2 class="section-title">Projet <span>Contrix & Gameplay</span></h2>
+            <h2 class="section-title">Projet <span>Contrix & Gameplay</span></h2>
 
             <div class="project-card" style="background: rgba(139, 92, 246, 0.05); border-color: rgba(139, 92, 246, 0.3);">
                 <div style="display: flex; align-items: center; gap: 1.2rem; margin-bottom: 1.2rem; flex-wrap: wrap;">
@@ -157,16 +157,18 @@
                     </div>
                 </div>
                 <p class="project-desc" style="font-size: 1rem; line-height: 1.7; margin-bottom: 1.2rem;">
-                    Contrix est une plateforme de jeu vidéo multijoueur où les joueurs utilisent leurs propres téléphones portables comme manettes de jeu connectées en temps réel à un ordinateur portable via WebSockets. Le jeu intègre un mode offline africain, un quiz culturel interactif sur la Côte d'Ivoire et un système d'activation anti-piratage.
+                    Contrix transforme votre smartphone en manette et votre PC en écran géant de jeu. Le PC affiche le jeu, les animations et le classement en direct ; chaque téléphone se connecte en Wi-Fi/WebSocket et s'adapte automatiquement à chaque mini-jeu — joystick virtuel, capteur de mouvement, pavé tactile ou clavier. Plus de 16 mini-jeux, un mode 100% offline pensé pour l'Afrique, un quiz culturel sur la Côte d'Ivoire, et bien d'autres jeux.
                 </p>
                 
                 <h4 style="font-family: var(--font-heading); font-size: 1.1rem; margin: 1.2rem 0 0.6rem 0; color: var(--text-main);">
-                    Concepts & Règles de Game Design Élaborés :
+                    Mini-jeux & Catégories :
                 </h4>
                 <ul class="skill-items" style="font-size: 0.9rem; margin-bottom: 1.5rem;">
-                    <li><strong>Volleyball 2v2</strong> : Collisions entre coéquipiers, accélération progressive du ballon.</li>
-                    <li><strong>Fighter2D</strong> : Combat 2D avec attaques spéciales et gestion d'endurance.</li>
-                    <li><strong>Quiz Reflex & Flappy Bird</strong> : Mini-jeux de rapidité et de concentration.</li>
+                    <li><strong>Réflexes & Action</strong> : 100 Mètres, Autoroute, Circuit, Ping Pong</li>
+                    <li><strong>Tension & Stratégie</strong> : Une Bombe !!!, Mines Explosives, Le Stratège</li>
+                    <li><strong>Physique & Mouvement</strong> : Remue moi bébé (secouez le téléphone !)</li>
+                    <li><strong>Créativité & Réflexion</strong> : Bonjour l'Artiste, Le Dactylo, Color War, QCM</li>
+                    <li><strong>Exploration</strong> : Labyrinthe, Apprenti Sorcier</li>
                 </ul>
 
                 <div class="project-footer">
@@ -421,7 +423,7 @@
                 </div>
                 <div>
                     <h3 style="font-family: var(--font-heading); font-size: 1.3rem; margin: 0; color: var(--accent-dev);">Contrix — Technologie</h3>
-                    <p style="font-size: 0.82rem; color: var(--text-muted); margin: 0;">Objectif du jeu multijoueur et choix technologiques</p>
+                    <p style="font-size: 0.82rem; color: var(--text-muted); margin: 0;">Objectif du jeu multijoueur et architecture technique</p>
                 </div>
             </div>
 
@@ -429,7 +431,7 @@
                 <div style="background: var(--bg-dark); border-left: 4px solid var(--accent-dev); padding: 1rem; border-radius: var(--radius-sm); margin-bottom: 1.2rem;">
                     <h4 style="font-size: 1rem; color: var(--accent-dev); margin-bottom: 0.3rem;"><i class="fas fa-bullseye"></i> But Visé du Projet :</h4>
                     <p style="margin: 0; color: var(--text-muted);">
-                        Permettre à un groupe d'amis ou à une famille de jouer ensemble instantanément sur un même écran d'ordinateur sans devoir acheter de manettes dédiées coûteuses. Chaque joueur utilise simplement son smartphone personnel connecté au même réseau Wi-Fi local.
+                        Permettre à un groupe d'amis ou une famille de jouer ensemble instantanément sur un même écran de PC, sans acheter de manettes dédiées coûteuses. Chaque joueur connecte son smartphone au même réseau Wi-Fi local, et l'app s'adapte automatiquement au mini-jeu en cours.
                     </p>
                 </div>
 
@@ -437,11 +439,29 @@
                     Pourquoi ce Choix Technologique ?
                 </h4>
                 <ul class="skill-items" style="margin-bottom: 1.2rem;">
-                    <li><strong>Python & Pygame</strong> : Offre un contrôle total sur la boucle de jeu (*game loop*), la détection des collisions 2D et un rendu ultra-léger capable de tourner sur n'importe quel ordinateur portable même modeste.</li>
-                    <li><strong>WebSockets Locaux</strong> : Transmission bidirectionnelle ultra-rapide des inputs tactiles (*joystick virtuel, boutons d'action*) avec une latence quasi-nulle (< 10 ms).</li>
-                    <li><strong>Mode 100% Offline Africain</strong> : Fonctionne intégralement sur un point d'accès Wi-Fi local sans consommer de data mobile ni nécessiter de connexion Internet externe.</li>
-                    <li><strong>Protection Anti-Piratage</strong> : Intégration d'un système de clé de licence pour sécuriser la distribution du jeu.</li>
+                    <li><strong>Python & Pygame</strong> : Contrôle total sur la boucle de jeu, détection des collisions 2D, rendu ultra-léger capable de tourner sur n'importe quel PC.</li>
+                    <li><strong>WebSockets Locaux</strong> : Transmission bidirectionnelle des inputs (joystick virtuel, capteur de mouvement, pavé tactile, clavier) avec une latence quasi-nulle (&lt; 10 ms), et retour haptique en temps réel sur les mobiles.</li>
+                    <li><strong>Mode 100% Offline Africain</strong> : Fonctionne entièrement sur un point d'accès Wi-Fi local, sans data mobile ni connexion Internet externe.</li>
+                    <li><strong>Quiz Culture Ivoirienne</strong> : 300 questions pour ancrer le jeu dans une identité locale forte.</li>
+                    <li><strong>Système de classement</strong> : Calcul automatique des scores et podium avec trophée pour renforcer l'esprit de compétition.</li>
+                    <li><strong>Protection Anti-Piratage</strong> : Dépendance au serveur WebSocket + obfuscation du code (PyArmor/Nuitka) pour sécuriser la distribution.</li>
                 </ul>
+
+                <!-- Points Forts / Avantages Clés -->
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 0.6rem; margin-top: 1.2rem;">
+                    <div style="background: rgba(139,92,246,0.08); border: 1px solid rgba(139,92,246,0.25); border-radius: var(--radius-sm); padding: 0.6rem 0.8rem; font-size: 0.82rem; font-weight: 600; display: flex; align-items: center; gap: 0.5rem;">
+                        <i class="fas fa-check-circle" style="color: var(--accent-dev);"></i> Zéro manette à acheter
+                    </div>
+                    <div style="background: rgba(139,92,246,0.08); border: 1px solid rgba(139,92,246,0.25); border-radius: var(--radius-sm); padding: 0.6rem 0.8rem; font-size: 0.82rem; font-weight: 600; display: flex; align-items: center; gap: 0.5rem;">
+                        <i class="fas fa-check-circle" style="color: var(--accent-dev);"></i> Immersion haptique en temps réel
+                    </div>
+                    <div style="background: rgba(139,92,246,0.08); border: 1px solid rgba(139,92,246,0.25); border-radius: var(--radius-sm); padding: 0.6rem 0.8rem; font-size: 0.82rem; font-weight: 600; display: flex; align-items: center; gap: 0.5rem;">
+                        <i class="fas fa-check-circle" style="color: var(--accent-dev);"></i> Classement auto avec podium
+                    </div>
+                    <div style="background: rgba(139,92,246,0.08); border: 1px solid rgba(139,92,246,0.25); border-radius: var(--radius-sm); padding: 0.6rem 0.8rem; font-size: 0.82rem; font-weight: 600; display: flex; align-items: center; gap: 0.5rem;">
+                        <i class="fas fa-check-circle" style="color: var(--accent-dev);"></i> Prise en main immédiate
+                    </div>
+                </div>
             </div>
         </div>
     </div>
