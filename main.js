@@ -13,7 +13,13 @@ document.addEventListener('DOMContentLoaded', () => {
     try { initTerminalTyping(); } catch (e) {}
     try { initScrollReveal(); } catch (e) {}
     try { renderDomains(); } catch (e) {}
-    try { setupEventListeners(); } catch (e) {}
+    try { setupEventListeners();
+
+    // Protection anti-téléchargement / anti-copie de la photo de profil
+    document.querySelectorAll('.profil-avatar-placeholder, .profil-avatar-img, .avatar-shield').forEach(el => {
+        el.addEventListener('contextmenu', e => e.preventDefault());
+        el.addEventListener('dragstart', e => e.preventDefault());
+    }); } catch (e) {}
     try { initNewFooter(); } catch (e) {}
     try { initHomeCursor(); } catch (e) {}
     try { initBusinessCursor(); } catch (e) {}
