@@ -4419,33 +4419,33 @@ img, video, canvas, svg {
     user-select: none;
 }
 
-.layered-title .wrapper span.letter-2 {
-    color: var(--accent-lab, #e0a341);
-    opacity: 0.9;
-}
-
 .layered-title .wrapper span.letter-1 {
-    color: #f43f5e;
+    color: var(--accent-lab, #e0a341);
     z-index: 1;
     position: relative;
 }
 
+.layered-title .wrapper span.letter-2 {
+    color: #f43f5e;
+    opacity: 0.85;
+}
+
 [data-theme="dark"] .layered-title .wrapper span.letter-1 {
+    color: var(--accent-lab, #e0a341);
+    text-shadow: 0 0 14px rgba(224, 163, 65, 0.35);
+}
+
+[data-theme="dark"] .layered-title .wrapper span.letter-2 {
     color: #f43f5e;
     text-shadow: 0 0 12px rgba(244, 63, 94, 0.3);
 }
 
-[data-theme="dark"] .layered-title .wrapper span.letter-2 {
-    color: #fbbf24;
-    text-shadow: 0 0 12px rgba(251, 191, 36, 0.3);
-}
-
 [data-theme="light"] .layered-title .wrapper span.letter-1 {
-    color: #e11d48;
+    color: #d97706;
 }
 
 [data-theme="light"] .layered-title .wrapper span.letter-2 {
-    color: #d97706;
+    color: #e11d48;
 }
 
 .layered-title .wrapper:hover span.letter-1 {
