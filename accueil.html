@@ -555,10 +555,9 @@
         <div class="hero-cta-row">
             <a href="#univers" class="btn btn-primary"><i class="fas fa-compass"></i> Explorer mes activités</a>
         </div>
-        <div class="scroll-hint">
-            <i class="fas fa-chevron-down"></i>
-            <span>Défiler</span>
-        </div>
+        <a href="#univers" class="scroll-hint" id="scrollHint" title="Défiler vers les activités" aria-label="Défiler">
+            <div id="lottieScrollHint" class="lottie-scroll-box"></div>
+        </a>
     </section>
 
     <!-- Activités -->
@@ -800,6 +799,7 @@
     <script src="animations/toggle-data.js"></script>
     <script src="animations/man-working-data.js"></script>
     <script src="animations/attention-arrow-data.js"></script>
+    <script src="animations/scroll-hint-data.js"></script>
     <script src="main.js"></script>
 </body>
 </html>

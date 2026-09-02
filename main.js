@@ -20,6 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
     try { initUniverseCursors(); } catch (e) {}
     try { initProfilArrowObserver(); } catch (e) {}
     try { initSlideBumpObserver(); } catch (e) {}
+    try { initScrollHintLottie(); } catch (e) {}
 });
 
 /**
@@ -1530,5 +1531,35 @@ function initSlideBumpObserver() {
         }
     } else if (profilCard) {
         profilCard.classList.add('play');
+    }
+}
+
+/**
+ * 10. Animation Lottie Défiler vers le bas (BoFd17MsdT.lottie)
+ */
+let lottieScrollAnim = null;
+
+function initScrollHintLottie() {
+    const container = document.getElementById('lottieScrollHint');
+    if (!container || typeof lottie === 'undefined') return;
+
+    function startScroll(data) {
+        if (lottieScrollAnim) lottieScrollAnim.destroy();
+        lottieScrollAnim = lottie.loadAnimation({
+            container: container,
+            renderer: 'svg',
+            loop: true,
+            autoplay: true,
+            animationData: data
+        });
+    }
+
+    if (window.AKOULY_SCROLL_LOTTIE) {
+        startScroll(window.AKOULY_SCROLL_LOTTIE);
+    } else if (typeof lottie !== 'undefined') {
+        fetch('animations/scroll-hint.json')
+            .then(res => res.json())
+            .then(data => startScroll(data))
+            .catch(err => console.warn('Erreur Lottie Scroll Hint:', err));
     }
 }
