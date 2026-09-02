@@ -80,7 +80,7 @@
         <div class="container">
             <h2 class="section-title">Mes <span>Applications</span></h2>
 
-                        <div class="projects-grid">
+                                    <div class="projects-grid">
                 <!-- App 1: Too -->
                 <div class="project-card">
                     <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
@@ -103,12 +103,12 @@
 
                     <div class="project-footer" style="margin-top: 1rem;">
                         <span class="project-status">✓ Disponible en APK</span>
-                        <a href="https://mega.nz/file/n7RGzLQB#aufvRIxvM5E7QMoDLh3O3Ln86oDTgVsNtLjBl3iL5KU" target="_blank" class="project-link">
+                        <a href="https://mega.nz/file/n7RGzLQB#aufvRIxvM5E7QMoDLh3O3Ln86oDTgVsNtLjBl3iL5KU" target="_blank" rel="noopener noreferrer" class="project-link">
                             <i class="fas fa-download"></i> Télécharger l'APK &rarr;
                         </a>
                     </div>
 
-                    <!-- 3 Boutons d'Action Immersifs (Style Dimension) -->
+                    <!-- 3 Boutons d'Action Immersifs -->
                     <div class="project-action-bar">
                         <button class="btn-dim-action" onclick="openDimModal('dimModal-too-gallery')">
                             <i class="fas fa-images" style="color: var(--accent-dev);"></i> Galerie
@@ -122,7 +122,7 @@
                     </div>
                 </div>
 
-                                <!-- App 2: Poweroff -->
+                <!-- App 2: Poweroff -->
                 <div class="project-card">
                     <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
                         <div style="width: 56px; height: 56px; border-radius: 14px; background: rgba(234, 88, 12, 0.12); color: var(--accent-dev); display: flex; align-items: center; justify-content: center; font-size: 1.6rem; border: 1px solid rgba(234, 88, 12, 0.25);">
@@ -139,8 +139,8 @@
 
                     <!-- Galerie Aperçu Rapide (2 Captures) -->
                     <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.6rem; margin-bottom: 1.2rem; cursor: pointer;" onclick="openDimModal('dimModal-poweroff-gallery')" title="Cliquez pour agrandir en carrousel">
-                        <img loading="lazy" decoding="async" src="images/poweroff-capture-1.png" alt="Poweroff Capture 1" style="width: 100%; height: 120px; object-fit: cover; border-radius: 8px; border: 1px solid var(--border-color); transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.03)'" onmouseout="this.style.transform='scale(1)'">
-                        <img loading="lazy" decoding="async" src="images/poweroff-capture-2.png" alt="Poweroff Capture 2" style="width: 100%; height: 120px; object-fit: cover; border-radius: 8px; border: 1px solid var(--border-color); transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.03)'" onmouseout="this.style.transform='scale(1)'">
+                        <img loading="lazy" decoding="async" src="images/poweroff-capture-1.png" alt="Poweroff Capture 1" style="width: 100%; height: 110px; object-fit: cover; border-radius: 8px; border: 1px solid var(--border-color); transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.03)'" onmouseout="this.style.transform='scale(1)'">
+                        <img loading="lazy" decoding="async" src="images/poweroff-capture-2.png" alt="Poweroff Capture 2" style="width: 100%; height: 110px; object-fit: cover; border-radius: 8px; border: 1px solid var(--border-color); transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.03)'" onmouseout="this.style.transform='scale(1)'">
                     </div>
 
                     <div class="project-footer" style="margin-top: 1rem;">
@@ -164,7 +164,59 @@
                     </div>
                 </div>
 
-                <!-- App 3: Vivi -->
+                <!-- App 3: Mémo Anniv -->
+                <div class="project-card">
+                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                        <div style="width: 56px; height: 56px; border-radius: 14px; background: rgba(236, 72, 153, 0.12); color: #ec4899; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; border: 1px solid rgba(236, 72, 153, 0.25);">
+                            <i class="fas fa-birthday-cake"></i>
+                        </div>
+                        <div>
+                            <h3 style="font-family: var(--font-heading); font-size: 1.35rem; font-weight: 700;">Mémo Anniv</h3>
+                            <span style="font-size: 0.8rem; color: #ec4899; font-weight: 600;"><i class="fas fa-sparkles"></i> Productivité · Vie Quotidienne · Gratuit</span>
+                        </div>
+                    </div>
+                    <div style="font-size: 0.95rem; font-weight: 600; color: var(--text-main); margin-bottom: 0.5rem;">
+                        Ne manquez plus jamais un anniversaire important.
+                    </div>
+                    <p class="project-desc">
+                        Mémo Anniv est une micro-application conçue pour ne plus jamais manquer un anniversaire. Grâce à un formulaire rapide et sans installation, enregistrez les dates clés de vos proches en 30 secondes. Recevez un rappel automatique anticipé pour préparer vos cadeaux ou surprises, ainsi qu'une alerte le jour J pour souhaiter le meilleur à temps.
+                    </p>
+
+                    <!-- Points Forts / Badges -->
+                    <div style="display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 1rem 0 1.2rem;">
+                        <span style="font-size: 0.78rem; background: rgba(236,72,153,0.08); border: 1px solid rgba(236,72,153,0.25); color: #ec4899; padding: 0.25rem 0.6rem; border-radius: 6px; font-weight: 600;">
+                            <i class="fas fa-bolt"></i> Enregistrement en 30s
+                        </span>
+                        <span style="font-size: 0.78rem; background: rgba(236,72,153,0.08); border: 1px solid rgba(236,72,153,0.25); color: #ec4899; padding: 0.25rem 0.6rem; border-radius: 6px; font-weight: 600;">
+                            <i class="fas fa-bell"></i> Alertes J-7, J-1, Jour J
+                        </span>
+                        <span style="font-size: 0.78rem; background: rgba(236,72,153,0.08); border: 1px solid rgba(236,72,153,0.25); color: #ec4899; padding: 0.25rem 0.6rem; border-radius: 6px; font-weight: 600;">
+                            <i class="fas fa-lock"></i> Données sécurisées & privées
+                        </span>
+                    </div>
+
+                    <div class="project-footer" style="margin-top: 1rem;">
+                        <span class="project-status">✓ Accessible en ligne</span>
+                        <a href="https://tally.so/r/zxB25q" target="_blank" rel="noopener noreferrer" class="project-link" style="color: #ec4899;">
+                            <i class="fas fa-calendar-check"></i> Enregistrer une date &rarr;
+                        </a>
+                    </div>
+
+                    <!-- 3 Boutons d'Action Immersifs -->
+                    <div class="project-action-bar">
+                        <a href="https://tally.so/r/zxB25q" target="_blank" rel="noopener noreferrer" class="btn-dim-action" style="text-decoration: none;">
+                            <i class="fas fa-rocket" style="color: #ec4899;"></i> Lancer l'application
+                        </a>
+                        <button class="btn-dim-action" onclick="openDimModal('dimModal-memo-tech')">
+                            <i class="fas fa-microchip" style="color: var(--accent-cyber);"></i> Technologie
+                        </button>
+                        <button class="btn-dim-action btn-support" onclick="openDimModal('dimModal-memo-support')">
+                            <i class="fas fa-cookie-bite" style="color: #f59e0b;"></i> Soutenir le projet
+                        </button>
+                    </div>
+                </div>
+
+                <!-- App 4: Vivi -->
                 <div class="project-card">
                     <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
                         <div style="width: 56px; height: 56px; border-radius: 14px; background: rgba(139,92,246,0.1); color: var(--accent-dev); display: flex; align-items: center; justify-content: center; font-size: 1.6rem;">
@@ -284,7 +336,7 @@
         </div>
     </section>
 
-    <!-- ==========================================================================
+        <!-- ==========================================================================
          DIMENSION MODALS (Expérience SPA Immersive Floutée)
          ========================================================================== -->
 
@@ -400,7 +452,212 @@
         </div>
     </div>
 
-    <!-- MODAL 2A: Contrix — Galerie -->
+    <!-- MODAL 2A: Poweroff — Galerie -->
+    <div class="dim-modal" id="dimModal-poweroff-gallery">
+        <div class="dim-card">
+            <button class="dim-close" onclick="closeDimModal('dimModal-poweroff-gallery')">&times;</button>
+            <div style="display: flex; align-items: center; gap: 0.8rem; margin-bottom: 1rem;">
+                <div style="width: 42px; height: 42px; border-radius: 10px; background: rgba(234,88,12,0.12); color: var(--accent-dev); display: flex; align-items: center; justify-content: center; font-size: 1.3rem;">
+                    <i class="fas fa-power-off"></i>
+                </div>
+                <div>
+                    <h3 style="font-family: var(--font-heading); font-size: 1.3rem; margin: 0; color: var(--accent-dev);">Poweroff — Galerie</h3>
+                    <p style="font-size: 0.82rem; color: var(--text-muted); margin: 0;">Captures réelles de l'invite de commande et programmation</p>
+                </div>
+            </div>
+
+            <!-- Carrousel 4:5 Poweroff -->
+            <div class="carousel-container-4-5" id="carousel-poweroff">
+                <button class="carousel-nav-btn prev" onclick="moveCarousel('carousel-poweroff', -1)"><i class="fas fa-chevron-left"></i></button>
+                <button class="carousel-nav-btn next" onclick="moveCarousel('carousel-poweroff', 1)"><i class="fas fa-chevron-right"></i></button>
+                
+                <div class="carousel-track">
+                    <div class="carousel-slide">
+                        <img loading="lazy" decoding="async" src="images/poweroff-capture-1.png" alt="Poweroff Saisie de la durée">
+                        <div class="carousel-slide-caption">1/2 · Saisie intuitive du minuteur en minutes</div>
+                    </div>
+                    <div class="carousel-slide">
+                        <img loading="lazy" decoding="async" src="images/poweroff-capture-2.png" alt="Poweroff Extinction programmée">
+                        <div class="carousel-slide-caption">2/2 · Confirmation du décompte en secondes & commande d'annulation</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Points indicateurs -->
+            <div class="carousel-dots" id="dots-carousel-poweroff">
+                <span class="carousel-dot active" onclick="setCarouselSlide('carousel-poweroff', 0)"></span>
+                <span class="carousel-dot" onclick="setCarouselSlide('carousel-poweroff', 1)"></span>
+            </div>
+
+            <div style="margin-top: 1.2rem; text-align: center;">
+                <a href="https://mega.nz/file/i7ZBUDKL#aAMtHLJkXbAJhKjXob4wKwoZ0PVjdzfsB01w3wBCb0g" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="padding: 0.5rem 1.2rem; font-size: 0.88rem;">
+                    <i class="fas fa-download"></i> Télécharger Poweroff (.bat)
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 2B: Poweroff — Technologie -->
+    <div class="dim-modal" id="dimModal-poweroff-tech">
+        <div class="dim-card">
+            <button class="dim-close" onclick="closeDimModal('dimModal-poweroff-tech')">&times;</button>
+            <div style="display: flex; align-items: center; gap: 0.8rem; margin-bottom: 1.2rem;">
+                <div style="width: 44px; height: 44px; border-radius: 10px; background: rgba(234,88,12,0.12); color: var(--accent-dev); display: flex; align-items: center; justify-content: center; font-size: 1.3rem;">
+                    <i class="fas fa-microchip"></i>
+                </div>
+                <div>
+                    <h3 style="font-family: var(--font-heading); font-size: 1.3rem; margin: 0; color: var(--accent-dev);">Poweroff — Technologie</h3>
+                    <p style="font-size: 0.82rem; color: var(--text-muted); margin: 0;">Script Batch & Automatisation Système Windows</p>
+                </div>
+            </div>
+
+            <div style="font-size: 0.93rem; line-height: 1.7; color: var(--text-main);">
+                <div style="background: var(--bg-dark); border-left: 4px solid var(--accent-dev); padding: 1rem; border-radius: var(--radius-sm); margin-bottom: 1.2rem;">
+                    <h4 style="font-size: 1rem; color: var(--accent-dev); margin-bottom: 0.3rem;"><i class="fas fa-bullseye"></i> But Visé du Projet :</h4>
+                    <p style="margin: 0; color: var(--text-muted);">
+                        Offrir un moyen ultra-rapide, sans installation complexe ni logiciel lourd en arrière-plan, de programmer l'arrêt automatique de son ordinateur après une durée définie en minutes (ou d'annuler une extinction en cours).
+                    </p>
+                </div>
+
+                <h4 style="font-family: var(--font-heading); font-size: 1.05rem; margin: 1rem 0 0.5rem; color: var(--text-main);">
+                    Pourquoi ce Choix Technologique ?
+                </h4>
+                <ul class="skill-items" style="margin-bottom: 1.2rem;">
+                    <li><strong>Script Batch Windows (.bat)</strong> : Rendu exécutable instantanément sans installation, ultra-léger (quelques kilo-octets) et 100% compatible avec toutes les versions de Windows.</li>
+                    <li><strong>Commande Native shutdown</strong> : Exploite les mécanismes système sécurisés de Windows (<code>shutdown -s -t</code> et <code>shutdown -a</code> pour l'annulation).</li>
+                    <li><strong>Interface CLI Épurée & Intuitive</strong> : Invite en vert matrix/terminal avec calcul automatique des minutes en secondes et instructions claires pour l'annulation.</li>
+                </ul>
+
+                <!-- Points Forts -->
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 0.6rem; margin-top: 1.2rem;">
+                    <div style="background: rgba(234,88,12,0.08); border: 1px solid rgba(234,88,12,0.25); border-radius: var(--radius-sm); padding: 0.6rem 0.8rem; font-size: 0.82rem; font-weight: 600; display: flex; align-items: center; gap: 0.5rem;">
+                        <i class="fas fa-bolt" style="color: var(--accent-dev);"></i> Zéro installation requise
+                    </div>
+                    <div style="background: rgba(234,88,12,0.08); border: 1px solid rgba(234,88,12,0.25); border-radius: var(--radius-sm); padding: 0.6rem 0.8rem; font-size: 0.82rem; font-weight: 600; display: flex; align-items: center; gap: 0.5rem;">
+                        <i class="fas fa-shield-halved" style="color: var(--accent-dev);"></i> Commandes natives Windows
+                    </div>
+                    <div style="background: rgba(234,88,12,0.08); border: 1px solid rgba(234,88,12,0.25); border-radius: var(--radius-sm); padding: 0.6rem 0.8rem; font-size: 0.82rem; font-weight: 600; display: flex; align-items: center; gap: 0.5rem;">
+                        <i class="fas fa-stopwatch" style="color: var(--accent-dev);"></i> Minuteur précis à la seconde
+                    </div>
+                    <div style="background: rgba(234,88,12,0.08); border: 1px solid rgba(234,88,12,0.25); border-radius: var(--radius-sm); padding: 0.6rem 0.8rem; font-size: 0.82rem; font-weight: 600; display: flex; align-items: center; gap: 0.5rem;">
+                        <i class="fas fa-undo" style="color: var(--accent-dev);"></i> Annulation instantanée
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 2C: Poweroff — Soutenir le Projet -->
+    <div class="dim-modal" id="dimModal-poweroff-support">
+        <div class="dim-card" style="text-align: center;">
+            <button class="dim-close" onclick="closeDimModal('dimModal-poweroff-support')">&times;</button>
+            
+            <h3 style="font-family: var(--font-heading); font-size: 1.4rem; margin-bottom: 0.4rem; color: #f59e0b;">
+                Soutenir le Projet Poweroff
+            </h3>
+            <p style="font-size: 0.95rem; color: var(--text-muted); max-width: 500px; margin: 0 auto 1.2rem auto; line-height: 1.6;">
+                Vous trouvez cet outil pratique pour votre quotidien ? Votre soutien encourage le partage d'utilitaires gratuits et le développement de futures applications !
+            </p>
+
+            <!-- Cadre Unique Logo Paiement à Bords Arrondis -->
+            <div style="margin: 1.5rem auto; max-width: 320px; border-radius: var(--radius-md); overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.35); border: 1px solid var(--border-color); background: var(--bg-dark); padding: 0.6rem; display: flex; align-items: center; justify-content: center;">
+                <img loading="lazy" decoding="async" src="images/logo-paiement.png" alt="Moyens de Paiement Sécurisés" style="width: 100%; height: auto; object-fit: contain; border-radius: calc(var(--radius-md) - 4px); display: block;">
+            </div>
+
+            <!-- Bloc Paiement Wave -->
+            <div class="wave-card-box">
+                <div style="font-size: 0.82rem; text-transform: uppercase; font-weight: 700; color: var(--accent-cyber); letter-spacing: 0.05em; margin-bottom: 1.2rem;">
+                    Paiement & Don Direct via Wave
+                </div>
+
+                <a href="https://pay.wave.com/m/M_muNN3vOBhspi/c/ci/" target="_blank" class="btn btn-primary" style="background: linear-gradient(135deg, #1e3a8a, #06b6d4); color: #fff; border: none; font-weight: 700; padding: 0.85rem 2rem; border-radius: 30px; display: inline-flex; align-items: center; gap: 0.6rem; box-shadow: 0 4px 20px rgba(6, 182, 212, 0.35); text-decoration: none; font-size: 1rem;">
+                    <i class="fas fa-heart"></i> Faire un don via Wave &rarr;
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 3A: Mémo Anniv — Technologie -->
+    <div class="dim-modal" id="dimModal-memo-tech">
+        <div class="dim-card">
+            <button class="dim-close" onclick="closeDimModal('dimModal-memo-tech')">&times;</button>
+            <div style="display: flex; align-items: center; gap: 0.8rem; margin-bottom: 1.2rem;">
+                <div style="width: 44px; height: 44px; border-radius: 10px; background: rgba(236,72,153,0.12); color: #ec4899; display: flex; align-items: center; justify-content: center; font-size: 1.3rem;">
+                    <i class="fas fa-birthday-cake"></i>
+                </div>
+                <div>
+                    <h3 style="font-family: var(--font-heading); font-size: 1.3rem; margin: 0; color: #ec4899;">Mémo Anniv — Technologie</h3>
+                    <p style="font-size: 0.82rem; color: var(--text-muted); margin: 0;">Micro-application No-Code, automatisation et rappels programmés</p>
+                </div>
+            </div>
+
+            <div style="font-size: 0.93rem; line-height: 1.7; color: var(--text-main);">
+                <div style="background: var(--bg-dark); border-left: 4px solid #ec4899; padding: 1rem; border-radius: var(--radius-sm); margin-bottom: 1.2rem;">
+                    <h4 style="font-size: 1rem; color: #ec4899; margin-bottom: 0.3rem;"><i class="fas fa-bullseye"></i> But Visé du Projet :</h4>
+                    <p style="margin: 0; color: var(--text-muted);">
+                        Éliminer définitivement l'oubli des dates d'anniversaires grâce à une solution sans installation, ultra-légère et accessible immédiatement sur n'importe quel smartphone ou navigateur web.
+                    </p>
+                </div>
+
+                <h4 style="font-family: var(--font-heading); font-size: 1.05rem; margin: 1rem 0 0.5rem; color: var(--text-main);">
+                    Pourquoi ce Choix Technologique ?
+                </h4>
+                <ul class="skill-items" style="margin-bottom: 1.2rem;">
+                    <li><strong>Architecture Web Instantanée (Tally Forms)</strong> : Zéro friction, pas de compte lourd à créer, compatible mobile/tablette/desktop avec une vitesse de chargement instantanée.</li>
+                    <li><strong>Système d'Alertes Échelonnées</strong> : Programmation de notifications intelligentes (J-7 pour anticiper les cadeaux, J-1 pour l'organisation et Jour J pour le message).</li>
+                    <li><strong>Sécurité & Confidentialité</strong> : Stockage chiffré des données de dates, respect total de la vie privée sans revente de contacts.</li>
+                </ul>
+
+                <!-- Points Forts -->
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 0.6rem; margin-top: 1.2rem;">
+                    <div style="background: rgba(236,72,153,0.08); border: 1px solid rgba(236,72,153,0.25); border-radius: var(--radius-sm); padding: 0.6rem 0.8rem; font-size: 0.82rem; font-weight: 600; display: flex; align-items: center; gap: 0.5rem;">
+                        <i class="fas fa-bolt" style="color: #ec4899;"></i> Enregistrement en 30s
+                    </div>
+                    <div style="background: rgba(236,72,153,0.08); border: 1px solid rgba(236,72,153,0.25); border-radius: var(--radius-sm); padding: 0.6rem 0.8rem; font-size: 0.82rem; font-weight: 600; display: flex; align-items: center; gap: 0.5rem;">
+                        <i class="fas fa-gift" style="color: #ec4899;"></i> Anticipation des cadeaux
+                    </div>
+                    <div style="background: rgba(236,72,153,0.08); border: 1px solid rgba(236,72,153,0.25); border-radius: var(--radius-sm); padding: 0.6rem 0.8rem; font-size: 0.82rem; font-weight: 600; display: flex; align-items: center; gap: 0.5rem;">
+                        <i class="fas fa-mobile-screen" style="color: #ec4899;"></i> Zéro appli à installer
+                    </div>
+                    <div style="background: rgba(236,72,153,0.08); border: 1px solid rgba(236,72,153,0.25); border-radius: var(--radius-sm); padding: 0.6rem 0.8rem; font-size: 0.82rem; font-weight: 600; display: flex; align-items: center; gap: 0.5rem;">
+                        <i class="fas fa-shield-alt" style="color: #ec4899;"></i> Données privées
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 3B: Mémo Anniv — Soutenir le Projet -->
+    <div class="dim-modal" id="dimModal-memo-support">
+        <div class="dim-card" style="text-align: center;">
+            <button class="dim-close" onclick="closeDimModal('dimModal-memo-support')">&times;</button>
+            
+            <h3 style="font-family: var(--font-heading); font-size: 1.4rem; margin-bottom: 0.4rem; color: #f59e0b;">
+                Soutenir le Projet Mémo Anniv
+            </h3>
+            <p style="font-size: 0.95rem; color: var(--text-muted); max-width: 500px; margin: 0 auto 1.2rem auto; line-height: 1.6;">
+                Mémo Anniv est un outil gratuit conçu pour simplifier la vie de chacun. Votre soutien permet de maintenir les serveurs de notifications et d'ajouter de nouvelles fonctionnalités !
+            </p>
+
+            <!-- Cadre Unique Logo Paiement à Bords Arrondis -->
+            <div style="margin: 1.5rem auto; max-width: 320px; border-radius: var(--radius-md); overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.35); border: 1px solid var(--border-color); background: var(--bg-dark); padding: 0.6rem; display: flex; align-items: center; justify-content: center;">
+                <img loading="lazy" decoding="async" src="images/logo-paiement.png" alt="Moyens de Paiement Sécurisés" style="width: 100%; height: auto; object-fit: contain; border-radius: calc(var(--radius-md) - 4px); display: block;">
+            </div>
+
+            <!-- Bloc Paiement Wave -->
+            <div class="wave-card-box">
+                <div style="font-size: 0.82rem; text-transform: uppercase; font-weight: 700; color: var(--accent-cyber); letter-spacing: 0.05em; margin-bottom: 1.2rem;">
+                    Don d'Encouragement via Wave
+                </div>
+
+                <a href="https://pay.wave.com/m/M_muNN3vOBhspi/c/ci/" target="_blank" class="btn btn-primary" style="background: linear-gradient(135deg, #1e3a8a, #06b6d4); color: #fff; border: none; font-weight: 700; padding: 0.85rem 2rem; border-radius: 30px; display: inline-flex; align-items: center; gap: 0.6rem; box-shadow: 0 4px 20px rgba(6, 182, 212, 0.35); text-decoration: none; font-size: 1rem;">
+                    <i class="fas fa-heart"></i> Faire un don via Wave &rarr;
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 4A: Contrix — Galerie -->
     <div class="dim-modal" id="dimModal-contrix-gallery">
         <div class="dim-card">
             <button class="dim-close" onclick="closeDimModal('dimModal-contrix-gallery')">&times;</button>
@@ -433,12 +690,14 @@
                         <div class="carousel-slide-caption">2/3 · Fiches & règles de Game Design élaborées</div>
                     </div>
                     <div class="carousel-slide" style="background: linear-gradient(135deg, #101726, #0b1120); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 1.5rem; text-align: center; color: #fff;">
-                        <div style="font-size: 3rem; margin-bottom: 0.5rem;">📱 ⇄ 💻</div>
-                        <h4 style="font-family: var(--font-heading); font-size: 1.2rem; color: var(--accent-dev); margin-bottom: 0.5rem;">Architecture Réseau</h4>
+                        <div style="font-size: 3rem; margin-bottom: 0.5rem;">📱 ⚡ 💻</div>
+                        <h4 style="font-family: var(--font-heading); font-size: 1.2rem; color: var(--accent-dev); margin-bottom: 0.5rem;">Architecture Multi-Écrans</h4>
                         <p style="font-size: 0.88rem; color: var(--text-muted); max-width: 280px; line-height: 1.6;">
-                            Le smartphone scanne le QR code affiché sur l'écran du PC et devient instantanément un gamepad tactile via WebSockets locaux.
+                            • PC hôte : Moteur graphique & boucle de jeu<br>
+                            • Téléphones : Manettes haptiques dynamiques<br>
+                            • Synchronisation WebSocket temps réel
                         </p>
-                        <div class="carousel-slide-caption">3/3 · Synchronisation en temps réel sans latence</div>
+                        <div class="carousel-slide-caption">3/3 · Synchronisation en temps réel via WebSockets</div>
                     </div>
                 </div>
             </div>
@@ -452,7 +711,7 @@
         </div>
     </div>
 
-    <!-- MODAL 2B: Contrix — Technologie -->
+    <!-- MODAL 4B: Contrix — Technologie -->
     <div class="dim-modal" id="dimModal-contrix-tech">
         <div class="dim-card">
             <button class="dim-close" onclick="closeDimModal('dimModal-contrix-tech')">&times;</button>
@@ -505,7 +764,7 @@
         </div>
     </div>
 
-    <!-- MODAL 2C: Contrix — Soutenir le Projet -->
+    <!-- MODAL 4C: Contrix — Soutenir le Projet -->
     <div class="dim-modal" id="dimModal-contrix-support">
         <div class="dim-card" style="text-align: center;">
             <button class="dim-close" onclick="closeDimModal('dimModal-contrix-support')">&times;</button>
