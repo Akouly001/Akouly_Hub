@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Akouly — Origami & Productions</title>
-    <meta name="description" content="Découvrez les productions et créations artistiques Origami d'Akouly.">
+    <meta name="description" content="Consultez directement les productions artistiques et créations Origami d'Akouly.">
     <link rel="icon" type="image/png" href="images/logo-monogram-1.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,63 +14,193 @@
     <style>
         .origami-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.8rem;
-            margin-top: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 1.5rem;
         }
+
         .origami-card {
             background: var(--bg-card);
             border: 1px solid var(--border-color);
             border-radius: var(--radius-md);
-            padding: 1.8rem;
+            overflow: hidden;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             transition: var(--transition);
-            position: relative;
-            overflow: hidden;
+            box-shadow: var(--shadow-card);
         }
+
         .origami-card:hover {
-            transform: translateY(-4px);
+            transform: translateY(-5px);
             border-color: var(--accent-lab);
-            box-shadow: 0 12px 24px rgba(224, 163, 65, 0.12);
+            box-shadow: 0 14px 30px rgba(224, 163, 65, 0.15);
         }
-        .origami-badge {
+
+        .origami-thumb-container {
+            position: relative;
+            width: 100%;
+            height: 240px;
+            background: rgba(125, 125, 125, 0.05);
+            overflow: hidden;
+            cursor: pointer;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .origami-thumb-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: top center;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .origami-thumb-container:hover .origami-thumb-img {
+            transform: scale(1.05);
+        }
+
+        .origami-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .origami-thumb-container:hover .origami-overlay {
+            opacity: 1;
+        }
+
+        .origami-overlay-btn {
+            background: var(--accent-lab);
+            color: #000;
+            font-weight: 700;
+            font-size: 0.85rem;
+            padding: 0.5rem 1.1rem;
+            border-radius: 20px;
             display: inline-flex;
             align-items: center;
             gap: 0.4rem;
-            font-size: 0.78rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+        }
+
+        .origami-body {
+            padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .origami-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            font-size: 0.75rem;
             font-weight: 700;
             text-transform: uppercase;
             color: var(--accent-lab);
             background: rgba(224, 163, 65, 0.12);
-            padding: 0.25rem 0.65rem;
-            border-radius: 20px;
-            margin-bottom: 1rem;
+            padding: 0.2rem 0.6rem;
+            border-radius: 12px;
+            margin-bottom: 0.8rem;
             width: fit-content;
         }
-        .drive-btn {
-            display: inline-flex;
+
+        .origami-actions {
+            display: flex;
+            gap: 0.6rem;
+            margin-top: 1.2rem;
+            flex-wrap: wrap;
+        }
+
+        .origami-actions .btn {
+            flex: 1 1 calc(50% - 0.3rem);
+            font-size: 0.85rem;
+            padding: 0.6rem 0.8rem;
+            justify-content: center;
+            text-align: center;
+        }
+
+        /* Modal Lecteur PDF Plein Écran */
+        .pdf-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 999999;
+            display: flex;
             align-items: center;
             justify-content: center;
-            gap: 0.5rem;
-            width: 100%;
-            padding: 0.75rem 1rem;
-            border-radius: var(--radius-sm);
-            background: rgba(224, 163, 65, 0.12);
-            border: 1px solid rgba(224, 163, 65, 0.35);
-            color: var(--accent-lab);
-            font-weight: 600;
-            font-size: 0.9rem;
-            text-decoration: none;
-            transition: var(--transition);
-            margin-top: 1.2rem;
-            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            padding: 1.2rem;
         }
-        .drive-btn:hover {
-            background: var(--accent-lab);
-            color: #000;
-            box-shadow: 0 4px 14px rgba(224, 163, 65, 0.3);
+
+        .pdf-modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .pdf-modal-container {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            width: 100%;
+            max-width: 1050px;
+            height: 90vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+            transform: scale(0.95);
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .pdf-modal.active .pdf-modal-container {
+            transform: scale(1);
+        }
+
+        .pdf-modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 1.4rem;
+            border-bottom: 1px solid var(--border-color);
+            background: var(--bg-dark);
+        }
+
+        .pdf-modal-title {
+            font-family: var(--font-heading);
+            font-size: 1.15rem;
+            color: var(--accent-lab);
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .pdf-modal-frame {
+            flex-grow: 1;
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: #2b2b2b;
+        }
+
+        @media (max-width: 600px) {
+            .origami-actions .btn {
+                flex: 1 1 100%;
+            }
+            .pdf-modal-container {
+                height: 94vh;
+                padding: 0;
+            }
         }
     </style>
 </head>
@@ -127,101 +257,156 @@
             </div>
             <h1 class="page-title"><i class="fas fa-scroll" style="color: var(--accent-lab);"></i> Origami</h1>
             <p style="color: var(--text-muted); max-width: 750px;">
-                Collection de 4 productions artistiques et de pliage géométrique issues de l'atelier de création.
+                Consultez directement l'intégralité de mes 4 productions artistiques et de pliage géométrique sans aucune redirection externe.
             </p>
         </div>
     </div>
 
     <!-- Main Content -->
-    <main class="container" style="padding-top: 2rem; padding-bottom: 4rem;">
+    <main class="container" style="padding-top: 1rem; padding-bottom: 4rem;">
 
         <!-- 4 Productions Grid -->
         <div class="origami-grid">
 
             <!-- Production 1: De la case au gratte-ciel -->
             <div class="origami-card">
-                <div>
-                    <div class="origami-badge"><i class="fas fa-file-pdf"></i> Document PDF</div>
-                    <div style="font-size: 2.2rem; color: var(--accent-lab); margin-bottom: 0.8rem;"><i class="fas fa-building"></i></div>
-                    <h3 style="font-family: var(--font-heading); font-size: 1.3rem; margin-bottom: 0.6rem; color: var(--text-main);">
-                        De la case au gratte-ciel
-                    </h3>
-                    <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6;">
-                        Ouvrage et document retraçant une évolution architecturale et conceptuelle, alliant précision et mise en page soignée.
-                    </p>
+                <div class="origami-thumb-container" onclick="openPdfModal('docs/origami/De la case au gratte-ciel.pdf', 'De la case au gratte-ciel')">
+                    <img loading="lazy" decoding="async" src="images/origami/thumbs/thumb_case_gratte_ciel.png" alt="Aperçu De la case au gratte-ciel" class="origami-thumb-img">
+                    <div class="origami-overlay">
+                        <span class="origami-overlay-btn"><i class="fas fa-book-open"></i> Lire le PDF</span>
+                    </div>
                 </div>
-                <a href="https://drive.google.com/drive/folders/1a_3r0ILz96cuF94Di437IzdhtMcN6ytq?usp=sharing" target="_blank" rel="noopener noreferrer" class="drive-btn">
-                    <i class="fab fa-google-drive"></i> Consulter le document &rarr;
-                </a>
+                <div class="origami-body">
+                    <div>
+                        <div class="origami-badge"><i class="fas fa-file-pdf"></i> Document PDF</div>
+                        <h3 style="font-family: var(--font-heading); font-size: 1.25rem; margin-bottom: 0.6rem; color: var(--text-main);">
+                            De la case au gratte-ciel
+                        </h3>
+                        <p style="color: var(--text-muted); font-size: 0.92rem; line-height: 1.6;">
+                            Ouvrage et document retraçant une évolution architecturale et conceptuelle, alliant précision géométrique et mise en page soignée.
+                        </p>
+                    </div>
+                    <div class="origami-actions">
+                        <button class="btn btn-primary" onclick="openPdfModal('docs/origami/De la case au gratte-ciel.pdf', 'De la case au gratte-ciel')">
+                            <i class="fas fa-eye"></i> Consulter
+                        </button>
+                        <a href="docs/origami/De la case au gratte-ciel.pdf" download class="btn btn-secondary">
+                            <i class="fas fa-download"></i> Télécharger
+                        </a>
+                    </div>
+                </div>
             </div>
 
             <!-- Production 2: Fleurs de lys - Portugal -->
             <div class="origami-card">
-                <div>
-                    <div class="origami-badge"><i class="fas fa-file-pdf"></i> Document PDF</div>
-                    <div style="font-size: 2.2rem; color: var(--accent-lab); margin-bottom: 0.8rem;"><i class="fas fa-spa"></i></div>
-                    <h3 style="font-family: var(--font-heading); font-size: 1.3rem; margin-bottom: 0.6rem; color: var(--text-main);">
-                        Fleurs de lys — Portugal
-                    </h3>
-                    <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6;">
-                        Création et pliages autour du motif de la fleur de lys, inspirés d'influences culturelles et artistiques portugaises.
-                    </p>
+                <div class="origami-thumb-container" onclick="openPdfModal('docs/origami/Fleurs de lys - Portugal.pdf', 'Fleurs de lys — Portugal')">
+                    <img loading="lazy" decoding="async" src="images/origami/thumbs/thumb_fleurs_de_lys.png" alt="Aperçu Fleurs de lys Portugal" class="origami-thumb-img">
+                    <div class="origami-overlay">
+                        <span class="origami-overlay-btn"><i class="fas fa-book-open"></i> Lire le PDF</span>
+                    </div>
                 </div>
-                <a href="https://drive.google.com/drive/folders/1a_3r0ILz96cuF94Di437IzdhtMcN6ytq?usp=sharing" target="_blank" rel="noopener noreferrer" class="drive-btn">
-                    <i class="fab fa-google-drive"></i> Consulter le document &rarr;
-                </a>
+                <div class="origami-body">
+                    <div>
+                        <div class="origami-badge"><i class="fas fa-file-pdf"></i> Document PDF</div>
+                        <h3 style="font-family: var(--font-heading); font-size: 1.25rem; margin-bottom: 0.6rem; color: var(--text-main);">
+                            Fleurs de lys — Portugal
+                        </h3>
+                        <p style="color: var(--text-muted); font-size: 0.92rem; line-height: 1.6;">
+                            Création et pliages autour du motif floral de la fleur de lys, inspirés d'influences culturelles et de géométries artistiques portugaises.
+                        </p>
+                    </div>
+                    <div class="origami-actions">
+                        <button class="btn btn-primary" onclick="openPdfModal('docs/origami/Fleurs de lys - Portugal.pdf', 'Fleurs de lys — Portugal')">
+                            <i class="fas fa-eye"></i> Consulter
+                        </button>
+                        <a href="docs/origami/Fleurs de lys - Portugal.pdf" download class="btn btn-secondary">
+                            <i class="fas fa-download"></i> Télécharger
+                        </a>
+                    </div>
+                </div>
             </div>
 
             <!-- Production 3: Éclats de vie - Mme Malan -->
             <div class="origami-card">
-                <div>
-                    <div class="origami-badge"><i class="fas fa-file-pdf"></i> Document PDF</div>
-                    <div style="font-size: 2.2rem; color: var(--accent-lab); margin-bottom: 0.8rem;"><i class="fas fa-feather-pointed"></i></div>
-                    <h3 style="font-family: var(--font-heading); font-size: 1.3rem; margin-bottom: 0.6rem; color: var(--text-main);">
-                        Éclats de vie — Mme Malan
-                    </h3>
-                    <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6;">
-                        Recueil artistique et hommage personnalisé célébrant un parcours avec sensibilité, structure et finesse graphique.
-                    </p>
+                <div class="origami-thumb-container" onclick="openPdfModal('docs/origami/Eclats de vie - Mme Malan.pdf', 'Éclats de vie — Mme Malan')">
+                    <img loading="lazy" decoding="async" src="images/origami/thumbs/thumb_eclats_de_vie.png" alt="Aperçu Éclats de vie Mme Malan" class="origami-thumb-img">
+                    <div class="origami-overlay">
+                        <span class="origami-overlay-btn"><i class="fas fa-book-open"></i> Lire le PDF</span>
+                    </div>
                 </div>
-                <a href="https://drive.google.com/drive/folders/1a_3r0ILz96cuF94Di437IzdhtMcN6ytq?usp=sharing" target="_blank" rel="noopener noreferrer" class="drive-btn">
-                    <i class="fab fa-google-drive"></i> Consulter le document &rarr;
-                </a>
+                <div class="origami-body">
+                    <div>
+                        <div class="origami-badge"><i class="fas fa-file-pdf"></i> Document PDF</div>
+                        <h3 style="font-family: var(--font-heading); font-size: 1.25rem; margin-bottom: 0.6rem; color: var(--text-main);">
+                            Éclats de vie — Mme Malan
+                        </h3>
+                        <p style="color: var(--text-muted); font-size: 0.92rem; line-height: 1.6;">
+                            Recueil artistique et hommage personnalisé célébrant un parcours avec sensibilité, rigueur de pliage et finesse graphique.
+                        </p>
+                    </div>
+                    <div class="origami-actions">
+                        <button class="btn btn-primary" onclick="openPdfModal('docs/origami/Eclats de vie - Mme Malan.pdf', 'Éclats de vie — Mme Malan')">
+                            <i class="fas fa-eye"></i> Consulter
+                        </button>
+                        <a href="docs/origami/Eclats de vie - Mme Malan.pdf" download class="btn btn-secondary">
+                            <i class="fas fa-download"></i> Télécharger
+                        </a>
+                    </div>
+                </div>
             </div>
 
-            <!-- Production 4: Galerie Photos (Duo) -->
+            <!-- Production 4: Embellissement d'Intérieur (Généré en PDF depuis les 2 images) -->
             <div class="origami-card">
-                <div>
-                    <div class="origami-badge"><i class="fas fa-images"></i> Production Visuelle (2 Images)</div>
-                    <div style="font-size: 2.2rem; color: var(--accent-lab); margin-bottom: 0.8rem;"><i class="fas fa-shapes"></i></div>
-                    <h3 style="font-family: var(--font-heading); font-size: 1.3rem; margin-bottom: 0.6rem; color: var(--text-main);">
-                        Créations Physiques & Prises de Vue
-                    </h3>
-                    <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6;">
-                        Série de 2 photographies haute définition immortalisant les créations manuelles et pliages physiques sous différents angles d'éclairage.
-                    </p>
+                <div class="origami-thumb-container" onclick="openPdfModal('docs/origami/Production Personnelle - Embellissement d'Interieur.pdf', 'Embellissement d'Intérieur — Production Personnelle')">
+                    <img loading="lazy" decoding="async" src="images/origami/thumbs/thumb_embellissement_interieur.png" alt="Aperçu Embellissement d'Intérieur" class="origami-thumb-img">
+                    <div class="origami-overlay">
+                        <span class="origami-overlay-btn"><i class="fas fa-book-open"></i> Lire le PDF</span>
+                    </div>
                 </div>
-                <a href="https://drive.google.com/drive/folders/1a_3r0ILz96cuF94Di437IzdhtMcN6ytq?usp=sharing" target="_blank" rel="noopener noreferrer" class="drive-btn">
-                    <i class="fab fa-google-drive"></i> Voir les 2 photos &rarr;
-                </a>
+                <div class="origami-body">
+                    <div>
+                        <div class="origami-badge"><i class="fas fa-file-pdf"></i> Document PDF · Production Personnelle</div>
+                        <h3 style="font-family: var(--font-heading); font-size: 1.25rem; margin-bottom: 0.6rem; color: var(--text-main);">
+                            Embellissement d'Intérieur
+                        </h3>
+                        <p style="color: var(--text-muted); font-size: 0.92rem; line-height: 1.6;">
+                            Création artistique et décorative réalisée pour embellir mon intérieur. Présentée en document PDF multipages haute définition.
+                        </p>
+                    </div>
+                    <div class="origami-actions">
+                        <button class="btn btn-primary" onclick="openPdfModal('docs/origami/Production Personnelle - Embellissement d'Interieur.pdf', 'Embellissement d'Intérieur — Production Personnelle')">
+                            <i class="fas fa-eye"></i> Consulter
+                        </button>
+                        <a href="docs/origami/Production Personnelle - Embellissement d'Interieur.pdf" download class="btn btn-secondary">
+                            <i class="fas fa-download"></i> Télécharger
+                        </a>
+                    </div>
+                </div>
             </div>
 
-        </div>
-
-        <!-- Accès Global au Dossier Drive -->
-        <div style="margin-top: 3rem; text-align: center; background: rgba(224, 163, 65, 0.06); border: 1px dashed rgba(224, 163, 65, 0.3); border-radius: var(--radius-md); padding: 2rem;">
-            <h3 style="font-family: var(--font-heading); font-size: 1.25rem; color: var(--accent-lab); margin-bottom: 0.5rem;">
-                Dossier Complet « Les Grandes Mains »
-            </h3>
-            <p style="color: var(--text-muted); max-width: 600px; margin: 0 auto 1.2rem auto; font-size: 0.95rem;">
-                Retrouvez l'ensemble des fichiers originaux, versions PDF complètes et clichés photographiques directement dans le dossier partagé Google Drive.
-            </p>
-            <a href="https://drive.google.com/drive/folders/1a_3r0ILz96cuF94Di437IzdhtMcN6ytq?usp=sharing" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="background: var(--accent-lab); color: #000; border-color: var(--accent-lab);">
-                <i class="fab fa-google-drive"></i> Ouvrir le dossier Google Drive complet
-            </a>
         </div>
 
     </main>
+
+    <!-- Modal Lecteur PDF Intégré Plein Écran -->
+    <div class="pdf-modal" id="pdfReaderModal" onclick="closePdfModal(event)">
+        <div class="pdf-modal-container" onclick="event.stopPropagation()">
+            <div class="pdf-modal-header">
+                <h3 class="pdf-modal-title" id="modalPdfTitle">
+                    <i class="fas fa-file-pdf"></i> <span>Document</span>
+                </h3>
+                <div style="display: flex; align-items: center; gap: 0.8rem;">
+                    <a id="modalPdfDownload" href="#" download class="btn btn-secondary" style="padding: 0.35rem 0.8rem; font-size: 0.82rem;">
+                        <i class="fas fa-download"></i> Télécharger
+                    </a>
+                    <button class="dim-close" onclick="closePdfModalDirect()" style="position: static; font-size: 1.4rem; width: 34px; height: 34px;">
+                        &times;
+                    </button>
+                </div>
+            </div>
+            <iframe id="modalPdfIframe" class="pdf-modal-frame" src=""></iframe>
+        </div>
+    </div>
 
     <!-- Footer -->
     <footer class="footer">
@@ -236,5 +421,40 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
     <script src="animations/toggle-data.js"></script>
     <script src="main.js"></script>
+    <script>
+        function openPdfModal(pdfUrl, title) {
+            const modal = document.getElementById('pdfReaderModal');
+            const iframe = document.getElementById('modalPdfIframe');
+            const titleEl = document.getElementById('modalPdfTitle').querySelector('span');
+            const downloadBtn = document.getElementById('modalPdfDownload');
+
+            if (!modal || !iframe) return;
+
+            titleEl.textContent = title;
+            downloadBtn.href = pdfUrl;
+            iframe.src = pdfUrl + '#toolbar=1&navpanes=0';
+
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closePdfModal(e) {
+            if (e.target.id === 'pdfReaderModal') {
+                closePdfModalDirect();
+            }
+        }
+
+        function closePdfModalDirect() {
+            const modal = document.getElementById('pdfReaderModal');
+            const iframe = document.getElementById('modalPdfIframe');
+            if (modal) modal.classList.remove('active');
+            if (iframe) iframe.src = '';
+            document.body.style.overflow = '';
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closePdfModalDirect();
+        });
+    </script>
 </body>
 </html>
