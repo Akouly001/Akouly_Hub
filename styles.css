@@ -3909,16 +3909,16 @@ img, video, canvas, svg {
 
 
 /* ==========================================================================
-   SURLIGNAGE MAGIQUE SUR LES MOTS-CLÉS (.underline--magical)
+   SURLIGNAGE MAGIQUE DÉGRADÉ ROUGE VIBRANT (.underline--magical)
    ========================================================================== */
 .underline--magical {
-    background-image: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
-    background-repeat: no-repeat;
-    background-size: 100% 0.26em;
-    background-position: 0 88%;
-    transition: background-size 0.28s cubic-bezier(0.16, 1, 0.3, 1), color 0.22s ease;
+    background-image: linear-gradient(120deg, #ff416c 0%, #ff4b2b 100%) !important;
+    background-repeat: no-repeat !important;
+    background-size: 100% 0.22em !important;
+    background-position: 0 88% !important;
+    transition: background-size 0.28s cubic-bezier(0.16, 1, 0.3, 1), color 0.2s ease, text-shadow 0.2s ease !important;
     border-radius: 3px;
-    padding: 0 2px;
+    padding: 0 3px;
     display: inline;
     color: inherit;
     cursor: pointer;
@@ -3926,18 +3926,20 @@ img, video, canvas, svg {
 }
 
 .underline--magical:hover {
-    background-size: 100% 88%;
-    color: #090d16 !important; /* Lisibilité optimale avec fond sombre */
-    text-shadow: none !important;
+    background-size: 100% 92% !important;
+    color: #ffffff !important;
+    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.6) !important;
+    border-radius: 4px;
 }
 
 [data-theme="light"] .underline--magical {
-    background-image: linear-gradient(120deg, #38bdf8 0%, #818cf8 100%);
-    background-size: 100% 0.3em;
+    background-image: linear-gradient(120deg, #ef4444 0%, #dc2626 100%) !important;
+    background-size: 100% 0.25em !important;
     color: inherit;
 }
 
 [data-theme="light"] .underline--magical:hover {
-    background-size: 100% 88%;
+    background-size: 100% 92% !important;
     color: #ffffff !important;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5) !important;
 }
