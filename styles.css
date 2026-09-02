@@ -3467,37 +3467,73 @@ body[data-page="home"].grow1 #ring1 {
 }
 
 
-/* ── Canvas de Peinture Cumulative (Ce que je fais) ───────── */
+/* ── Cartes 'Ce que je fais' : Effet de Remplissage Descendant 50% ── */
 .univers-card {
     position: relative;
     overflow: hidden;
     background: var(--bg-card);
     border: 1px solid var(--border-color);
     border-radius: var(--radius-md);
-    padding: 2rem 1.4rem;
+    padding: 2.2rem 1.4rem;
     text-align: center;
     text-decoration: none;
     color: var(--text-main);
-    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease, border-color 0.3s ease;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: .7rem;
+    gap: .75rem;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease, border-color 0.4s ease;
+    z-index: 1;
+}
+
+/* La couleur fine du haut descend pour remplir le canva avec 50% de transparence */
+.univers-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--card-accent, var(--accent-cyber));
+    transition: height 0.45s cubic-bezier(0.2, 0.9, 0.3, 1), background-color 0.35s ease, opacity 0.35s ease;
+    z-index: 1;
+    opacity: 1;
+}
+
+.univers-card:hover::before {
+    height: 100%;
+    background: var(--card-accent-50, rgba(6, 182, 212, 0.5));
+    backdrop-filter: blur(6px);
 }
 
 .univers-card > * {
     position: relative;
     z-index: 2;
+    transition: color 0.35s ease, transform 0.35s ease, background 0.35s ease, text-shadow 0.35s ease;
 }
 
-.univers-paint-canvas {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 1;
-    border-radius: var(--radius-md);
+/* Adaptation du texte et de l'icône lors du remplissage */
+.univers-card:hover {
+    transform: translateY(-7px) scale(1.025);
+    border-color: var(--card-accent, var(--accent-cyber));
+    box-shadow: 0 14px 35px rgba(0, 0, 0, 0.55), 0 0 25px var(--card-glow, rgba(6, 182, 212, 0.35));
+}
+
+.univers-card:hover .univers-name {
+    color: #ffffff !important;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.65);
+}
+
+.univers-card:hover .univers-desc {
+    color: #ffffff !important;
+    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.55);
+}
+
+.univers-card:hover .univers-icon {
+    transform: scale(1.14);
+    background: rgba(255, 255, 255, 0.25) !important;
+    color: #ffffff !important;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
 }
 
 
