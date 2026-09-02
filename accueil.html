@@ -86,21 +86,24 @@
             margin-bottom: 1.6rem;
         }
         .scroll-hint {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            margin-top: 1rem;
-            cursor: pointer;
-            text-decoration: none;
-            z-index: 10;
-            opacity: 0.85;
-            transition: transform 0.25s ease, opacity 0.25s ease;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            width: 28px !important;
+            height: 28px !important;
+            max-width: 28px !important;
+            max-height: 28px !important;
+            margin: 0.8rem auto 0 !important;
+            cursor: pointer !important;
+            text-decoration: none !important;
+            z-index: 10 !important;
+            opacity: 0.85 !important;
+            transition: transform 0.25s ease, opacity 0.25s ease !important;
+            overflow: hidden !important;
         }
         .scroll-hint:hover {
-            transform: translateY(3px);
-            opacity: 1;
-        }
-            50%      { transform: translateX(-50%) translateY(6px); }
+            transform: translateY(3px) scale(1.1) !important;
+            opacity: 1 !important;
         }
 
         /* ── Section Activités & Transition Ambiante ──────────────── */
@@ -565,8 +568,8 @@
         <div class="hero-cta-row">
             <a href="#univers" class="btn btn-primary"><i class="fas fa-compass"></i> Explorer mes activités</a>
         </div>
-        <a href="#univers" class="scroll-hint" id="scrollHint" title="Défiler vers les activités" aria-label="Défiler">
-            <div id="lottieScrollHint" class="lottie-scroll-box"></div>
+        <a href="#univers" class="scroll-hint" id="scrollHint" title="Défiler vers les activités" aria-label="Défiler" style="width:28px!important;height:28px!important;max-width:28px!important;max-height:28px!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;margin:0.8rem auto 0!important;overflow:hidden!important;">
+            <div id="lottieScrollHint" class="lottie-scroll-box" style="width:28px!important;height:28px!important;max-width:28px!important;max-height:28px!important;overflow:hidden!important;display:flex!important;align-items:center!important;justify-content:center!important;"></div>
         </a>
     </section>
 
