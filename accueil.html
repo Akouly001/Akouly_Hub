@@ -530,7 +530,7 @@
             </nav>
             <div class="nav-actions">
                 <button class="theme-toggle-btn" id="themeToggleBtn" title="Thème Clair / Sombre">
-                    <i class="fas fa-sun" style="color: #f59e0b;"></i>
+                    <div class="lottie-toggle-box" id="lottieThemeBox"></div>
                 </button>
                 <button class="menu-toggle" id="menuToggle" aria-label="Menu" aria-expanded="false">
                     <span class="bar bar-1"></span>
@@ -627,23 +627,25 @@
     <!-- Profil / À Propos -->
     <section id="profil" class="container scroll-reveal" style="padding-bottom: 4rem;">
         <div class="section-label">// QUI SUIS-JE ?</div>
-        <div class="profil-card">
-            <div class="profil-avatar-placeholder">
-                <i class="fas fa-user"></i>
+        <div class="profil-card" id="profilCard">
+            <div class="profil-avatar-col">
+                <div class="profil-avatar-placeholder">
+                    <i class="fas fa-user"></i>
+                </div>
+                <!-- Animation Lottie Pop-up sous le cercle de profil -->
+                <div class="lottie-avatar-popup" id="lottieAvatarPopup" title="Aboua Junior en plein dev">
+                    <div id="lottieManWorking" class="lottie-man-box"></div>
+                </div>
             </div>
             <div class="profil-body">
                 <div class="profil-name">Aboua Junior KOUADJO</div>
                 <p class="profil-bio" style="margin-top: 0.6rem;">
                     Je n'aime pas seulement utiliser les choses. Je veux comprendre comment elles fonctionnent, les modifier, les améliorer et, quand je ne trouve pas ce que je veux, je le construis moi-même.
                 </p>
-                <div class="profil-actions" style="margin-top: 1.2rem;">
-                    <button class="btn btn-primary" id="btnToggleBio" onclick="toggleBioExpand()" aria-expanded="false" style="cursor: pointer; display: inline-flex; align-items: center; gap: 0.6rem; border: none;">
-                        <span id="btnToggleBioText">En savoir plus</span> <i class="fas fa-chevron-down" id="btnToggleBioIcon" style="transition: transform 0.3s ease;"></i>
-                    </button>
-                </div>
-                <!-- Texte Déroulable Détaillé -->
-                <div id="bioExpandedContent" class="bio-expanded-content" style="max-height: 0; overflow: hidden; opacity: 0; transition: max-height 0.45s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease, margin-top 0.35s ease; margin-top: 0; width: 100%;">
-                    <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 1.3rem 1.4rem; margin-top: 1rem; font-size: 0.93rem; line-height: 1.75; color: var(--text-main);">
+
+                <!-- Texte Déroulable Détaillé (au-dessus du bouton pour pousser le bouton en bas) -->
+                <div id="bioExpandedContent" class="bio-expanded-content">
+                    <div class="bio-expanded-card">
                         <p style="margin-top: 0; margin-bottom: 0.9rem;">
                             Je suis juriste de formation, mais l’informatique a fini par me rattraper… et maintenant, je suis dedans jusqu’au cou.
                         </p>
@@ -657,6 +659,13 @@
                             Aujourd’hui, je me définis comme un créateur, un technicien et un entrepreneur. Mon objectif est simple : transformer mes idées en projets concrets… et éviter de laisser 47 projets commencés dans mes dossiers 😂.
                         </p>
                     </div>
+                </div>
+
+                <!-- Bouton situé au bas qui descend lors du déroulement et remonte à la réduction -->
+                <div class="profil-actions">
+                    <button class="btn btn-primary btn-toggle-bio" id="btnToggleBio" onclick="toggleBioExpand()" aria-expanded="false">
+                        <span id="btnToggleBioText">En savoir plus</span> <i class="fas fa-chevron-down" id="btnToggleBioIcon"></i>
+                    </button>
                 </div>
             </div>
         </div>
@@ -791,6 +800,9 @@
     </footer>
 
     <script src="domains.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
+    <script src="animations/toggle-data.js"></script>
+    <script src="animations/man-working-data.js"></script>
     <script src="main.js"></script>
 </body>
 </html>

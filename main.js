@@ -524,14 +524,59 @@ function initScrollReveal() {
 }
 
 /**
- * 6. Thème Switcher & Logo adaptatif (Dark / Light)
+ * 6. Thème Switcher & Logo adaptatif (Dark / Light) avec Animation Lottie
  */
+let lottieThemeAnim = null;
+
 function initTheme() {
     const savedTheme = localStorage.getItem('AKOULY_THEME') || 'dark';
-    applyTheme(savedTheme);
+    applyTheme(savedTheme, false);
+    initLottieThemeToggle(savedTheme);
 }
 
-function applyTheme(theme) {
+function initLottieThemeToggle(initialTheme) {
+    const btn = document.getElementById('themeToggleBtn');
+    if (!btn) return;
+
+    // Supprimer tout contenu résiduel (ancienne icône)
+    btn.innerHTML = '';
+    
+    const lottieBox = document.createElement('div');
+    lottieBox.className = 'lottie-toggle-box';
+    lottieBox.id = 'lottieThemeBox';
+    btn.appendChild(lottieBox);
+
+    function startLottie(animData) {
+        if (lottieThemeAnim) lottieThemeAnim.destroy();
+        lottieThemeAnim = lottie.loadAnimation({
+            container: lottieBox,
+            renderer: 'svg',
+            loop: false,
+            autoplay: false,
+            animationData: animData
+        });
+
+        lottieThemeAnim.addEventListener('DOMLoaded', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme') || initialTheme;
+            if (currentTheme === 'dark') {
+                lottieThemeAnim.goToAndStop(81, true); // Repos Nuit / Sombre
+            } else {
+                lottieThemeAnim.goToAndStop(0, true);  // Repos Jour / Clair
+            }
+        });
+    }
+
+    if (window.AKOULY_LOTTIE_TOGGLE) {
+        startLottie(window.AKOULY_LOTTIE_TOGGLE);
+    } else if (typeof lottie !== 'undefined') {
+        fetch('animations/toggle.json')
+            .then(res => res.json())
+            .then(data => startLottie(data))
+            .catch(err => console.warn('Erreur chargement Lottie:', err));
+    }
+}
+
+function applyTheme(theme, animateLottie = true) {
     document.documentElement.setAttribute('data-theme', theme);
     localStorage.setItem('AKOULY_THEME', theme);
 
@@ -540,14 +585,17 @@ function applyTheme(theme) {
         img.src = logoSrc;
     });
 
-    const toggleIcon = document.querySelector('#themeToggleBtn i');
-    if (toggleIcon) {
+    if (lottieThemeAnim && animateLottie) {
         if (theme === 'dark') {
-            toggleIcon.className = 'fas fa-sun';
-            toggleIcon.style.color = '#f59e0b';
+            lottieThemeAnim.playSegments([20, 80], true); // Jour vers Nuit
         } else {
-            toggleIcon.className = 'fas fa-moon';
-            toggleIcon.style.color = '#7c3aed';
+            lottieThemeAnim.playSegments([120, 200], true); // Nuit vers Jour
+        }
+    } else if (lottieThemeAnim && !animateLottie) {
+        if (theme === 'dark') {
+            lottieThemeAnim.goToAndStop(81, true);
+        } else {
+            lottieThemeAnim.goToAndStop(0, true);
         }
     }
 
@@ -559,7 +607,7 @@ function applyTheme(theme) {
 function toggleTheme() {
     const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
     const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-    applyTheme(newTheme);
+    applyTheme(newTheme, true);
 }
 
 function renderDomains() {
@@ -1310,25 +1358,72 @@ function initUniverseCursors() {
 
 /**
  * Déroulement / Rétractation fluide de la biographie détaillée (Section Qui Suis-je)
+ * avec animation Lottie Pop-up (Man Working on Laptop)
  */
+let lottieManWorkingAnim = null;
+
+function initManWorkingLottie() {
+    const container = document.getElementById('lottieManWorking');
+    if (!container || typeof lottie === 'undefined') return;
+
+    function startMan(data) {
+        if (lottieManWorkingAnim) lottieManWorkingAnim.destroy();
+        lottieManWorkingAnim = lottie.loadAnimation({
+            container: container,
+            renderer: 'svg',
+            loop: true,
+            autoplay: true,
+            animationData: data
+        });
+    }
+
+    if (window.AKOULY_MAN_WORKING_LOTTIE) {
+        startMan(window.AKOULY_MAN_WORKING_LOTTIE);
+    } else if (typeof lottie !== 'undefined') {
+        fetch('animations/man-working.json')
+            .then(res => res.json())
+            .then(data => startMan(data))
+            .catch(err => console.warn('Erreur Lottie Man Working:', err));
+    }
+}
+
 function toggleBioExpand() {
+    const card = document.getElementById('profilCard') || document.querySelector('.profil-card');
     const content = document.getElementById('bioExpandedContent');
     const btnText = document.getElementById('btnToggleBioText');
     const btnIcon = document.getElementById('btnToggleBioIcon');
     const btn = document.getElementById('btnToggleBio');
     if (!content) return;
 
-    const isExpanded = content.classList.contains('is-open');
+    const isExpanded = btn && btn.getAttribute('aria-expanded') === 'true';
 
     if (!isExpanded) {
-        content.classList.add('is-open');
-        content.style.maxHeight = content.scrollHeight + 'px';
+        // Déroulement
+        if (card) card.classList.add('is-expanded');
+        content.style.maxHeight = (content.scrollHeight + 30) + 'px';
         content.style.opacity = '1';
         content.style.marginTop = '0.5rem';
         if (btnText) btnText.textContent = 'Réduire';
         if (btnIcon) btnIcon.style.transform = 'rotate(180deg)';
         if (btn) btn.setAttribute('aria-expanded', 'true');
+
+        // Lancer l'animation Pop-up Lottie sous le cercle
+        if (!lottieManWorkingAnim) {
+            initManWorkingLottie();
+        } else {
+            lottieManWorkingAnim.play();
+        }
     } else {
+        // Rétractation
+        if (card) card.classList.remove('is-expanded');
+        content.style.maxHeight = '0';
+        content.style.opacity = '0';
+        content.style.marginTop = '0';
+        if (btnText) btnText.textContent = 'En savoir plus';
+        if (btnIcon) btnIcon.style.transform = 'rotate(0deg)';
+        if (btn) btn.setAttribute('aria-expanded', 'false');
+    }
+} else {
         content.classList.remove('is-open');
         content.style.maxHeight = '0';
         content.style.opacity = '0';

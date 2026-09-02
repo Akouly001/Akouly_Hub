@@ -3,22 +3,32 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Akouly Hub — Showcase Gaming Épuré (3 Produits Visibles)</title>
+  <title>Akouly Hub — Section Gaming Fluide (Test Standalone)</title>
 
-  <!-- Google Fonts : Orbitron & Inter -->
+  <!-- Google Fonts : Orbitron & Inter & Fira Code -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@400;500;600;700&family=Orbitron:wght@600;700;800;900&display=swap" rel="stylesheet">
 
-  <!-- Swiper.js CSS -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+  <!-- FontAwesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <style>
+    /* ==========================================================================
+       VARIABLES DE COULEURS CYBER-GAMING & FLUIDITÉ
+       ========================================================================== */
     :root {
       --bg-dark: #07090e;
       --neon-cyan: #00f0ff;
       --neon-violet: #8b5cf6;
+      --neon-purple: #a855f7;
       --neon-pink: #ec4899;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --font-body: 'Inter', system-ui, sans-serif;
+      --font-display: 'Orbitron', sans-serif;
+      --font-code: 'Fira Code', monospace;
+      --gradient-gaming: linear-gradient(135deg, #00f0ff 0%, #8b5cf6 50%, #ec4899 100%);
     }
 
     *, *::before, *::after {
@@ -29,258 +39,628 @@
 
     body {
       background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: var(--font-body);
       min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow-x: hidden;
-      margin: 0;
-      position: relative;
-      background-image: 
-        radial-gradient(circle at 50% 50%, rgba(0, 240, 255, 0.08) 0%, rgba(139, 92, 246, 0.06) 40%, transparent 70%);
-      background-attachment: fixed;
-    }
-
-    /* Conteneur principal plein écran centré */
-    .showcase-section {
-      width: 100%;
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 2rem 1rem;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
+      overflow-x: hidden;
       position: relative;
+      background-image: 
+        radial-gradient(circle at 15% 25%, rgba(0, 240, 255, 0.09) 0%, transparent 45%),
+        radial-gradient(circle at 85% 75%, rgba(139, 92, 246, 0.12) 0%, transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(236, 72, 153, 0.05) 0%, transparent 60%);
+      background-attachment: fixed;
     }
 
-    /* Swiper Container */
-    .swiper-container-gaming {
+    /* Grille d'arrière-plan cyber discrète */
+    .cyber-grid-bg {
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0, 240, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 240, 255, 0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Halo ambiant fluide */
+    .ambient-glow {
+      position: absolute;
+      width: 650px;
+      height: 650px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(0, 240, 255, 0.16) 0%, rgba(139, 92, 246, 0.09) 45%, transparent 70%);
+      top: 50%;
+      right: 15%;
+      transform: translate(50%, -50%);
+      filter: blur(75px);
+      pointer-events: none;
+      z-index: 1;
+      animation: ambientFloat 8s ease-in-out infinite alternate;
+    }
+
+    @keyframes ambientFloat {
+      0% { transform: translate(45%, -45%) scale(0.9); opacity: 0.7; }
+      100% { transform: translate(55%, -55%) scale(1.15); opacity: 1; }
+    }
+
+    /* ==========================================================================
+       SECTION GAMING LAYOUT (2 COLONNES 50/50)
+       ========================================================================== */
+    .gaming-section {
       width: 100%;
-      max-width: 1000px;
-      padding: 60px 0;
-      overflow: hidden; /* Masque le 4ème élément en dehors des 3 visibles */
+      max-width: 1420px;
+      margin: 0 auto;
+      padding: 4.5rem 2.5rem;
       position: relative;
+      z-index: 2;
     }
 
-    .swiper {
-      width: 100%;
-      overflow: visible !important;
-    }
-
-    .swiper-wrapper {
+    .gaming-container {
       display: flex;
       align-items: center;
+      justify-content: space-between;
+      gap: 3.5rem;
     }
 
-    /* SLIDE : 0 texte, 0 bouton, 0 bordure rigide */
-    .swiper-slide {
-      width: 280px;
-      height: 360px;
+    .gaming-col-text {
+      flex: 0 0 45%;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      z-index: 2;
+    }
+
+    /* ==========================================================================
+       COLONNE GAUCHE : INTACTE
+       ========================================================================== */
+    .badge-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.45rem 1.1rem;
+      border-radius: 9999px;
+      background: rgba(0, 240, 255, 0.08);
+      border: 1px solid rgba(0, 240, 255, 0.25);
+      color: var(--neon-cyan);
+      font-family: var(--font-display);
+      font-size: 0.76rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 0 15px rgba(0, 240, 255, 0.15);
+      backdrop-filter: blur(8px);
+    }
+
+    .badge-tag-dot {
+      width: 7px;
+      height: 7px;
+      background: var(--neon-cyan);
+      border-radius: 50%;
+      box-shadow: 0 0 10px var(--neon-cyan);
+      animation: pulseDot 2s infinite;
+    }
+
+    @keyframes pulseDot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.7); }
+    }
+
+    .gaming-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.3rem, 4vw, 3.5rem);
+      font-weight: 900;
+      line-height: 1.12;
+      text-transform: uppercase;
+      letter-spacing: -0.5px;
+      margin-bottom: 1.4rem;
+    }
+
+    .gaming-title .highlight {
+      background: var(--gradient-gaming);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 0 25px rgba(0, 240, 255, 0.35));
+    }
+
+    .gaming-description {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      line-height: 1.7;
+      max-width: 500px;
+      margin-bottom: 2.2rem;
+    }
+
+    .features-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin-bottom: 2.4rem;
+    }
+
+    .feature-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 0.95rem;
+      color: #cbd5e1;
+    }
+
+    .feature-item i {
+      color: var(--neon-cyan);
+      font-size: 1rem;
+    }
+
+    .gaming-actions {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      flex-wrap: wrap;
+    }
+
+    .cta-button-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.8rem;
+      padding: 1rem 2.2rem;
+      font-family: var(--font-display);
+      font-size: 0.92rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      color: #07090e;
+      background: var(--gradient-gaming);
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 6px 24px rgba(0, 240, 255, 0.35);
+    }
+
+    .cta-button-primary:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 10px 35px rgba(0, 240, 255, 0.6);
+    }
+
+    .cta-button-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 1rem 1.6rem;
+      font-family: var(--font-body);
+      font-size: 0.92rem;
+      font-weight: 600;
+      color: var(--text-main);
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 10px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+    }
+
+    .cta-button-secondary:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.25);
+      color: #fff;
+    }
+
+    /* ==========================================================================
+       COLONNE DROITE : SCÈNE 3D FLOTTANTE IMMERSIVE SANS CADRE NI CANVA
+       (Décalage de la scène annulé, séparation de 2cm entre les images)
+       ========================================================================== */
+    .gaming-col-carousel {
+      flex: 0 0 55%;
+      min-width: 0;
+      position: relative;
       display: flex;
       align-items: center;
       justify-content: center;
-      position: relative;
-      background: transparent;
-      border: none;
-      box-shadow: none;
-      cursor: grab;
+      height: 560px;
+      perspective: 1200px;
       user-select: none;
-      -webkit-user-select: none;
-      
-      /* État par défaut pour le 4ème élément masqué */
-      opacity: 0;
-      pointer-events: none;
-      transform: scale(0.65);
-      transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    .swiper-slide:active {
-      cursor: grabbing;
-    }
-
-    /* SEULS LES 3 ÉLÉMENTS (Précédent, Actif, Suivant) SONT VISIBLES */
-    .swiper-slide-active,
-    .swiper-slide-prev,
-    .swiper-slide-next {
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    /* CONTENEUR DE L'IMAGE DU PRODUIT (FLOTTANTE ET ÉPURÉE) */
-    .product-holder {
+    .stage-3d-wrapper {
+      position: relative;
       width: 100%;
       height: 100%;
       display: flex;
       align-items: center;
       justify-content: center;
-      position: relative;
-      transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      transform-style: preserve-3d;
     }
 
-    /* IMAGE RÉELLE DU PRODUIT */
-    .product-img {
-      max-width: 90%;
-      max-height: 90%;
+    /* Carte Produit Flottante pure (0 cadre, 0 bordure, 0 fond) */
+    .floating-product-card {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 320px;
+      height: 480px;
+      margin-top: -240px;
+      margin-left: -160px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent !important;
+      border: none !important;
+      box-shadow: none !important;
+      outline: none !important;
+      cursor: pointer;
+      transform-style: preserve-3d;
+      transition: 
+        transform 0.75s cubic-bezier(0.2, 0.9, 0.3, 1),
+        opacity 0.6s ease,
+        filter 0.6s ease;
+      will-change: transform, opacity, filter;
+    }
+
+    /* Image Produit Haute Définition */
+    .product-pure-img {
+      width: 100%;
+      height: 100%;
+      max-width: 320px;
+      max-height: 460px;
       object-fit: contain;
-      pointer-events: none;
-      transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1), filter 0.55s ease;
+      pointer-events: auto;
+      transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.4s ease;
       will-change: transform, filter;
     }
 
-    /* 1. PRODUIT CENTRAL (Actif - Hero Focus) */
-    .swiper-slide-active .product-holder {
-      transform: scale(1.18);
-    }
-    .swiper-slide-active .product-img {
-      filter: 
-        drop-shadow(0 20px 40px rgba(0, 0, 0, 0.8)) 
-        drop-shadow(0 0 35px rgba(0, 240, 255, 0.45));
-      animation: floatActive 4s ease-in-out infinite alternate;
-    }
-
-    /* 2. PRODUITS GAUCHE & DROITE (Effet de zoom léger et symétrique) */
-    .swiper-slide-prev .product-holder,
-    .swiper-slide-next .product-holder {
-      transform: scale(0.92);
-      opacity: 0.82;
-    }
-
-    .swiper-slide-prev .product-img,
-    .swiper-slide-next .product-img {
-      filter: 
-        drop-shadow(0 12px 25px rgba(0, 0, 0, 0.7)) 
-        drop-shadow(0 0 20px rgba(139, 92, 246, 0.3));
-    }
-
-    /* Hover interactif sur les côtés gauche et droite */
-    .swiper-slide-prev:hover .product-holder,
-    .swiper-slide-next:hover .product-holder {
-      transform: scale(0.98);
+    /* ==========================================================================
+       POSITIONS DU STAGE 3D : GAUCHE (-310px), CENTRE (0), DROITE (+310px), CACHÉ
+       (Séparation de 2cm / +76px supplémentaire entre chaque image)
+       ========================================================================== */
+    
+    /* 1. POSITION CENTRE (PRODUIT PRINCIPAL / ACTIF) */
+    .floating-product-card.pos-center {
+      transform: translate3d(0, 0, 80px) scale(1.15);
       opacity: 1;
+      z-index: 10;
+      pointer-events: auto;
+      visibility: visible;
     }
 
-    @keyframes floatActive {
-      0% { transform: translateY(0px) scale(1); }
-      100% { transform: translateY(-8px) scale(1.02); }
+    .floating-product-card.pos-center .product-pure-img {
+      filter: 
+        drop-shadow(0 25px 50px rgba(0, 0, 0, 0.9))
+        drop-shadow(0 0 35px rgba(0, 240, 255, 0.55))
+        drop-shadow(0 0 70px rgba(139, 92, 246, 0.3));
     }
 
-    /* Halo lumineux doux sous le produit actif */
-    .glow-floor {
-      position: absolute;
-      width: 220px;
-      height: 40px;
-      background: radial-gradient(ellipse, rgba(0, 240, 255, 0.4) 0%, rgba(139, 92, 246, 0.15) 50%, transparent 75%);
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      pointer-events: none;
-      filter: blur(14px);
+    .floating-product-card.pos-center:hover .product-pure-img {
+      transform: scale(1.08) translateY(-8px);
+      filter: 
+        drop-shadow(0 30px 60px rgba(0, 0, 0, 0.95))
+        drop-shadow(0 0 45px rgba(0, 240, 255, 0.75))
+        drop-shadow(0 0 90px rgba(139, 92, 246, 0.45));
+    }
+
+    /* 2. POSITION GAUCHE (SÉPARÉE DE 2CM DU CENTRE : -310px) */
+    .floating-product-card.pos-left {
+      transform: translate3d(calc(-230px - 2cm), 0, -50px) scale(0.92) rotateY(16deg);
+      opacity: 0.88;
+      z-index: 5;
+      pointer-events: auto;
+      visibility: visible;
+    }
+
+    .floating-product-card.pos-left .product-pure-img {
+      filter: 
+        drop-shadow(0 15px 35px rgba(0, 0, 0, 0.75))
+        drop-shadow(0 0 25px rgba(139, 92, 246, 0.4));
+    }
+
+    .floating-product-card.pos-left:hover {
+      opacity: 1;
+      transform: translate3d(calc(-225px - 2cm), -6px, -30px) scale(0.97) rotateY(12deg);
+    }
+
+    .floating-product-card.pos-left:hover .product-pure-img {
+      filter: 
+        drop-shadow(0 20px 45px rgba(0, 0, 0, 0.85))
+        drop-shadow(0 0 35px rgba(0, 240, 255, 0.6));
+    }
+
+    /* 3. POSITION DROITE (SÉPARÉE DE 2CM DU CENTRE : +310px) */
+    .floating-product-card.pos-right {
+      transform: translate3d(calc(230px + 2cm), 0, -50px) scale(0.92) rotateY(-16deg);
+      opacity: 0.88;
+      z-index: 5;
+      pointer-events: auto;
+      visibility: visible;
+    }
+
+    .floating-product-card.pos-right .product-pure-img {
+      filter: 
+        drop-shadow(0 15px 35px rgba(0, 0, 0, 0.75))
+        drop-shadow(0 0 25px rgba(0, 240, 255, 0.4));
+    }
+
+    .floating-product-card.pos-right:hover {
+      opacity: 1;
+      transform: translate3d(calc(225px + 2cm), -6px, -30px) scale(0.97) rotateY(-12deg);
+    }
+
+    .floating-product-card.pos-right:hover .product-pure-img {
+      filter: 
+        drop-shadow(0 20px 45px rgba(0, 0, 0, 0.85))
+        drop-shadow(0 0 35px rgba(0, 240, 255, 0.6));
+    }
+
+    /* 4. POSITION CACHÉE (4E PRODUIT EN ATTENTE DERRIÈRE EN CYCLE) */
+    .floating-product-card.pos-hidden {
+      transform: translate3d(0, 0, -250px) scale(0.5);
       opacity: 0;
-      transition: opacity 0.5s ease;
+      z-index: 1;
+      pointer-events: none;
+      visibility: hidden;
     }
 
-    .swiper-slide-active .glow-floor {
-      opacity: 1;
+    /* ==========================================================================
+       RESPONSIVE DESIGN (ADAPTATION MOBILES & TABLETTES)
+       ========================================================================== */
+    @media (max-width: 1024px) {
+      .gaming-container {
+        flex-direction: column;
+        text-align: center;
+        gap: 3.5rem;
+      }
+      .gaming-col-text {
+        flex: 1 1 100%;
+        align-items: center;
+      }
+      .gaming-description {
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .features-list {
+        align-items: center;
+      }
+      .gaming-actions {
+        justify-content: center;
+      }
+      .gaming-col-carousel {
+        flex: 1 1 100%;
+        height: 480px;
+        width: 100%;
+      }
+      .floating-product-card.pos-left {
+        transform: translate3d(calc(-170px - 1cm), 0, -60px) scale(0.82) rotateY(14deg);
+      }
+      .floating-product-card.pos-right {
+        transform: translate3d(calc(170px + 1cm), 0, -60px) scale(0.82) rotateY(-14deg);
+      }
     }
 
-    @media (max-width: 768px) {
-      .swiper-slide {
-        width: 210px;
-        height: 280px;
+    @media (max-width: 640px) {
+      .gaming-section {
+        padding: 3rem 1.2rem;
       }
-      .swiper-slide-active .product-holder {
-        transform: scale(1.12);
+      .gaming-col-carousel {
+        height: 380px;
       }
-      .swiper-slide-prev .product-holder,
-      .swiper-slide-next .product-holder {
-        transform: scale(0.85);
+      .floating-product-card {
+        width: 220px;
+        height: 340px;
+        margin-top: -170px;
+        margin-left: -110px;
+      }
+      .floating-product-card.pos-left {
+        transform: translate3d(calc(-125px - 0.5cm), 0, -70px) scale(0.72) rotateY(12deg);
+      }
+      .floating-product-card.pos-right {
+        transform: translate3d(calc(125px + 0.5cm), 0, -70px) scale(0.72) rotateY(-12deg);
       }
     }
   </style>
 </head>
 <body>
 
-  <section class="showcase-section">
-    <div class="swiper-container-gaming">
-      <div class="swiper">
-        <div class="swiper-wrapper">
+  <!-- Grille & Halo Cyber -->
+  <div class="cyber-grid-bg"></div>
+  <div class="ambient-glow"></div>
+
+  <!-- SECTION GAMING (2 Colonnes 50/50) -->
+  <section class="gaming-section" id="akouly-gaming">
+    <div class="gaming-container">
+      
+      <!-- Colonne Gauche : Intacte -->
+      <div class="gaming-col-text">
+        <div class="badge-tag">
+          <span class="badge-tag-dot"></span>
+          <span>Akouly Hub Gaming</span>
+        </div>
+        
+        <h2 class="gaming-title">
+          Boostez votre <br />
+          <span class="highlight">Setup Gaming</span>
+        </h2>
+        
+        <p class="gaming-description">
+          Débloquez des performances extrêmes et dominez vos parties avec nos composants haute précision certifiés, optimisés pour la fluidité 144Hz+ et le multitâche lourd.
+        </p>
+
+        <div class="features-list">
+          <div class="feature-item">
+            <i class="fas fa-check-circle"></i>
+            <span>Composants certifiés neufs & garantis</span>
+          </div>
+          <div class="feature-item">
+            <i class="fas fa-check-circle"></i>
+            <span>Conseil personnalisé & devis d'assemblage sur-mesure</span>
+          </div>
+          <div class="feature-item">
+            <i class="fas fa-check-circle"></i>
+            <span>Disponibilité rapide & livraison à Abidjan</span>
+          </div>
+        </div>
+
+        <div class="gaming-actions">
+          <a href="catalogue-gaming.html" class="cta-button-primary">
+            <span>Commander</span>
+            <i class="fas fa-arrow-right"></i>
+          </a>
+          <a href="catalogue-gaming.html" class="cta-button-secondary">
+            <i class="fas fa-list-check"></i>
+            <span>Détails des Packs</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Colonne Droite : Scène 3D Flottante (Séparation de 2cm entre chaque image) -->
+      <div class="gaming-col-carousel" id="gamingStage">
+        <div class="stage-3d-wrapper">
           
-          <!-- 1. Processeur AMD Ryzen -->
-          <div class="swiper-slide">
-            <div class="product-holder">
-              <img src="images/gaming-cpu-ryzen.png" alt="AMD Ryzen" class="product-img">
-              <div class="glow-floor"></div>
-            </div>
+          <!-- Produit 0 : Processeur AMD Ryzen -->
+          <div class="floating-product-card" data-index="0" onclick="handleCardClick(0)">
+            <img loading="eager" decoding="async" src="images/gaming-cpu-ryzen.png" alt="Processeur AMD Ryzen 7000 Series" class="product-pure-img">
           </div>
 
-          <!-- 2. Carte Mère MSI Gaming Plus WiFi -->
-          <div class="swiper-slide">
-            <div class="product-holder">
-              <img src="images/gaming-mobo-msi.png" alt="MSI Gaming Plus WiFi" class="product-img">
-              <div class="glow-floor"></div>
-            </div>
+          <!-- Produit 1 : Carte Mère MSI Gaming Plus WiFi -->
+          <div class="floating-product-card" data-index="1" onclick="handleCardClick(1)">
+            <img loading="eager" decoding="async" src="images/gaming-mobo-msi.png" alt="Carte Mère MSI B650 Gaming Plus WiFi" class="product-pure-img">
           </div>
 
-          <!-- 3. RAM Corsair Vengeance RGB PRO SL -->
-          <div class="swiper-slide">
-            <div class="product-holder">
-              <img src="images/gaming-ram-corsair.png" alt="Corsair Vengeance RGB PRO" class="product-img">
-              <div class="glow-floor"></div>
-            </div>
+          <!-- Produit 2 : RAM Corsair Vengeance RGB PRO SL -->
+          <div class="floating-product-card" data-index="2" onclick="handleCardClick(2)">
+            <img loading="eager" decoding="async" src="images/gaming-ram-corsair.png" alt="RAM Corsair Vengeance RGB PRO SL 32Go" class="product-pure-img">
           </div>
 
-          <!-- 4. SSD Kingston KC3000 PCIe 4.0 NVMe -->
-          <div class="swiper-slide">
-            <div class="product-holder">
-              <img src="images/gaming-ssd-kingston.png" alt="Kingston KC3000 SSD" class="product-img">
-              <div class="glow-floor"></div>
-            </div>
+          <!-- Produit 3 : SSD Kingston KC3000 PCIe 4.0 NVMe M.2 -->
+          <div class="floating-product-card" data-index="3" onclick="handleCardClick(3)">
+            <img loading="eager" decoding="async" src="images/gaming-ssd-kingston.png" alt="SSD Kingston KC3000 PCIe 4.0 NVMe M.2 1To" class="product-pure-img">
           </div>
 
         </div>
       </div>
+
     </div>
   </section>
 
-  <!-- Swiper.js -->
-  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <!-- MOTEUR DE DÉFILEMENT 3D FLUIDE & SANS BUG -->
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const swiper = new Swiper('.swiper', {
-        effect: 'coverflow',
-        grabCursor: true,
-        centeredSlides: true,
-        slidesPerView: 3, /* Strictement 3 objets visibles à la fois */
-        loop: true,
-        slideToClickedSlide: true,
-        speed: 650,
+    let currentIndex = 0;
+    const totalProducts = 4;
+    const cards = document.querySelectorAll('.floating-product-card');
+    const stage = document.getElementById('gamingStage');
+    let autoPlayTimer = null;
+    let isHovered = false;
 
-        // Transition 3D coverflow fluide sans rupture
-        coverflowEffect: {
-          rotate: 15,
-          stretch: 15,
-          depth: 140,
-          modifier: 1,
-          slideShadows: false, /* 0 ombre dure, pure fluidité lumineuse */
-        },
+    // Mise à jour instantanée des positions 3D relatives
+    function updateStagePositions() {
+      const leftIndex = (currentIndex - 1 + totalProducts) % totalProducts;
+      const rightIndex = (currentIndex + 1) % totalProducts;
+      const hiddenIndex = (currentIndex + 2) % totalProducts;
 
-        // Défilement automatique fluide
-        autoplay: {
-          delay: 3200,
-          disableOnInteraction: false,
-          pauseOnMouseEnter: true,
-        },
+      cards.forEach((card, i) => {
+        card.classList.remove('pos-center', 'pos-left', 'pos-right', 'pos-hidden');
 
-        // Support complet molette et tactile
-        mousewheel: {
-          forceToAxis: true,
-          sensitivity: 1,
-        },
-        keyboard: {
-          enabled: true,
-        },
+        if (i === currentIndex) {
+          card.classList.add('pos-center');
+        } else if (i === leftIndex) {
+          card.classList.add('pos-left');
+        } else if (i === rightIndex) {
+          card.classList.add('pos-right');
+        } else {
+          card.classList.add('pos-hidden');
+        }
       });
+    }
+
+    // Navigation vers la carte suivante
+    function nextSlide() {
+      currentIndex = (currentIndex + 1) % totalProducts;
+      updateStagePositions();
+    }
+
+    // Navigation vers la carte précédente
+    function prevSlide() {
+      currentIndex = (currentIndex - 1 + totalProducts) % totalProducts;
+      updateStagePositions();
+    }
+
+    // Clic direct sur un produit pour le placer au centre
+    function handleCardClick(clickedIndex) {
+      const leftIndex = (currentIndex - 1 + totalProducts) % totalProducts;
+      const rightIndex = (currentIndex + 1) % totalProducts;
+
+      if (clickedIndex === rightIndex) {
+        nextSlide();
+      } else if (clickedIndex === leftIndex) {
+        prevSlide();
+      } else if (clickedIndex === currentIndex) {
+        // Clic sur le produit central : petite pulsation interactive
+        const centerImg = cards[currentIndex].querySelector('.product-pure-img');
+        centerImg.style.transform = 'scale(1.22)';
+        setTimeout(() => { centerImg.style.transform = ''; }, 300);
+      }
+    }
+
+    // Démarrage de l'auto-défilement fluide
+    function startAutoPlay() {
+      stopAutoPlay();
+      autoPlayTimer = setInterval(() => {
+        if (!isHovered) {
+          nextSlide();
+        }
+      }, 3400);
+    }
+
+    function stopAutoPlay() {
+      if (autoPlayTimer) clearInterval(autoPlayTimer);
+    }
+
+    // Gestion du survol de la scène 3D
+    stage.addEventListener('mouseenter', () => { isHovered = true; });
+    stage.addEventListener('mouseleave', () => { isHovered = false; });
+
+    // Support du Swipe Tactile et Glisser-Déposer (Drag & Touch)
+    let startX = 0;
+    let endX = 0;
+
+    stage.addEventListener('touchstart', (e) => {
+      startX = e.touches[0].clientX;
+    }, { passive: true });
+
+    stage.addEventListener('touchend', (e) => {
+      endX = e.changedTouches[0].clientX;
+      handleSwipe();
+    }, { passive: true });
+
+    stage.addEventListener('mousedown', (e) => {
+      startX = e.clientX;
+    });
+
+    stage.addEventListener('mouseup', (e) => {
+      endX = e.clientX;
+      handleSwipe();
+    });
+
+    function handleSwipe() {
+      const diff = endX - startX;
+      if (Math.abs(diff) > 40) {
+        if (diff < 0) {
+          nextSlide();
+        } else {
+          prevSlide();
+        }
+      }
+    }
+
+    // Initialisation au chargement
+    document.addEventListener('DOMContentLoaded', () => {
+      updateStagePositions();
+      startAutoPlay();
     });
   </script>
 </body>

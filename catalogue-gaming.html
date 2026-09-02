@@ -1,0 +1,1640 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Akouly Gaming — Catalogue Packs & Fiches Techniques</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+  :root {
+    --bg: #0b0d11;
+    --bg-card: #13171d;
+    --panel: #171b22;
+    --panel-hover: #1e232c;
+    --line: #262d38;
+    --line-light: rgba(255, 255, 255, 0.08);
+    --text: #e7eaec;
+    --text-muted: #8b939b;
+    --accent: #f2b134;
+    --accent-glow: rgba(242, 177, 52, 0.25);
+    --neon-cyan: #00f0ff;
+    --neon-cyan-glow: rgba(0, 240, 255, 0.25);
+    --neon-violet: #8b5cf6;
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 16px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', system-ui, sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    background-image: 
+      radial-gradient(circle at 10% 15%, rgba(0, 240, 255, 0.04) 0%, transparent 45%),
+      radial-gradient(circle at 90% 85%, rgba(242, 177, 52, 0.04) 0%, transparent 45%);
+    background-attachment: fixed;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+
+  .mono {
+    font-family: 'Fira Code', ui-monospace, monospace;
+  }
+
+  a { color: inherit; text-decoration: none; }
+
+  /* HEADER */
+  header {
+    border-bottom: 1px solid var(--line);
+    padding: 1.2rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    background: rgba(11, 13, 17, 0.85);
+    backdrop-filter: blur(14px);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .brand-group {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+
+  .wordmark {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 800;
+    font-size: 1.25rem;
+    letter-spacing: -0.02em;
+  }
+
+  .wordmark span { color: var(--accent); }
+
+  .tagline {
+    color: var(--text-muted);
+    font-size: 0.82rem;
+    border-left: 1px solid var(--line);
+    padding-left: 0.8rem;
+  }
+
+  .nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .nav-btn-link {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    transition: color 0.2s;
+  }
+
+  .nav-btn-link:hover { color: var(--text); }
+
+  /* MAIN CONTAINER */
+  main {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem 5rem;
+  }
+
+  /* INTRO SECTION */
+  .intro {
+    max-width: 65ch;
+    margin-bottom: 3rem;
+  }
+
+  .intro .eyebrow {
+    color: var(--accent);
+    font-size: 0.8rem;
+    margin-bottom: 0.6rem;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+
+  .intro h1 {
+    font-size: clamp(1.8rem, 3.2vw, 2.6rem);
+    line-height: 1.15;
+    margin-bottom: 0.8rem;
+  }
+
+  .intro p {
+    color: var(--text-muted);
+    font-size: 1rem;
+    line-height: 1.65;
+  }
+
+  /* PACKS GRID */
+  .packs-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-bottom: 4rem;
+  }
+
+  .pack-card {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    display: grid;
+    grid-template-columns: 1.15fr 1.35fr auto;
+    gap: 2.2rem;
+    padding: 2.2rem;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+  }
+
+  .pack-card:hover {
+    border-color: rgba(242, 177, 52, 0.35);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), 0 0 20px var(--accent-glow);
+  }
+
+  .pack-badge-accent {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: var(--accent);
+  }
+
+  .pack-card.pack-bouake .pack-badge-accent {
+    background: var(--neon-cyan);
+  }
+
+  .pack-header .id {
+    color: var(--accent);
+    font-size: 0.76rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    margin-bottom: 0.3rem;
+  }
+
+  .pack-card.pack-bouake .pack-header .id {
+    color: var(--neon-cyan);
+  }
+
+  .pack-header h2 {
+    font-size: 1.45rem;
+    margin-bottom: 0.4rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .pack-header .use-case {
+    color: var(--text-muted);
+    font-size: 0.88rem;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+  }
+
+  /* Color toggle (Noir / Blanc) */
+  .color-selector {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 0.3rem 0.6rem;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--line);
+    font-size: 0.78rem;
+  }
+
+  .color-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.25rem 0.6rem;
+    border-radius: 4px;
+    border: 1px solid transparent;
+    background: transparent;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.76rem;
+    font-weight: 600;
+    transition: all 0.2s;
+  }
+
+  .color-btn.active {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+    color: var(--text);
+  }
+
+  .color-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+  }
+
+  .color-dot.black { background: #111; border: 1px solid #444; }
+  .color-dot.white { background: #fff; }
+
+  /* SPECS TABLE MINI */
+  .specs-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.45rem;
+    font-size: 0.84rem;
+  }
+
+  .spec-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.8rem;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 0.35rem;
+  }
+
+  .spec-row .k {
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .spec-row .k i {
+    font-size: 0.85rem;
+    color: var(--accent);
+    width: 16px;
+  }
+
+  .pack-card.pack-bouake .spec-row .k i {
+    color: var(--neon-cyan);
+  }
+
+  .spec-row .v {
+    font-weight: 500;
+    text-align: right;
+    color: var(--text);
+  }
+
+  /* BUY & DETAILS COLUMN */
+  .pack-buy {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.9rem;
+    text-align: right;
+  }
+
+  .price-box {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.45rem;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .price-box small {
+    display: block;
+    color: var(--text-muted);
+    font-weight: 400;
+    font-size: 0.74rem;
+    font-family: 'Inter', sans-serif;
+  }
+
+  .pack-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.65rem 1.2rem;
+    border-radius: var(--radius-sm);
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+    white-space: nowrap;
+    font-family: 'Inter', sans-serif;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: #161207;
+  }
+
+  .btn-primary:hover {
+    background: #ffc45c;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(242, 177, 52, 0.35);
+  }
+
+  .btn-primary.cyan {
+    background: var(--neon-cyan);
+    color: #07090e;
+  }
+
+  .btn-primary.cyan:hover {
+    background: #5cf4ff;
+    box-shadow: 0 4px 15px rgba(0, 240, 255, 0.35);
+  }
+
+  .btn-secondary {
+    background: transparent;
+    border: 1px solid var(--line);
+    color: var(--text);
+  }
+
+  .btn-secondary:hover {
+    border-color: rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.05);
+    color: #fff;
+    transform: translateY(-2px);
+  }
+
+  /* ==========================================================================
+     GALERIE DES IMAGES DU VENTILATEUR DANS LA FICHE PRODUIT (2 IMAGES)
+     ========================================================================== */
+  .fan-dual-preview {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .fan-img-card {
+    background: rgba(0, 0, 0, 0.35);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+
+  .fan-img-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+  }
+
+  .fan-img-card.cyan:hover {
+    border-color: var(--neon-cyan);
+  }
+
+  .fan-img-card img {
+    max-width: 100%;
+    height: 160px;
+    object-fit: contain;
+    filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.7));
+    transition: transform 0.3s ease;
+  }
+
+  .fan-img-card:hover img {
+    transform: scale(1.08);
+  }
+
+  .fan-color-badge {
+    margin-top: 0.6rem;
+    font-size: 0.74rem;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--text);
+  }
+
+  /* SECTION COMPARATIVE */
+  .section-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin: 3.5rem 0 1.2rem;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 0.8rem;
+  }
+
+  .section-head h2 { font-size: 1.25rem; }
+  .section-head .count { color: var(--text-muted); font-size: 0.8rem; }
+
+  .table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    margin-bottom: 3.5rem;
+  }
+
+  .compare-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+    text-align: left;
+  }
+
+  .compare-table th, .compare-table td {
+    padding: 1rem 1.2rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .compare-table th {
+    background: var(--panel);
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600;
+    color: var(--text);
+    font-size: 0.92rem;
+  }
+
+  .compare-table tr:last-child td { border-bottom: none; }
+
+  .compare-table .badge-pack {
+    display: inline-block;
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    font-family: 'Space Grotesk', sans-serif;
+  }
+
+  .badge-pack.daloa {
+    background: rgba(242, 177, 52, 0.15);
+    color: var(--accent);
+    border: 1px solid rgba(242, 177, 52, 0.3);
+  }
+
+  .badge-pack.bouake {
+    background: rgba(0, 240, 255, 0.15);
+    color: var(--neon-cyan);
+    border: 1px solid rgba(0, 240, 255, 0.3);
+  }
+
+  /* SECTION VENTILATEURS DU CATALOGUE (2 IMAGES PAR MODÈLE) */
+  .fans-catalog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 4rem;
+  }
+
+  .fan-catalog-card {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    padding: 1.4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    transition: all 0.2s ease;
+  }
+
+  .fan-catalog-card:hover {
+    border-color: rgba(255, 255, 255, 0.25);
+    transform: translateY(-3px);
+  }
+
+  .fan-catalog-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+
+  .fan-catalog-header h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+  }
+
+  .fan-catalog-header .cat {
+    color: var(--accent);
+    font-size: 0.74rem;
+    font-family: 'Fira Code', monospace;
+  }
+
+  .fan-duo-images {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: var(--radius-sm);
+    padding: 0.8rem;
+    gap: 0.6rem;
+  }
+
+  .fan-duo-images img {
+    max-width: 46%;
+    height: 105px;
+    object-fit: contain;
+    filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.6));
+    transition: transform 0.25s ease;
+  }
+
+  .fan-duo-images img:hover {
+    transform: scale(1.12);
+  }
+
+  .fan-catalog-pricing {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    border-top: 1px solid var(--line);
+    padding-top: 0.8rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  /* ACCESSORIES & UNIQUE ARTICLES */
+  .accessories-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1.2rem;
+    margin-bottom: 4rem;
+  }
+
+  .accessory-card {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    padding: 1.4rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 0.8rem;
+    transition: all 0.2s ease;
+  }
+
+  .accessory-card:hover {
+    border-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-3px);
+  }
+
+  .accessory-card .cat {
+    color: var(--accent);
+    font-size: 0.74rem;
+    font-weight: 600;
+  }
+
+  .accessory-card h3 {
+    font-size: 1.05rem;
+    font-weight: 600;
+  }
+
+  .accessory-card .desc {
+    color: var(--text-muted);
+    font-size: 0.82rem;
+    line-height: 1.5;
+  }
+
+  .accessory-card .row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 0.8rem;
+    border-top: 1px solid var(--line);
+    margin-top: auto;
+  }
+
+  .accessory-card .price {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+  }
+
+  /* ==========================================================================
+     FENÊTRE FLOTTANTE (MODAL DÉTAILS DU PACK & FICHES PIÈCES)
+     ========================================================================== */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(5, 7, 10, 0.85);
+    backdrop-filter: blur(16px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    padding: 1.5rem;
+  }
+
+  .modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .modal-drawer {
+    background: #11151c;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    width: 100%;
+    max-width: 890px;
+    max-height: 88vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 25px 70px rgba(0, 0, 0, 0.8), 0 0 35px var(--accent-glow);
+    position: relative;
+    overflow: hidden;
+    animation: modalSlideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  @keyframes modalSlideUp {
+    from { transform: translateY(30px) scale(0.97); opacity: 0; }
+    to { transform: translateY(0) scale(1); opacity: 1; }
+  }
+
+  .modal-header {
+    padding: 1.6rem 2rem;
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(23, 27, 34, 0.6);
+  }
+
+  .modal-header h3 {
+    font-size: 1.35rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .modal-header .badge {
+    font-size: 0.75rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+    font-family: 'Space Grotesk', sans-serif;
+  }
+
+  .modal-close-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    font-size: 1.5rem;
+    cursor: pointer;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.2s;
+  }
+
+  .modal-close-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+  }
+
+  .modal-body {
+    padding: 2rem;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.8rem;
+  }
+
+  /* TABS PIÈCES DÉTAILLÉES DANS LA MODAL */
+  .component-tabs {
+    display: flex;
+    gap: 0.5rem;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 0.8rem;
+    overflow-x: auto;
+  }
+
+  .comp-tab-btn {
+    background: transparent;
+    border: 1px solid var(--line);
+    color: var(--text-muted);
+    padding: 0.45rem 0.9rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    white-space: nowrap;
+    transition: all 0.2s;
+  }
+
+  .comp-tab-btn.active {
+    background: var(--panel);
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .comp-tab-btn.cyan.active {
+    border-color: var(--neon-cyan);
+    color: var(--neon-cyan);
+  }
+
+  .comp-detail-box {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    padding: 1.6rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .comp-detail-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 0.8rem;
+  }
+
+  .comp-detail-header h4 {
+    font-size: 1.15rem;
+    color: #fff;
+  }
+
+  .comp-detail-header .comp-tag {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    font-family: 'Fira Code', monospace;
+  }
+
+  .comp-specs-list {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 0.6rem 1.4rem;
+    font-size: 0.86rem;
+  }
+
+  .comp-specs-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    color: #cbd5e1;
+    line-height: 1.5;
+  }
+
+  .comp-specs-list li::before {
+    content: "•";
+    color: var(--accent);
+    font-weight: bold;
+  }
+
+  .comp-specs-list.cyan li::before {
+    color: var(--neon-cyan);
+  }
+
+  .modal-pricing-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.84rem;
+    background: rgba(0, 0, 0, 0.25);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    border: 1px solid var(--line);
+  }
+
+  .modal-pricing-table th, .modal-pricing-table td {
+    padding: 0.7rem 1rem;
+    border-bottom: 1px solid var(--line);
+    text-align: left;
+  }
+
+  .modal-pricing-table th {
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--text-muted);
+    font-weight: 600;
+  }
+
+  .modal-pricing-table .total-row td {
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--accent);
+    background: rgba(242, 177, 52, 0.06);
+  }
+
+  .modal-footer {
+    padding: 1.2rem 2rem;
+    border-top: 1px solid var(--line);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(23, 27, 34, 0.6);
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  footer {
+    border-top: 1px solid var(--line);
+    padding: 2rem 1.5rem;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    text-align: center;
+  }
+
+  footer a { color: var(--accent); }
+
+  /* RESPONSIVE */
+  @media (max-width: 860px) {
+    .pack-card {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+    .pack-buy {
+      align-items: flex-start;
+      text-align: left;
+      flex-direction: row;
+      justify-content: space-between;
+      width: 100%;
+      border-top: 1px solid var(--line);
+      padding-top: 1.2rem;
+    }
+    .comp-specs-list {
+      grid-template-columns: 1fr;
+    }
+    .fan-dual-preview {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand-group">
+    <div class="wordmark">AKOULY <span>GAMING</span></div>
+    <div class="tagline">Packs PC, Boîtiers &amp; Composants — Abidjan</div>
+  </div>
+  <div class="nav-actions">
+    <a href="test-gaming-section.html" class="nav-btn-link"><i class="fas fa-cube"></i> Démo 3D</a>
+    <a href="gaming.html" class="nav-btn-link"><i class="fas fa-home"></i> Univers Gaming</a>
+  </div>
+</header>
+
+<main>
+
+  <div class="intro">
+    <div class="eyebrow mono">// CATALOGUE OFFICIEL</div>
+    <h1>Packs Clés en Main &amp; Fiches Techniques</h1>
+    <p>
+      Des configurations complètes testées et harmonisées (Boîtier double chambre, Flux d'air 4 à 7 ventilateurs, Alimentation certifiée, Refroidissement haute performance).
+      Consultez les fiches techniques intégrales avec les photos réelles de chaque pièce (Blanc &amp; Noir) avant de commander.
+    </p>
+  </div>
+
+  <!-- SECTION 1 : LES PACKS -->
+  <div class="packs-container">
+
+    <!-- PACK 1 : DALOA -->
+    <div class="pack-card" id="packDaloaCard">
+      <div class="pack-badge-accent"></div>
+      <div class="pack-header">
+        <div class="id mono">PACK 01 — DOUBLE CHAMBRE M-ATX</div>
+        <h2>Pack Daloa</h2>
+        <div class="use-case">Compact panoramique aquarium, 4 ventilateurs RGB, alimentation 600W &amp; ventirad 4 caloducs AGHP.</div>
+        
+        <!-- Sélecteur de couleur -->
+        <div class="color-selector">
+          <span style="color: var(--text-muted); font-size: 0.72rem;">Châssis :</span>
+          <button class="color-btn active" onclick="setPackColor('daloa', 'noir', 42000, this)">
+            <span class="color-dot black"></span> Noir
+          </button>
+          <button class="color-btn" onclick="setPackColor('daloa', 'blanc', 43500, this)">
+            <span class="color-dot white"></span> Blanc
+          </button>
+        </div>
+      </div>
+
+      <div class="specs-grid mono">
+        <div class="spec-row">
+          <span class="k"><i class="fas fa-desktop"></i> Boîtier</span>
+          <span class="v">S01 / S02 Aquarium M-ATX</span>
+        </div>
+        <div class="spec-row">
+          <span class="k"><i class="fas fa-fan"></i> Ventilation</span>
+          <span class="v">4× A305 RGB (Noir / Blanc)</span>
+        </div>
+        <div class="spec-row">
+          <span class="k"><i class="fas fa-plug"></i> Alimentation</span>
+          <span class="v">ATX-600 (600W câbles plats)</span>
+        </div>
+        <div class="spec-row">
+          <span class="k"><i class="fas fa-snowflake"></i> Refroidissement</span>
+          <span class="v">Thermalright AX120R SE V2</span>
+        </div>
+      </div>
+
+      <div class="pack-buy">
+        <div class="price-box">
+          <span id="priceDaloa">42 000 FCFA</span>
+          <small>Pack complet pièces neuves</small>
+        </div>
+        <div class="pack-actions">
+          <button class="btn btn-secondary" onclick="openModal('modalDaloa')">
+            <i class="fas fa-list-check"></i> Détails
+          </button>
+          <a class="btn btn-primary" id="orderDaloaBtn" href="https://wa.me/2250700000000?text=Bonjour%20Akouly,%20je%20souhaite%20commander%20le%20Pack%20Daloa%20(Noir%20-%2042%20000%20FCFA)" target="_blank">
+            <i class="fab fa-whatsapp"></i> Commander
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- PACK 2 : BOUAKÉ -->
+    <div class="pack-card pack-bouake" id="packBouakeCard">
+      <div class="pack-badge-accent"></div>
+      <div class="pack-header">
+        <div class="id mono">PACK 02 — ATX CUBE PANORAMIQUE &amp; WATERCOOLING</div>
+        <h2>Pack Bouaké</h2>
+        <div class="use-case">Grand format sans montant d'angle, 7 ventilateurs ARGB miroir infini, 700W &amp; Watercooling AIO 360 mm.</div>
+
+        <!-- Sélecteur de couleur -->
+        <div class="color-selector">
+          <span style="color: var(--text-muted); font-size: 0.72rem;">Châssis :</span>
+          <button class="color-btn active" onclick="setPackColor('bouake', 'noir', 79800, this)">
+            <span class="color-dot black"></span> Noir
+          </button>
+          <button class="color-btn" onclick="setPackColor('bouake', 'blanc', 89800, this)">
+            <span class="color-dot white"></span> Blanc
+          </button>
+        </div>
+      </div>
+
+      <div class="specs-grid mono">
+        <div class="spec-row">
+          <span class="k"><i class="fas fa-desktop"></i> Boîtier</span>
+          <span class="v">285A Cube ATX Panoramique</span>
+        </div>
+        <div class="spec-row">
+          <span class="k"><i class="fas fa-fan"></i> Ventilation</span>
+          <span class="v">7× A603 ARGB Miroir Infini</span>
+        </div>
+        <div class="spec-row">
+          <span class="k"><i class="fas fa-plug"></i> Alimentation</span>
+          <span class="v">ATX-700 (700W câbles plats)</span>
+        </div>
+        <div class="spec-row">
+          <span class="k"><i class="fas fa-water"></i> Refroidissement</span>
+          <span class="v">Watercooling AIO C303-1 360mm</span>
+        </div>
+      </div>
+
+      <div class="pack-buy">
+        <div class="price-box">
+          <span id="priceBouake" style="color: var(--neon-cyan);">79 800 FCFA</span>
+          <small>Pack complet pièces neuves</small>
+        </div>
+        <div class="pack-actions">
+          <button class="btn btn-secondary" onclick="openModal('modalBouake')">
+            <i class="fas fa-list-check"></i> Détails
+          </button>
+          <a class="btn btn-primary cyan" id="orderBouakeBtn" href="https://wa.me/2250700000000?text=Bonjour%20Akouly,%20je%20souhaite%20commander%20le%20Pack%20Bouak%C3%A9%20(Noir%20-%2079%20800%20FCFA)" target="_blank">
+            <i class="fab fa-whatsapp"></i> Commander
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- SECTION 2 : GALERIE DES MODÈLES DE VENTILATEURS (2 IMAGES PAR MODÈLE) -->
+  <div class="section-head">
+    <h2>Ventilateurs RGB &amp; ARGB Disponibles</h2>
+    <div class="count mono">Déclinaisons Blanc / Noir</div>
+  </div>
+
+  <div class="fans-catalog-grid">
+
+    <!-- Modèle A603 ARGB -->
+    <div class="fan-catalog-card">
+      <div class="fan-catalog-header">
+        <h3>A603 ARGB</h3>
+        <span class="cat mono">Miroir Infini</span>
+      </div>
+      <div class="fan-duo-images">
+        <img loading="lazy" src="images/fans/models/fan-a603-white.png" alt="A603 ARGB Blanc">
+        <img loading="lazy" src="images/fans/models/fan-a603-black.png" alt="A603 ARGB Noir">
+      </div>
+      <div class="fan-catalog-pricing">
+        <span>120mm · ARGB 5V 3-Pin</span>
+        <strong style="color: var(--neon-cyan);">2 400 FCFA/u</strong>
+      </div>
+    </div>
+
+    <!-- Modèle A305 RGB -->
+    <div class="fan-catalog-card">
+      <div class="fan-catalog-header">
+        <h3>A305 RGB</h3>
+        <span class="cat mono">RGB Standard</span>
+      </div>
+      <div class="fan-duo-images">
+        <img loading="lazy" src="images/fans/models/fan-a305-1-white.png" alt="A305 RGB Blanc">
+        <img loading="lazy" src="images/fans/models/fan-a305-1-black.png" alt="A305 RGB Noir">
+      </div>
+      <div class="fan-catalog-pricing">
+        <span>120mm · Effets RGB</span>
+        <strong style="color: var(--accent);">1 500 FCFA/u</strong>
+      </div>
+    </div>
+
+    <!-- Modèle A601 ARGB -->
+    <div class="fan-catalog-card">
+      <div class="fan-catalog-header">
+        <h3>A601 ARGB</h3>
+        <span class="cat mono">Dual Ring ARGB</span>
+      </div>
+      <div class="fan-duo-images">
+        <img loading="lazy" src="images/fans/models/fan-a601-white.png" alt="A601 ARGB Blanc">
+        <img loading="lazy" src="images/fans/models/fan-a601-black.png" alt="A601 ARGB Noir">
+      </div>
+      <div class="fan-catalog-pricing">
+        <span>120mm · Cadre Cerclé</span>
+        <strong style="color: var(--neon-cyan);">2 400 FCFA/u</strong>
+      </div>
+    </div>
+
+    <!-- Modèle A501 ARGB -->
+    <div class="fan-catalog-card">
+      <div class="fan-catalog-header">
+        <h3>A501 ARGB</h3>
+        <span class="cat mono">Haute Pression</span>
+      </div>
+      <div class="fan-duo-images">
+        <img loading="lazy" src="images/fans/models/fan-a501-white.png" alt="A501 ARGB Blanc">
+        <img loading="lazy" src="images/fans/models/fan-a501-black.png" alt="A501 ARGB Noir">
+      </div>
+      <div class="fan-catalog-pricing">
+        <span>120mm · Pales Vortex</span>
+        <strong style="color: var(--text);">2 800 FCFA/u</strong>
+      </div>
+    </div>
+
+    <!-- Modèle A308 ARGB -->
+    <div class="fan-catalog-card">
+      <div class="fan-catalog-header">
+        <h3>A308 ARGB</h3>
+        <span class="cat mono">Liseré Cyber</span>
+      </div>
+      <div class="fan-duo-images">
+        <img loading="lazy" src="images/fans/models/fan-a308-1-white.png" alt="A308 ARGB Blanc">
+        <img loading="lazy" src="images/fans/models/fan-a308-1-black.png" alt="A308 ARGB Noir">
+      </div>
+      <div class="fan-catalog-pricing">
+        <span>120mm · Ligne LED</span>
+        <strong style="color: var(--accent);">1 800 FCFA/u</strong>
+      </div>
+    </div>
+
+    <!-- Modèle A304 ARGB -->
+    <div class="fan-catalog-card">
+      <div class="fan-catalog-header">
+        <h3>A304 ARGB</h3>
+        <span class="cat mono">Éclairage Central</span>
+      </div>
+      <div class="fan-duo-images">
+        <img loading="lazy" src="images/fans/models/fan-a304-1-white.png" alt="A304 ARGB Blanc">
+        <img loading="lazy" src="images/fans/models/fan-a304-1-black.png" alt="A304 ARGB Noir">
+      </div>
+      <div class="fan-catalog-pricing">
+        <span>120mm · Éclairage Centre</span>
+        <strong style="color: var(--accent);">1 600 FCFA/u</strong>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- SECTION 3 : TABLEAU COMPARATIF SYNTHÈSE -->
+  <div class="section-head">
+    <h2>Synthèse Comparative des Deux Packs</h2>
+    <div class="count mono">Tableau Récapitulatif</div>
+  </div>
+
+  <div class="table-wrapper">
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th>Critère</th>
+          <th><span class="badge-pack daloa">Pack Daloa</span></th>
+          <th><span class="badge-pack bouake">Pack Bouaké</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Format Carte Mère</strong></td>
+          <td>Micro-ATX (M-ATX) / Mini-ITX</td>
+          <td>ATX / Micro-ATX / Mini-ITX</td>
+        </tr>
+        <tr>
+          <td><strong>Type de Refroidissement</strong></td>
+          <td>Air (Ventirad Thermalright AX120R SE V2)</td>
+          <td>Liquide (Watercooling AIO 360 mm C303-1)</td>
+        </tr>
+        <tr>
+          <td><strong>Capacité Alimentation</strong></td>
+          <td>600 Watts (ATX-600)</td>
+          <td>700 Watts (ATX-700)</td>
+        </tr>
+        <tr>
+          <td><strong>Nombre de Ventilateurs</strong></td>
+          <td>4 ventilateurs RGB (A305)</td>
+          <td>7 ventilateurs ARGB Miroir Infini (A603)</td>
+        </tr>
+        <tr>
+          <td><strong>Prix Total (Configuration Noire)</strong></td>
+          <td style="font-weight: 700; color: var(--accent);">42 000 F CFA</td>
+          <td style="font-weight: 700; color: var(--neon-cyan);">79 800 F CFA</td>
+        </tr>
+        <tr>
+          <td><strong>Prix Total (Configuration Blanche)</strong></td>
+          <td style="font-weight: 700; color: var(--accent);">43 500 F CFA</td>
+          <td style="font-weight: 700; color: var(--neon-cyan);">89 800 F CFA</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- SECTION 4 : ARTICLES UNIQUES ET COMPOSANTS -->
+  <div class="section-head">
+    <h2>Composants Haute Performance &amp; Pièces Uniques</h2>
+    <div class="count mono">Articles Individuels</div>
+  </div>
+
+  <div class="accessories-grid">
+
+    <div class="accessory-card">
+      <div class="cat mono">PROCESSEUR</div>
+      <h3>AMD Ryzen 7000 Series</h3>
+      <div class="desc">Octa-Core jusqu'à 5.4 GHz, Socket AM5, gravure haute efficacité pour le gaming 144Hz+.</div>
+      <div class="row">
+        <div class="price">190 000 FCFA</div>
+        <a class="btn btn-secondary" href="https://wa.me/2250700000000?text=Bonjour%20Akouly,%20je%20souhaite%20commander%20le%20processeur%20AMD%20Ryzen%207000" target="_blank">Commander</a>
+      </div>
+    </div>
+
+    <div class="accessory-card">
+      <div class="cat mono">CARTE MÈRE</div>
+      <h3>MSI B650 Gaming Plus WiFi</h3>
+      <div class="desc">Chipset AMD B650, PCIe 5.0, DDR5, VRM dissipés &amp; WiFi 6E intégré.</div>
+      <div class="row">
+        <div class="price">140 000 FCFA</div>
+        <a class="btn btn-secondary" href="https://wa.me/2250700000000?text=Bonjour%20Akouly,%20je%20souhaite%20commander%20la%20carte%20m%C3%A8re%20MSI%20B650" target="_blank">Commander</a>
+      </div>
+    </div>
+
+    <div class="accessory-card">
+      <div class="cat mono">MÉMOIRE VIVE</div>
+      <h3>Corsair RGB PRO SL 32 Go</h3>
+      <div class="desc">Kit Dual Channel DDR5 6000 MHz, éclairage RGB adressable et dissipateur thermique noir.</div>
+      <div class="row">
+        <div class="price">65 000 FCFA</div>
+        <a class="btn btn-secondary" href="https://wa.me/2250700000000?text=Bonjour%20Akouly,%20je%20souhaite%20commander%20la%20RAM%20Corsair%2032Go" target="_blank">Commander</a>
+      </div>
+    </div>
+
+    <div class="accessory-card">
+      <div class="cat mono">STOCKAGE NVME</div>
+      <h3>Kingston KC3000 1 To</h3>
+      <div class="desc">SSD PCIe 4.0 NVMe M.2, débits ultra-rapides jusqu'à 7000 Mo/s en lecture.</div>
+      <div class="row">
+        <div class="price">45 000 FCFA</div>
+        <a class="btn btn-secondary" href="https://wa.me/2250700000000?text=Bonjour%20Akouly,%20je%20souhaite%20commander%20le%20SSD%20Kingston%20KC3000%201To" target="_blank">Commander</a>
+      </div>
+    </div>
+
+  </div>
+
+</main>
+
+<!-- ==========================================================================
+     MODAL FLOTTANTE : PACK DALOA (AVEC 2 IMAGES POUR LE VENTILATEUR)
+     ========================================================================== -->
+<div class="modal-overlay" id="modalDaloa" onclick="closeModalOnBg(event, 'modalDaloa')">
+  <div class="modal-drawer">
+    <div class="modal-header">
+      <div>
+        <div class="id mono" style="color: var(--accent); font-size: 0.76rem;">PACK 01 · FICHE TECHNIQUE COMPLÈTE</div>
+        <h3>Pack Daloa <span class="badge" style="background: rgba(242, 177, 52, 0.15); color: var(--accent);">Micro-ATX Double Chambre</span></h3>
+      </div>
+      <button class="modal-close-btn" onclick="closeModal('modalDaloa')">&times;</button>
+    </div>
+
+    <div class="modal-body">
+      
+      <!-- Onglets de sélection des pièces -->
+      <div class="component-tabs">
+        <button class="comp-tab-btn active" onclick="showCompTab('daloa', 'boitier', this)"><i class="fas fa-desktop"></i> A. Boîtier S01/S02</button>
+        <button class="comp-tab-btn" onclick="showCompTab('daloa', 'ventilos', this)"><i class="fas fa-fan"></i> B. Ventilateurs A305 (2 photos)</button>
+        <button class="comp-tab-btn" onclick="showCompTab('daloa', 'alim', this)"><i class="fas fa-plug"></i> C. Alimentation 600W</button>
+        <button class="comp-tab-btn" onclick="showCompTab('daloa', 'ventirad', this)"><i class="fas fa-snowflake"></i> D. Ventirad Thermalright</button>
+      </div>
+
+      <!-- Fiche Pièce 1 : Boîtier -->
+      <div class="comp-detail-box" id="daloa-boitier">
+        <div class="comp-detail-header">
+          <h4>Boîtier PC S01 / S02 Panoramique</h4>
+          <span class="comp-tag">Châssis Double Chambre Aquarium</span>
+        </div>
+        <ul class="comp-specs-list">
+          <li><strong>Type &amp; Châssis :</strong> Moyen Tour Micro-ATX, conception double chambre panoramique (style aquarium sans montant gênant).</li>
+          <li><strong>Compatibilité cartes mères :</strong> Micro-ATX (M-ATX), Mini-ITX (ITX).</li>
+          <li><strong>Dimensions produit :</strong> 335 × 275 × 355 mm (Dimensions emballage : 400 × 323 × 390 mm).</li>
+          <li><strong>Poids brut :</strong> 4,3 kg.</li>
+          <li><strong>Hauteur maximale ventirad CPU :</strong> 160 mm.</li>
+          <li><strong>Support alimentation :</strong> Format standard ATX.</li>
+          <li><strong>Baies de stockage :</strong> 1× disque dur HDD 3.5" + jusqu'à 3× disques SSD 2.5".</li>
+          <li><strong>Connectique en façade (I/O) :</strong> 1× USB 3.0, 1× USB standard, Audio HD (casque/micro).</li>
+          <li><strong>Matériaux :</strong> Acier, alliage d'aluminium, panneaux en verre trempé / acrylique, plastique.</li>
+          <li><strong>Certifications :</strong> CE, ISO, FCC, RoHS.</li>
+        </ul>
+      </div>
+
+      <!-- Fiche Pièce 2 : Ventilateurs (AVEC 2 IMAGES : BLANC & NOIR) -->
+      <div class="comp-detail-box" id="daloa-ventilos" style="display: none;">
+        <div class="comp-detail-header">
+          <h4>Ventilateurs de Boîtier A305 RGB (4 unités)</h4>
+          <span class="comp-tag">2 Déclinaisons Couleurs Disponibles</span>
+        </div>
+
+        <!-- 2 IMAGES PAR VENTILATEUR DANS LA FICHE PRODUIT -->
+        <div class="fan-dual-preview">
+          <div class="fan-img-card">
+            <img src="images/fans/models/fan-a305-1-white.png" alt="Ventilateur A305 RGB Version Blanche">
+            <span class="fan-color-badge"><i class="fas fa-circle" style="color: #fff;"></i> Version Blanche (White RGB)</span>
+          </div>
+          <div class="fan-img-card">
+            <img src="images/fans/models/fan-a305-1-black.png" alt="Ventilateur A305 RGB Version Noire">
+            <span class="fan-color-badge"><i class="fas fa-circle" style="color: #444;"></i> Version Noire (Black RGB)</span>
+          </div>
+        </div>
+
+        <ul class="comp-specs-list">
+          <li><strong>Format unitaire :</strong> 120 × 120 × 25 mm.</li>
+          <li><strong>Éclairage :</strong> RGB avec effets lumineux dynamiques prédéfinis.</li>
+          <li><strong>Options couleur :</strong> Châssis Noir ou Blanc au choix.</li>
+          <li><strong>Configuration flux d'air (4 fans) :</strong> 3 en aspiration (Intake : 2 en façade latérale, 1 dans le bas) + 1 en extraction (Exhaust : 1 à l'arrière).</li>
+        </ul>
+      </div>
+
+      <!-- Fiche Pièce 3 : Alimentation -->
+      <div class="comp-detail-box" id="daloa-alim" style="display: none;">
+        <div class="comp-detail-header">
+          <h4>Alimentation PC ATX-600</h4>
+          <span class="comp-tag">600 Watts · Câbles Plats Noirs</span>
+        </div>
+        <ul class="comp-specs-list">
+          <li><strong>Puissance nominale :</strong> 600 Watts réels.</li>
+          <li><strong>Format physique :</strong> ATX standard (150 × 85 × 140 mm).</li>
+          <li><strong>Poids brut :</strong> 1,12 kg.</li>
+          <li><strong>Type de câblage :</strong> Non-modulaire, câbles plats noirs (flat cables pour un câble management propre).</li>
+          <li><strong>Refroidissement :</strong> Ventilateur silencieux de 120 mm avec grille de protection noire.</li>
+          <li><strong>Secteur :</strong> Sélecteur de tension 230V et interrupteur mécanique On/Off.</li>
+          <li><strong>Certifications :</strong> CE, ISO, FCC, RoHS.</li>
+        </ul>
+      </div>
+
+      <!-- Fiche Pièce 4 : Ventirad -->
+      <div class="comp-detail-box" id="daloa-ventirad" style="display: none;">
+        <div class="comp-detail-header">
+          <h4>Refroidisseur CPU Thermalright Assassin X 120R SE V2</h4>
+          <span class="comp-tag">4 Caloducs Cuivre AGHP</span>
+        </div>
+        <ul class="comp-specs-list">
+          <li><strong>Modèle exact :</strong> AX120R SE V2 (Thermalright).</li>
+          <li><strong>Type :</strong> Ventirad simple tour (1 Tour 120 mm).</li>
+          <li><strong>Dimensions dissipateur :</strong> 120 × 71 × 148 mm.</li>
+          <li><strong>Matériaux :</strong> Ailettes en aluminium + base en cuivre pur.</li>
+          <li><strong>Caloducs (Heatpipes) :</strong> 4 caloducs en cuivre pur nickelé (technologie AGHP anti-gravité).</li>
+          <li><strong>Modèle du ventilateur :</strong> TL-C12C-L V2 (120 × 120 × 25 mm).</li>
+          <li><strong>Performances :</strong> Vitesse 1 550 RPM ±10%, Débit d'air max 66,17 CFM, Bruit ≤ 25,6 dBA.</li>
+          <li><strong>Roulement :</strong> Palier fluide S-FDB (Fluid Dynamic Bearing).</li>
+          <li><strong>Connectique :</strong> PWM 4 broches régulé + interface LED ARGB.</li>
+          <li><strong>Compatibilité Sockets :</strong> Intel LGA 1851 / 1700 / 1200 / 115x et AMD AM4 / AM5.</li>
+          <li><strong>Hauteur totale :</strong> 148 mm (dégagement RAM optimal, parfaitement compatible avec les 160 mm max du boîtier).</li>
+        </ul>
+      </div>
+
+      <!-- Tableau Récapitulatif Tarifaire Daloa -->
+      <table class="modal-pricing-table">
+        <thead>
+          <tr>
+            <th>Composant</th>
+            <th>Modèle / Réf</th>
+            <th>Qté</th>
+            <th>Prix Unitaire</th>
+            <th>Prix Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Boîtier</td>
+            <td>S01 / S02 (Micro-ATX Aquarium)</td>
+            <td>1</td>
+            <td>Noir: 12 000 F | Blanc: 13 500 F</td>
+            <td>12 000 F / 13 500 F</td>
+          </tr>
+          <tr>
+            <td>Ventilateurs</td>
+            <td>A305 RGB (Noir / Blanc)</td>
+            <td>4</td>
+            <td>1 500 F</td>
+            <td>6 000 F</td>
+          </tr>
+          <tr>
+            <td>Alimentation</td>
+            <td>ATX-600 (600W)</td>
+            <td>1</td>
+            <td>14 000 F</td>
+            <td>14 000 F</td>
+          </tr>
+          <tr>
+            <td>Refroidissement</td>
+            <td>Thermalright AX120R SE V2</td>
+            <td>1</td>
+            <td>10 000 F</td>
+            <td>10 000 F</td>
+          </tr>
+          <tr class="total-row">
+            <td colspan="4"><strong>TOTAL PACK DALOA (Noir / Blanc)</strong></td>
+            <td><strong>42 000 F / 43 500 F CFA</strong></td>
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+
+    <div class="modal-footer">
+      <div style="font-size: 0.85rem; color: var(--text-muted);">
+        Disponible en retrait ou livraison express à Abidjan
+      </div>
+      <a class="btn btn-primary" href="https://wa.me/2250700000000?text=Bonjour%20Akouly,%20je%20souhaite%20commander%20le%20Pack%20Daloa" target="_blank">
+        <i class="fab fa-whatsapp"></i> Commander ce Pack
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- ==========================================================================
+     MODAL FLOTTANTE : PACK BOUAKÉ (AVEC 2 IMAGES POUR LE VENTILATEUR)
+     ========================================================================== -->
+<div class="modal-overlay" id="modalBouake" onclick="closeModalOnBg(event, 'modalBouake')">
+  <div class="modal-drawer">
+    <div class="modal-header">
+      <div>
+        <div class="id mono" style="color: var(--neon-cyan); font-size: 0.76rem;">PACK 02 · FICHE TECHNIQUE COMPLÈTE</div>
+        <h3>Pack Bouaké <span class="badge" style="background: rgba(0, 240, 255, 0.15); color: var(--neon-cyan);">ATX Cube &amp; Watercooling 360</span></h3>
+      </div>
+      <button class="modal-close-btn" onclick="closeModal('modalBouake')">&times;</button>
+    </div>
+
+    <div class="modal-body">
+      
+      <!-- Onglets de sélection des pièces -->
+      <div class="component-tabs">
+        <button class="comp-tab-btn cyan active" onclick="showCompTab('bouake', 'boitier', this)"><i class="fas fa-desktop"></i> A. Boîtier 285A</button>
+        <button class="comp-tab-btn cyan" onclick="showCompTab('bouake', 'ventilos', this)"><i class="fas fa-fan"></i> B. 7× Ventilateurs A603 (2 photos)</button>
+        <button class="comp-tab-btn cyan" onclick="showCompTab('bouake', 'alim', this)"><i class="fas fa-plug"></i> C. Alimentation 700W</button>
+        <button class="comp-tab-btn cyan" onclick="showCompTab('bouake', 'aio', this)"><i class="fas fa-water"></i> D. Watercooling 360mm</button>
+      </div>
+
+      <!-- Fiche Pièce 1 : Boîtier Bouaké -->
+      <div class="comp-detail-box" id="bouake-boitier">
+        <div class="comp-detail-header">
+          <h4>Boîtier PC 285A / 285A-H01 Panoramique</h4>
+          <span class="comp-tag">Moyen Tour ATX Cube Panoramique</span>
+        </div>
+        <ul class="comp-specs-list cyan">
+          <li><strong>Type &amp; Châssis :</strong> Moyen Tour ATX Cube, double panneau en verre trempé panoramique sans montant d'angle.</li>
+          <li><strong>Compatibilité cartes mères :</strong> ATX, Micro-ATX (M-ATX), Mini-ITX (ITX).</li>
+          <li><strong>Dimensions produit :</strong> 420 × 285 × 400 mm (Dimensions emballage : 495 × 360 × 465 mm).</li>
+          <li><strong>Poids brut :</strong> 6,8 kg.</li>
+          <li><strong>Hauteur maximale ventirad CPU :</strong> 160 mm.</li>
+          <li><strong>Support radiateur / ventilation :</strong> Supporte jusqu'à 7 ventilateurs (Avant/Côté, Haut, Bas, Arrière).</li>
+          <li><strong>Support alimentation :</strong> Format standard ATX (emplacement chambre arrière).</li>
+          <li><strong>Connectique en façade (I/O) :</strong> 1× USB 3.0, 1× USB standard, Audio HD (casque/micro).</li>
+          <li><strong>Matériaux :</strong> Acier, alliage d'aluminium, verre trempé transparent, plastique.</li>
+          <li><strong>Certifications :</strong> CE, ISO, FCC, RoHS.</li>
+        </ul>
+      </div>
+
+      <!-- Fiche Pièce 2 : Ventilateurs (AVEC 2 IMAGES : BLANC & NOIR) -->
+      <div class="comp-detail-box" id="bouake-ventilos" style="display: none;">
+        <div class="comp-detail-header">
+          <h4>Ventilateurs de Boîtier A603 ARGB Miroir Infini (7 unités)</h4>
+          <span class="comp-tag">2 Déclinaisons Couleurs Disponibles</span>
+        </div>
+
+        <!-- 2 IMAGES PAR VENTILATEUR DANS LA FICHE PRODUIT -->
+        <div class="fan-dual-preview">
+          <div class="fan-img-card cyan">
+            <img src="images/fans/models/fan-a603-white.png" alt="Ventilateur A603 ARGB Version Blanche">
+            <span class="fan-color-badge"><i class="fas fa-circle" style="color: #fff;"></i> Version Blanche (White ARGB Miroir)</span>
+          </div>
+          <div class="fan-img-card cyan">
+            <img src="images/fans/models/fan-a603-black.png" alt="Ventilateur A603 ARGB Version Noire">
+            <span class="fan-color-badge"><i class="fas fa-circle" style="color: #444;"></i> Version Noire (Black ARGB Miroir)</span>
+          </div>
+        </div>
+
+        <ul class="comp-specs-list cyan">
+          <li><strong>Format unitaire :</strong> 120 × 120 × 25 mm.</li>
+          <li><strong>Éclairage :</strong> ARGB (Adressable 5V 3-pin) avec design géométrique et effets miroir infini latéraux.</li>
+          <li><strong>Options couleur :</strong> Châssis Noir ou Blanc au choix.</li>
+          <li><strong>Configuration flux d'air (7 ventilateurs) :</strong> 3 en façade latérale (Intake - aspiration) + 3 en partie basse (Intake - aspiration vers le GPU) + 1 à l'arrière (Exhaust - extraction d'air chaud).</li>
+        </ul>
+      </div>
+
+      <!-- Fiche Pièce 3 : Alimentation Bouaké -->
+      <div class="comp-detail-box" id="bouake-alim" style="display: none;">
+        <div class="comp-detail-header">
+          <h4>Alimentation PC ATX-700</h4>
+          <span class="comp-tag">700 Watts · Câbles Plats Noirs</span>
+        </div>
+        <ul class="comp-specs-list cyan">
+          <li><strong>Puissance nominale :</strong> 700 Watts réels.</li>
+          <li><strong>Format physique :</strong> ATX standard (150 × 85 × 140 mm).</li>
+          <li><strong>Poids brut :</strong> 1,12 kg.</li>
+          <li><strong>Type de câblage :</strong> Non-modulaire, câbles plats noirs (flat cables).</li>
+          <li><strong>Refroidissement :</strong> Ventilateur silencieux de 120 mm avec grille de protection noire.</li>
+          <li><strong>Alimentation secteur :</strong> Sélecteur de tension 230V et interrupteur mécanique On/Off.</li>
+          <li><strong>Certifications :</strong> CE, ISO, FCC, RoHS.</li>
+        </ul>
+      </div>
+
+      <!-- Fiche Pièce 4 : Watercooling Bouaké -->
+      <div class="comp-detail-box" id="bouake-aio" style="display: none;">
+        <div class="comp-detail-header">
+          <h4>Refroidissement Liquide AIO C303-1 (360 mm)</h4>
+          <span class="comp-tag">Watercooling Tout-en-Un ARGB</span>
+        </div>
+        <ul class="comp-specs-list cyan">
+          <li><strong>Modèle :</strong> C303-1 (Noir) / C303-1 (Blanc).</li>
+          <li><strong>Type :</strong> Kit de Watercooling Tout-en-Un (All-In-One) pour processeur.</li>
+          <li><strong>Format radiateur :</strong> 360 mm (équipé de 3 ventilateurs 120 mm ARGB).</li>
+          <li><strong>Dimensions emballage :</strong> 510 × 220 × 170 mm | Poids brut : 2,8 kg.</li>
+          <li><strong>Matériaux :</strong> Dissipateur thermique en cuivre pur (base contact CPU) et radiateur aluminium haute densité.</li>
+          <li><strong>Ventilateurs inclus (3x 120mm) :</strong> Vitesse 1 800 ± 100 RPM, Débit d'air max 65 CFM, Bruit 14 à 26 ± 10% dBA, Palier fluide hydraulique.</li>
+          <li><strong>Pompe &amp; Éclairage :</strong> Pompe haute performance avec tête éclairée ARGB et effets miroir infini.</li>
+          <li><strong>Connectique :</strong> Alimentation 3-pin / 4-pin PWM + connecteur ARGB standard 5V.</li>
+          <li><strong>Certifications :</strong> CE, ISO, FCC, RoHS.</li>
+        </ul>
+      </div>
+
+      <!-- Tableau Récapitulatif Tarifaire Bouaké -->
+      <table class="modal-pricing-table">
+        <thead>
+          <tr>
+            <th>Composant</th>
+            <th>Modèle / Réf</th>
+            <th>Qté</th>
+            <th>Prix Unitaire</th>
+            <th>Prix Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Boîtier</td>
+            <td>285A (Cube ATX Panoramique)</td>
+            <td>1</td>
+            <td>Noir: 18 000 F | Blanc: 21 000 F</td>
+            <td>18 000 F / 21 000 F</td>
+          </tr>
+          <tr>
+            <td>Ventilateurs</td>
+            <td>A603 ARGB Miroir Infini (Noir / Blanc)</td>
+            <td>7</td>
+            <td>2 400 F</td>
+            <td>16 800 F</td>
+          </tr>
+          <tr>
+            <td>Alimentation</td>
+            <td>ATX-700 (700W)</td>
+            <td>1</td>
+            <td>20 000 F</td>
+            <td>20 000 F</td>
+          </tr>
+          <tr>
+            <td>Refroidissement</td>
+            <td>Watercooling AIO 360mm C303-1</td>
+            <td>1</td>
+            <td>Noir: 25 000 F | Blanc: 32 000 F</td>
+            <td>25 000 F / 32 000 F</td>
+          </tr>
+          <tr class="total-row">
+            <td colspan="4"><strong>TOTAL PACK BOUAKÉ (Noir / Blanc)</strong></td>
+            <td style="color: var(--neon-cyan);"><strong>79 800 F / 89 800 F CFA</strong></td>
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+
+    <div class="modal-footer">
+      <div style="font-size: 0.85rem; color: var(--text-muted);">
+        Disponible en retrait ou livraison express à Abidjan
+      </div>
+      <a class="btn btn-primary cyan" href="https://wa.me/2250700000000?text=Bonjour%20Akouly,%20je%20souhaite%20commander%20le%20Pack%20Bouak%C3%A9" target="_blank">
+        <i class="fab fa-whatsapp"></i> Commander ce Pack
+      </a>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Gestion du choix de couleur du pack
+  function setPackColor(pack, color, price, btn) {
+    const parent = btn.closest('.color-selector');
+    parent.querySelectorAll('.color-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    const formattedPrice = price.toLocaleString('fr-FR') + ' FCFA';
+
+    if (pack === 'daloa') {
+      document.getElementById('priceDaloa').textContent = formattedPrice;
+      const orderBtn = document.getElementById('orderDaloaBtn');
+      const msg = encodeURIComponent(`Bonjour Akouly, je souhaite commander le Pack Daloa (${color.toUpperCase()} - ${formattedPrice})`);
+      orderBtn.href = `https://wa.me/2250700000000?text=${msg}`;
+    } else if (pack === 'bouake') {
+      document.getElementById('priceBouake').textContent = formattedPrice;
+      const orderBtn = document.getElementById('orderBouakeBtn');
+      const msg = encodeURIComponent(`Bonjour Akouly, je souhaite commander le Pack Bouaké (${color.toUpperCase()} - ${formattedPrice})`);
+      orderBtn.href = `https://wa.me/2250700000000?text=${msg}`;
+    }
+  }
+
+  // Ouverture des fenêtres flottantes / Modals
+  function openModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal) {
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+  }
+
+  function closeModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal) {
+      modal.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+  }
+
+  function closeModalOnBg(e, modalId) {
+    if (e.target.id === modalId) {
+      closeModal(modalId);
+    }
+  }
+
+  // Onglets des pièces dans les modals
+  function showCompTab(pack, compKey, btn) {
+    const modal = document.getElementById(pack === 'daloa' ? 'modalDaloa' : 'modalBouake');
+    const tabs = modal.querySelectorAll('.comp-tab-btn');
+    tabs.forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+
+    const boxes = modal.querySelectorAll('.comp-detail-box');
+    boxes.forEach(b => b.style.display = 'none');
+
+    const targetBox = document.getElementById(`${pack}-${compKey}`);
+    if (targetBox) {
+      targetBox.style.display = 'flex';
+    }
+  }
+
+  // Fermeture Échap
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      closeModal('modalDaloa');
+      closeModal('modalBouake');
+    }
+  });
+</script>
+
+</body>
+</html>

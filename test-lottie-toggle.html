@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test Lottie Toggle</title>
+  <!-- Lottie-Web CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
+  <style>
+    :root {
+      --bg: #07090e;
+      --text: #ffffff;
+      --panel: #111722;
+    }
+    [data-theme="light"] {
+      --bg: #f8fafc;
+      --text: #0f172a;
+      --panel: #ffffff;
+    }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: system-ui, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2rem;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+    .header-preview {
+      background: var(--panel);
+      padding: 1rem 2rem;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+    .theme-toggle-btn {
+      background: transparent;
+      border: none;
+      padding: 0;
+      width: 68px;
+      height: 38px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+      outline: none;
+    }
+    .theme-toggle-btn:hover {
+      transform: scale(1.08);
+    }
+    .theme-toggle-btn:active {
+      transform: scale(0.95);
+    }
+    #lottieToggle {
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Akouly Hub · Test Toggle Lottie</h1>
+
+  <div class="header-preview">
+    <span>Navigation</span>
+    <button class="theme-toggle-btn" id="themeToggleBtn" title="Changer de thème">
+      <div id="lottieToggle"></div>
+    </button>
+  </div>
+
+  <p>Cliquez sur le bouton ci-dessus pour basculer entre le mode clair et le mode sombre avec l'animation Lottie !</p>
+
+  <script>
+    let lottieAnim = null;
+    let currentTheme = localStorage.getItem('AKOULY_THEME') || 'dark';
+
+    document.documentElement.setAttribute('data-theme', currentTheme);
+
+    fetch('animations/toggle.json')
+      .then(res => res.json())
+      .then(animData => {
+        lottieAnim = lottie.loadAnimation({
+          container: document.getElementById('lottieToggle'),
+          renderer: 'svg',
+          loop: false,
+          autoplay: false,
+          animationData: animData
+        });
+
+        lottieAnim.addEventListener('DOMLoaded', () => {
+          if (currentTheme === 'dark') {
+            lottieAnim.goToAndStop(81, true); // Night resting frame
+          } else {
+            lottieAnim.goToAndStop(0, true); // Day resting frame
+          }
+        });
+      });
+
+    document.getElementById('themeToggleBtn').addEventListener('click', () => {
+      const nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      currentTheme = nextTheme;
+      document.documentElement.setAttribute('data-theme', currentTheme);
+      localStorage.setItem('AKOULY_THEME', currentTheme);
+
+      if (lottieAnim) {
+        if (currentTheme === 'dark') {
+          // Play Day to Night transition (frames 20 -> 80)
+          lottieAnim.playSegments([20, 80], true);
+        } else {
+          // Play Night to Day transition (frames 120 -> 200)
+          lottieAnim.playSegments([120, 200], true);
+        }
+      }
+    });
+  </script>
+</body>
+</html>
