@@ -28,6 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
     try { initMagicalUnderlines(); } catch (e) {}
     try { initSlideBumpObserver(); } catch (e) {}
     try { initScrollHintLottie(); } catch (e) {}
+    try { initRevealAnimations(); } catch (e) {}
 });
 
 /**
@@ -1669,4 +1670,36 @@ function initMagicalUnderlines() {
     magicalUnderlines.forEach(el => {
         el.style.backgroundImage = 'linear-gradient(120deg, #ff416c 0%, #ff4b2b 100%)';
     });
+}
+/**
+ * 13. Effets Reveal Rebond (Apps) & Zoom Pop (Contrix)
+ */
+function initRevealAnimations() {
+    const bounceCards = document.querySelectorAll('.reveal-bounce');
+    if (bounceCards.length > 0) {
+        const bounceObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry, i) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => entry.target.classList.add('is-visible'), i * 120);
+                    bounceObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.15 });
+
+        bounceCards.forEach(card => bounceObserver.observe(card));
+    }
+
+    const zoomPops = document.querySelectorAll('.reveal-zoom-pop');
+    if (zoomPops.length > 0) {
+        const zoomObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    zoomObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.15 });
+
+        zoomPops.forEach(el => zoomObserver.observe(el));
+    }
 }

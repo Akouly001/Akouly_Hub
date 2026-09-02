@@ -4141,3 +4141,44 @@ img, video, canvas, svg {
         font-size: 1.45rem;
     }
 }
+
+/* ==========================================================================
+   EFFET REBOND (.reveal-bounce) & ZOOM POP (.reveal-zoom-pop)
+   ========================================================================== */
+
+/* Effet Rebond - état initial (avant apparition) */
+.reveal-bounce {
+  opacity: 0;
+  transform: scale(0.6);
+  will-change: transform, opacity;
+}
+
+/* État final quand la carte devient visible */
+.reveal-bounce.is-visible {
+  animation: bounceIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes bounceIn {
+  0%   { opacity: 0; transform: scale(0.3); }
+  50%  { opacity: 1; transform: scale(1.08); }
+  70%  { transform: scale(0.94); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+/* Effet Zoom Pop pour Canva Contrix */
+.reveal-zoom-pop {
+  opacity: 0;
+  transform: scale(0.6);
+  will-change: transform, opacity;
+}
+
+.reveal-zoom-pop.is-visible {
+  animation: zoomPopIn 0.85s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes zoomPopIn {
+  0%   { opacity: 0; transform: scale(0.5); }
+  60%  { opacity: 1; transform: scale(1.04); }
+  80%  { transform: scale(0.98); }
+  100% { opacity: 1; transform: scale(1); }
+}
