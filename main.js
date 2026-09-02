@@ -1492,45 +1492,73 @@ function initSlideBumpObserver() {
     const universSection = document.getElementById('univers');
     const profilSection = document.getElementById('profil');
 
-    // Observer pour les cartes de l'univers
-    if (universSection && universCards.length > 0) {
+    if (!universCards.length && !profilCard) return;
+
+    // Préparer les cartes à l'animation
+    universCards.forEach(c => c.classList.add('slide-bump-init'));
+    if (profilCard) profilCard.classList.add('slide-bump-init');
+
+    function playCards() {
+        universCards.forEach(c => {
+            c.classList.remove('slide-bump-init');
+            c.classList.add('slide-bump-play');
+            c.addEventListener('animationend', () => {
+                c.classList.remove('slide-bump-play');
+                c.style.opacity = '1';
+                c.style.transform = '';
+            }, { once: true });
+        });
+    }
+
+    function playProfil() {
+        if (profilCard) {
+            profilCard.classList.remove('slide-bump-init');
+            profilCard.classList.add('slide-bump-play');
+            profilCard.addEventListener('animationend', () => {
+                profilCard.classList.remove('slide-bump-play');
+                profilCard.style.opacity = '1';
+                profilCard.style.transform = '';
+            }, { once: true });
+        }
+    }
+
+    if (universSection) {
         const universObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    universCards.forEach(c => c.classList.add('play'));
+                    playCards();
                     universObserver.unobserve(universSection);
                 }
             });
-        }, { threshold: 0.12 });
+        }, { threshold: 0.1 });
         universObserver.observe(universSection);
 
-        // Déclenchement immédiat si déjà visible au chargement
+        // Déclenchement immédiat si déjà visible
         const rect = universSection.getBoundingClientRect();
         if (rect.top < window.innerHeight && rect.bottom > 0) {
-            universCards.forEach(c => c.classList.add('play'));
+            playCards();
         }
     } else {
-        universCards.forEach(c => c.classList.add('play'));
+        playCards();
     }
 
-    // Observer pour la carte de profil (Qui suis-je)
     if (profilSection && profilCard) {
         const profilObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    profilCard.classList.add('play');
+                    playProfil();
                     profilObserver.unobserve(profilSection);
                 }
             });
-        }, { threshold: 0.12 });
+        }, { threshold: 0.1 });
         profilObserver.observe(profilSection);
 
         const rectP = profilSection.getBoundingClientRect();
         if (rectP.top < window.innerHeight && rectP.bottom > 0) {
-            profilCard.classList.add('play');
+            playProfil();
         }
     } else if (profilCard) {
-        profilCard.classList.add('play');
+        playProfil();
     }
 }
 
