@@ -4,20 +4,20 @@
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-    initTheme();
     initPreloader();
-    initCursorGlow();
-    initCanvasBackground();
-    initAppsCodeBackground();
-    initDiyBackground();
-    initTerminalTyping();
-    initScrollReveal();
-    renderDomains();
-    setupEventListeners();
-    initNewFooter();
-    initHomeCursor();
-    initBusinessCursor();
-    initUniverseCursors();
+    try { initTheme(); } catch (e) { console.warn('Theme init error:', e); }
+    try { initCursorGlow(); } catch (e) {}
+    try { initCanvasBackground(); } catch (e) {}
+    try { initAppsCodeBackground(); } catch (e) {}
+    try { initDiyBackground(); } catch (e) {}
+    try { initTerminalTyping(); } catch (e) {}
+    try { initScrollReveal(); } catch (e) {}
+    try { renderDomains(); } catch (e) {}
+    try { setupEventListeners(); } catch (e) {}
+    try { initNewFooter(); } catch (e) {}
+    try { initHomeCursor(); } catch (e) {}
+    try { initBusinessCursor(); } catch (e) {}
+    try { initUniverseCursors(); } catch (e) {}
 });
 
 /**
@@ -28,7 +28,7 @@ function initPreloader() {
     if (!preloader) return;
 
     const startTime = Date.now();
-    const minDisplayTime = 600; // Durée minimale fluide pour admirer l'animation
+    const minDisplayTime = 300; // Affichage ultra-rapide
     let isRevealed = false;
     let isWindowLoaded = (document.readyState === 'complete');
 
@@ -41,15 +41,23 @@ function initPreloader() {
         // Retrait propre du DOM après la transition CSS fluide
         setTimeout(() => {
             preloader.style.display = 'none';
-        }, 450);
+        }, 400);
     }
 
     function checkAndDismiss() {
-        if (!isWindowLoaded) return; // Reste en boucle tant que la page n'est pas 100% chargée
+        if (!isWindowLoaded) return;
         const elapsed = Date.now() - startTime;
         const remaining = Math.max(0, minDisplayTime - elapsed);
         setTimeout(dismissPreloader, remaining);
     }
+
+    // Sécurité maximale ultra-rapide (1.2s) si une ressource externe / CDN tiers tarde
+    setTimeout(() => {
+        if (!isRevealed) {
+            isWindowLoaded = true;
+            dismissPreloader();
+        }
+    }, 1200);
 
     if (isWindowLoaded) {
         checkAndDismiss();
@@ -58,14 +66,6 @@ function initPreloader() {
             isWindowLoaded = true;
             checkAndDismiss();
         }, { once: true });
-
-        // Sécurité maximale (5s) si une ressource externe / CDN tiers est bloquée
-        setTimeout(() => {
-            if (!isRevealed) {
-                isWindowLoaded = true;
-                checkAndDismiss();
-            }
-        }, 5000);
     }
 }
 
@@ -1416,15 +1416,6 @@ function toggleBioExpand() {
     } else {
         // Rétractation
         if (card) card.classList.remove('is-expanded');
-        content.style.maxHeight = '0';
-        content.style.opacity = '0';
-        content.style.marginTop = '0';
-        if (btnText) btnText.textContent = 'En savoir plus';
-        if (btnIcon) btnIcon.style.transform = 'rotate(0deg)';
-        if (btn) btn.setAttribute('aria-expanded', 'false');
-    }
-} else {
-        content.classList.remove('is-open');
         content.style.maxHeight = '0';
         content.style.opacity = '0';
         content.style.marginTop = '0';
