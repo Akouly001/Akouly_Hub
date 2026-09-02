@@ -112,11 +112,51 @@
     font-weight: 600;
 }
 
-[data-page="cyber"] .section-title span, [data-page="cyber"] .section-label { color: var(--accent-cyber); }
-[data-page="gaming"] .section-title span, [data-page="gaming"] .section-label { color: var(--accent-gaming); }
-[data-page="apps"] .section-title span, [data-page="apps"] .section-label { color: var(--accent-dev); }
-[data-page="business"] .section-title span, [data-page="business"] .section-label { color: var(--accent-biz); }
-[data-page="lab"] .section-title span, [data-page="lab"] .section-label { color: var(--accent-lab); }
+[data-page="cyber"] .section-title span, [data-page="cyber"] /* Section label in light mode (Passe en noir en mode clair) */
+[data-theme="light"] .section-label,
+[data-theme="light"] #profil .section-label,
+[data-theme="light"] body[data-page="home"] .section-label {
+    color: #0f172a !important;
+    font-weight: 700;
+}
+
+.section-label { color: var(--accent-cyber); }
+[data-page="gaming"] .section-title span, [data-page="gaming"] /* Section label in light mode (Passe en noir en mode clair) */
+[data-theme="light"] .section-label,
+[data-theme="light"] #profil .section-label,
+[data-theme="light"] body[data-page="home"] .section-label {
+    color: #0f172a !important;
+    font-weight: 700;
+}
+
+.section-label { color: var(--accent-gaming); }
+[data-page="apps"] .section-title span, [data-page="apps"] /* Section label in light mode (Passe en noir en mode clair) */
+[data-theme="light"] .section-label,
+[data-theme="light"] #profil .section-label,
+[data-theme="light"] body[data-page="home"] .section-label {
+    color: #0f172a !important;
+    font-weight: 700;
+}
+
+.section-label { color: var(--accent-dev); }
+[data-page="business"] .section-title span, [data-page="business"] /* Section label in light mode (Passe en noir en mode clair) */
+[data-theme="light"] .section-label,
+[data-theme="light"] #profil .section-label,
+[data-theme="light"] body[data-page="home"] .section-label {
+    color: #0f172a !important;
+    font-weight: 700;
+}
+
+.section-label { color: var(--accent-biz); }
+[data-page="lab"] .section-title span, [data-page="lab"] /* Section label in light mode (Passe en noir en mode clair) */
+[data-theme="light"] .section-label,
+[data-theme="light"] #profil .section-label,
+[data-theme="light"] body[data-page="home"] .section-label {
+    color: #0f172a !important;
+    font-weight: 700;
+}
+
+.section-label { color: var(--accent-lab); }
 
 [data-page="cyber"] .page-banner { border-bottom: 2px solid var(--accent-cyber); }
 [data-page="gaming"] .page-banner { border-bottom: 2px solid var(--accent-gaming); }
@@ -795,6 +835,14 @@ body[data-page="home"] .brand-logo {
 /* ==========================================================================
    Section Labels & Competences Grid
    ========================================================================== */
+/* Section label in light mode (Passe en noir en mode clair) */
+[data-theme="light"] .section-label,
+[data-theme="light"] #profil .section-label,
+[data-theme="light"] body[data-page="home"] .section-label {
+    color: #0f172a !important;
+    font-weight: 700;
+}
+
 .section-label {
     font-family: var(--font-code);
     font-size: 0.82rem;
