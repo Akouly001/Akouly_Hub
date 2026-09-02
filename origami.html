@@ -16,7 +16,7 @@
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 2rem;
-            margin-top: 1.5rem;
+            margin-top: 1rem;
         }
 
         .origami-card {
@@ -41,7 +41,7 @@
         .origami-thumb-container {
             position: relative;
             width: 100%;
-            height: 250px;
+            height: 260px;
             background: rgba(125, 125, 125, 0.05);
             overflow: hidden;
             border-bottom: 1px solid var(--border-color);
@@ -203,6 +203,10 @@
         }
 
         @media (max-width: 600px) {
+            .origami-grid {
+                grid-template-columns: 1fr;
+                gap: 1.4rem;
+            }
             .pdf-modal {
                 padding: 0.5rem;
             }
@@ -258,23 +262,8 @@
         </div>
     </header>
 
-    <!-- Page Banner -->
-    <div class="page-banner">
-        <div class="container">
-            <div style="display: flex; align-items: center; gap: 0.8rem; margin-bottom: 0.8rem;">
-                <a href="creations.html" class="btn btn-secondary" style="padding: 0.35rem 0.8rem; font-size: 0.82rem;">
-                    <i class="fas fa-arrow-left"></i> Retour aux Créations
-                </a>
-            </div>
-            <h1 class="page-title"><i class="fas fa-scroll" style="color: var(--accent-lab);"></i> Origami</h1>
-            <p style="color: var(--text-muted); max-width: 750px;">
-                Consultez directement mes productions artistiques et créations de pliage géométrique sans redirection.
-            </p>
-        </div>
-    </div>
-
     <!-- Main Content -->
-    <main class="container" style="padding-top: 1rem; padding-bottom: 4rem;">
+    <main class="container" style="padding-top: 3.5rem; padding-bottom: 4rem;">
 
         <!-- 4 Productions Grid -->
         <div class="origami-grid">
@@ -383,6 +372,13 @@
                 </div>
             </div>
 
+        </div>
+
+        <!-- Bouton Retour aux Créations en Bas de Page -->
+        <div style="margin-top: 3.5rem; text-align: center;">
+            <a href="creations.html" class="btn btn-secondary" style="padding: 0.75rem 2rem; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 0.6rem;">
+                <i class="fas fa-arrow-left"></i> Retour aux Créations
+            </a>
         </div>
 
     </main>
