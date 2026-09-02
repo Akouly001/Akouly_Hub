@@ -1188,19 +1188,30 @@ function initBusinessCursor() {
     // Facteur d'interpolation (Lerp) pour l'inertie fluide
     const lerpSpeed = 0.12;
 
-    // Capture instantanée de la position de la souris
-    window.addEventListener('mousemove', (e) => {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
-
+    function showCursor() {
         if (!isVisible) {
             isVisible = true;
             dot.style.opacity = '1';
             follower.style.opacity = '1';
         }
+    }
 
+    function hideCursor() {
+        dot.style.opacity = '0';
+        follower.style.opacity = '0';
+        isVisible = false;
+    }
+
+    // Capture instantanée de la position de la souris
+    function onPointerMove(e) {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        showCursor();
         dot.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0) translate(-50%, -50%)`;
-    }, { passive: true });
+    }
+
+    window.addEventListener('mousemove', onPointerMove, { passive: true });
+    window.addEventListener('pointermove', onPointerMove, { passive: true });
 
     // Boucle d'animation à 60/120 FPS pour le cercle suiveur
     function renderCursor() {
@@ -1220,27 +1231,45 @@ function initBusinessCursor() {
 
         interactables.forEach((el) => {
             el.addEventListener('mouseenter', () => {
+                showCursor();
                 follower.classList.add('is-hovered');
             });
             el.addEventListener('mouseleave', () => {
                 follower.classList.remove('is-hovered');
+            });
+            // Assure la réactivation immédiate lors de la sélection ou changement
+            el.addEventListener('change', () => {
+                showCursor();
+                follower.classList.remove('is-hovered');
+            });
+            el.addEventListener('blur', () => {
+                showCursor();
+                follower.classList.remove('is-hovered');
+            });
+            el.addEventListener('click', () => {
+                showCursor();
+            });
+            el.addEventListener('focus', () => {
+                showCursor();
             });
         });
     }
 
     attachInteractableHover();
 
-    // Masquer le curseur lorsque la souris sort de la fenêtre
-    document.addEventListener('mouseleave', () => {
-        dot.style.opacity = '0';
-        follower.style.opacity = '0';
-        isVisible = false;
+    // Masquer le curseur uniquement lorsque la souris quitte réellement la fenêtre
+    document.addEventListener('mouseleave', (e) => {
+        if (e.clientY <= 0 || e.clientX <= 0 || e.clientX >= window.innerWidth || e.clientY >= window.innerHeight) {
+            hideCursor();
+        }
     });
 
     document.addEventListener('mouseenter', () => {
-        dot.style.opacity = '1';
-        follower.style.opacity = '1';
-        isVisible = true;
+        showCursor();
+    });
+
+    window.addEventListener('focus', () => {
+        showCursor();
     });
 }
 
