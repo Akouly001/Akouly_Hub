@@ -20,6 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
     try { initBusinessCursor(); } catch (e) {}
     try { initUniverseCursors(); } catch (e) {}
     try { initProfilArrowObserver(); } catch (e) {}
+    try { initSlideBumpObserver(); } catch (e) {}
 });
 
 /**
@@ -1601,4 +1602,55 @@ function initProfilArrowObserver() {
     }, { threshold: 0.15 });
 
     observer.observe(section);
+}
+
+/**
+ * 9. Animation d'Entrée des Cartes (slideBump depuis la gauche avec bousculade)
+ */
+function initSlideBumpObserver() {
+    const universCards = document.querySelectorAll('.univers-card');
+    const profilCard = document.getElementById('profilCard') || document.querySelector('.profil-card');
+    const universSection = document.getElementById('univers');
+    const profilSection = document.getElementById('profil');
+
+    // Observer pour les cartes de l'univers
+    if (universSection && universCards.length > 0) {
+        const universObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    universCards.forEach(c => c.classList.add('play'));
+                    universObserver.unobserve(universSection);
+                }
+            });
+        }, { threshold: 0.12 });
+        universObserver.observe(universSection);
+
+        // Déclenchement immédiat si déjà visible au chargement
+        const rect = universSection.getBoundingClientRect();
+        if (rect.top < window.innerHeight && rect.bottom > 0) {
+            universCards.forEach(c => c.classList.add('play'));
+        }
+    } else {
+        universCards.forEach(c => c.classList.add('play'));
+    }
+
+    // Observer pour la carte de profil (Qui suis-je)
+    if (profilSection && profilCard) {
+        const profilObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    profilCard.classList.add('play');
+                    profilObserver.unobserve(profilSection);
+                }
+            });
+        }, { threshold: 0.12 });
+        profilObserver.observe(profilSection);
+
+        const rectP = profilSection.getBoundingClientRect();
+        if (rectP.top < window.innerHeight && rectP.bottom > 0) {
+            profilCard.classList.add('play');
+        }
+    } else if (profilCard) {
+        profilCard.classList.add('play');
+    }
 }
