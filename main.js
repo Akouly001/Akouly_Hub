@@ -1438,8 +1438,8 @@ function toggleBioExpand() {
 
 
 /**
- * 8. Flèche Attention Grabber (Lottie) positionnée DEVANT le nom du profil
- * Figée sur sa 3ème frame (Frame 3) pour une visibilité fixe et nette.
+ * 8. Flèche Attention Grabber (Lottie) positionnée APRÈS le nom du profil
+ * Figée immédiatement sur sa 20ème frame (Frame 20) pour une visibilité fixe, nette et parfaite.
  */
 let lottieArrowAnim = null;
 
@@ -1457,9 +1457,9 @@ function initProfilArrowObserver() {
             animationData: data
         });
 
-        // Figer immédiatement sur la 3ème frame
+        // Figer immédiatement sur la 20ème frame
         lottieArrowAnim.addEventListener('DOMLoaded', () => {
-            lottieArrowAnim.goToAndStop(3, true); // 3e frame
+            lottieArrowAnim.goToAndStop(20, true); // 20e frame
         });
     }
 
