@@ -1,3 +1,15 @@
+/* Global Anti-Overflow Protection */
+html, body {
+    max-width: 100%;
+    overflow-x: hidden !important;
+    position: relative;
+    box-sizing: border-box;
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
 @import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800;900&display=swap');
 
 /* ==========================================================================
@@ -3891,4 +3903,225 @@ img, video, canvas, svg {
     background-size: 100% 92% !important;
     color: #ffffff !important;
     text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5) !important;
+}
+
+
+/* ==========================================================================
+   HOMEPAGE RESPONSIVE SUITE (Desktop, Tablet, Mobile)
+   ========================================================================== */
+
+/* 1. Large Screens & Desktop (>= 1200px) */
+@media (min-width: 1200px) {
+    .univers-grid {
+        grid-template-columns: repeat(5, 1fr);
+        gap: 1.25rem;
+    }
+}
+
+/* 2. Laptops & Small Desktops (992px - 1199px) */
+@media (max-width: 1199px) and (min-width: 992px) {
+    .univers-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.2rem;
+    }
+}
+
+/* 3. Tablets Landscape & Medium Screens (769px - 991px) */
+@media (max-width: 991px) {
+    .container {
+        padding-left: 1.25rem;
+        padding-right: 1.25rem;
+    }
+
+    .univers-grid {
+        grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+        gap: 1rem;
+    }
+
+    .contrix-banner {
+        padding: 1.8rem 1.5rem;
+        gap: 1.5rem;
+    }
+
+    .profil-card {
+        padding: 2rem 1.6rem;
+        gap: 1.6rem;
+    }
+}
+
+/* 4. Smartphones & Tablets Portrait (<= 768px) */
+@media (max-width: 768px) {
+    .home-hero {
+        min-height: clamp(340px, 55vh, 480px) !important;
+        padding: 2.8rem 1rem 1.6rem !important;
+    }
+
+    .hero-h1 {
+        font-size: clamp(1.65rem, 6.5vw, 2.3rem) !important;
+        line-height: 1.24 !important;
+        margin-bottom: 0.9rem !important;
+    }
+
+    .hero-sub {
+        font-size: 0.93rem !important;
+        line-height: 1.55 !important;
+        padding: 0 0.5rem !important;
+        margin-bottom: 1.3rem !important;
+    }
+
+    .hero-cta-row {
+        width: 100%;
+        max-width: 320px;
+        margin: 0.5rem auto 0 !important;
+    }
+
+    .hero-cta-row .btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    /* Grille d'activités sur mobile */
+    .univers-grid {
+        grid-template-columns: 1fr;
+        gap: 0.9rem;
+        overflow-x: hidden;
+    }
+
+    .univers-card {
+        padding: 1.6rem 1.2rem;
+    }
+
+    /* Bannière Contrix */
+    .contrix-banner {
+        flex-direction: column;
+        text-align: center;
+        align-items: center;
+        padding: 1.8rem 1.2rem;
+        gap: 1.2rem;
+    }
+
+    .contrix-icon-box {
+        width: 60px;
+        height: 60px;
+        font-size: 1.6rem;
+    }
+
+    .contrix-title {
+        font-size: 1.25rem;
+    }
+
+    .contrix-desc {
+        font-size: 0.9rem;
+        line-height: 1.55;
+    }
+
+    .contrix-actions {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .contrix-actions .btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    /* Carte Profil 'Qui suis-je' */
+    .profil-card {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 1.8rem 1.2rem;
+        gap: 1.4rem;
+    }
+
+    .profil-avatar-col {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .profil-body {
+        width: 100%;
+        align-items: center;
+        text-align: center;
+    }
+
+    .profil-name {
+        font-size: 1.35rem;
+        text-align: center;
+    }
+
+    .profil-bio,
+    .bio-expanded-content p {
+        text-align: center;
+        font-size: 0.92rem;
+        line-height: 1.65;
+    }
+
+    .profil-actions {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        margin-top: 1rem;
+    }
+
+    .btn-toggle-bio {
+        width: auto;
+        min-width: 160px;
+        justify-content: center;
+    }
+
+    /* Actions Rapides */
+    .quick-actions-grid,
+    .actions-grid {
+        grid-template-columns: 1fr;
+        gap: 0.9rem;
+    }
+
+    .action-card {
+        padding: 1.3rem 1.1rem;
+    }
+
+    /* Footer Responsive */
+    .footer-grid,
+    .home-footer .container {
+        flex-direction: column;
+        gap: 1.8rem;
+        text-align: center;
+        align-items: center;
+    }
+
+    .footer-bottom {
+        flex-direction: column;
+        gap: 0.7rem;
+        text-align: center;
+    }
+}
+
+/* 5. Écrans Très Compacts / Petits Mobiles (<= 420px) */
+@media (max-width: 420px) {
+    .container {
+        padding-left: 0.9rem;
+        padding-right: 0.9rem;
+    }
+
+    .hero-logo {
+        height: 62px !important;
+    }
+
+    .profil-avatar-placeholder {
+        width: 74px;
+        height: 74px;
+    }
+
+    .contrix-banner,
+    .profil-card {
+        padding: 1.4rem 1rem;
+    }
+
+    .section-title {
+        font-size: 1.45rem;
+    }
 }

@@ -2,7 +2,7 @@
 <html lang="fr" data-theme="dark">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <title>Akouly Ecosystem — Accueil</title>
     <meta name="description" content="Écosystème Numérique & Plateforme d'Activités d'Aboua Junior KOUADJO — Cybersécurité, Gaming, Apps, Business, DIY.">
     <link rel="icon" type="image/png" href="images/logo-monogram-1.png">
@@ -484,17 +484,16 @@
             z-index: 4;
         }
 
-        @media (max-width: 640px) {
+        @media (max-width: 768px) {
             .home-hero {
-            position: relative;
-            min-height: clamp(380px, 62vh, 520px);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            overflow: hidden;
-            padding: 3rem 12px 2rem;
+                min-height: clamp(340px, 55vh, 480px) !important;
+                padding: 2.8rem 1rem 1.6rem !important;
+            }
+            .hero-logo { height: 68px; }
+            .contrix-banner { flex-direction: column; }
+            .profil-card { flex-direction: column; }
+            .waves-section { height: 120px; }
+            .air { height: 85px; }
         }
             .hero-logo { height: 75px; }
             .contrix-banner { flex-direction: column; }
