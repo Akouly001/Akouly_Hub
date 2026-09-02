@@ -3906,3 +3906,38 @@ img, video, canvas, svg {
 }
 
 
+
+
+/* ==========================================================================
+   SURLIGNAGE MAGIQUE SUR LES MOTS-CLÉS (.underline--magical)
+   ========================================================================== */
+.underline--magical {
+    background-image: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
+    background-repeat: no-repeat;
+    background-size: 100% 0.26em;
+    background-position: 0 88%;
+    transition: background-size 0.28s cubic-bezier(0.16, 1, 0.3, 1), color 0.22s ease;
+    border-radius: 3px;
+    padding: 0 2px;
+    display: inline;
+    color: inherit;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.underline--magical:hover {
+    background-size: 100% 88%;
+    color: #090d16 !important; /* Lisibilité optimale avec fond sombre */
+    text-shadow: none !important;
+}
+
+[data-theme="light"] .underline--magical {
+    background-image: linear-gradient(120deg, #38bdf8 0%, #818cf8 100%);
+    background-size: 100% 0.3em;
+    color: inherit;
+}
+
+[data-theme="light"] .underline--magical:hover {
+    background-size: 100% 88%;
+    color: #ffffff !important;
+}

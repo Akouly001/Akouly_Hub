@@ -26,6 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
     try { initUniverseCursors(); } catch (e) {}
     try { initProfilArrowObserver(); } catch (e) {}
     try { initAvatar3DTiltPhysics(); } catch (e) {}
+    try { initMagicalUnderlines(); } catch (e) {}
     try { initSlideBumpObserver(); } catch (e) {}
     try { initScrollHintLottie(); } catch (e) {}
 });
@@ -1690,4 +1691,54 @@ function initAvatar3DTiltPhysics() {
         targetGlareY = 35;
         if (!animFrameId) animFrameId = requestAnimationFrame(updatePhysics);
     });
+}
+
+/**
+ * 12. Surlignage Magique Animé (.underline--magical)
+ * Gradient dynamique & aléatoire inspiré de l'API / palette personnalisée
+ */
+function initMagicalUnderlines() {
+    const magicalUnderlines = Array.from(document.querySelectorAll('.underline--magical'));
+    if (!magicalUnderlines.length) return;
+
+    // Palette locale de dégradés vibrants ultra-esthétiques (Cyber, Neon, Pastel, Gold)
+    const localGradients = [
+        'linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%)',
+        'linear-gradient(120deg, #06b6d4 0%, #3b82f6 100%)',
+        'linear-gradient(120deg, #a855f7 0%, #ec4899 100%)',
+        'linear-gradient(120deg, #fbc2eb 0%, #a6c1ee 100%)',
+        'linear-gradient(120deg, #f59e0b 0%, #ef4444 100%)',
+        'linear-gradient(120deg, #10b981 0%, #06b6d4 100%)',
+        'linear-gradient(120deg, #fdcbf1 0%, #e6dee9 100%)',
+        'linear-gradient(120deg, #4facfe 0%, #00f2fe 100%)'
+    ];
+
+    const gradientAPI = 'https://gist.githubusercontent.com/wking-io/3e116c0e5675c8bcad8b5a6dc6ca5344/raw/4e783ce3ad0bcd98811c6531e40256b8feeb8fc8/gradient.json';
+
+    // Application individuelle pour varier les dégradés sur chaque mot-clé
+    magicalUnderlines.forEach((el, index) => {
+        const grad = localGradients[index % localGradients.length];
+        el.style.backgroundImage = grad;
+    });
+
+    // Essai d'appel API distant pour enrichir encore davantage si connecté
+    if (window.fetch) {
+        fetch(gradientAPI)
+            .then(res => res.json())
+            .then(json => {
+                if (json && json.data && json.data.length) {
+                    const data = json.data;
+                    magicalUnderlines.forEach(el => {
+                        const rand = data[Math.floor(Math.random() * data.length)];
+                        if (rand && rand.direction && rand.colors && rand.positions) {
+                            const stops = rand.colors.map((c, i) => `${c} ${rand.positions[i]}`).join(', ');
+                            el.style.backgroundImage = `linear-gradient(${rand.direction}, ${stops})`;
+                        }
+                    });
+                }
+            })
+            .catch(() => {
+                // Reste sur la palette locale sans bloquer
+            });
+    }
 }
