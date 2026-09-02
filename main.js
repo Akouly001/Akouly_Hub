@@ -1400,9 +1400,8 @@ function toggleBioExpand() {
     if (!isExpanded) {
         // Déroulement
         if (card) card.classList.add('is-expanded');
-        content.style.maxHeight = (content.scrollHeight + 30) + 'px';
+        content.style.maxHeight = content.scrollHeight + 'px';
         content.style.opacity = '1';
-        content.style.marginTop = '0.5rem';
         if (btnText) btnText.textContent = 'Réduire';
         if (btnIcon) btnIcon.style.transform = 'rotate(180deg)';
         if (btn) btn.setAttribute('aria-expanded', 'true');
@@ -1418,7 +1417,6 @@ function toggleBioExpand() {
         if (card) card.classList.remove('is-expanded');
         content.style.maxHeight = '0';
         content.style.opacity = '0';
-        content.style.marginTop = '0';
         if (btnText) btnText.textContent = 'En savoir plus';
         if (btnIcon) btnIcon.style.transform = 'rotate(0deg)';
         if (btn) btn.setAttribute('aria-expanded', 'false');
