@@ -1430,8 +1430,8 @@ function toggleBioExpand() {
 
 
 /**
- * 8. Flèche Attention Grabber (Lottie) devant le nom du profil
- * Déclenchée UNE SEULE FOIS dès que la section "Qui suis-je" devient visible.
+ * 8. Flèche Attention Grabber (Lottie) positionnée après le nom du profil
+ * Déclenchée UNE SEULE FOIS dès que la section "Qui suis-je" devient visible, puis reste figée et visible.
  */
 let lottieArrowAnim = null;
 let arrowAnimated = false;
@@ -1451,7 +1451,14 @@ function initProfilArrowObserver() {
             animationData: data
         });
 
-        // Si la section est déjà visible à l'écran dès l'ouverture
+        // À la fin de l'animation : reste figée sur la dernière frame (flèche complète visible)
+        lottieArrowAnim.addEventListener('complete', () => {
+            if (lottieArrowAnim && lottieArrowAnim.totalFrames) {
+                lottieArrowAnim.goToAndStop(lottieArrowAnim.totalFrames - 1, true);
+            }
+        });
+
+        // Si la section est déjà visible à l'écran au chargement initial
         const rect = section.getBoundingClientRect();
         if (rect.top < window.innerHeight && rect.bottom > 0 && !arrowAnimated) {
             arrowAnimated = true;
@@ -1480,7 +1487,6 @@ function initProfilArrowObserver() {
         });
     }, { threshold: 0.15 });
 
-    observer.observe(section);
 }
 
 /**
