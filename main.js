@@ -19,6 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
     try { initHomeCursor(); } catch (e) {}
     try { initBusinessCursor(); } catch (e) {}
     try { initUniverseCursors(); } catch (e) {}
+    try { initProfilArrowObserver(); } catch (e) {}
 });
 
 /**
@@ -1546,4 +1547,58 @@ function initCumulativePaintCanvas() {
             lastPos = null;
         });
     });
+}
+
+/**
+ * 8. Flèche Attention Grabber (Lottie) devant le nom du profil
+ * Déclenchée une seule fois (sans boucle) dès que la section "Qui suis-je" devient visible.
+ */
+let lottieArrowAnim = null;
+let arrowAnimated = false;
+
+function initProfilArrowObserver() {
+    const section = document.getElementById('profil') || document.getElementById('profilCard');
+    const container = document.getElementById('profilArrowBox');
+    if (!section || !container || typeof lottie === 'undefined') return;
+
+    function setupArrow(data) {
+        if (lottieArrowAnim) lottieArrowAnim.destroy();
+        lottieArrowAnim = lottie.loadAnimation({
+            container: container,
+            renderer: 'svg',
+            loop: false, // Une seule animation
+            autoplay: false,
+            animationData: data
+        });
+
+        // Si la section est déjà visible au chargement
+        const rect = section.getBoundingClientRect();
+        if (rect.top < window.innerHeight && rect.bottom > 0 && !arrowAnimated) {
+            arrowAnimated = true;
+            lottieArrowAnim.play();
+        }
+    }
+
+    if (window.AKOULY_ARROW_LOTTIE) {
+        setupArrow(window.AKOULY_ARROW_LOTTIE);
+    } else if (typeof lottie !== 'undefined') {
+        fetch('animations/attention-arrow.json')
+            .then(res => res.json())
+            .then(data => setupArrow(data))
+            .catch(err => console.warn('Erreur Lottie Arrow:', err));
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting && !arrowAnimated) {
+                arrowAnimated = true;
+                if (lottieArrowAnim) {
+                    lottieArrowAnim.goToAndPlay(0, true);
+                }
+                observer.unobserve(section);
+            }
+        });
+    }, { threshold: 0.2 });
+
+    observer.observe(section);
 }
