@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
     try { initTerminalTyping(); } catch (e) {}
     try { initScrollReveal(); } catch (e) {}
     try { renderDomains(); } catch (e) {}
+    try { initCumulativePaintCanvas(); } catch (e) {}
     try { setupEventListeners(); } catch (e) {}
     try { initNewFooter(); } catch (e) {}
     try { initHomeCursor(); } catch (e) {}
@@ -1427,3 +1428,122 @@ function toggleBioExpand() {
 
 
 
+
+
+/**
+ * 7. Canvas de Peinture Cumulative au Survol / Glissement (Section "Ce que je fais")
+ * Chaque passage du curseur ou du doigt tamponne des cercles qui s'accumulent sans clearRect.
+ */
+function initCumulativePaintCanvas() {
+    const cards = document.querySelectorAll('.univers-card');
+    if (!cards.length) return;
+
+    cards.forEach(card => {
+        let canvas = card.querySelector('.univers-paint-canvas');
+        if (!canvas) {
+            canvas = document.createElement('canvas');
+            canvas.className = 'univers-paint-canvas';
+            card.insertBefore(canvas, card.firstChild);
+        }
+
+        const ctx = canvas.getContext('2d');
+        const color = card.getAttribute('data-paint-color') || 'rgba(0, 240, 255, 0.25)';
+        let lastPos = null;
+        const stampRadius = 38;
+
+        function resizeCanvas() {
+            const rect = card.getBoundingClientRect();
+            const dpr = Math.min(window.devicePixelRatio || 1, 2);
+            
+            // Préserver ce qui a déjà été peint lors d'un resize
+            let tempCanvas = null;
+            if (canvas.width > 0 && canvas.height > 0) {
+                tempCanvas = document.createElement('canvas');
+                tempCanvas.width = canvas.width;
+                tempCanvas.height = canvas.height;
+                const tempCtx = tempCanvas.getContext('2d');
+                tempCtx.drawImage(canvas, 0, 0);
+            }
+
+            canvas.width = rect.width * dpr;
+            canvas.height = rect.height * dpr;
+            ctx.scale(dpr, dpr);
+
+            if (tempCanvas) {
+                ctx.drawImage(tempCanvas, 0, 0, rect.width, rect.height);
+            }
+        }
+
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas, { passive: true });
+
+        // Tamponner un cercle doux à la position (x, y)
+        function stampCircle(x, y) {
+            ctx.save();
+            const grad = ctx.createRadialGradient(x, y, stampRadius * 0.15, x, y, stampRadius);
+            grad.addColorStop(0, color);
+            grad.addColorStop(1, 'rgba(0,0,0,0)');
+            ctx.fillStyle = grad;
+            ctx.beginPath();
+            ctx.arc(x, y, stampRadius, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.restore();
+        }
+
+        // Interpolation continue pour éviter les trous lors des mouvements rapides
+        function paintAt(x, y) {
+            if (!lastPos) {
+                stampCircle(x, y);
+                lastPos = { x, y };
+                return;
+            }
+
+            const dx = x - lastPos.x;
+            const dy = y - lastPos.y;
+            const dist = Math.hypot(dx, dy);
+            const steps = Math.max(1, Math.floor(dist / 6));
+
+            for (let i = 1; i <= steps; i++) {
+                const ix = lastPos.x + (dx * (i / steps));
+                const iy = lastPos.y + (dy * (i / steps));
+                stampCircle(ix, iy);
+            }
+
+            lastPos = { x, y };
+        }
+
+        // Événements Souris (Hover / Move)
+        card.addEventListener('mouseenter', (e) => {
+            const rect = card.getBoundingClientRect();
+            lastPos = { x: e.clientX - rect.left, y: e.clientY - rect.top };
+            stampCircle(lastPos.x, lastPos.y);
+        });
+
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            paintAt(e.clientX - rect.left, e.clientY - rect.top);
+        });
+
+        card.addEventListener('mouseleave', () => {
+            lastPos = null;
+        });
+
+        // Événements Tactiles (Glissement / Touch)
+        card.addEventListener('touchstart', (e) => {
+            const rect = card.getBoundingClientRect();
+            const touch = e.touches[0];
+            lastPos = { x: touch.clientX - rect.left, y: touch.clientY - rect.top };
+            stampCircle(lastPos.x, lastPos.y);
+        }, { passive: true });
+
+        card.addEventListener('touchmove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const touch = e.touches[0];
+            paintAt(touch.clientX - rect.left, touch.clientY - rect.top);
+        }, { passive: true });
+
+        card.addEventListener('touchend', () => {
+            lastPos = null;
+        });
+    });
+}
