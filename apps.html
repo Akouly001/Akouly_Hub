@@ -164,7 +164,7 @@
                     </div>
                 </div>
 
-                <!-- App 3: Mémo Anniv -->
+                                <!-- App 3: Mémo Anniv -->
                 <div class="project-card">
                     <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
                         <div style="width: 56px; height: 56px; border-radius: 14px; background: rgba(236, 72, 153, 0.12); color: #ec4899; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; border: 1px solid rgba(236, 72, 153, 0.25);">
@@ -172,27 +172,17 @@
                         </div>
                         <div>
                             <h3 style="font-family: var(--font-heading); font-size: 1.35rem; font-weight: 700;">Mémo Anniv</h3>
-                            <span style="font-size: 0.8rem; color: #ec4899; font-weight: 600;"><i class="fas fa-sparkles"></i> Productivité · Vie Quotidienne · Gratuit</span>
+                            <span style="font-size: 0.8rem; color: #ec4899; font-weight: 600;"><i class="fas fa-sparkles"></i> Formulaire Intelligent · Vie Quotidienne · Gratuit</span>
                         </div>
                     </div>
-                    <div style="font-size: 0.95rem; font-weight: 600; color: var(--text-main); margin-bottom: 0.5rem;">
-                        Ne manquez plus jamais un anniversaire important.
-                    </div>
                     <p class="project-desc">
-                        Mémo Anniv est une micro-application conçue pour ne plus jamais manquer un anniversaire. Grâce à un formulaire rapide et sans installation, enregistrez les dates clés de vos proches en 30 secondes. Recevez un rappel automatique anticipé pour préparer vos cadeaux ou surprises, ainsi qu'une alerte le jour J pour souhaiter le meilleur à temps.
+                        Mémo Anniv est un formulaire rapide conçu pour ne plus jamais manquer un anniversaire. Grâce à un formulaire sans installation, enregistrez les dates clés de vos proches en 30 secondes. Recevez des rappels automatiques (J-30, J-7, Jour J) pour anticiper vos cadeaux ou surprises, et souhaiter le meilleur à temps.
                     </p>
 
-                    <!-- Points Forts / Badges -->
-                    <div style="display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 1rem 0 1.2rem;">
-                        <span style="font-size: 0.78rem; background: rgba(236,72,153,0.08); border: 1px solid rgba(236,72,153,0.25); color: #ec4899; padding: 0.25rem 0.6rem; border-radius: 6px; font-weight: 600;">
-                            <i class="fas fa-bolt"></i> Enregistrement en 30s
-                        </span>
-                        <span style="font-size: 0.78rem; background: rgba(236,72,153,0.08); border: 1px solid rgba(236,72,153,0.25); color: #ec4899; padding: 0.25rem 0.6rem; border-radius: 6px; font-weight: 600;">
-                            <i class="fas fa-bell"></i> Alertes J-7, J-1, Jour J
-                        </span>
-                        <span style="font-size: 0.78rem; background: rgba(236,72,153,0.08); border: 1px solid rgba(236,72,153,0.25); color: #ec4899; padding: 0.25rem 0.6rem; border-radius: 6px; font-weight: 600;">
-                            <i class="fas fa-lock"></i> Données sécurisées & privées
-                        </span>
+                    <!-- Galerie Aperçu Rapide (2 Captures) -->
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.6rem; margin-bottom: 1.2rem; cursor: pointer;" onclick="openDimModal('dimModal-memo-gallery')" title="Cliquez pour agrandir en carrousel">
+                        <img loading="lazy" decoding="async" src="images/memo-anniv-capture-1.png" alt="Formulaire Mémo Anniv" style="width: 100%; height: 110px; object-fit: cover; border-radius: 8px; border: 1px solid var(--border-color); transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.03)'" onmouseout="this.style.transform='scale(1)'">
+                        <img loading="lazy" decoding="async" src="images/memo-anniv-capture-2.png" alt="Notification Rappel E-mail" style="width: 100%; height: 110px; object-fit: cover; border-radius: 8px; border: 1px solid var(--border-color); transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.03)'" onmouseout="this.style.transform='scale(1)'">
                     </div>
 
                     <div class="project-footer" style="margin-top: 1rem;">
@@ -204,9 +194,9 @@
 
                     <!-- 3 Boutons d'Action Immersifs -->
                     <div class="project-action-bar">
-                        <a href="https://tally.so/r/zxB25q" target="_blank" rel="noopener noreferrer" class="btn-dim-action" style="text-decoration: none;">
-                            <i class="fas fa-rocket" style="color: #ec4899;"></i> Lancer l'application
-                        </a>
+                        <button class="btn-dim-action" onclick="openDimModal('dimModal-memo-gallery')">
+                            <i class="fas fa-images" style="color: #ec4899;"></i> Galerie
+                        </button>
                         <button class="btn-dim-action" onclick="openDimModal('dimModal-memo-tech')">
                             <i class="fas fa-microchip" style="color: var(--accent-cyber);"></i> Technologie
                         </button>
@@ -577,17 +567,62 @@
         </div>
     </div>
 
-    <!-- MODAL 3A: Mémo Anniv — Technologie -->
+        <!-- MODAL 3A: Mémo Anniv — Galerie -->
+    <div class="dim-modal" id="dimModal-memo-gallery">
+        <div class="dim-card">
+            <button class="dim-close" onclick="closeDimModal('dimModal-memo-gallery')">&times;</button>
+            <div style="display: flex; align-items: center; gap: 0.8rem; margin-bottom: 1rem;">
+                <div style="width: 42px; height: 42px; border-radius: 10px; background: rgba(236,72,153,0.12); color: #ec4899; display: flex; align-items: center; justify-content: center; font-size: 1.3rem;">
+                    <i class="fas fa-birthday-cake"></i>
+                </div>
+                <div>
+                    <h3 style="font-family: var(--font-heading); font-size: 1.3rem; margin: 0; color: #ec4899;">Mémo Anniv — Galerie</h3>
+                    <p style="font-size: 0.82rem; color: var(--text-muted); margin: 0;">Formulaire d'enregistrement et rappel e-mail automatique</p>
+                </div>
+            </div>
+
+            <!-- Carrousel 4:5 Mémo Anniv -->
+            <div class="carousel-container-4-5" id="carousel-memo">
+                <button class="carousel-nav-btn prev" onclick="moveCarousel('carousel-memo', -1)"><i class="fas fa-chevron-left"></i></button>
+                <button class="carousel-nav-btn next" onclick="moveCarousel('carousel-memo', 1)"><i class="fas fa-chevron-right"></i></button>
+                
+                <div class="carousel-track">
+                    <div class="carousel-slide">
+                        <img loading="lazy" decoding="async" src="images/memo-anniv-capture-1.png" alt="Formulaire Mémo Anniv">
+                        <div class="carousel-slide-caption">1/2 · Formulaire ultra-rapide d'enregistrement sans installation</div>
+                    </div>
+                    <div class="carousel-slide">
+                        <img loading="lazy" decoding="async" src="images/memo-anniv-capture-2.png" alt="Rappel E-mail Mémo Anniv">
+                        <div class="carousel-slide-caption">2/2 · E-mail de rappel automatique (J-30, J-7, Jour J)</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Points indicateurs -->
+            <div class="carousel-dots" id="dots-carousel-memo">
+                <span class="carousel-dot active" onclick="setCarouselSlide('carousel-memo', 0)"></span>
+                <span class="carousel-dot" onclick="setCarouselSlide('carousel-memo', 1)"></span>
+            </div>
+
+            <div style="margin-top: 1.2rem; text-align: center;">
+                <a href="https://tally.so/r/zxB25q" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="padding: 0.5rem 1.2rem; font-size: 0.88rem; background: #ec4899; border-color: #ec4899;">
+                    <i class="fas fa-calendar-check"></i> Ouvrir le formulaire
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 3B: Mémo Anniv — Technologie -->
     <div class="dim-modal" id="dimModal-memo-tech">
         <div class="dim-card">
             <button class="dim-close" onclick="closeDimModal('dimModal-memo-tech')">&times;</button>
             <div style="display: flex; align-items: center; gap: 0.8rem; margin-bottom: 1.2rem;">
                 <div style="width: 44px; height: 44px; border-radius: 10px; background: rgba(236,72,153,0.12); color: #ec4899; display: flex; align-items: center; justify-content: center; font-size: 1.3rem;">
-                    <i class="fas fa-birthday-cake"></i>
+                    <i class="fas fa-microchip"></i>
                 </div>
                 <div>
                     <h3 style="font-family: var(--font-heading); font-size: 1.3rem; margin: 0; color: #ec4899;">Mémo Anniv — Technologie</h3>
-                    <p style="font-size: 0.82rem; color: var(--text-muted); margin: 0;">Micro-application No-Code, automatisation et rappels programmés</p>
+                    <p style="font-size: 0.82rem; color: var(--text-muted); margin: 0;">Formulaire intelligent, automatisation et alertes J-30, J-7, Jour J</p>
                 </div>
             </div>
 
@@ -595,7 +630,7 @@
                 <div style="background: var(--bg-dark); border-left: 4px solid #ec4899; padding: 1rem; border-radius: var(--radius-sm); margin-bottom: 1.2rem;">
                     <h4 style="font-size: 1rem; color: #ec4899; margin-bottom: 0.3rem;"><i class="fas fa-bullseye"></i> But Visé du Projet :</h4>
                     <p style="margin: 0; color: var(--text-muted);">
-                        Éliminer définitivement l'oubli des dates d'anniversaires grâce à une solution sans installation, ultra-légère et accessible immédiatement sur n'importe quel smartphone ou navigateur web.
+                        Éliminer définitivement l'oubli des dates d'anniversaires grâce à un formulaire sans installation, ultra-léger et accessible immédiatement sur n'importe quel smartphone ou navigateur web.
                     </p>
                 </div>
 
@@ -603,9 +638,9 @@
                     Pourquoi ce Choix Technologique ?
                 </h4>
                 <ul class="skill-items" style="margin-bottom: 1.2rem;">
-                    <li><strong>Architecture Web Instantanée (Tally Forms)</strong> : Zéro friction, pas de compte lourd à créer, compatible mobile/tablette/desktop avec une vitesse de chargement instantanée.</li>
-                    <li><strong>Système d'Alertes Échelonnées</strong> : Programmation de notifications intelligentes (J-7 pour anticiper les cadeaux, J-1 pour l'organisation et Jour J pour le message).</li>
-                    <li><strong>Sécurité & Confidentialité</strong> : Stockage chiffré des données de dates, respect total de la vie privée sans revente de contacts.</li>
+                    <li><strong>Formulaire Web Instantané (Tally)</strong> : Zéro friction, pas d'application lourde à installer ni de compte complexe à créer, compatible mobile et PC.</li>
+                    <li><strong>Système d'Alertes Échelonnées</strong> : Programmation automatique d'e-mails de rappel stratégiques (J-30 pour anticiper les cadeaux et cotisations, J-7 pour l'organisation et Jour J pour le message).</li>
+                    <li><strong>Sécurité & Confidentialité</strong> : Stockage sécurisé des dates, respect total de la vie privée sans revente de contacts.</li>
                 </ul>
 
                 <!-- Points Forts -->
@@ -614,7 +649,7 @@
                         <i class="fas fa-bolt" style="color: #ec4899;"></i> Enregistrement en 30s
                     </div>
                     <div style="background: rgba(236,72,153,0.08); border: 1px solid rgba(236,72,153,0.25); border-radius: var(--radius-sm); padding: 0.6rem 0.8rem; font-size: 0.82rem; font-weight: 600; display: flex; align-items: center; gap: 0.5rem;">
-                        <i class="fas fa-gift" style="color: #ec4899;"></i> Anticipation des cadeaux
+                        <i class="fas fa-bell" style="color: #ec4899;"></i> Alertes J-30, J-7, Jour J
                     </div>
                     <div style="background: rgba(236,72,153,0.08); border: 1px solid rgba(236,72,153,0.25); border-radius: var(--radius-sm); padding: 0.6rem 0.8rem; font-size: 0.82rem; font-weight: 600; display: flex; align-items: center; gap: 0.5rem;">
                         <i class="fas fa-mobile-screen" style="color: #ec4899;"></i> Zéro appli à installer
@@ -627,7 +662,7 @@
         </div>
     </div>
 
-    <!-- MODAL 3B: Mémo Anniv — Soutenir le Projet -->
+    <!-- MODAL 3C: Mémo Anniv — Soutenir le Projet -->
     <div class="dim-modal" id="dimModal-memo-support">
         <div class="dim-card" style="text-align: center;">
             <button class="dim-close" onclick="closeDimModal('dimModal-memo-support')">&times;</button>
@@ -636,7 +671,7 @@
                 Soutenir le Projet Mémo Anniv
             </h3>
             <p style="font-size: 0.95rem; color: var(--text-muted); max-width: 500px; margin: 0 auto 1.2rem auto; line-height: 1.6;">
-                Mémo Anniv est un outil gratuit conçu pour simplifier la vie de chacun. Votre soutien permet de maintenir les serveurs de notifications et d'ajouter de nouvelles fonctionnalités !
+                Mémo Anniv est un formulaire gratuit conçu pour simplifier la vie de chacun. Votre soutien permet de maintenir les serveurs de notifications et d'ajouter de nouvelles fonctionnalités !
             </p>
 
             <!-- Cadre Unique Logo Paiement à Bords Arrondis -->
