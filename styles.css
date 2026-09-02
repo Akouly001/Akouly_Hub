@@ -124,51 +124,19 @@ html, body {
     font-weight: 600;
 }
 
-[data-page="cyber"] .section-title span, [data-page="cyber"] /* Section label in light mode (Passe en noir en mode clair) */
-[data-theme="light"] .section-label,
-[data-theme="light"] #profil .section-label,
-[data-theme="light"] body[data-page="home"] .section-label {
-    color: #0f172a !important;
-    font-weight: 700;
-}
-
-.section-label { color: var(--accent-cyber); }
-[data-page="gaming"] .section-title span, [data-page="gaming"] /* Section label in light mode (Passe en noir en mode clair) */
-[data-theme="light"] .section-label,
-[data-theme="light"] #profil .section-label,
-[data-theme="light"] body[data-page="home"] .section-label {
-    color: #0f172a !important;
-    font-weight: 700;
-}
-
-.section-label { color: var(--accent-gaming); }
-[data-page="apps"] .section-title span, [data-page="apps"] /* Section label in light mode (Passe en noir en mode clair) */
-[data-theme="light"] .section-label,
-[data-theme="light"] #profil .section-label,
-[data-theme="light"] body[data-page="home"] .section-label {
-    color: #0f172a !important;
-    font-weight: 700;
-}
-
-.section-label { color: var(--accent-dev); }
-[data-page="business"] .section-title span, [data-page="business"] /* Section label in light mode (Passe en noir en mode clair) */
-[data-theme="light"] .section-label,
-[data-theme="light"] #profil .section-label,
-[data-theme="light"] body[data-page="home"] .section-label {
-    color: #0f172a !important;
-    font-weight: 700;
-}
-
-.section-label { color: var(--accent-biz); }
-[data-page="lab"] .section-title span, [data-page="lab"] /* Section label in light mode (Passe en noir en mode clair) */
-[data-theme="light"] .section-label,
-[data-theme="light"] #profil .section-label,
-[data-theme="light"] body[data-page="home"] .section-label {
-    color: #0f172a !important;
-    font-weight: 700;
-}
-
-.section-label { color: var(--accent-lab); }
+/* Accents par page / univers */
+[data-page="cyber"] .section-title span { color: var(--accent-cyber) !important; }
+[data-page="cyber"] .section-label { color: var(--accent-cyber); }
+[data-page="gaming"] .section-title span { color: var(--accent-gaming) !important; }
+[data-page="gaming"] .section-label { color: var(--accent-gaming); }
+[data-page="apps"] .section-title span { color: var(--accent-dev) !important; }
+[data-page="apps"] .section-label { color: var(--accent-dev); }
+[data-page="business"] .section-title span { color: var(--accent-biz) !important; }
+[data-page="business"] .section-label { color: var(--accent-biz); }
+[data-page="lab"] .section-title span { color: var(--accent-lab) !important; }
+[data-page="lab"] .section-label { color: var(--accent-lab); }
+[data-page="about"] .section-title span { color: var(--accent-cyber) !important; }
+[data-page="about"] .section-label { color: var(--accent-cyber); }
 
 [data-page="cyber"] .page-banner { border-bottom: 2px solid var(--accent-cyber); }
 [data-page="gaming"] .page-banner { border-bottom: 2px solid var(--accent-gaming); }
@@ -847,12 +815,17 @@ body[data-page="home"] .brand-logo {
 /* ==========================================================================
    Section Labels & Competences Grid
    ========================================================================== */
-/* Section label in light mode (Passe en noir en mode clair) */
-[data-theme="light"] .section-label,
-[data-theme="light"] #profil .section-label,
-[data-theme="light"] body[data-page="home"] .section-label {
-    color: #0f172a !important;
-    font-weight: 700;
+.section-title {
+    font-family: var(--font-heading);
+    font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+    font-weight: 800;
+    margin-bottom: 2rem;
+    color: var(--text-main);
+}
+
+.section-title span {
+    color: var(--page-accent, var(--accent-cyber));
+    transition: color 0.3s ease;
 }
 
 .section-label {
@@ -862,13 +835,6 @@ body[data-page="home"] .brand-logo {
     letter-spacing: 0.06em;
     margin-bottom: 0.4rem;
     color: var(--page-accent, var(--accent-cyber));
-}
-
-.section-title {
-    font-family: var(--font-heading);
-    font-size: clamp(1.6rem, 3.5vw, 2.2rem);
-    font-weight: 800;
-    margin-bottom: 2rem;
 }
 
 .skills-grid {
