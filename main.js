@@ -1451,10 +1451,11 @@ function initProfilArrowObserver() {
             animationData: data
         });
 
-        // À la fin de l'animation : reste figée sur la dernière frame (flèche complète visible)
+        // À la fin de l'animation : reste figée sur totalFrames - 10 pour être parfaitement visible
         lottieArrowAnim.addEventListener('complete', () => {
             if (lottieArrowAnim && lottieArrowAnim.totalFrames) {
-                lottieArrowAnim.goToAndStop(lottieArrowAnim.totalFrames - 1, true);
+                const targetFrame = Math.max(0, lottieArrowAnim.totalFrames - 10);
+                lottieArrowAnim.goToAndStop(targetFrame, true);
             }
         });
 
