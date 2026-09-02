@@ -4207,3 +4207,9 @@ img, video, canvas, svg {
   opacity: 1;
   transform: translateX(0);
 }
+
+@media (max-width: 768px) {
+    .about-photo-wrapper {
+        margin-left: 0 !important;
+    }
+}
