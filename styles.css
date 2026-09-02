@@ -4377,3 +4377,13 @@ img, video, canvas, svg {
     color: var(--accent-biz);
     font-weight: 600;
 }
+
+/* Assure que tous les curseurs restent toujours au-dessus des modales et visualiseurs */
+#cursor-dot,
+#cursor-ring,
+#cursor-glow,
+.cursor-dot,
+.cursor-follower {
+    z-index: 10000000 !important;
+    pointer-events: none !important;
+}
