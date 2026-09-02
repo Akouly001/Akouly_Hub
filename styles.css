@@ -4426,8 +4426,8 @@ img, video, canvas, svg {
 }
 
 .layered-title .wrapper span.letter-2 {
-    color: #f43f5e;
-    opacity: 0.85;
+    color: #ffffff;
+    opacity: 0.9;
 }
 
 [data-theme="dark"] .layered-title .wrapper span.letter-1 {
@@ -4436,8 +4436,8 @@ img, video, canvas, svg {
 }
 
 [data-theme="dark"] .layered-title .wrapper span.letter-2 {
-    color: #f43f5e;
-    text-shadow: 0 0 12px rgba(244, 63, 94, 0.3);
+    color: #ffffff;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
 }
 
 [data-theme="light"] .layered-title .wrapper span.letter-1 {
@@ -4445,7 +4445,8 @@ img, video, canvas, svg {
 }
 
 [data-theme="light"] .layered-title .wrapper span.letter-2 {
-    color: #e11d48;
+    color: #0f172a;
+    opacity: 0.85;
 }
 
 .layered-title .wrapper:hover span.letter-1 {
@@ -4459,4 +4460,29 @@ img, video, canvas, svg {
 .layered-title .wrapper span.space {
     display: inline-block;
     min-width: 0.35em;
+}
+
+/* ==========================================================================
+   DESACTIVATION STRICTE DES EFFETS SOURIS SUR MOBILE / ANDROID / TACTILE
+   ========================================================================== */
+@media (hover: none) or (pointer: coarse), (max-width: 768px) {
+    #cursor-dot,
+    #cursor-ring,
+    #cursor-glow,
+    .cursor-dot,
+    .cursor-follower,
+    #dot1,
+    #ring1,
+    .scan-char,
+    .pencil-particle,
+    .pencil-lead {
+        display: none !important;
+        opacity: 0 !important;
+        visibility: hidden !important;
+        pointer-events: none !important;
+    }
+
+    body, body * {
+        cursor: auto !important;
+    }
 }

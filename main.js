@@ -1,3 +1,12 @@
+
+/**
+ * GESTIONNAIRE D'ÉCONOMIE D'ÉNERGIE & PERFORMANCE (60-120 FPS)
+ * Met en pause automatique les boucles Canvas et RAF lorsque l'onglet est inactif
+ */
+let isAppActive = !document.hidden;
+document.addEventListener('visibilitychange', () => {
+    isAppActive = !document.hidden;
+});
 /**
  * Akouly Ecosystem - Master JS Controller
  * Canvas Cyber-Mesh (Cyber), Canvas Code-Matrix (Apps), Glow Tracking & Theme Switcher
@@ -1352,7 +1361,7 @@ function initUniverseCursors() {
     if (page === 'cyber') {
         const scanChars = '01アカウリ#$%&<>';
         window.addEventListener('mousemove', (e) => {
-            if (Math.random() > 0.32) return;
+            if (!isAppActive || Math.random() > 0.45) return; if (document.querySelectorAll(".scan-char").length > 12) return;
             const el = document.createElement('span');
             el.className = 'scan-char';
             el.textContent = scanChars[Math.floor(Math.random() * scanChars.length)];
