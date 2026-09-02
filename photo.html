@@ -637,6 +637,103 @@
     .photo-wrapper img{ transform: none !important; }
     #smoke-canvas { display: none !important; }
   }
+
+  /* ==========================================================================
+     RESPONSIVE DESIGN SPÉCIFIQUE MOBILE / SMARTPHONES (photo.html)
+     ========================================================================== */
+  @media (max-width: 768px) {
+    .nav {
+      padding: 1.1rem 1.2rem;
+    }
+    .nav-mark {
+      font-size: 0.95rem;
+    }
+    .nav-links a {
+      padding: 0.4rem 0.85rem;
+      font-size: 0.8rem;
+    }
+
+    .hero-lines {
+      padding: 0 1.2rem;
+      height: 140px;
+    }
+    .hero-line {
+      left: 1.2rem;
+      right: 1.2rem;
+      font-size: clamp(1.8rem, 6vw, 2.6rem);
+    }
+
+    .intro {
+      padding: 2.5rem 1rem 1rem;
+    }
+    .intro-canvas {
+      padding: 0.8rem 1rem;
+    }
+    .single-intro-text {
+      font-size: 0.95rem;
+      white-space: normal;
+      line-height: 1.45;
+      text-align: center;
+    }
+
+    .gallery {
+      padding: 0.8rem 1rem 5rem;
+    }
+    .gallery-head {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.6rem;
+      margin-bottom: 1.8rem;
+    }
+    .gallery-head h2 {
+      font-size: 1.8rem;
+    }
+    .gallery-instruction {
+      font-size: 1.05rem;
+      text-align: left;
+      white-space: normal;
+    }
+
+    .masonry-gallery {
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .lightbox-modal {
+      padding: 3.5rem 0.8rem 0.8rem;
+    }
+    .lightbox-top-bar {
+      height: 48px;
+      padding: 0 0.8rem;
+    }
+    .lightbox-meta-line {
+      font-size: 0.75rem;
+    }
+    .lightbox-close {
+      width: 32px;
+      height: 32px;
+      font-size: 1rem;
+    }
+    .lightbox-img {
+      max-height: 75vh;
+    }
+
+    footer {
+      padding: 3rem 1rem 2rem;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 1.5rem;
+    }
+    footer .big {
+      justify-content: center;
+      font-size: 1.2rem;
+    }
+    footer .links {
+      text-align: center;
+    }
+  }
+
 </style>
 </head>
 <body data-page="photo">

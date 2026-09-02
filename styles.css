@@ -4277,8 +4277,11 @@ img, video, canvas, svg {
 
 @media (max-width: 480px) {
     .btn-dim-action {
-        flex: 1 1 100%;
-        width: 100%;
+        flex: 0 1 auto !important;
+        width: auto !important;
+        min-width: 0 !important;
+        padding: 0.35rem 0.65rem !important;
+        font-size: 0.76rem !important;
     }
 
     .carousel-container-4-5 {
@@ -4507,5 +4510,71 @@ img, video, canvas, svg {
 
     body:not([data-page="photo"]) {
         padding-top: 62px !important;
+    }
+}
+
+/* ==========================================================================
+   BOUTONS COMPACTS ET ÉLÉGANTS SUR MOBILE (App & Dev Canvases)
+   ========================================================================== */
+@media (max-width: 768px) {
+    .project-action-bar {
+        display: flex !important;
+        flex-wrap: wrap !important;
+        gap: 0.4rem !important;
+        justify-content: flex-start !important;
+    }
+
+    .btn-dim-action {
+        flex: 0 1 auto !important;
+        width: auto !important;
+        min-width: 0 !important;
+        padding: 0.35rem 0.65rem !important;
+        font-size: 0.76rem !important;
+        border-radius: 6px !important;
+        gap: 0.35rem !important;
+    }
+
+    .btn-dim-action i {
+        font-size: 0.75rem !important;
+    }
+}
+
+/* ==========================================================================
+   HALO DE LUMIÈRE AUTONOME & ALÉATOIRE SUR MOBILE (Zéro Réaction Tactile)
+   ========================================================================== */
+@keyframes floatHaloMobileRandom {
+    0% {
+        transform: translate3d(15vw, 18vh, 0) translate(-50%, -50%) scale(1);
+    }
+    20% {
+        transform: translate3d(82vw, 32vh, 0) translate(-50%, -50%) scale(1.15);
+    }
+    45% {
+        transform: translate3d(28vw, 78vh, 0) translate(-50%, -50%) scale(0.9);
+    }
+    70% {
+        transform: translate3d(78vw, 62vh, 0) translate(-50%, -50%) scale(1.12);
+    }
+    88% {
+        transform: translate3d(20vw, 40vh, 0) translate(-50%, -50%) scale(0.95);
+    }
+    100% {
+        transform: translate3d(60vw, 15vh, 0) translate(-50%, -50%) scale(1.05);
+    }
+}
+
+@media (hover: none) or (pointer: coarse), (max-width: 768px) {
+    #cursor-glow {
+        display: block !important;
+        opacity: 0.75 !important;
+        visibility: visible !important;
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 320px !important;
+        height: 320px !important;
+        pointer-events: none !important;
+        animation: floatHaloMobileRandom 22s ease-in-out infinite alternate !important;
+        z-index: 0 !important;
     }
 }
