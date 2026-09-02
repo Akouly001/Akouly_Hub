@@ -3467,75 +3467,57 @@ body[data-page="home"].grow1 #ring1 {
 }
 
 
-/* ── Cartes 'Ce que je fais' : Effet de Remplissage Descendant 50% ── */
+/* ── Cartes 'Ce que je fais' & Profil (Style Épuré Initial + slideBump) ── */
 .univers-card {
-    position: relative;
-    overflow: hidden;
     background: var(--bg-card);
     border: 1px solid var(--border-color);
     border-radius: var(--radius-md);
-    padding: 2.2rem 1.4rem;
+    padding: 2rem 1.4rem;
     text-align: center;
     text-decoration: none;
     color: var(--text-main);
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: .75rem;
-    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease, border-color 0.4s ease;
-    z-index: 1;
+    gap: .7rem;
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+    opacity: 0;
 }
 
-/* La couleur fine du haut descend pour remplir le canva avec 50% de transparence */
-.univers-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background: var(--card-accent, var(--accent-cyber));
-    transition: height 0.45s cubic-bezier(0.2, 0.9, 0.3, 1), background-color 0.35s ease, opacity 0.35s ease;
-    z-index: 1;
-    opacity: 1;
-}
-
-.univers-card:hover::before {
-    height: 100%;
-    background: var(--card-accent-50, rgba(6, 182, 212, 0.5));
-    backdrop-filter: blur(6px);
-}
-
-.univers-card > * {
-    position: relative;
-    z-index: 2;
-    transition: color 0.35s ease, transform 0.35s ease, background 0.35s ease, text-shadow 0.35s ease;
-}
-
-/* Adaptation du texte et de l'icône lors du remplissage */
 .univers-card:hover {
-    transform: translateY(-7px) scale(1.025);
-    border-color: var(--card-accent, var(--accent-cyber));
-    box-shadow: 0 14px 35px rgba(0, 0, 0, 0.55), 0 0 25px var(--card-glow, rgba(6, 182, 212, 0.35));
+    transform: translateY(-5px) scale(1.03) !important;
+    box-shadow: var(--shadow-card);
+    border-color: var(--border-color);
 }
 
-.univers-card:hover .univers-name {
-    color: #ffffff !important;
-    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.65);
-}
-
-.univers-card:hover .univers-desc {
-    color: #ffffff !important;
-    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.55);
+.univers-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    margin-bottom: .2rem;
+    transition: var(--transition);
 }
 
 .univers-card:hover .univers-icon {
-    transform: scale(1.14);
-    background: rgba(255, 255, 255, 0.25) !important;
-    color: #ffffff !important;
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+    transform: scale(1.1);
 }
 
+.univers-name {
+    font-family: var(--font-heading);
+    font-size: 1.08rem;
+    font-weight: 700;
+    color: var(--text-main);
+}
+
+.univers-desc {
+    font-size: .83rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+}
 
 /* ── Flèche Attention Grabber (Profil Name) ─────────────────── */
 .profil-name-header {
@@ -3789,39 +3771,3 @@ img, video, canvas, svg {
 }
 
 
-/* ── Animation d'Entrée 'slideBump' (Bousculade depuis la gauche) ── */
-@keyframes slideBump {
-    0% {
-        transform: translateX(-160%) rotate(-5deg);
-        opacity: 0;
-    }
-    50% {
-        transform: translateX(10%) rotate(2deg);
-        opacity: 1;
-    }
-    72% {
-        transform: translateX(-4%) rotate(-1deg);
-    }
-    88% {
-        transform: translateX(1.5%) rotate(0.4deg);
-    }
-    100% {
-        transform: translateX(0) rotate(0deg);
-        opacity: 1;
-    }
-}
-
-.univers-card,
-.profil-card {
-    opacity: 0;
-}
-
-.univers-card.play,
-.profil-card.play {
-    animation: slideBump 0.75s cubic-bezier(.2, .8, .3, 1) forwards;
-    animation-delay: var(--delay, 0s);
-}
-
-.univers-card:hover {
-    transform: translateY(-7px) scale(1.025) !important;
-}
