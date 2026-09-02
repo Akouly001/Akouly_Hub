@@ -24,6 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
     try { initHomeCursor(); } catch (e) {}
     try { initBusinessCursor(); } catch (e) {}
     try { initCustomSelects(); } catch (e) {}
+    try { initLayeredTitleEffect(); } catch (e) {}
     try { initUniverseCursors(); } catch (e) {}
     try { initAvatar3DTiltPhysics(); } catch (e) {}
     try { initMagicalUnderlines(); } catch (e) {}
@@ -1816,4 +1817,44 @@ function initCustomSelects() {
     document.addEventListener('click', () => {
         document.querySelectorAll('.custom-select-wrapper.is-open').forEach(w => w.classList.remove('is-open'));
     });
+}
+
+/**
+ * 15. Effet Lettres Superposées 3D & Chute en Cascade (Akouly Créations)
+ */
+function initLayeredTitleEffect() {
+    const titleEl = document.getElementById('layeredTitle');
+    if (!titleEl) return;
+
+    const rawText = titleEl.getAttribute('data-text') || titleEl.textContent.trim() || 'Akouly Créations';
+    const letters = rawText.split('');
+
+    const wrappersHtml = letters.map(letter => {
+        if (letter === ' ') {
+            return '<div class="wrapper" style="width: 0.35em;"><span class="space">&nbsp;</span></div>';
+        }
+        return `<div class="wrapper"><span class="letter-1">${letter}</span><span class="letter-2">${letter}</span></div>`;
+    }).join('');
+
+    titleEl.innerHTML = wrappersHtml;
+
+    const wrappers = Array.from(titleEl.querySelectorAll('.wrapper'));
+
+    setTimeout(() => {
+        wrappers.forEach(w => {
+            const span1 = w.querySelector('.letter-1');
+            if (span1) {
+                w.style.width = span1.offsetWidth + 'px';
+                w.style.height = span1.offsetHeight + 'px';
+            }
+        });
+
+        // Déroulement en cascade fluide
+        let baseTime = 120;
+        wrappers.forEach((w, i) => {
+            setTimeout(() => {
+                w.style.top = '0px';
+            }, baseTime + (i * 45));
+        });
+    }, 180);
 }
