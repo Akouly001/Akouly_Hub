@@ -25,6 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
     try { initBusinessCursor(); } catch (e) {}
     try { initUniverseCursors(); } catch (e) {}
     try { initProfilArrowObserver(); } catch (e) {}
+    try { initAvatar3DTiltPhysics(); } catch (e) {}
     try { initSlideBumpObserver(); } catch (e) {}
     try { initScrollHintLottie(); } catch (e) {}
 });
@@ -1436,41 +1437,29 @@ function toggleBioExpand() {
 
 
 /**
- * 8. Flèche Attention Grabber (Lottie) positionnée après le nom du profil
- * Déclenchée UNE SEULE FOIS dès que la section "Qui suis-je" devient visible, puis reste figée et visible.
+ * 8. Flèche Attention Grabber (Lottie) positionnée DEVANT le nom du profil
+ * Figée sur sa 3ème frame (Frame 3) pour une visibilité fixe et nette.
  */
 let lottieArrowAnim = null;
-let arrowAnimated = false;
 
 function initProfilArrowObserver() {
-    const section = document.getElementById('profil') || document.getElementById('profilCard');
     const container = document.getElementById('profilArrowBox');
-    if (!section || !container || typeof lottie === 'undefined') return;
+    if (!container || typeof lottie === 'undefined') return;
 
     function setupArrow(data) {
         if (lottieArrowAnim) lottieArrowAnim.destroy();
         lottieArrowAnim = lottie.loadAnimation({
             container: container,
             renderer: 'svg',
-            loop: false, // UNE SEULE ANIMATION
+            loop: false,
             autoplay: false,
             animationData: data
         });
 
-        // À la fin de l'animation : reste figée sur totalFrames - 10 pour être parfaitement visible
-        lottieArrowAnim.addEventListener('complete', () => {
-            if (lottieArrowAnim && lottieArrowAnim.totalFrames) {
-                const targetFrame = Math.max(0, lottieArrowAnim.totalFrames - 10);
-                lottieArrowAnim.goToAndStop(targetFrame, true);
-            }
+        // Figer immédiatement sur la 3ème frame
+        lottieArrowAnim.addEventListener('DOMLoaded', () => {
+            lottieArrowAnim.goToAndStop(3, true); // 3e frame
         });
-
-        // Si la section est déjà visible à l'écran au chargement initial
-        const rect = section.getBoundingClientRect();
-        if (rect.top < window.innerHeight && rect.bottom > 0 && !arrowAnimated) {
-            arrowAnimated = true;
-            lottieArrowAnim.goToAndPlay(0, true);
-        }
     }
 
     if (window.AKOULY_ARROW_LOTTIE) {
@@ -1481,19 +1470,6 @@ function initProfilArrowObserver() {
             .then(data => setupArrow(data))
             .catch(err => console.warn('Erreur Lottie Arrow:', err));
     }
-
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting && !arrowAnimated) {
-                arrowAnimated = true;
-                if (lottieArrowAnim) {
-                    lottieArrowAnim.goToAndPlay(0, true);
-                }
-                observer.unobserve(section);
-            }
-        });
-    }, { threshold: 0.15 });
-
 }
 
 /**
@@ -1603,4 +1579,115 @@ function initScrollHintLottie() {
             .then(data => startScroll(data))
             .catch(err => console.warn('Erreur Lottie Scroll Hint:', err));
     }
+}
+
+
+/**
+ * 11. Moteur Physique 3D Tilt & Réfraction Lumineuse de la Photo de Profil
+ * Perspective 3D, Inertie/Amortissement élastique (Spring Damping / Lerp) & Shader de reflet
+ */
+function initAvatar3DTiltPhysics() {
+    const avatar = document.getElementById('profilAvatar3D');
+    const glare = document.getElementById('avatarGlareShader');
+    const card = document.getElementById('profilCard') || document.querySelector('.profil-card');
+    if (!avatar) return;
+
+    let targetRotX = 0, targetRotY = 0;
+    let currentRotX = 0, currentRotY = 0;
+    let glareX = 35, glareY = 35;
+    let targetGlareX = 35, targetGlareY = 35;
+    let isHovering = false;
+    let animFrameId = null;
+
+    const maxAngle = 24; // Inclinaison maximale en degrés (±24°)
+    const lerpSpeed = 0.085; // Facteur d'inertie et de fluidité élastique
+
+    function updatePhysics() {
+        // Interpolation linéaire (Spring Lerp)
+        currentRotX += (targetRotX - currentRotX) * lerpSpeed;
+        currentRotY += (targetRotY - currentRotY) * lerpSpeed;
+        glareX += (targetGlareX - glareX) * lerpSpeed;
+        glareY += (targetGlareY - glareY) * lerpSpeed;
+
+        // Application de la transformation 3D
+        avatar.style.transform = `rotateX(${currentRotX.toFixed(2)}deg) rotateY(${currentRotY.toFixed(2)}deg) scale(${isHovering ? 1.08 : 1})`;
+
+        // Décalage dynamique de l'ombre portée pour simuler la profondeur
+        const shadowX = (-currentRotY * 1.2).toFixed(1);
+        const shadowY = (currentRotX * 1.2 + 8).toFixed(1);
+        avatar.style.boxShadow = `${shadowX}px ${shadowY}px 28px rgba(0, 0, 0, 0.5), 0 0 20px rgba(6, 182, 212, 0.35)`;
+
+        // Mise à jour du shader de reflet spéculaire
+        if (glare) {
+            glare.style.background = `radial-gradient(circle at ${glareX.toFixed(1)}% ${glareY.toFixed(1)}%, rgba(255, 255, 255, 0.55) 0%, rgba(6, 182, 212, 0.22) 35%, transparent 75%)`;
+            glare.style.opacity = isHovering ? '1' : '0.75';
+        }
+
+        // Continuer l'animation si en mouvement ou en transition
+        if (isHovering || Math.abs(targetRotX - currentRotX) > 0.05 || Math.abs(targetRotY - currentRotY) > 0.05) {
+            animFrameId = requestAnimationFrame(updatePhysics);
+        } else {
+            animFrameId = null;
+        }
+    }
+
+    function onPointerMove(e) {
+        const rect = avatar.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+
+        // Coordonnées normalisées (-1 à 1)
+        const normX = Math.max(-1, Math.min(1, (e.clientX - centerX) / (rect.width * 1.5)));
+        const normY = Math.max(-1, Math.min(1, (e.clientY - centerY) / (rect.height * 1.5)));
+
+        targetRotY = normX * maxAngle;
+        targetRotX = -normY * maxAngle;
+
+        // Reflet opposé à l'angle pour simuler la lumière
+        targetGlareX = 50 - normX * 40;
+        targetGlareY = 50 - normY * 40;
+
+        if (!animFrameId) {
+            animFrameId = requestAnimationFrame(updatePhysics);
+        }
+    }
+
+    // Zone d'interaction étendue sur la carte de profil
+    const triggerZone = card || avatar;
+
+    triggerZone.addEventListener('mouseenter', () => {
+        isHovering = true;
+        if (!animFrameId) animFrameId = requestAnimationFrame(updatePhysics);
+    });
+
+    triggerZone.addEventListener('mousemove', (e) => {
+        isHovering = true;
+        onPointerMove(e);
+    });
+
+    triggerZone.addEventListener('mouseleave', () => {
+        isHovering = false;
+        targetRotX = 0;
+        targetRotY = 0;
+        targetGlareX = 35;
+        targetGlareY = 35;
+        if (!animFrameId) animFrameId = requestAnimationFrame(updatePhysics);
+    });
+
+    // Support tactile (Touch)
+    avatar.addEventListener('touchmove', (e) => {
+        if (e.touches && e.touches[0]) {
+            isHovering = true;
+            onPointerMove(e.touches[0]);
+        }
+    }, { passive: true });
+
+    avatar.addEventListener('touchend', () => {
+        isHovering = false;
+        targetRotX = 0;
+        targetRotY = 0;
+        targetGlareX = 35;
+        targetGlareY = 35;
+        if (!animFrameId) animFrameId = requestAnimationFrame(updatePhysics);
+    });
 }

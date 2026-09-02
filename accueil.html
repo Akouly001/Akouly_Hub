@@ -638,19 +638,22 @@
         <div class="section-label">// QUI SUIS-JE ?</div>
         <div class="profil-card" id="profilCard" style="--delay: 0.05s;">
             <div class="profil-avatar-col">
-                <div class="profil-avatar-placeholder" title="Aboua Junior KOUADJO" oncontextmenu="return false;">
-                    <img src="images/profile-avatar-cropped.jpg" alt="Aboua Junior KOUADJO" class="profil-avatar-img" loading="eager" decoding="async" draggable="false" oncontextmenu="return false;">
-                    <div class="avatar-shield" aria-hidden="true"></div>
-                </div>
-                <!-- Animation Lottie Pop-up sous le cercle de profil -->
+                <div class="profil-avatar-3d-stage">
+                    <div class="profil-avatar-placeholder" id="profilAvatar3D" title="Aboua Junior KOUADJO" oncontextmenu="return false;">
+                        <img src="images/profile-avatar-cropped.jpg" alt="Aboua Junior KOUADJO" class="profil-avatar-img" loading="eager" decoding="async" draggable="false" oncontextmenu="return false;">
+                        <!-- Shader de reflet lumineux interactif 3D -->
+                        <div class="avatar-glare-shader" id="avatarGlareShader" aria-hidden="true"></div>
+                        <div class="avatar-shield" aria-hidden="true"></div>
+                    </div>
+                </div><!-- Animation Lottie Pop-up sous le cercle de profil -->
                 <div class="lottie-avatar-popup" id="lottieAvatarPopup" title="Aboua Junior en plein dev">
                     <div id="lottieManWorking" class="lottie-man-box"></div>
                 </div>
             </div>
             <div class="profil-body">
                 <div class="profil-name-header">
-                    <div class="profil-name">Aboua Junior KOUADJO</div>
                     <div class="profil-arrow-box" id="profilArrowBox" aria-hidden="true"></div>
+                    <div class="profil-name">Aboua Junior KOUADJO</div>
                 </div>
                 <p class="profil-bio" style="margin-top: 0.6rem;">
                     Je n'aime pas seulement utiliser les choses. Je veux comprendre comment elles fonctionnent, les modifier, les améliorer et, quand je ne trouve pas ce que je veux, je le construis moi-même.
@@ -802,7 +805,7 @@
 
             <!-- 5. LIGNE DE COPYRIGHT OFFICIELLE (POINTANT VERS FORBIDDEN) -->
             <div class="footer-copyright">
-                <a href="Forbidden.html">© 2026 Aboua Junior KOUADJO, All rights reserved</a>
+                <a href="Forbidden.html">© 2026 Akouly, All rights reserved</a>
             </div>
 
         </div>
