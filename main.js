@@ -1702,4 +1702,33 @@ function initRevealAnimations() {
 
         zoomPops.forEach(el => zoomObserver.observe(el));
     }
+
+    const panLeftElements = document.querySelectorAll('.reveal-pan-left');
+    if (panLeftElements.length > 0) {
+        const panLeftObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    panLeftObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.15 });
+
+        panLeftElements.forEach(el => panLeftObserver.observe(el));
+    }
+
+    const panRightElements = document.querySelectorAll('.reveal-pan-right');
+    if (panRightElements.length > 0) {
+        const panRightObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    panRightObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.15 });
+
+        panRightElements.forEach(el => panRightObserver.observe(el));
+    }
+
 }

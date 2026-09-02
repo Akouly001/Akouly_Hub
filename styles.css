@@ -4182,3 +4182,28 @@ img, video, canvas, svg {
   80%  { transform: scale(0.98); }
   100% { opacity: 1; transform: scale(1); }
 }
+
+/* Effets Glissement Pan (Photo de Gauche à Droite & Contenu de Droite à Gauche) */
+.reveal-pan-left {
+  opacity: 0;
+  transform: translateX(-70px);
+  transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, opacity;
+}
+
+.reveal-pan-left.is-visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.reveal-pan-right {
+  opacity: 0;
+  transform: translateX(70px);
+  transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, opacity;
+}
+
+.reveal-pan-right.is-visible {
+  opacity: 1;
+  transform: translateX(0);
+}
