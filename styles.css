@@ -1032,6 +1032,41 @@ body[data-page="home"] .brand-logo {
     flex-wrap: wrap;
     gap: 0.4rem;
     margin-bottom: 1.2rem;
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    pointer-events: none;
+}
+
+.project-card:hover .project-tags {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+.project-card .project-tags .project-tag {
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.project-card:hover .project-tags .project-tag {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.project-card:hover .project-tags .project-tag:nth-child(1) { transition-delay: 0.04s; }
+.project-card:hover .project-tags .project-tag:nth-child(2) { transition-delay: 0.08s; }
+.project-card:hover .project-tags .project-tag:nth-child(3) { transition-delay: 0.12s; }
+.project-card:hover .project-tags .project-tag:nth-child(4) { transition-delay: 0.16s; }
+
+@media (hover: none) {
+    .project-tags,
+    .project-card .project-tags .project-tag {
+        opacity: 1 !important;
+        transform: none !important;
+        pointer-events: auto !important;
+    }
 }
 
 .project-tag {
@@ -4211,5 +4246,47 @@ img, video, canvas, svg {
 @media (max-width: 768px) {
     .about-photo-wrapper {
         margin-left: 0 !important;
+    }
+}
+
+/* ==========================================================================
+   OPTIMISATIONS RESPONSIVE APP&DEV & CONTRIX
+   ========================================================================== */
+@media (max-width: 768px) {
+    .about-photo-wrapper {
+        margin-left: 0 !important;
+        margin: 0 auto 1.5rem auto !important;
+        display: flex;
+        justify-content: center;
+    }
+
+    .project-action-bar {
+        justify-content: center;
+    }
+
+    .btn-dim-action {
+        flex: 1 1 calc(50% - 0.6rem);
+        min-width: 130px;
+        justify-content: center;
+    }
+
+    .carousel-container-4-5 {
+        max-width: 320px;
+    }
+}
+
+@media (max-width: 480px) {
+    .btn-dim-action {
+        flex: 1 1 100%;
+        width: 100%;
+    }
+
+    .carousel-container-4-5 {
+        max-width: 270px;
+    }
+
+    .dim-card {
+        padding: 1.4rem 1rem !important;
+        width: 95% !important;
     }
 }
