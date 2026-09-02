@@ -4486,3 +4486,26 @@ img, video, canvas, svg {
         cursor: auto !important;
     }
 }
+
+/* ==========================================================================
+   BARRE DU HAUT TOUJOURS VISIBLE SUR TÉLÉPHONE (Fixed Navigation Header)
+   ========================================================================== */
+@media (max-width: 768px) {
+    .header {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        z-index: 999999 !important;
+        background: var(--bg-header) !important;
+        backdrop-filter: blur(16px) !important;
+        -webkit-backdrop-filter: blur(16px) !important;
+        border-bottom: 1px solid var(--border-color) !important;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3) !important;
+    }
+
+    body:not([data-page="photo"]) {
+        padding-top: 62px !important;
+    }
+}
