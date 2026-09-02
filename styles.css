@@ -3562,3 +3562,228 @@ body[data-page="home"].grow1 #ring1 {
     height: 100% !important;
     filter: drop-shadow(0 2px 10px rgba(6, 182, 212, 0.45));
 }
+
+
+
+/* ==========================================================================
+   HUB GLOBAL RESPONSIVE DESIGN (Desktop, Laptop, Tablet, Mobile)
+   ========================================================================== */
+
+/* 1. Global Box Sizing & Anti-Overflow */
+html, body {
+    max-width: 100vw;
+    overflow-x: hidden;
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+img, video, canvas, svg {
+    max-width: 100%;
+    height: auto;
+}
+
+/* 2. Flèche Attention Grabber Lottie (Devant Aboua Junior KOUADJO) */
+.profil-name-header {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    position: relative;
+    max-width: 100%;
+}
+
+.profil-arrow-box {
+    width: 38px;
+    height: 38px;
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    transform: translateY(-2px);
+}
+
+.profil-arrow-box svg {
+    width: 100% !important;
+    height: 100% !important;
+    filter: drop-shadow(0 2px 10px rgba(6, 182, 212, 0.45));
+}
+
+/* 3. Tablettes & Petits Écrans (<= 992px) */
+@media (max-width: 992px) {
+    .container {
+        padding-left: 1.2rem;
+        padding-right: 1.2rem;
+    }
+
+    .univers-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+    }
+
+    .contrix-banner {
+        padding: 1.8rem 1.5rem;
+        gap: 1.5rem;
+    }
+
+    .profil-card {
+        padding: 2rem 1.5rem;
+        gap: 1.8rem;
+    }
+}
+
+/* 4. Smartphones & Tablettes Portrait (<= 768px) */
+@media (max-width: 768px) {
+    .home-hero {
+        min-height: auto;
+        padding: 3.5rem 1rem 2rem;
+    }
+
+    .hero-title {
+        font-size: clamp(1.75rem, 7vw, 2.5rem);
+        line-height: 1.25;
+    }
+
+    .hero-sub {
+        font-size: 0.95rem;
+        line-height: 1.6;
+        padding: 0 0.5rem;
+    }
+
+    .hero-cta-row {
+        flex-direction: column;
+        width: 100%;
+        max-width: 320px;
+        margin: 1.2rem auto 0;
+    }
+
+    .hero-cta-row .btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    /* Section Ce que je fais */
+    .univers-grid {
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 0.9rem;
+    }
+
+    .univers-card {
+        padding: 1.6rem 1.1rem;
+    }
+
+    /* Section Projet à la Une (Contrix) */
+    .contrix-banner {
+        flex-direction: column;
+        text-align: center;
+        align-items: center;
+        padding: 1.8rem 1.2rem;
+    }
+
+    .contrix-actions {
+        justify-content: center;
+        width: 100%;
+    }
+
+    .contrix-actions .btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    /* Section Qui suis-je */
+    .profil-card {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 1.8rem 1.2rem;
+        gap: 1.4rem;
+    }
+
+    .profil-avatar-col {
+        width: 100%;
+        align-items: center;
+    }
+
+    .profil-name-header {
+        justify-content: center;
+        text-align: center;
+        width: 100%;
+    }
+
+    .profil-body {
+        width: 100%;
+        align-items: center;
+        text-align: center;
+    }
+
+    .profil-bio,
+    .bio-expanded-content p {
+        text-align: center;
+    }
+
+    .profil-actions {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+
+    /* Actions Rapides */
+    .actions-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .action-card {
+        padding: 1.4rem 1.2rem;
+    }
+
+    /* Footer */
+    .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        text-align: center;
+    }
+
+    .footer-brand {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .footer-socials {
+        justify-content: center;
+    }
+
+    .footer-bottom {
+        flex-direction: column;
+        gap: 0.8rem;
+        text-align: center;
+    }
+}
+
+/* 5. Écrans Très Compacts (<= 480px) */
+@media (max-width: 480px) {
+    .univers-grid {
+        grid-template-columns: 1fr;
+        gap: 0.9rem;
+    }
+
+    .profil-name {
+        font-size: 1.25rem;
+    }
+
+    .profil-arrow-box {
+        width: 32px;
+        height: 32px;
+    }
+
+    .theme-toggle-btn {
+        width: 52px;
+        height: 28px;
+    }
+
+    .header .nav-container {
+        padding: 0.6rem 1rem;
+    }
+}

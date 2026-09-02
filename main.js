@@ -1551,7 +1551,7 @@ function initCumulativePaintCanvas() {
 
 /**
  * 8. Flèche Attention Grabber (Lottie) devant le nom du profil
- * Déclenchée une seule fois (sans boucle) dès que la section "Qui suis-je" devient visible.
+ * Déclenchée UNE SEULE FOIS dès que la section "Qui suis-je" devient visible.
  */
 let lottieArrowAnim = null;
 let arrowAnimated = false;
@@ -1566,16 +1566,16 @@ function initProfilArrowObserver() {
         lottieArrowAnim = lottie.loadAnimation({
             container: container,
             renderer: 'svg',
-            loop: false, // Une seule animation
+            loop: false, // UNE SEULE ANIMATION
             autoplay: false,
             animationData: data
         });
 
-        // Si la section est déjà visible au chargement
+        // Si la section est déjà visible à l'écran dès l'ouverture
         const rect = section.getBoundingClientRect();
         if (rect.top < window.innerHeight && rect.bottom > 0 && !arrowAnimated) {
             arrowAnimated = true;
-            lottieArrowAnim.play();
+            lottieArrowAnim.goToAndPlay(0, true);
         }
     }
 
@@ -1598,7 +1598,7 @@ function initProfilArrowObserver() {
                 observer.unobserve(section);
             }
         });
-    }, { threshold: 0.2 });
+    }, { threshold: 0.15 });
 
     observer.observe(section);
 }
