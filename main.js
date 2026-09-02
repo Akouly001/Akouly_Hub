@@ -24,7 +24,6 @@ document.addEventListener('DOMContentLoaded', () => {
     try { initHomeCursor(); } catch (e) {}
     try { initBusinessCursor(); } catch (e) {}
     try { initUniverseCursors(); } catch (e) {}
-    try { initProfilArrowObserver(); } catch (e) {}
     try { initAvatar3DTiltPhysics(); } catch (e) {}
     try { initMagicalUnderlines(); } catch (e) {}
     try { initSlideBumpObserver(); } catch (e) {}
@@ -1437,41 +1436,7 @@ function toggleBioExpand() {
 
 
 
-/**
- * 8. Flèche Attention Grabber (Lottie) positionnée APRÈS le nom du profil
- * Figée immédiatement sur sa 20ème frame (Frame 20) pour une visibilité fixe, nette et parfaite.
- */
-let lottieArrowAnim = null;
 
-function initProfilArrowObserver() {
-    const container = document.getElementById('profilArrowBox');
-    if (!container || typeof lottie === 'undefined') return;
-
-    function setupArrow(data) {
-        if (lottieArrowAnim) lottieArrowAnim.destroy();
-        lottieArrowAnim = lottie.loadAnimation({
-            container: container,
-            renderer: 'svg',
-            loop: false,
-            autoplay: false,
-            animationData: data
-        });
-
-        // Figer immédiatement sur la 20ème frame
-        lottieArrowAnim.addEventListener('DOMLoaded', () => {
-            lottieArrowAnim.goToAndStop(20, true); // 20e frame
-        });
-    }
-
-    if (window.AKOULY_ARROW_LOTTIE) {
-        setupArrow(window.AKOULY_ARROW_LOTTIE);
-    } else if (typeof lottie !== 'undefined') {
-        fetch('animations/attention-arrow.json')
-            .then(res => res.json())
-            .then(data => setupArrow(data))
-            .catch(err => console.warn('Erreur Lottie Arrow:', err));
-    }
-}
 
 /**
  * 9. Animation d'Entrée des Cartes (slideBump depuis la gauche avec bousculade)
