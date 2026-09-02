@@ -129,12 +129,27 @@
                         </div>
                         <div class="form-group">
                             <label class="form-label">Type de Prestation *</label>
-                            <select id="devisService" class="form-control" required>
-                                <option value="Maintenance Informatique">🛠️ Maintenance Informatique</option>
-                                <option value="Commandes & Sourcing">📦 Commandes & Sourcing</option>
-                                <option value="Création Graphique">🎨 Création Graphique</option>
-                                <option value="Autre service">💡 Autre service</option>
-                            </select>
+                            <div class="custom-select-wrapper" id="customSelectWrapper">
+                                <div class="custom-select-trigger" id="customSelectTrigger" tabindex="0">
+                                    <span id="customSelectValue">🛠️ Maintenance Informatique</span>
+                                    <i class="fas fa-chevron-down select-chevron"></i>
+                                </div>
+                                <div class="custom-select-options" id="customSelectOptions">
+                                    <div class="custom-option selected" data-value="Maintenance Informatique">
+                                        <span>🛠️ Maintenance Informatique</span>
+                                    </div>
+                                    <div class="custom-option" data-value="Commandes & Sourcing">
+                                        <span>📦 Commandes & Sourcing</span>
+                                    </div>
+                                    <div class="custom-option" data-value="Création Graphique">
+                                        <span>🎨 Création Graphique</span>
+                                    </div>
+                                    <div class="custom-option" data-value="Autre service">
+                                        <span>💡 Autre service</span>
+                                    </div>
+                                </div>
+                                <input type="hidden" name="devisService" id="devisService" value="Maintenance Informatique" required>
+                            </div>
                         </div>
                     </div>
 

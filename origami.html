@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Akouly — Origami & Productions</title>
+    <meta name="description" content="Découvrez les productions et créations artistiques Origami d'Akouly.">
+    <link rel="icon" type="image/png" href="images/logo-monogram-1.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .origami-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.8rem;
+            margin-top: 2rem;
+        }
+        .origami-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 1.8rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        .origami-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent-lab);
+            box-shadow: 0 12px 24px rgba(224, 163, 65, 0.12);
+        }
+        .origami-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.78rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--accent-lab);
+            background: rgba(224, 163, 65, 0.12);
+            padding: 0.25rem 0.65rem;
+            border-radius: 20px;
+            margin-bottom: 1rem;
+            width: fit-content;
+        }
+        .drive-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border-radius: var(--radius-sm);
+            background: rgba(224, 163, 65, 0.12);
+            border: 1px solid rgba(224, 163, 65, 0.35);
+            color: var(--accent-lab);
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-decoration: none;
+            transition: var(--transition);
+            margin-top: 1.2rem;
+            cursor: pointer;
+        }
+        .drive-btn:hover {
+            background: var(--accent-lab);
+            color: #000;
+            box-shadow: 0 4px 14px rgba(224, 163, 65, 0.3);
+        }
+    </style>
+</head>
+<body data-page="lab">
+    <!-- ÉCRAN DE CHARGEMENT -->
+    <div id="page-preloader" class="preloader-overlay preloader-lab" aria-hidden="true">
+        <div class="loader loader-lab"></div>
+    </div>
+
+    <!-- Curseur Personnalisé -->
+    <div id="cursor-dot"></div>
+    <div id="cursor-ring"></div>
+    <div id="cursor-glow"></div>
+
+    <!-- Canvas Fond Animé DIY -->
+    <canvas id="diy-canvas" class="diy-canvas-bg"></canvas>
+
+    <!-- Header Section -->
+    <header class="header">
+        <div class="container nav-wrapper">
+            <a href="index.html" class="brand-logo" title="Page d'accueil Akouly">
+                <img loading="eager" decoding="async" src="images/logo-dark.png" alt="Akouly Logo" class="logo-img">
+            </a>
+            <nav>
+                <ul class="nav-links" id="navLinks">
+                    <li class="mobile-only-link"><a href="index.html" class="nav-link"><i class="fas fa-home"></i> Accueil</a></li>
+                    <li><a href="cyber.html" class="nav-link"><i class="fas fa-shield-halved"></i> Cybersécurité</a></li>
+                    <li><a href="gaming.html" class="nav-link"><i class="fas fa-gamepad"></i> Gaming</a></li>
+                    <li><a href="apps.html" class="nav-link"><i class="fas fa-code"></i> Apps & Dev</a></li>
+                    <li><a href="business.html" class="nav-link"><i class="fas fa-briefcase"></i> Business</a></li>
+                    <li><a href="creations.html" class="nav-link active"><i class="fas fa-scissors"></i> Créations</a></li>
+                </ul>
+            </nav>
+            <div class="nav-actions">
+                <button class="theme-toggle-btn" id="themeToggleBtn" title="Bascule Thème Clair / Sombre">
+                    <div class="lottie-toggle-box" id="lottieThemeBox"></div>
+                </button>
+                <button class="menu-toggle" id="menuToggle" aria-label="Menu" aria-expanded="false">
+                    <span class="bar bar-1"></span>
+                    <span class="bar bar-2"></span>
+                    <span class="bar bar-3"></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Page Banner -->
+    <div class="page-banner">
+        <div class="container">
+            <div style="display: flex; align-items: center; gap: 0.8rem; margin-bottom: 0.8rem;">
+                <a href="creations.html" class="btn btn-secondary" style="padding: 0.35rem 0.8rem; font-size: 0.82rem;">
+                    <i class="fas fa-arrow-left"></i> Retour aux Créations
+                </a>
+            </div>
+            <h1 class="page-title"><i class="fas fa-scroll" style="color: var(--accent-lab);"></i> Origami</h1>
+            <p style="color: var(--text-muted); max-width: 750px;">
+                Collection de 4 productions artistiques et de pliage géométrique issues de l'atelier de création.
+            </p>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="container" style="padding-top: 2rem; padding-bottom: 4rem;">
+
+        <!-- 4 Productions Grid -->
+        <div class="origami-grid">
+
+            <!-- Production 1: De la case au gratte-ciel -->
+            <div class="origami-card">
+                <div>
+                    <div class="origami-badge"><i class="fas fa-file-pdf"></i> Document PDF</div>
+                    <div style="font-size: 2.2rem; color: var(--accent-lab); margin-bottom: 0.8rem;"><i class="fas fa-building"></i></div>
+                    <h3 style="font-family: var(--font-heading); font-size: 1.3rem; margin-bottom: 0.6rem; color: var(--text-main);">
+                        De la case au gratte-ciel
+                    </h3>
+                    <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6;">
+                        Ouvrage et document retraçant une évolution architecturale et conceptuelle, alliant précision et mise en page soignée.
+                    </p>
+                </div>
+                <a href="https://drive.google.com/drive/folders/1a_3r0ILz96cuF94Di437IzdhtMcN6ytq?usp=sharing" target="_blank" rel="noopener noreferrer" class="drive-btn">
+                    <i class="fab fa-google-drive"></i> Consulter le document &rarr;
+                </a>
+            </div>
+
+            <!-- Production 2: Fleurs de lys - Portugal -->
+            <div class="origami-card">
+                <div>
+                    <div class="origami-badge"><i class="fas fa-file-pdf"></i> Document PDF</div>
+                    <div style="font-size: 2.2rem; color: var(--accent-lab); margin-bottom: 0.8rem;"><i class="fas fa-spa"></i></div>
+                    <h3 style="font-family: var(--font-heading); font-size: 1.3rem; margin-bottom: 0.6rem; color: var(--text-main);">
+                        Fleurs de lys — Portugal
+                    </h3>
+                    <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6;">
+                        Création et pliages autour du motif de la fleur de lys, inspirés d'influences culturelles et artistiques portugaises.
+                    </p>
+                </div>
+                <a href="https://drive.google.com/drive/folders/1a_3r0ILz96cuF94Di437IzdhtMcN6ytq?usp=sharing" target="_blank" rel="noopener noreferrer" class="drive-btn">
+                    <i class="fab fa-google-drive"></i> Consulter le document &rarr;
+                </a>
+            </div>
+
+            <!-- Production 3: Éclats de vie - Mme Malan -->
+            <div class="origami-card">
+                <div>
+                    <div class="origami-badge"><i class="fas fa-file-pdf"></i> Document PDF</div>
+                    <div style="font-size: 2.2rem; color: var(--accent-lab); margin-bottom: 0.8rem;"><i class="fas fa-feather-pointed"></i></div>
+                    <h3 style="font-family: var(--font-heading); font-size: 1.3rem; margin-bottom: 0.6rem; color: var(--text-main);">
+                        Éclats de vie — Mme Malan
+                    </h3>
+                    <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6;">
+                        Recueil artistique et hommage personnalisé célébrant un parcours avec sensibilité, structure et finesse graphique.
+                    </p>
+                </div>
+                <a href="https://drive.google.com/drive/folders/1a_3r0ILz96cuF94Di437IzdhtMcN6ytq?usp=sharing" target="_blank" rel="noopener noreferrer" class="drive-btn">
+                    <i class="fab fa-google-drive"></i> Consulter le document &rarr;
+                </a>
+            </div>
+
+            <!-- Production 4: Galerie Photos (Duo) -->
+            <div class="origami-card">
+                <div>
+                    <div class="origami-badge"><i class="fas fa-images"></i> Production Visuelle (2 Images)</div>
+                    <div style="font-size: 2.2rem; color: var(--accent-lab); margin-bottom: 0.8rem;"><i class="fas fa-shapes"></i></div>
+                    <h3 style="font-family: var(--font-heading); font-size: 1.3rem; margin-bottom: 0.6rem; color: var(--text-main);">
+                        Créations Physiques & Prises de Vue
+                    </h3>
+                    <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6;">
+                        Série de 2 photographies haute définition immortalisant les créations manuelles et pliages physiques sous différents angles d'éclairage.
+                    </p>
+                </div>
+                <a href="https://drive.google.com/drive/folders/1a_3r0ILz96cuF94Di437IzdhtMcN6ytq?usp=sharing" target="_blank" rel="noopener noreferrer" class="drive-btn">
+                    <i class="fab fa-google-drive"></i> Voir les 2 photos &rarr;
+                </a>
+            </div>
+
+        </div>
+
+        <!-- Accès Global au Dossier Drive -->
+        <div style="margin-top: 3rem; text-align: center; background: rgba(224, 163, 65, 0.06); border: 1px dashed rgba(224, 163, 65, 0.3); border-radius: var(--radius-md); padding: 2rem;">
+            <h3 style="font-family: var(--font-heading); font-size: 1.25rem; color: var(--accent-lab); margin-bottom: 0.5rem;">
+                Dossier Complet « Les Grandes Mains »
+            </h3>
+            <p style="color: var(--text-muted); max-width: 600px; margin: 0 auto 1.2rem auto; font-size: 0.95rem;">
+                Retrouvez l'ensemble des fichiers originaux, versions PDF complètes et clichés photographiques directement dans le dossier partagé Google Drive.
+            </p>
+            <a href="https://drive.google.com/drive/folders/1a_3r0ILz96cuF94Di437IzdhtMcN6ytq?usp=sharing" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="background: var(--accent-lab); color: #000; border-color: var(--accent-lab);">
+                <i class="fab fa-google-drive"></i> Ouvrir le dossier Google Drive complet
+            </a>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <a href="Forbidden.html">© 2026 Akouly, All rights reserved</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="domains.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
+    <script src="animations/toggle-data.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>

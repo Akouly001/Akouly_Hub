@@ -23,6 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
     try { initNewFooter(); } catch (e) {}
     try { initHomeCursor(); } catch (e) {}
     try { initBusinessCursor(); } catch (e) {}
+    try { initCustomSelects(); } catch (e) {}
     try { initUniverseCursors(); } catch (e) {}
     try { initAvatar3DTiltPhysics(); } catch (e) {}
     try { initMagicalUnderlines(); } catch (e) {}
@@ -1760,4 +1761,59 @@ function initRevealAnimations() {
         panRightElements.forEach(el => panRightObserver.observe(el));
     }
 
+}
+
+/**
+ * 14. Dropdown Personnalisé (Interactif & Compatible Curseur Différence)
+ */
+function initCustomSelects() {
+    const wrappers = document.querySelectorAll('.custom-select-wrapper');
+    if (!wrappers.length) return;
+
+    const follower = document.getElementById('cursorFollower');
+
+    wrappers.forEach((wrapper) => {
+        const trigger = wrapper.querySelector('.custom-select-trigger');
+        const options = wrapper.querySelectorAll('.custom-option');
+        const hiddenInput = wrapper.querySelector('input[type="hidden"]');
+        const displayValue = wrapper.querySelector('#customSelectValue');
+
+        if (!trigger || !hiddenInput) return;
+
+        trigger.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const isOpen = wrapper.classList.contains('is-open');
+            document.querySelectorAll('.custom-select-wrapper.is-open').forEach(w => w.classList.remove('is-open'));
+            if (!isOpen) {
+                wrapper.classList.add('is-open');
+            }
+        });
+
+        options.forEach((opt) => {
+            opt.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const val = opt.getAttribute('data-value');
+                hiddenInput.value = val;
+                if (displayValue) displayValue.innerHTML = opt.innerHTML;
+
+                options.forEach(o => o.classList.remove('selected'));
+                opt.classList.add('selected');
+                wrapper.classList.remove('is-open');
+
+                if (follower) follower.classList.remove('is-hovered');
+            });
+
+            opt.addEventListener('mouseenter', () => {
+                if (follower) follower.classList.add('is-hovered');
+            });
+
+            opt.addEventListener('mouseleave', () => {
+                if (follower) follower.classList.remove('is-hovered');
+            });
+        });
+    });
+
+    document.addEventListener('click', () => {
+        document.querySelectorAll('.custom-select-wrapper.is-open').forEach(w => w.classList.remove('is-open'));
+    });
 }

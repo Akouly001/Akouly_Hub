@@ -4290,3 +4290,90 @@ img, video, canvas, svg {
         width: 95% !important;
     }
 }
+
+/* ==========================================================================
+   SELECT DROPDOWN PERSONNALISÉ (Curseur Haute Précision & Inertie Intact)
+   ========================================================================== */
+.custom-select-wrapper {
+    position: relative;
+    user-select: none;
+    width: 100%;
+}
+
+.custom-select-trigger {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--bg-dark);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+    color: var(--text-main);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.custom-select-trigger:focus,
+.custom-select-wrapper.is-open .custom-select-trigger {
+    border-color: var(--accent-biz);
+    box-shadow: 0 0 0 3px rgba(224, 163, 65, 0.18);
+    outline: none;
+}
+
+.select-chevron {
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.custom-select-wrapper.is-open .select-chevron {
+    transform: rotate(180deg);
+    color: var(--accent-biz);
+}
+
+.custom-select-options {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    right: 0;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45), 0 4px 10px rgba(0, 0, 0, 0.25);
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-8px);
+    transition: opacity 0.22s ease, transform 0.22s ease, visibility 0.22s ease;
+    overflow: hidden;
+}
+
+.custom-select-wrapper.is-open .custom-select-options {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.custom-option {
+    padding: 0.8rem 1.1rem;
+    font-size: 0.92rem;
+    color: var(--text-main);
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease, padding-left 0.15s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.custom-option:hover {
+    background: rgba(224, 163, 65, 0.14);
+    color: var(--accent-biz);
+    padding-left: 1.35rem;
+}
+
+.custom-option.selected {
+    background: rgba(224, 163, 65, 0.22);
+    color: var(--accent-biz);
+    font-weight: 600;
+}
