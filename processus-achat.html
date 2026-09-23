@@ -1691,6 +1691,26 @@
           details: ["Monstre de productivité avec 12 cœurs pour création 3D, montage 4K et gros calculs"]
         },
         {
+          id: "cpu_r5_8400f",
+          name: "AMD Ryzen 5 8400F",
+          price: 80000,
+          socket: "AM5",
+          brand: "AMD",
+          tdp: 65,
+          specs: { socket: "AM5", cores: "6 Cœurs / 12 Threads", freq: "4.2 GHz base (4.7 GHz Boost)", cache: "22 Mo Cache", pcie: "PCIe 4.0", tdp: "65W" },
+          details: ["Architecture Zen 4 moderne sur socket AM5 nouvelle génération, 6 cœurs rapides pour le gaming"]
+        },
+        {
+          id: "cpu_r5_7600",
+          name: "AMD Ryzen 5 7600",
+          price: 100000,
+          socket: "AM5",
+          brand: "AMD",
+          tdp: 65,
+          specs: { socket: "AM5", cores: "6 Cœurs / 12 Threads", freq: "3.8 GHz base (5.1 GHz Boost)", cache: "38 Mo Cache", pcie: "PCIe 5.0", tdp: "65W" },
+          details: ["Processeur Zen 4 montant à 5.1 GHz Boost avec support DDR5 et PCIe 5.0 sur plateforme AM5"]
+        },
+        {
           id: "cpu_i5_14600k",
           name: "Intel Core i5-14600K",
           price: 190000,
@@ -1701,6 +1721,16 @@
           details: ["14e génération Intel montant à 5.3 GHz, performances de pointe en gaming et multitâche"]
         },
         {
+          id: "cpu_r7_7800x3d",
+          name: "AMD Ryzen 7 7800X3D",
+          price: 190000,
+          socket: "AM5",
+          brand: "AMD",
+          tdp: 120,
+          specs: { socket: "AM5", cores: "8 Cœurs / 16 Threads", freq: "4.2 GHz base (5.0 GHz Boost)", cache: "104 Mo 3D V-Cache", pcie: "PCIe 5.0", tdp: "120W" },
+          details: ["Le processeur gaming de référence mondiale avec 104 Mo de 3D V-Cache sur plateforme AM5"]
+        },
+        {
           id: "cpu_r7_5800x3d",
           name: "AMD Ryzen 7 5800X3D",
           price: 250000,
@@ -1709,6 +1739,16 @@
           tdp: 105,
           specs: { socket: "AM4", cores: "8 Cœurs / 16 Threads", freq: "3.4 GHz base (4.5 GHz Boost)", cache: "100 Mo 3D V-Cache", pcie: "PCIe 4.0", tdp: "105W" },
           details: ["Technologie 3D V-Cache offrant des performances gaming exceptionnelles et une fluidité maximale"]
+        },
+        {
+          id: "cpu_r9_9900x3d",
+          name: "AMD Ryzen 9 9900X3D",
+          price: 360000,
+          socket: "AM5",
+          brand: "AMD",
+          tdp: 120,
+          specs: { socket: "AM5", cores: "12 Cœurs / 24 Threads", freq: "4.4 GHz base (5.6 GHz Boost)", cache: "140 Mo 3D V-Cache", pcie: "PCIe 5.0", tdp: "120W" },
+          details: ["Architecture Zen 5 de dernière génération avec 3D V-Cache, puissance suprême en gaming 4K et création professionnelle"]
         }
       ],
 
@@ -1760,6 +1800,18 @@
           maxRam: "128 Go",
           specs: { socket: "Socket Intel LGA1700", format: "Micro-ATX", ram: "4 Slots DDR4 3200 MHz (jusqu'à 128 Go)", m2: "2x M.2 NVMe PCIe 4.0", pcie: "PCIe 4.0 x16" },
           details: ["Performances optimales pour processeurs Intel 12e/13e/14e gén, 4 slots RAM DDR4, double port M.2 PCIe 4.0"]
+        },
+        {
+          id: "mb_b850m_plus_wifi",
+          name: "Asus TUF B850M-PLUS WIFI",
+          price: 140000,
+          socket: "AM5",
+          brand: "AMD",
+          format: "Micro-ATX",
+          ramSlots: 4,
+          maxRam: "192 Go",
+          specs: { socket: "Socket AMD AM5", format: "Micro-ATX", ram: "4 Slots DDR5 (jusqu'à 192 Go)", m2: "PCIe 5.0 / 4.0 M.2", pcie: "PCIe 5.0 x16" },
+          details: ["Carte mère AM5 haut de gamme Asus TUF Gaming, VRM robustes, PCIe 5.0, Wi-Fi haute vitesse et support DDR5"]
         }
       ],
 
@@ -3045,34 +3097,36 @@ En raison des changements qui peuvent survenir, stock épuisé, modèle indispon
           ctx.beginPath(); ctx.arc(56, 68, 3.5, 0, Math.PI * 2); ctx.fill();
         } else if (id.includes('cpu')) {
           const isIntelCpu = id.includes('12100') || id.includes('13600') || id.includes('14600') || id.includes('intel');
-          ctx.strokeStyle = isIntelCpu ? '#0284c7' : '#f2b134';
+          const isAm5Cpu = id.includes('8400') || id.includes('7600') || id.includes('7800') || id.includes('9900');
+          ctx.strokeStyle = isIntelCpu ? '#0284c7' : (isAm5Cpu ? '#e11d48' : '#f2b134');
           ctx.lineWidth = 2;
           ctx.strokeRect(28, 28, 56, 56);
-          ctx.fillStyle = isIntelCpu ? 'rgba(2, 132, 199, 0.15)' : 'rgba(242, 177, 52, 0.12)';
+          ctx.fillStyle = isIntelCpu ? 'rgba(2, 132, 199, 0.15)' : (isAm5Cpu ? 'rgba(225, 29, 72, 0.12)' : 'rgba(242, 177, 52, 0.12)');
           ctx.fillRect(28, 28, 56, 56);
-          ctx.fillStyle = isIntelCpu ? '#38bdf8' : '#f2b134';
+          ctx.fillStyle = isIntelCpu ? '#38bdf8' : (isAm5Cpu ? '#fb7185' : '#f2b134');
           ctx.font = 'bold 11px sans-serif';
           ctx.textAlign = 'center';
-          ctx.fillText(isIntelCpu ? 'LGA1700' : 'AM4', 56, 54);
+          ctx.fillText(isIntelCpu ? 'LGA1700' : (isAm5Cpu ? 'AM5' : 'AM4'), 56, 54);
           ctx.font = '8px sans-serif';
           ctx.fillStyle = '#94a3b8';
           ctx.fillText(isIntelCpu ? 'INTEL CPU' : 'AMD RYZEN', 56, 68);
         } else if (id.includes('mb')) {
           const isIntelMb = id.includes('h610') || id.includes('b660');
-          ctx.strokeStyle = isIntelMb ? '#0284c7' : '#00f0ff';
+          const isAm5Mb = id.includes('b850');
+          ctx.strokeStyle = isIntelMb ? '#0284c7' : (isAm5Mb ? '#a855f7' : '#00f0ff');
           ctx.lineWidth = 1.5;
           ctx.strokeRect(22, 22, 68, 68);
-          ctx.fillStyle = isIntelMb ? 'rgba(2, 132, 199, 0.1)' : 'rgba(0, 240, 255, 0.08)';
+          ctx.fillStyle = isIntelMb ? 'rgba(2, 132, 199, 0.1)' : (isAm5Mb ? 'rgba(168, 85, 247, 0.12)' : 'rgba(0, 240, 255, 0.08)');
           ctx.fillRect(22, 22, 68, 68);
-          ctx.fillStyle = isIntelMb ? '#38bdf8' : '#f2b134';
+          ctx.fillStyle = isIntelMb ? '#38bdf8' : (isAm5Mb ? '#c084fc' : '#f2b134');
           for (let i = 0; i < 4; i++) {
             ctx.fillRect(66 + i * 5, 28, 3, 24);
           }
-          ctx.fillStyle = isIntelMb ? '#0284c7' : '#00f0ff';
+          ctx.fillStyle = isIntelMb ? '#0284c7' : (isAm5Mb ? '#a855f7' : '#00f0ff');
           ctx.fillRect(30, 62, 52, 6);
           ctx.font = 'bold 8px sans-serif';
           ctx.textAlign = 'center';
-          ctx.fillText(isIntelMb ? 'LGA1700 DDR4' : 'AM4 DDR4', 56, 82);
+          ctx.fillText(isIntelMb ? 'LGA1700 DDR4' : (isAm5Mb ? 'AM5 DDR5' : 'AM4 DDR4'), 56, 82);
         } else if (id.includes('ram')) {
           ctx.strokeStyle = '#f2b134';
           ctx.lineWidth = 1.5;
