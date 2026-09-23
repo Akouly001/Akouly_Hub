@@ -469,16 +469,46 @@
 
             <!-- Filtres par catégorie -->
             <div class="cert-hub-filter">
-                <button class="cert-filter-btn active" onclick="filterCertHub('all', this)">Tous (14)</button>
-                <button class="cert-filter-btn" onclick="filterCertHub('cyber', this)">🛡️ Cybersécurité (5)</button>
-                <button class="cert-filter-btn" onclick="filterCertHub('dev', this)">📱 Apps, Dev & IA (3)</button>
+                <button class="cert-filter-btn active" onclick="filterCertHub('all', this)">Tous (16)</button>
+                <button class="cert-filter-btn" onclick="filterCertHub('cyber', this)">🛡️ Cybersécurité (6)</button>
+                <button class="cert-filter-btn" onclick="filterCertHub('dev', this)">📱 Apps, Dev & IA (4)</button>
                 <button class="cert-filter-btn" onclick="filterCertHub('diy', this)">📸 DIY & Photo (1)</button>
                 <button class="cert-filter-btn" onclick="filterCertHub('benevolat', this)">🤝 Engagement & Bénévolat (5)</button>
             </div>
 
             <!-- Grille des 16 Certifications (Classées du plus récent au plus ancien) -->
             <div class="cert-hub-grid" id="certHubGrid">
-                <!-- 1. Cisco Introduction to Modern AI — 31 Août 2026 -->
+                <!-- 1. Cisco Build Your Resume with AI — 22 Sept 2026 -->
+                <div class="cert-hub-card" data-cat="dev" style="border-left: 4px solid var(--accent-dev);">
+                    <div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
+                            <span class="cert-badge" style="color: var(--accent-dev); background: rgba(139,92,246,0.1);">IA & Carrière</span>
+                            <span style="font-size: 0.78rem; color: var(--text-muted); font-family: var(--font-code);">22 Sept 2026</span>
+                        </div>
+                        <h4 style="font-size: 1.02rem; font-family: var(--font-heading); margin-bottom: 0.3rem;">Build Your Resume with AI</h4>
+                        <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.8rem;">Cisco Networking Academy</p>
+                    </div>
+                    <button onclick="openCertModal('images/certificat-build-resume-ai.png', 'Build Your Resume with AI — Cisco Networking Academy')" class="btn btn-secondary" style="padding: 0.35rem 0.8rem; font-size: 0.8rem; color: var(--accent-dev); width: 100%;">
+                        <i class="fas fa-eye"></i> Visualiser
+                    </button>
+                </div>
+
+                <!-- 2. Cisco & OpenEDG Digital Awareness — 20 Sept 2026 -->
+                <div class="cert-hub-card" data-cat="cyber" style="border-left: 4px solid var(--accent-cyber);">
+                    <div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
+                            <span class="cert-badge cyber">Culture Numérique</span>
+                            <span style="font-size: 0.78rem; color: var(--text-muted); font-family: var(--font-code);">20 Sept 2026</span>
+                        </div>
+                        <h4 style="font-size: 1.02rem; font-family: var(--font-heading); margin-bottom: 0.3rem;">Digital Awareness</h4>
+                        <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.8rem;">Cisco Networking Academy · OpenEDG</p>
+                    </div>
+                    <button onclick="openCertModal('images/certificat-digital-awareness.png', 'Digital Awareness (Statement of Achievement) — Cisco Networking Academy & OpenEDG')" class="btn btn-secondary" style="padding: 0.35rem 0.8rem; font-size: 0.8rem; color: var(--accent-cyber); width: 100%;">
+                        <i class="fas fa-eye"></i> Visualiser
+                    </button>
+                </div>
+
+                <!-- 3. Cisco Introduction to Modern AI — 31 Août 2026 -->
                 <div class="cert-hub-card" data-cat="dev" style="border-left: 4px solid var(--accent-dev);">
                     <div>
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
@@ -692,37 +722,7 @@
         </div>
     </div>
 
-    
-                <!-- 14. Cisco Build Your Resume with AI — 22 Sept 2026 -->
-                <div class="cert-hub-card" data-cat="dev" style="border-left: 4px solid var(--accent-dev);">
-                    <div>
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
-                            <span class="cert-badge" style="color: var(--accent-dev); background: rgba(139,92,246,0.1);">IA & Carrière</span>
-                            <span style="font-size: 0.78rem; color: var(--text-muted); font-family: var(--font-code);">22 Sept 2026</span>
-                        </div>
-                        <h4 style="font-size: 1.02rem; font-family: var(--font-heading); margin-bottom: 0.3rem;">Build Your Resume with AI</h4>
-                        <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.8rem;">Cisco Networking Academy</p>
-                    </div>
-                    <button onclick="openCertModal('images/certificat-build-resume-ai.png', 'Build Your Resume with AI — Cisco Networking Academy')" class="btn btn-secondary" style="padding: 0.35rem 0.8rem; font-size: 0.8rem; color: var(--accent-dev); width: 100%;">
-                        <i class="fas fa-eye"></i> Visualiser
-                    </button>
-                </div>
-
-                <!-- 15. Cisco & OpenEDG Digital Awareness — 20 Sept 2026 -->
-                <div class="cert-hub-card" data-cat="cyber" style="border-left: 4px solid var(--accent-cyber);">
-                    <div>
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
-                            <span class="cert-badge cyber">Culture Numérique</span>
-                            <span style="font-size: 0.78rem; color: var(--text-muted); font-family: var(--font-code);">20 Sept 2026</span>
-                        </div>
-                        <h4 style="font-size: 1.02rem; font-family: var(--font-heading); margin-bottom: 0.3rem;">Digital Awareness</h4>
-                        <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.8rem;">Cisco Networking Academy · OpenEDG</p>
-                    </div>
-                    <button onclick="openCertModal('images/certificat-digital-awareness.png', 'Digital Awareness (Statement of Achievement) — Cisco Networking Academy & OpenEDG')" class="btn btn-secondary" style="padding: 0.35rem 0.8rem; font-size: 0.8rem; color: var(--accent-cyber); width: 100%;">
-                        <i class="fas fa-eye"></i> Visualiser
-                    </button>
-                </div>
-<!-- Modal Visualiseur de Certificat Protégé (Anti-Téléchargement) -->
+    <!-- Modal Visualiseur de Certificat Protégé (Anti-Téléchargement) -->
     <div class="modal" id="certModal" oncontextmenu="return false;" style="z-index: 300;">
         <div class="modal-content" style="max-width: 900px; width: 95%; padding: 1.5rem; text-align: center;">
             <button class="modal-close" onclick="closeCertModal()">&times;</button>
