@@ -1765,7 +1765,7 @@
       presets: [
         {
           id: "preset_intel_budget",
-          title: "Preset 1 : Intel Esport & Budget (1080p)",
+          title: "Intel Esport & Budget (1080p)",
           desc: "Pack Daloa Noir + Intel Core i3-12100F + H610M Gaming + 8 Go RAM (2x4) + GTX 1660 Super 6 Go + SSD SATA 512 Go.",
           packId: "pack_daloa_black",
           cpuId: "cpu_i3_12100f",
@@ -1776,7 +1776,7 @@
         },
         {
           id: "preset_amd_gamer",
-          title: "Preset 2 : AMD Gaming 1080p Équilibré",
+          title: "AMD Gaming 1080p Équilibré",
           desc: "Pack Daloa Noir + Ryzen 5 5500 + B550M + 16 Go RAM (2x8) + GTX 1660 Super 6 Go + SSD M.2 512 Go.",
           packId: "pack_daloa_black",
           cpuId: "cpu_r5_5500",
@@ -1787,7 +1787,7 @@
         },
         {
           id: "preset_intel_streamer",
-          title: "Preset 3 : Intel Gaming 1440p & Streaming",
+          title: "Intel Gaming 1440p & Streaming",
           desc: "Pack Bouaké Noir + Intel Core i5-13600KF + B660M Gaming + 16 Go RAM (2x8) + RX 6700 XT 12 Go + SSD M.2 1 To.",
           packId: "pack_bouake_black",
           cpuId: "cpu_i5_13600kf",
@@ -1798,7 +1798,7 @@
         },
         {
           id: "preset_amd_ultimate",
-          title: "Preset 4 : AMD Gaming & Création Ultime",
+          title: "AMD Gaming & Création Ultime",
           desc: "Pack Bouaké Blanc + Ryzen 7 5800X3D + B550M + 32 Go RAM (2x16) + RTX 3080 Ti 12 Go + SSD M.2 1 To.",
           packId: "pack_bouake_white",
           cpuId: "cpu_r7_5800x3d",
@@ -1809,7 +1809,7 @@
         },
         {
           id: "preset_intel_pro",
-          title: "Preset 5 : Intel Pro Studio & Calcul (14600K)",
+          title: "Intel Pro Studio & Calcul (14600K)",
           desc: "Pack Bouaké Noir + Intel Core i5-14600K + B660M Gaming + 32 Go RAM (2x16) + RTX 3080 Ti 12 Go + SSD M.2 1 To.",
           packId: "pack_bouake_black",
           cpuId: "cpu_i5_14600k",
@@ -1843,14 +1843,14 @@
     };
 
     const STEPS_CONFIG = [
-      { num: 1, key: "pack", title: "1. Boîtier", subtitle: "Pack Boîtier, Alimentation & Refroidissement", icon: "fa-cube" },
-      { num: 2, key: "cpu", title: "2. CPU", subtitle: "Processeur Intel LGA1700 ou AMD AM4", icon: "fa-microchip" },
-      { num: 3, key: "mb", title: "3. Carte mère", subtitle: "Carte mère adaptée au processeur sélectionné", icon: "fa-chess-board" },
-      { num: 4, key: "ram", title: "4. RAM", subtitle: "Mémoire vive DDR4 3200 MHz", icon: "fa-memory" },
-      { num: 5, key: "gpu", title: "5. GPU", subtitle: "Carte graphique dédiée (Obligatoire)", icon: "fa-tv" },
-      { num: 6, key: "ssd", title: "6. SSD", subtitle: "Stockage SSD rapide pour Windows et jeux", icon: "fa-hard-drive" },
-      { num: 7, key: "acc", title: "7. Accessoires", subtitle: "Pack d'accessoires & services 100% inclus et offerts", icon: "fa-shield-halved" },
-      { num: 8, key: "summary", title: "8. Devis & Financement", subtitle: "Récapitulatif financier et validation de commande", icon: "fa-file-invoice-dollar" }
+      { num: 1, key: "pack", title: "Boîtier", subtitle: "Pack Boîtier, Alimentation & Refroidissement", icon: "fa-cube" },
+      { num: 2, key: "cpu", title: "CPU", subtitle: "Processeur Intel LGA1700 ou AMD AM4", icon: "fa-microchip" },
+      { num: 3, key: "mb", title: "Carte mère", subtitle: "Carte mère adaptée au processeur sélectionné", icon: "fa-chess-board" },
+      { num: 4, key: "ram", title: "RAM", subtitle: "Mémoire vive DDR4 3200 MHz", icon: "fa-memory" },
+      { num: 5, key: "gpu", title: "GPU", subtitle: "Carte graphique dédiée (Obligatoire)", icon: "fa-tv" },
+      { num: 6, key: "ssd", title: "SSD", subtitle: "Stockage SSD rapide pour Windows et jeux", icon: "fa-hard-drive" },
+      { num: 7, key: "acc", title: "Accessoires", subtitle: "Pack d'accessoires & services 100% inclus et offerts", icon: "fa-gift" },
+      { num: 8, key: "summary", title: "Devis & Financement", subtitle: "Récapitulatif financier et validation de commande", icon: "fa-file-invoice-dollar" }
     ];
 
     /* ==========================================================================
@@ -1916,7 +1916,7 @@
         return `
           <div class="step-item ${activeClass} ${completedClass}" onclick="goToStep(${step.num})">
             <div class="step-number">
-              ${isCompleted && !isCurrent ? '<i class="fa-solid fa-check"></i>' : step.num}
+              ${isCompleted && !isCurrent ? '<i class="fa-solid fa-check"></i>' : `<i class="fa-solid ${step.icon}"></i>`}
             </div>
             <div class="step-title">${step.title}</div>
           </div>
@@ -2283,7 +2283,7 @@
             
             <div style="background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.2rem; display: flex; flex-direction: column; gap: 0.8rem;">
               <h3 style="font-size: 1rem; color: #38bdf8; display: flex; align-items: center; gap: 0.5rem;">
-                <i class="fa-solid fa-ship"></i> 1. Versement Initial (Jour 0)
+                <i class="fa-solid fa-ship"></i> Versement Initial (Jour 0)
               </h3>
               <p style="font-size: 0.8rem; color: var(--text-muted);">
                 Déclenche la commande et l'acheminement sécurisé par bateau du boîtier et de ses équipements.
@@ -2306,7 +2306,7 @@
 
             <div style="background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.2rem; display: flex; flex-direction: column; gap: 0.8rem;">
               <h3 style="font-size: 1rem; color: var(--accent-gold); display: flex; align-items: center; gap: 0.5rem;">
-                <i class="fa-solid fa-calendar-days"></i> 2. Solde en 3 Tranches Mensuelles
+                <i class="fa-solid fa-calendar-days"></i> Solde en 3 Tranches Mensuelles
               </h3>
               <p style="font-size: 0.8rem; color: var(--text-muted);">
                 Composants électroniques acheminés par avion express (5 kg = 60 000 F fixe).
@@ -2382,12 +2382,12 @@
       const calc = calculateTotals();
 
       const items = [
-        { label: "1. Boîtier & Refroidissement", item: STATE.selected.pack },
-        { label: "2. CPU (Processeur)", item: STATE.selected.cpu },
-        { label: "3. Carte Mère", item: STATE.selected.mb },
-        { label: "4. RAM (DDR4 3200)", item: STATE.selected.ram },
-        { label: "5. GPU (Graphique)", item: STATE.selected.gpu },
-        { label: "6. SSD (Stockage)", item: STATE.selected.ssd }
+        { label: "Boîtier & Refroidissement", item: STATE.selected.pack },
+        { label: "CPU (Processeur)", item: STATE.selected.cpu },
+        { label: "Carte Mère", item: STATE.selected.mb },
+        { label: "RAM (DDR4 3200)", item: STATE.selected.ram },
+        { label: "GPU (Graphique)", item: STATE.selected.gpu },
+        { label: "SSD (Stockage)", item: STATE.selected.ssd }
       ];
 
       const hasAnySelection = items.some(i => i.item !== null);
@@ -2533,21 +2533,67 @@
       document.getElementById("specsModal").classList.remove("open");
     }
 
+    function calculatePresetTotals(preset) {
+      const pack = DB.packs.find(p => p.id === preset.packId);
+      const cpu = DB.cpus.find(c => c.id === preset.cpuId);
+      const mb = DB.motherboards.find(m => m.id === preset.mbId);
+      const ram = DB.rams.find(r => r.id === preset.ramId);
+      const gpu = DB.gpus.find(g => g.id === preset.gpuId);
+      const ssd = DB.ssds.find(s => s.id === preset.ssdId);
+
+      const packPrice = pack ? pack.price : 0;
+      const initialPayment = packPrice + 30000;
+
+      const cpuPrice = cpu ? cpu.price : 0;
+      const mbPrice = mb ? mb.price : 0;
+      const ramPrice = ram ? ram.price : 0;
+      const gpuPrice = gpu ? gpu.price : 0;
+      const ssdPrice = ssd ? ssd.price : 0;
+
+      const airPartsTotal = cpuPrice + mbPrice + ramPrice + gpuPrice + ssdPrice + 60000;
+      const monthlyInstallment = Math.round(airPartsTotal / 3);
+      const grandTotal = initialPayment + airPartsTotal;
+
+      return {
+        initialPayment,
+        airPartsTotal,
+        monthlyInstallment,
+        grandTotal
+      };
+    }
+
     function openPresetsModal() {
       const container = document.getElementById("presetsList");
       if (!container) return;
 
       container.innerHTML = DB.presets.map(p => {
+        const pTot = calculatePresetTotals(p);
         return `
-          <div style="background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1rem; cursor: pointer; transition: var(--trans-fast);" 
-               onmouseover="this.style.borderColor='var(--accent-gold)'" 
-               onmouseout="this.style.borderColor='var(--border-subtle)'"
+          <div style="background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.1rem; cursor: pointer; transition: var(--trans-fast); display: flex; flex-direction: column; gap: 0.65rem;" 
+               onmouseover="this.style.borderColor='var(--accent-gold)'; this.style.boxShadow='0 4px 15px rgba(242, 177, 52, 0.15)'" 
+               onmouseout="this.style.borderColor='var(--border-subtle)'; this.style.boxShadow='none'"
                onclick="applyPreset('${p.id}')">
-            <div style="font-weight: 800; font-size: 0.95rem; color: var(--accent-gold);">${p.title}</div>
-            <div style="font-size: 0.82rem; color: var(--text-muted); margin: 0.25rem 0 0.6rem 0;">${p.desc}</div>
-            <button class="btn-next" style="padding: 0.4rem 0.8rem; font-size: 0.75rem;">
-              <i class="fa-solid fa-wand-magic-sparkles"></i> Charger ce Preset
-            </button>
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 0.6rem; flex-wrap: wrap;">
+              <div style="flex: 1; min-width: 220px;">
+                <div style="font-weight: 800; font-size: 1rem; color: var(--accent-gold);">${p.title}</div>
+                <div style="font-size: 0.82rem; color: var(--text-muted); margin-top: 0.25rem;">${p.desc}</div>
+              </div>
+              <div style="text-align: right; background: rgba(242, 177, 52, 0.08); padding: 0.4rem 0.75rem; border-radius: 8px; border: 1px solid rgba(242, 177, 52, 0.25);">
+                <div style="font-size: 1.15rem; font-weight: 800; color: var(--accent-gold); font-family: monospace;">${formatNumber(pTot.grandTotal)} F CFA</div>
+                <div style="font-size: 0.72rem; color: var(--text-muted);">Prix Total TTC</div>
+              </div>
+            </div>
+            
+            <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.03); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 0.5rem 0.8rem; font-size: 0.78rem; flex-wrap: wrap; gap: 0.4rem;">
+              <div>
+                <span style="color: #38bdf8; font-weight: 600;"><i class="fa-solid fa-ship"></i> Jour 0 :</span> <span class="mono">${formatNumber(pTot.initialPayment)} F</span>
+                <span style="color: var(--text-muted); margin: 0 0.35rem;">•</span>
+                <span style="color: var(--accent-gold); font-weight: 600;"><i class="fa-solid fa-calendar-days"></i> 3x :</span> <span class="mono">${formatNumber(pTot.monthlyInstallment)} F/mois</span>
+              </div>
+              <button class="btn-next" style="padding: 0.4rem 0.8rem; font-size: 0.75rem;">
+                <i class="fa-solid fa-wand-magic-sparkles"></i> Choisir ce preset
+              </button>
+            </div>
           </div>
         `;
       }).join('');
@@ -2570,18 +2616,19 @@
       STATE.selected.gpu = DB.gpus.find(g => g.id === preset.gpuId);
       STATE.selected.ssd = DB.ssds.find(s => s.id === preset.ssdId);
 
+      updateSidebar();
       closePresetsModal();
       goToStep(8);
     }
 
     function openOrderModal() {
       const missing = [];
-      if (!STATE.selected.pack) missing.push({ name: "1. Boîtier (Pack)", step: 1 });
-      if (!STATE.selected.cpu) missing.push({ name: "2. CPU (Processeur)", step: 2 });
-      if (!STATE.selected.mb) missing.push({ name: "3. Carte Mère", step: 3 });
-      if (!STATE.selected.ram) missing.push({ name: "4. RAM (Mémoire)", step: 4 });
-      if (!STATE.selected.gpu) missing.push({ name: "5. GPU (Carte Graphique)", step: 5 });
-      if (!STATE.selected.ssd) missing.push({ name: "6. SSD (Stockage)", step: 6 });
+      if (!STATE.selected.pack) missing.push({ name: "Boîtier (Pack)", step: 1 });
+      if (!STATE.selected.cpu) missing.push({ name: "CPU (Processeur)", step: 2 });
+      if (!STATE.selected.mb) missing.push({ name: "Carte Mère", step: 3 });
+      if (!STATE.selected.ram) missing.push({ name: "RAM (Mémoire)", step: 4 });
+      if (!STATE.selected.gpu) missing.push({ name: "GPU (Carte Graphique)", step: 5 });
+      if (!STATE.selected.ssd) missing.push({ name: "SSD (Stockage)", step: 6 });
 
       if (missing.length > 0) {
         const listNames = missing.map(m => `• ${m.name}`).join('\n');
