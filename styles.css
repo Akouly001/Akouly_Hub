@@ -454,31 +454,18 @@ body[data-page="lab"] {
 
 /* Pulsation active exclusivement sur la page d'accueil (lorsqu'aucun autre onglet n'est actif) */
 body[data-page="home"] .brand-logo {
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    animation: akoulyBrandPulse 2.2s infinite cubic-bezier(0.25, 0.8, 0.25, 1);
-    will-change: box-shadow;
+    background: transparent;
+    border: 1px solid transparent;
+    animation: none !important;
+    box-shadow: none !important;
 }
 
 [data-theme="light"] body[data-page="home"] .brand-logo {
-    background: rgba(0, 0, 0, 0.04);
-    border: 1px solid rgba(0, 0, 0, 0.18);
-    animation: akoulyBrandPulseLight 2.2s infinite cubic-bezier(0.25, 0.8, 0.25, 1);
+    background: transparent;
+    border: 1px solid transparent;
+    animation: none !important;
+    box-shadow: none !important;
 }
-
-@keyframes akoulyBrandPulse {
-    0% {
-        box-shadow: 0 0 0 0px rgba(255, 255, 255, 0.65);
-    }
-    100% {
-        box-shadow: 0 0 0 18px rgba(255, 255, 255, 0);
-    }
-}
-
-@keyframes akoulyBrandPulseLight {
-    0% {
-        box-shadow: 0 0 0 0px rgba(15, 23, 42, 0.45);
-    }
     100% {
         box-shadow: 0 0 0 18px rgba(15, 23, 42, 0);
     }
