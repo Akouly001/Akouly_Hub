@@ -279,17 +279,18 @@
             min-width: 113px;
             border-radius: var(--radius-sm, 8px);
             overflow: hidden;
-            border: 1px solid var(--cfg-border-subtle);
-            background: #000;
+            border: 1px solid #cbd5e1;
+            background: #ffffff !important;
             display: flex;
             align-items: center;
             justify-content: center;
             position: relative;
             cursor: zoom-in;
-            transition: transform 0.2s ease, border-color 0.2s ease;
+            transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
         }
         .prod-canvas-box:hover {
             border-color: var(--accent-gold);
+            box-shadow: 0 4px 15px rgba(242, 177, 52, 0.2);
         }
         .prod-canvas-box.white-case,
         .prod-canvas-box.white-bg {
@@ -302,14 +303,14 @@
             right: 4px;
             width: 22px;
             height: 22px;
-            background: rgba(0, 0, 0, 0.65);
+            background: rgba(15, 23, 42, 0.75);
             border-radius: 4px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: #ffffff;
             font-size: 0.65rem;
-            opacity: 0.7;
+            opacity: 0.75;
             transition: opacity 0.2s ease, transform 0.2s ease, background 0.2s ease, color 0.2s ease;
             pointer-events: none;
         }
@@ -2164,9 +2165,9 @@
                 {
                     id: "preset_amd_gamer",
                     title: "AMD Gaming 1080p Équilibré (AM4)",
-                    desc: "Pack Daloa Noir + AMD Ryzen 5 5600X + B550M DS3H + 16 Go RAM (2x8) + GTX 1660 Super 6 Go + SSD M.2 NVMe 512 Go.",
+                    desc: "Pack Daloa Noir + AMD Ryzen 5 5600XT + B550M DS3H + 16 Go RAM (2x8) + GTX 1660 Super 6 Go + SSD M.2 NVMe 512 Go.",
                     packId: "pack_daloa_black",
-                    cpuId: "cpu_r5_5600x",
+                    cpuId: "cpu_r5_5600xt",
                     mbId: "mb_b550m",
                     ramId: "ram_2x8",
                     gpuId: "gpu_gtx_1660s",
@@ -2454,12 +2455,11 @@
                 <div class="prod-grid">
                     ${sorted.map(pack => {
                         const isSel = STATE.selected.pack && STATE.selected.pack.id === pack.id;
-                        const isWhite = pack.color.toLowerCase() === "blanc";
                         return `
                             <div class="prod-card ${isSel ? "selected" : ""}" onclick="selectItem('pack', '${pack.id}')">
                                 <div class="card-selected-tag"><i class="fa-solid fa-check"></i></div>
                                 <div class="prod-card-top">
-                                    <div class="prod-canvas-box ${isWhite ? "white-case" : ""}" onclick="event.stopPropagation(); openImageZoomModal('pack', '${pack.id}')" title="Cliquer pour agrandir l'aperçu">
+                                    <div class="prod-canvas-box white-bg has-img" onclick="event.stopPropagation(); openImageZoomModal('pack', '${pack.id}')" title="Cliquer pour agrandir la photo">
                                         <canvas id="canvas_${pack.id}" class="prod-img-canvas" width="113" height="113"></canvas>
                                         <div class="canvas-zoom-badge"><i class="fa-solid fa-expand"></i></div>
                                     </div>
@@ -2493,7 +2493,7 @@
                             <div class="prod-card ${isSel ? "selected" : ""}" onclick="selectItem('cpu', '${cpu.id}')">
                                 <div class="card-selected-tag"><i class="fa-solid fa-check"></i></div>
                                 <div class="prod-card-top">
-                                    <div class="prod-canvas-box" onclick="event.stopPropagation(); openImageZoomModal('cpu', '${cpu.id}')" title="Cliquer pour agrandir l'aperçu">
+                                    <div class="prod-canvas-box white-bg has-img" onclick="event.stopPropagation(); openImageZoomModal('cpu', '${cpu.id}')" title="Cliquer pour agrandir la photo">
                                         <canvas id="canvas_${cpu.id}" class="prod-img-canvas" width="113" height="113"></canvas>
                                         <div class="canvas-zoom-badge"><i class="fa-solid fa-expand"></i></div>
                                     </div>
@@ -2578,7 +2578,7 @@
                             <div class="prod-card ${isSel ? "selected" : ""}" onclick="selectItem('ram', '${ram.id}')">
                                 <div class="card-selected-tag"><i class="fa-solid fa-check"></i></div>
                                 <div class="prod-card-top">
-                                    <div class="prod-canvas-box" onclick="event.stopPropagation(); openImageZoomModal('ram', '${ram.id}')" title="Cliquer pour agrandir l'aperçu">
+                                    <div class="prod-canvas-box white-bg has-img" onclick="event.stopPropagation(); openImageZoomModal('ram', '${ram.id}')" title="Cliquer pour agrandir la photo">
                                         <canvas id="canvas_${ram.id}" class="prod-img-canvas" width="113" height="113"></canvas>
                                         <div class="canvas-zoom-badge"><i class="fa-solid fa-expand"></i></div>
                                     </div>
@@ -2611,7 +2611,7 @@
                             <div class="prod-card ${isSel ? "selected" : ""}" onclick="selectItem('gpu', '${gpu.id}')">
                                 <div class="card-selected-tag"><i class="fa-solid fa-check"></i></div>
                                 <div class="prod-card-top">
-                                    <div class="prod-canvas-box" onclick="event.stopPropagation(); openImageZoomModal('gpu', '${gpu.id}')" title="Cliquer pour agrandir l'aperçu">
+                                    <div class="prod-canvas-box white-bg has-img" onclick="event.stopPropagation(); openImageZoomModal('gpu', '${gpu.id}')" title="Cliquer pour agrandir la photo">
                                         <canvas id="canvas_${gpu.id}" class="prod-img-canvas" width="113" height="113"></canvas>
                                         <div class="canvas-zoom-badge"><i class="fa-solid fa-expand"></i></div>
                                     </div>
@@ -2681,7 +2681,7 @@
                                 <div class="prod-card selected" style="cursor: default;">
                                     <div class="card-selected-tag" style="background: #10b981;"><i class="fa-solid fa-check"></i></div>
                                     <div class="prod-card-top">
-                                        <div class="prod-canvas-box" onclick="event.stopPropagation(); openImageZoomModal('acc', '${acc.id}')" title="Cliquer pour agrandir l'aperçu">
+                                        <div class="prod-canvas-box white-bg" onclick="event.stopPropagation(); openImageZoomModal('acc', '${acc.id}')" title="Cliquer pour agrandir l'aperçu">
                                             <canvas id="canvas_${acc.id}" class="prod-img-canvas" width="113" height="113"></canvas>
                                             <div class="canvas-zoom-badge"><i class="fa-solid fa-expand"></i></div>
                                         </div>
@@ -2929,11 +2929,51 @@
            GESTION DES MODALES (SPECS, PRESETS, COMMANDE, ZOOM IMAGE)
            ========================================================================== */
         const HARDWARE_IMAGES = {
+            // Boîtiers / Packs
+            'pack_daloa_black': 'images/hardware/Case noir.png',
+            'pack_daloa_white': 'images/hardware/Case blanc.png',
+            'pack_bouake_black': 'images/hardware/Case noir.png',
+            'pack_bouake_white': 'images/hardware/Case blanc.png',
+
+            // Processeurs AMD
+            'cpu_r5_3600x': 'images/hardware/AMD.jpg',
+            'cpu_r5_5500': 'images/hardware/AMD.jpg',
+            'cpu_r5_5600x': 'images/hardware/AMD.jpg',
+            'cpu_r5_5600xt': 'images/hardware/AMD.jpg',
+            'cpu_r7_5700x': 'images/hardware/AMD.jpg',
+            'cpu_r9_5900x': 'images/hardware/AMD.jpg',
+            'cpu_r5_8400f': 'images/hardware/AMD.jpg',
+            'cpu_r5_7600': 'images/hardware/AMD.jpg',
+            'cpu_r7_7800x3d': 'images/hardware/AMD.jpg',
+            'cpu_r7_5800x3d': 'images/hardware/AMD.jpg',
+            'cpu_r9_9900x3d': 'images/hardware/AMD.jpg',
+
+            // Processeurs Intel
+            'cpu_i3_12100f': 'images/hardware/INTEL.webp',
+            'cpu_i5_12400f': 'images/hardware/INTEL.webp',
+            'cpu_i5_13400f': 'images/hardware/INTEL.webp',
+            'cpu_i5_13600kf': 'images/hardware/INTEL.webp',
+            'cpu_i5_14600k': 'images/hardware/INTEL.webp',
+
+            // Cartes Mères
             'mb_a520m': 'images/hardware/A520M PLUS II.jpg',
             'mb_h610m': 'images/hardware/H610M.png',
             'mb_b550m': 'images/hardware/B550M.png',
             'mb_b660m': 'images/hardware/B660M.jpg',
             'mb_b850m_plus_wifi': 'images/hardware/B850M.webp',
+
+            // Mémoires RAM
+            'ram_2x4': 'images/hardware/RAM.webp',
+            'ram_2x8': 'images/hardware/RAM.webp',
+            'ram_2x16': 'images/hardware/RAM.webp',
+
+            // Cartes Graphiques GPU
+            'gpu_gtx_1660s': 'images/hardware/GTX 1660.jpg',
+            'gpu_rx_6700xt': 'images/hardware/RX 6700 XT 12GO.webp',
+            'gpu_rtx_3070ti': 'images/hardware/RTX 3070 TI.webp',
+            'gpu_rtx_3080ti': 'images/hardware/RTX 3080 TI.jpg',
+
+            // Stockage SSD
             'ssd_sata_512gb': 'images/hardware/SATA.jpg',
             'ssd_sata_1tb': 'images/hardware/SATA.jpg',
             'ssd_m2_512gb': 'images/hardware/M2.webp',
