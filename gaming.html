@@ -8,16 +8,896 @@
     <link rel="icon" type="image/png" href="images/logo-monogram-1.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600;700&family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
+
+    <style>
+        /* ── CONFIGURATEUR PC GAMING INTÉGRÉ ── */
+        :root {
+            --cfg-bg-panel: #11141a;
+            --cfg-bg-card: #161a22;
+            --cfg-bg-card-hover: #1c222c;
+            --cfg-border-subtle: #242b38;
+            --accent-gold: #f2b134;
+            --accent-gold-glow: rgba(242, 177, 52, 0.25);
+            --accent-cyan: #00f0ff;
+            --trans-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        [data-theme="light"] {
+            --cfg-bg-panel: #ffffff;
+            --cfg-bg-card: #f8fafc;
+            --cfg-bg-card-hover: #f1f5f9;
+            --cfg-border-subtle: #e2e8f0;
+        }
+
+        .stepper-container {
+            background: var(--cfg-bg-panel);
+            border: 1px solid var(--cfg-border-subtle);
+            border-radius: var(--radius-md, 12px);
+            overflow-x: auto;
+            padding: 0.6rem 1.2rem;
+            margin-bottom: 1.5rem;
+            -webkit-overflow-scrolling: touch;
+        }
+        .stepper-nav {
+            max-width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            min-width: 760px;
+            gap: 0.5rem;
+        }
+        .step-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.4rem 0.7rem;
+            border-radius: var(--radius-sm, 8px);
+            cursor: pointer;
+            transition: var(--trans-fast);
+            position: relative;
+            user-select: none;
+        }
+        .step-item:hover {
+            background: rgba(255, 255, 255, 0.04);
+        }
+        [data-theme="light"] .step-item:hover {
+            background: rgba(0, 0, 0, 0.04);
+        }
+        .step-item.active {
+            background: rgba(242, 177, 52, 0.12);
+            border: 1px solid var(--accent-gold);
+        }
+        .step-item.completed .step-number {
+            background: var(--accent-gaming, #10b981);
+            color: #000;
+            border-color: var(--accent-gaming, #10b981);
+        }
+        .step-number {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--cfg-bg-card);
+            border: 1px solid var(--cfg-border-subtle);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            transition: var(--trans-fast);
+        }
+        .step-item.active .step-number {
+            background: var(--accent-gold);
+            color: #000;
+            border-color: var(--accent-gold);
+        }
+        .step-title {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            white-space: nowrap;
+        }
+        .step-item.active .step-title {
+            color: var(--accent-gold);
+            font-weight: 700;
+        }
+        .step-item.completed .step-title {
+            color: var(--text-main);
+        }
+        .step-divider {
+            flex: 1;
+            height: 1px;
+            background: var(--cfg-border-subtle);
+            margin: 0 0.25rem;
+            min-width: 12px;
+        }
+
+        .cfg-app-main {
+            display: grid;
+            grid-template-columns: 1fr 370px;
+            gap: 1.5rem;
+            width: 100%;
+            align-items: start;
+        }
+        @media (max-width: 1080px) {
+            .cfg-app-main {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .flow-card {
+            background: var(--cfg-bg-panel);
+            border: 1px solid var(--cfg-border-subtle);
+            border-radius: var(--radius-md, 12px);
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+        .flow-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 1rem;
+            border-bottom: 1px solid var(--cfg-border-subtle);
+            padding-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+        .flow-header-left h3 {
+            font-size: 1.25rem;
+            font-family: 'Space Grotesk', var(--font-heading), sans-serif;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.25rem;
+        }
+        .flow-header-left p {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        .badge-shipping {
+            background: rgba(2, 132, 199, 0.12);
+            border: 1px solid rgba(2, 132, 199, 0.35);
+            color: #38bdf8;
+            padding: 0.35rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        .btn-preset {
+            background: rgba(242, 177, 52, 0.1);
+            border: 1px solid var(--accent-gold);
+            color: var(--accent-gold);
+            padding: 0.45rem 0.9rem;
+            border-radius: var(--radius-sm, 8px);
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            transition: var(--trans-fast);
+        }
+        .btn-preset:hover {
+            background: var(--accent-gold);
+            color: #000;
+        }
+        .btn-guide-link {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--cfg-border-subtle);
+            color: var(--text-main);
+            padding: 0.45rem 0.9rem;
+            border-radius: var(--radius-sm, 8px);
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            transition: var(--trans-fast);
+        }
+        .btn-guide-link:hover {
+            border-color: var(--accent-cyan);
+            color: var(--accent-cyan);
+        }
+
+        .socket-filter-bar {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 0.6rem 0.85rem;
+            border-radius: var(--radius-sm, 8px);
+            border: 1px solid var(--cfg-border-subtle);
+            flex-wrap: wrap;
+        }
+        .socket-filter-tag {
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 0.25rem 0.6rem;
+            border-radius: 4px;
+        }
+        .socket-filter-tag.intel {
+            background: rgba(2, 132, 199, 0.15);
+            color: #38bdf8;
+            border: 1px solid rgba(2, 132, 199, 0.4);
+        }
+        .socket-filter-tag.amd {
+            background: rgba(242, 177, 52, 0.15);
+            color: var(--accent-gold);
+            border: 1px solid rgba(242, 177, 52, 0.4);
+        }
+
+        .prod-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 1rem;
+        }
+        @media (max-width: 580px) {
+            .prod-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        .prod-card {
+            background: var(--cfg-bg-card);
+            border: 1px solid var(--cfg-border-subtle);
+            border-radius: var(--radius-md, 12px);
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            cursor: pointer;
+            transition: var(--trans-fast);
+            position: relative;
+        }
+        .prod-card:hover {
+            background: var(--cfg-bg-card-hover);
+            border-color: rgba(242, 177, 52, 0.4);
+            transform: translateY(-2px);
+        }
+        .prod-card.selected {
+            border-color: var(--accent-gold);
+            background: rgba(242, 177, 52, 0.06);
+            box-shadow: 0 0 15px rgba(242, 177, 52, 0.15);
+        }
+        .prod-card-top {
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+        }
+        .prod-canvas-box {
+            width: 113px;
+            height: 113px;
+            min-width: 113px;
+            border-radius: var(--radius-sm, 8px);
+            overflow: hidden;
+            border: 1px solid var(--cfg-border-subtle);
+            background: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .prod-canvas-box.white-case {
+            background: #ffffff;
+            border-color: #cbd5e1;
+        }
+        .prod-info-col {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+        .prod-name {
+            font-size: 0.92rem;
+            font-weight: 700;
+            color: var(--text-main);
+            line-height: 1.3;
+        }
+        .prod-subtitle {
+            font-size: 0.75rem;
+            color: var(--accent-cyan);
+            font-weight: 600;
+        }
+        .prod-specs-snippet {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+        .prod-card-bottom {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 0.6rem;
+            margin-top: 0.2rem;
+        }
+        [data-theme="light"] .prod-card-bottom {
+            border-top-color: rgba(0, 0, 0, 0.06);
+        }
+        .prod-price {
+            font-family: var(--font-code, 'Fira Code', monospace);
+            font-size: 1.05rem;
+            font-weight: 800;
+            color: var(--accent-gold);
+        }
+        .prod-price.free {
+            color: var(--accent-gaming, #10b981);
+        }
+        .btn-more-specs {
+            background: transparent;
+            border: 1px solid var(--cfg-border-subtle);
+            color: var(--text-muted);
+            padding: 0.25rem 0.55rem;
+            border-radius: 6px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            transition: var(--trans-fast);
+        }
+        .btn-more-specs:hover {
+            border-color: var(--text-main);
+            color: var(--text-main);
+            background: rgba(255, 255, 255, 0.05);
+        }
+        .card-selected-tag {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: var(--accent-gold);
+            color: #000;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: 900;
+        }
+        .prod-card.selected .card-selected-tag {
+            display: flex;
+        }
+
+        .flow-footer-nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-top: 1px solid var(--cfg-border-subtle);
+            padding-top: 1.25rem;
+            margin-top: auto;
+            gap: 1rem;
+        }
+        .btn-prev {
+            background: transparent;
+            border: 1px solid var(--cfg-border-subtle);
+            color: var(--text-muted);
+            padding: 0.6rem 1.2rem;
+            border-radius: var(--radius-sm, 8px);
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            transition: var(--trans-fast);
+        }
+        .btn-prev:hover:not(:disabled) {
+            border-color: var(--text-main);
+            color: var(--text-main);
+        }
+        .btn-prev:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+        .btn-next {
+            background: var(--accent-gold);
+            border: 1px solid var(--accent-gold);
+            color: #000;
+            padding: 0.6rem 1.4rem;
+            border-radius: var(--radius-sm, 8px);
+            font-size: 0.85rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            transition: var(--trans-fast);
+        }
+        .btn-next:hover {
+            box-shadow: 0 0 15px var(--accent-gold-glow);
+        }
+
+        .cfg-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .sidebar-panel {
+            background: var(--cfg-bg-panel);
+            border: 1px solid var(--cfg-border-subtle);
+            border-radius: var(--radius-md, 12px);
+            padding: 1.25rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .sidebar-title {
+            font-size: 1.05rem;
+            font-weight: 700;
+            border-bottom: 1px solid var(--cfg-border-subtle);
+            padding-bottom: 0.6rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .summary-items {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 0.5rem;
+            font-size: 0.8rem;
+        }
+        .summary-item-left {
+            display: flex;
+            flex-direction: column;
+        }
+        .summary-label {
+            color: var(--text-muted);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+        .summary-val {
+            color: var(--text-main);
+            font-weight: 600;
+        }
+        .summary-price {
+            font-family: var(--font-code, 'Fira Code', monospace);
+            font-weight: 700;
+            color: var(--accent-gold);
+            white-space: nowrap;
+        }
+
+        .psu-gauge {
+            background: var(--cfg-bg-card);
+            border: 1px solid var(--cfg-border-subtle);
+            border-radius: var(--radius-sm, 8px);
+            padding: 0.75rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+        .psu-header {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+        }
+        .psu-bar-bg {
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 9999px;
+            overflow: hidden;
+        }
+        [data-theme="light"] .psu-bar-bg {
+            background: #e2e8f0;
+        }
+        .psu-bar-fill {
+            height: 100%;
+            width: 0%;
+            background: var(--accent-gaming, #10b981);
+            transition: width 0.3s ease, background-color 0.3s ease;
+        }
+
+        .financial-box {
+            background: rgba(242, 177, 52, 0.04);
+            border: 1px dashed var(--accent-gold);
+            border-radius: var(--radius-sm, 8px);
+            padding: 0.85rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.45rem;
+        }
+        .fin-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.78rem;
+        }
+        .fin-val {
+            font-weight: 700;
+            color: var(--accent-gold);
+        }
+        .total-box {
+            border-top: 1px solid var(--cfg-border-subtle);
+            padding-top: 0.75rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+        .total-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 700;
+        }
+        .total-amount {
+            font-family: var(--font-code, 'Fira Code', monospace);
+            font-size: 1.45rem;
+            font-weight: 800;
+            color: var(--accent-gold);
+        }
+
+        .btn-main-order {
+            background: var(--accent-gold);
+            border: 1px solid var(--accent-gold);
+            color: #000;
+            font-weight: 800;
+            font-size: 0.95rem;
+            padding: 0.85rem;
+            border-radius: var(--radius-sm, 8px);
+            cursor: pointer;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: var(--trans-fast);
+            width: 100%;
+            margin-top: 0.5rem;
+        }
+        .btn-main-order:hover {
+            box-shadow: 0 0 20px var(--accent-gold-glow);
+            filter: brightness(1.08);
+        }
+        .btn-main-order.disabled {
+            opacity: 0.45;
+            cursor: not-allowed;
+            filter: grayscale(0.8);
+            box-shadow: none;
+        }
+
+        .faq-section {
+            width: 100%;
+            margin-top: 2rem;
+        }
+        .faq-panel {
+            background: var(--cfg-bg-panel);
+            border: 1px solid var(--cfg-border-subtle);
+            border-radius: var(--radius-md, 12px);
+            padding: 1.5rem;
+        }
+        .accordion-item {
+            border-bottom: 1px solid var(--cfg-border-subtle);
+        }
+        .accordion-item:last-child {
+            border-bottom: none;
+        }
+        .accordion-header {
+            width: 100%;
+            background: transparent;
+            border: none;
+            color: var(--text-main);
+            padding: 1rem 0;
+            text-align: left;
+            font-family: inherit;
+            font-size: 0.9rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.75rem;
+            transition: var(--trans-fast);
+        }
+        .accordion-header:hover {
+            color: var(--accent-gold);
+        }
+        .accordion-icon {
+            font-size: 0.8rem;
+            color: var(--accent-gold);
+            transition: transform 0.25s ease;
+        }
+        .accordion-item.open .accordion-icon {
+            transform: rotate(180deg);
+        }
+        .accordion-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s cubic-bezier(0, 1, 0, 1), padding 0.3s ease;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            line-height: 1.5;
+        }
+        .accordion-item.open .accordion-body {
+            max-height: 300px;
+            padding-bottom: 1rem;
+            padding-left: 1.25rem;
+        }
+
+        .questions-section {
+            width: 100%;
+            margin: 1.5rem 0 0 0;
+        }
+        .questions-box {
+            background: var(--cfg-bg-panel);
+            border: 1px solid var(--cfg-border-subtle);
+            border-radius: var(--radius-md, 12px);
+            padding: 1.5rem;
+        }
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        @media (max-width: 600px) {
+            .form-grid { grid-template-columns: 1fr; }
+        }
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.35rem;
+        }
+        .input-group label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+        .input-field {
+            background: var(--cfg-bg-card);
+            border: 1px solid var(--cfg-border-subtle);
+            border-radius: var(--radius-sm, 8px);
+            padding: 0.65rem 0.8rem;
+            color: var(--text-main);
+            font-family: inherit;
+            font-size: 0.85rem;
+            outline: none;
+            transition: var(--trans-fast);
+        }
+        .input-field:focus {
+            border-color: var(--accent-gold);
+        }
+        .btn-send-question {
+            background: var(--accent-gold);
+            border: 1px solid var(--accent-gold);
+            color: #000;
+            font-weight: 700;
+            padding: 0.65rem 1.4rem;
+            border-radius: var(--radius-sm, 8px);
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+            margin-top: 1rem;
+            transition: var(--trans-fast);
+        }
+        .btn-send-question:hover {
+            box-shadow: 0 0 15px var(--accent-gold-glow);
+        }
+
+        .cfg-modal-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.82);
+            backdrop-filter: blur(6px);
+            z-index: 200000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+        .cfg-modal-backdrop.open {
+            display: flex;
+        }
+        .cfg-modal-content {
+            background: var(--cfg-bg-panel);
+            border: 1px solid var(--cfg-border-subtle);
+            border-radius: var(--radius-md, 12px);
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+            position: relative;
+        }
+        .cfg-modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+        .cfg-modal-close:hover { color: var(--text-main); }
+        .disclaimer-banner {
+            background: rgba(2, 132, 199, 0.08);
+            border: 1px solid rgba(2, 132, 199, 0.3);
+            border-radius: var(--radius-sm, 8px);
+            padding: 0.75rem 1rem;
+            font-size: 0.76rem;
+            color: #94a3b8;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.6rem;
+            line-height: 1.45;
+        }
+
+        /* STYLES FACTURE IMPRIMABLE A4 */
+        #printableInvoice {
+            display: none;
+        }
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            #printableInvoice, #printableInvoice * {
+                visibility: visible;
+            }
+            #printableInvoice {
+                display: block !important;
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                margin: 0;
+                padding: 15mm 15mm 10mm 15mm;
+                background: #ffffff;
+                color: #0f172a;
+                font-family: 'Plus Jakarta Sans', sans-serif;
+                font-size: 9pt;
+                line-height: 1.35;
+            }
+            .print-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                border-bottom: 2px solid #1e1b4b;
+                padding-bottom: 8px;
+                margin-bottom: 12px;
+            }
+            .print-brand {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
+            .print-brand-title {
+                font-family: 'Space Grotesk', sans-serif;
+                font-size: 16pt;
+                font-weight: 800;
+                color: #1e1b4b;
+            }
+            .print-brand-sub {
+                font-size: 8pt;
+                color: #64748b;
+                font-weight: 600;
+            }
+            .print-meta {
+                text-align: right;
+                font-size: 8pt;
+            }
+            .print-sec-title {
+                font-size: 10pt;
+                font-weight: 700;
+                color: #1e1b4b;
+                margin: 10px 0 6px 0;
+                border-bottom: 1px solid #e2e8f0;
+                padding-bottom: 2px;
+            }
+            .print-table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-bottom: 10px;
+                font-size: 8pt;
+            }
+            .print-table th, .print-table td {
+                border: 1px solid #cbd5e1;
+                padding: 5px 8px;
+                text-align: left;
+            }
+            .print-table th {
+                background: #f1f5f9;
+                font-weight: 700;
+                color: #334155;
+            }
+            .print-table .total-row td {
+                font-weight: 800;
+                font-size: 9pt;
+                background: #f8fafc;
+                border-top: 2px solid #1e1b4b;
+            }
+            .print-payment-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+                margin-bottom: 10px;
+            }
+            .print-payment-card {
+                border: 1px solid #cbd5e1;
+                border-radius: 6px;
+                padding: 8px 10px;
+            }
+            .print-payment-card.init { border-left: 4px solid #0284c7; background: #f0f9ff; }
+            .print-payment-card.split { border-left: 4px solid #f59e0b; background: #fffbeb; }
+            .print-payment-title {
+                font-weight: 700;
+                font-size: 8.5pt;
+                color: #0f172a;
+                margin-bottom: 2px;
+            }
+            .print-payment-amount {
+                font-size: 11pt;
+                font-weight: 800;
+                color: #0f172a;
+            }
+            .print-profile-box {
+                border: 1px solid #cbd5e1;
+                background: #f8fafc;
+                border-radius: 6px;
+                padding: 8px 10px;
+                margin-bottom: 10px;
+                font-size: 8pt;
+            }
+            .print-profile-title {
+                font-weight: 700;
+                color: #1e1b4b;
+                font-size: 8.5pt;
+                margin-bottom: 2px;
+            }
+            .print-signatures {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 12px;
+                margin-top: 10px;
+                padding-top: 8px;
+                border-top: 1px dashed #94a3b8;
+                font-size: 8pt;
+            }
+            .print-sign-box {
+                height: 55px;
+                border: 1px dashed #cbd5e1;
+                border-radius: 4px;
+                padding: 4px 8px;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+            }
+            .print-terms {
+                font-size: 7pt;
+                color: #64748b;
+                margin-top: 8px;
+                text-align: center;
+                line-height: 1.2;
+            }
+        }
+    </style>
 </head>
 <body data-page="gaming">
     <!-- ÉCRAN DE CHARGEMENT CIRCULAIRE (PRELOADER) -->
     <div id="page-preloader" class="preloader-overlay" aria-hidden="true">
         <div class="loader loader-gaming"></div>
     </div>
-
 
     <!-- Curseur Personnalisé & Effets Liés (Gaming Spark) -->
     <div id="cursor-dot"></div>
@@ -67,48 +947,229 @@
     <!-- Main Content -->
     <main class="container" style="padding-top: 3.5rem; padding-bottom: 3.5rem;">
 
-        <!-- Section 1 : PC Gaming & Configurateur -->
-        <section class="scroll-reveal" style="margin-bottom: 4rem;">
-            <div class="section-label">// HARDWARE & CONFIGURATIONS</div>
-            <h2 class="section-title">PC Gaming & <span>Sur-Mesure</span></h2>
-
-            <div class="projects-grid">
-                <div class="project-card">
-                    <div style="font-size: 1.8rem; color: var(--accent-gaming); margin-bottom: 0.5rem;"><i class="fas fa-desktop"></i></div>
-                    <h3 class="project-title">1. PC Gaming Sur-Mesure</h3>
-                    <p class="project-desc">Assemblage de tours PC gaming adaptées à tous les budgets (Entry Level 1080p, Mid-Range 1440p, High-End 4K). Choix rigoureux des composants et optimisation des flux d'air.</p>
-                    <div class="project-tags"><span class="project-tag">PC Gaming</span><span class="project-tag">Montage</span><span class="project-tag">Airflow</span></div>
-                </div>
-
-                <div class="project-card">
-                    <div style="font-size: 1.8rem; color: var(--accent-gaming); margin-bottom: 0.5rem;"><i class="fas fa-sliders"></i></div>
-                    <h3 class="project-title">2. Configurateur PC</h3>
-                    <p class="project-desc">Conseil personnalisé pour le choix des processeurs (Intel Core / AMD Ryzen), cartes graphiques (RTX / RX), mémoire RAM, SSD NVMe et alimentations certifiées 80+ Gold.</p>
-                    <div class="project-tags"><span class="project-tag">Configurateur</span><span class="project-tag">Conseil</span><span class="project-tag">Hardware</span></div>
-                </div>
-
-                <div class="project-card">
-                    <div style="font-size: 1.8rem; color: var(--accent-gaming); margin-bottom: 0.5rem;"><i class="fas fa-microchip"></i></div>
-                    <h3 class="project-title">3. Sélection de Composants</h3>
-                    <p class="project-desc">Sourcing de composants fiables, vérification de compatibilité des sockets/chipsets, tests de stress thermiques et benchmarking avant livraison.</p>
-                    <div class="project-tags"><span class="project-tag">Composants</span><span class="project-tag">Sourcing</span><span class="project-tag">Benchmark</span></div>
-                </div>
-
-                <div class="project-card">
-                    <div style="font-size: 1.8rem; color: var(--accent-gaming); margin-bottom: 0.5rem;"><i class="fas fa-screwdriver-wrench"></i></div>
-                    <h3 class="project-title">4. Montage & Upgrade PC</h3>
-                    <p class="project-desc">Câblage propre (cable management), installation propre du système d'exploitation, mise à jour du BIOS, remplacement de pâte thermique et upgrade de cartes graphiques/RAM.</p>
-                    <div class="project-tags"><span class="project-tag">Upgrade</span><span class="project-tag">Maintenance</span><span class="project-tag">Cable Management</span></div>
-                </div>
-            </div>
-
-            <div style="background: rgba(16, 185, 129, 0.08); border-left: 4px solid var(--accent-gaming); padding: 1.5rem; border-radius: var(--radius-sm); margin-top: 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+        <!-- Section 1 : Configurateur PC Gaming & Processus d'Achat -->
+        <section class="scroll-reveal" id="configurateur" style="margin-bottom: 4rem;">
+            <div class="section-label">// HARDWARE & CONFIGURATEUR SUR-MESURE</div>
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.5rem;">
                 <div>
-                    <h4 style="color: var(--accent-gaming); font-size: 1.1rem; margin-bottom: 0.3rem;"><i class="fas fa-tools"></i> Envie d'un PC Gaming assemblé ou d'un conseil ?</h4>
-                    <p style="color: var(--text-muted); font-size: 0.9rem;">Faites monter votre PC sur-mesure à Abidjan par un passionné du matériel.</p>
+                    <h2 class="section-title" style="margin-bottom: 0.3rem;">Configurateur PC <span>Sur-Mesure</span></h2>
+                    <p style="color: var(--text-muted); font-size: 0.9rem;">Assemblez votre configuration idéale étape par étape avec calcul en direct du devis, de la charge électrique et des mensualités.</p>
                 </div>
-                <a href="business.html#devis" class="btn btn-primary" style="background: var(--accent-gaming);"><i class="fas fa-file-invoice"></i> Demander un devis PC</a>
+                <div style="display: flex; gap: 0.6rem; align-items: center; flex-wrap: wrap;">
+                    <div class="badge-shipping">
+                        <i class="fa-solid fa-truck-fast"></i> Livraison Gratuite
+                    </div>
+                    <button class="btn-preset" onclick="openPresetsModal()">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i> Presets Conseillés
+                    </button>
+                    <a href="guide-achat-client.html" class="btn-guide-link" target="_blank">
+                        <i class="fa-solid fa-book-open"></i> Guide Client
+                    </a>
+                </div>
             </div>
+
+            <!-- STEPPER NAV (8 ÉTAPES) -->
+            <div class="stepper-container">
+                <nav class="stepper-nav" id="stepperNav"></nav>
+            </div>
+
+            <!-- APP MAIN -->
+            <div class="cfg-app-main">
+                <!-- FLOW CARD (GAUCHE) -->
+                <section class="flow-card" id="flowCard"></section>
+
+                <!-- SIDEBAR RECAP (DROITE) -->
+                <aside class="cfg-sidebar">
+                    <div class="sidebar-panel">
+                        <div class="sidebar-title">
+                            <span class="font-heading"><i class="fa-solid fa-file-invoice-dollar" style="color: var(--accent-gold);"></i> Devis en direct</span>
+                        </div>
+
+                        <div class="summary-items" id="summaryItemsList">
+                            <div style="color: var(--text-muted); font-size: 0.8rem; text-align: center; padding: 1rem 0;">
+                                Sélectionnez vos composants étape par étape.
+                            </div>
+                        </div>
+
+                        <!-- CHARGE ESTIMÉE DU BLOC D'ALIMENTATION -->
+                        <div class="psu-gauge">
+                            <div class="psu-header">
+                                <span style="color: var(--text-muted); font-size: 0.72rem;"><i class="fa-solid fa-bolt" style="color: var(--accent-gold);"></i> Charge Alimentation</span>
+                                <span class="mono" id="psuWattageText" style="font-weight: 700; font-size: 0.78rem;">0W / 600W</span>
+                            </div>
+                            <div class="psu-bar-bg">
+                                <div class="psu-bar-fill" id="psuBarFill"></div>
+                            </div>
+                            <div style="font-size: 0.68rem; color: var(--text-muted); margin-top: 0.25rem;" id="psuNoteText">Charge optimale recommandée &lt; 80%</div>
+                        </div>
+
+                        <!-- ÉCHÉANCIER FINANCIER -->
+                        <div class="financial-box">
+                            <div class="fin-row">
+                                <span class="summary-label">1er Paiement (Jour 0 / Bateau)</span>
+                                <span class="fin-val mono" id="instInitialVal" style="color: #38bdf8; font-weight: 700;">0 F</span>
+                            </div>
+                            <div class="fin-row">
+                                <span class="summary-label">Tranche 1 (Fin Mois 1)</span>
+                                <span class="fin-val mono" id="instMonth1Val">0 F</span>
+                            </div>
+                            <div class="fin-row">
+                                <span class="summary-label">Tranche 2 (Fin Mois 2)</span>
+                                <span class="fin-val mono" id="instMonth2Val">0 F</span>
+                            </div>
+                            <div class="fin-row">
+                                <span class="summary-label">Tranche 3 (Fin Mois 3)</span>
+                                <span class="fin-val mono" id="instMonth3Val">0 F</span>
+                            </div>
+                            <div style="margin: 0.3rem 0; font-size: 0.7rem; color: var(--text-muted); line-height: 1.35;">
+                                <i class="fa-solid fa-plane" style="color: #38bdf8;"></i> Fret aérien fixe : 5 kg à 12 000 F/kg (60 000 F inclus répartis sur 3 mois)
+                            </div>
+                        </div>
+
+                        <!-- TOTAL GÉNÉRAL -->
+                        <div class="total-box">
+                            <div class="total-label">TOTAL</div>
+                            <div class="total-amount mono" id="grandTotalVal">0 F CFA</div>
+                        </div>
+
+                        <button class="btn-main-order disabled" id="btnSidebarOrder" onclick="openOrderModal()">
+                            <i class="fa-solid fa-cart-shopping"></i> Commander
+                        </button>
+                    </div>
+                </aside>
+            </div>
+
+            <!-- SECTION FAQ ACCORDÉON -->
+            <section class="faq-section">
+                <div class="faq-panel">
+                    <h3 style="font-size: 1.15rem; font-weight: 800; display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.8rem;">
+                        <i class="fa-solid fa-circle-question" style="color: var(--accent-gold);"></i> Questions Fréquentes (FAQ)
+                    </h3>
+
+                    <div class="accordion-item">
+                        <button class="accordion-header" onclick="toggleFaqAccordion(this)">
+                            <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                <i class="fa-solid fa-circle-check" style="color: var(--accent-gaming);"></i>
+                                <span>Est-ce que je pourrai brancher tous mes périphériques et connecter le Wi-Fi sans galérer ni acheter d'adaptateur en plus ?</span>
+                            </div>
+                            <i class="fa-solid fa-chevron-down accordion-icon"></i>
+                        </button>
+                        <div class="accordion-body">
+                            Oui, absolument ! Un adaptateur Wi-Fi 5 GHz haute vitesse 600m est inclus gratuitement avec chaque machine et tous les câbles nécessaires sont fournis pour que votre PC soit immédiatement prêt à l'emploi dès le premier allumage.
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <button class="accordion-header" onclick="toggleFaqAccordion(this)">
+                            <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                <i class="fa-solid fa-circle-check" style="color: var(--accent-gaming);"></i>
+                                <span>Est-ce que la mémoire RAM est facile à ajouter si un jour j'ai besoin de plus de mémoire ?</span>
+                            </div>
+                            <i class="fa-solid fa-chevron-down accordion-icon"></i>
+                        </button>
+                        <div class="accordion-body">
+                            Tout à fait ! Toutes nos cartes mères disposent de slots RAM DDR4 afin que vous puissiez facilement ajouter de nouvelles barrettes et faire évoluer votre mémoire à tout moment.
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <button class="accordion-header" onclick="toggleFaqAccordion(this)">
+                            <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                <i class="fa-solid fa-circle-check" style="color: var(--accent-gaming);"></i>
+                                <span>Choix du stockage : Est-ce que ce SSD va rendre mon PC rapide et aurai-je assez d'espace ?</span>
+                            </div>
+                            <i class="fa-solid fa-chevron-down accordion-icon"></i>
+                        </button>
+                        <div class="accordion-body">
+                            Le SSD assure un démarrage instantané de Windows et de vos jeux sans temps d'attente. Si vous privilégiez la rapidité maximale, prenez un SSD M.2 NVMe (plus de 3 500 Mo/s). Si vous privilégiez l'espace pour une vaste bibliothèque au meilleur coût, prenez un SSD SATA (512 Go ou 1 To).
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <button class="accordion-header" onclick="toggleFaqAccordion(this)">
+                            <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                <i class="fa-solid fa-circle-check" style="color: var(--accent-gaming);"></i>
+                                <span>Est-ce que cette alimentation va protéger mes composants des coupures et variations de courant à Abidjan ?</span>
+                            </div>
+                            <i class="fa-solid fa-chevron-down accordion-icon"></i>
+                        </button>
+                        <div class="accordion-body">
+                            Oui, nos alimentations intègrent toutes les sécurités actives (anti-surtension, court-circuit, surcharge). De plus, chaque PC est livré avec un régulateur de tension Binatone 1000W offert pour une double protection indispensable face aux aléas du réseau local.
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <button class="accordion-header" onclick="toggleFaqAccordion(this)">
+                            <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                <i class="fa-solid fa-circle-check" style="color: var(--accent-gaming);"></i>
+                                <span>Pourquoi les prix des composants sont-ils élevés ?</span>
+                            </div>
+                            <i class="fa-solid fa-chevron-down accordion-icon"></i>
+                        </button>
+                        <div class="accordion-body">
+                            Les composants de performance deviennent de plus en plus rares sur le marché international, notamment la mémoire RAM, les cartes graphiques (GPU), les processeurs (CPU) et les puces SSD, ce qui entraîne une hausse des cours d'approvisionnement mondiaux.
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <button class="accordion-header" onclick="toggleFaqAccordion(this)">
+                            <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                <i class="fa-solid fa-circle-check" style="color: var(--accent-gaming);"></i>
+                                <span>Pourquoi je ne peux pas choisir une alimentation Platinum ou Gold ?</span>
+                            </div>
+                            <i class="fa-solid fa-chevron-down accordion-icon"></i>
+                        </button>
+                        <div class="accordion-body">
+                            Le niveau de certification (Bronze, Gold, Platinum) mesure uniquement le rendement de conversion énergétique de la prise au PC. Le Bronze fait parfaitement le travail et l'intégration du transfo régulateur Binatone 1000W offre une sécurité optimale bien plus concrète contre les variations de tension.
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <button class="accordion-header" onclick="toggleFaqAccordion(this)">
+                            <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                <i class="fa-solid fa-circle-check" style="color: var(--accent-gaming);"></i>
+                                <span>Comment choisir une bonne configuration ?</span>
+                            </div>
+                            <i class="fa-solid fa-chevron-down accordion-icon"></i>
+                        </button>
+                        <div class="accordion-body">
+                            Utilisez le bouton <strong>Presets Conseillés</strong> en haut de page pour charger une sélection équilibrée en un clic, adaptée selon votre budget et vos objectifs (Gaming Esport 1080p, Gaming 1440p Ultra, ou Création 3D / Montage 4K).
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION D'AUTRES QUESTIONS -->
+            <section class="questions-section">
+                <div class="questions-box">
+                    <h3 style="font-size: 1.15rem; font-weight: 800; display: flex; align-items: center; gap: 0.5rem;">
+                        <i class="fa-solid fa-envelope" style="color: var(--accent-gold);"></i> D'autres questions ?
+                    </h3>
+                    <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.25rem;">
+                        Vous avez une question spécifique sur une pièce ou les modalités de livraison ? Notre équipe technique vous répond sous 24h.
+                    </p>
+
+                    <form onsubmit="handleSendQuestion(event)">
+                        <div class="form-grid">
+                            <div class="input-group">
+                                <label>Votre Email *</label>
+                                <input type="email" id="userEmailInput" class="input-field" placeholder="ex: client@gmail.com" required>
+                            </div>
+                            <div class="input-group">
+                                <label>Objet de la question *</label>
+                                <input type="text" id="userSubjectInput" class="input-field" placeholder="ex: Question sur la RAM ou le délai" required>
+                            </div>
+                        </div>
+                        <div class="input-group" style="margin-top: 0.8rem;">
+                            <label>Votre Message / Question *</label>
+                            <textarea id="userMessageInput" class="input-field" rows="3" placeholder="Écrivez votre message..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn-send-question">
+                            <i class="fa-solid fa-paper-plane"></i> Envoyer ma question
+                        </button>
+                    </form>
+                </div>
+            </section>
         </section>
 
         <!-- Section 2 : Reviews Hardware -->
@@ -135,6 +1196,164 @@
 
     </main>
 
+    <!-- MODALE FICHE TECHNIQUE COMPOSANT -->
+    <div class="cfg-modal-backdrop" id="specsModal">
+        <div class="cfg-modal-content">
+            <button class="cfg-modal-close" onclick="closeSpecsModal()"><i class="fa-solid fa-xmark"></i></button>
+            <div id="specsModalBody"></div>
+        </div>
+    </div>
+
+    <!-- MODALE PRESETS -->
+    <div class="cfg-modal-backdrop" id="presetsModal">
+        <div class="cfg-modal-content" style="max-width: 680px;">
+            <button class="cfg-modal-close" onclick="closePresetsModal()"><i class="fa-solid fa-xmark"></i></button>
+            <h3 style="font-size: 1.25rem; font-weight: 800; display: flex; align-items: center; gap: 0.5rem;">
+                <i class="fa-solid fa-wand-magic-sparkles" style="color: var(--accent-gold);"></i> Configurations Recommandées
+            </h3>
+            <p style="font-size: 0.85rem; color: var(--text-muted);">
+                Sélectionnez un preset pour configurer automatiquement votre PC idéal selon vos besoins et votre budget.
+            </p>
+            <div id="presetsList" style="display: flex; flex-direction: column; gap: 0.8rem; margin-top: 0.5rem;"></div>
+        </div>
+    </div>
+
+    <!-- MODALE COMMANDE -->
+    <div class="cfg-modal-backdrop" id="orderModal">
+        <div class="cfg-modal-content" style="max-width: 580px;">
+            <button class="cfg-modal-close" onclick="closeOrderModal()"><i class="fa-solid fa-xmark"></i></button>
+            <h3 style="font-size: 1.25rem; font-weight: 800; display: flex; align-items: center; gap: 0.5rem;">
+                <i class="fa-solid fa-cart-shopping" style="color: var(--accent-gold);"></i> Finaliser votre Commande
+            </h3>
+            <p style="font-size: 0.85rem; color: var(--text-muted);">
+                Renseignez vos coordonnées complètes pour générer votre commande et recevoir votre devis officiel détaillé.
+            </p>
+
+            <div class="disclaimer-banner" style="margin-top: 0.4rem;">
+                <i class="fa-solid fa-circle-info" style="color: #38bdf8; font-size: 1rem; margin-top: 2px;"></i>
+                <div>
+                    <strong>Note contractuelle :</strong> En raison des changements qui peuvent survenir (stock épuisé, modèle indisponible), les images des produits ne sont pas contractuelles, seules les spécifications techniques et les dimensions seront respectées à la lettre. En cas de litige, vous serez informé par mail.
+                </div>
+            </div>
+
+            <form onsubmit="handleFinalOrder(event)" style="display: flex; flex-direction: column; gap: 0.8rem; margin-top: 0.5rem;">
+                <div class="input-group">
+                    <label>Votre Nom complet *</label>
+                    <input type="text" id="orderName" class="input-field" placeholder="ex: Kouadio Jean" required>
+                </div>
+                <div class="form-grid" style="margin-top: 0;">
+                    <div class="input-group">
+                        <label>Votre Numéro (WhatsApp / Téléphone) *</label>
+                        <input type="tel" id="orderPhone" class="input-field" placeholder="ex: +225 07 00 00 00 00" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Votre Adresse email *</label>
+                        <input type="email" id="orderEmail" class="input-field" placeholder="ex: client@gmail.com" required>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>Adresse de livraison gratuite à Abidjan *</label>
+                    <input type="text" id="orderAddress" class="input-field" placeholder="ex: Cocody Angré 8ème Tranche" required>
+                </div>
+
+                <div style="background: var(--cfg-bg-card); border: 1px solid var(--cfg-border-subtle); border-radius: 8px; padding: 0.8rem; margin-top: 0.4rem;">
+                    <div style="display: flex; justify-content: space-between; font-size: 0.85rem; font-weight: 700;">
+                        <span>1er Versement (Jour 0 / Pack + Bateau) :</span>
+                        <span class="mono" id="modalInitAmt" style="color: #38bdf8;">0 F CFA</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; font-size: 0.85rem; font-weight: 700; margin-top: 0.3rem;">
+                        <span>Mensualités (Mois 1, 2, 3) :</span>
+                        <span class="mono" id="modalMonthAmt" style="color: var(--accent-gold);">0 F CFA / mois</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; font-size: 0.95rem; font-weight: 800; margin-top: 0.5rem; border-top: 1px solid var(--cfg-border-subtle); padding-top: 0.5rem;">
+                        <span>TOTAL :</span>
+                        <span class="mono" id="modalTotalAmt" style="color: var(--accent-gold);">0 F CFA</span>
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 0.8rem; margin-top: 1.25rem;">
+                    <button type="submit" class="btn-main-order" style="flex: 1; margin-top: 0;">
+                        <i class="fa-solid fa-cart-shopping"></i> Commander
+                    </button>
+                    <button type="button" class="btn-prev" onclick="triggerPrintInvoice()">
+                        <i class="fa-solid fa-file-pdf"></i> Imprimer / Devis PDF
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- DOCUMENT IMPRIMABLE FORMAT A4 -->
+    <div id="printableInvoice">
+        <div class="print-header">
+            <div class="print-brand">
+                <div>
+                    <div class="print-brand-title">AKOULY GAMING</div>
+                    <div class="print-brand-sub">Devis & Bon de Commande PC sur Mesure</div>
+                </div>
+            </div>
+            <div class="print-meta">
+                <div><strong>Devis N° :</strong> <span id="printQuoteNumber">DEV-2026-001</span></div>
+                <div><strong>Date :</strong> <span id="printQuoteDate"></span></div>
+                <div><strong>Validité :</strong> 15 jours</div>
+                <div><strong>Contact :</strong> akoulymarket@gmail.com</div>
+            </div>
+        </div>
+
+        <div class="print-profile-box">
+            <div class="print-profile-title">Informations Client & Livraison</div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4px;">
+                <div><strong>Client :</strong> <span id="printClientName">-</span></div>
+                <div><strong>Téléphone :</strong> <span id="printClientPhone">-</span></div>
+                <div><strong>Email :</strong> <span id="printClientEmail">-</span></div>
+                <div><strong>Lieu de Livraison :</strong> <span id="printClientAddress">Abidjan (Gratuite)</span></div>
+            </div>
+        </div>
+
+        <div class="print-sec-title">1. Détail de la Configuration Matérielle</div>
+        <table class="print-table">
+            <thead>
+                <tr>
+                    <th>Composant</th>
+                    <th>Désignation & Caractéristiques</th>
+                    <th>Transport</th>
+                    <th style="text-align: right;">Prix (F CFA)</th>
+                </tr>
+            </thead>
+            <tbody id="printTableBody"></tbody>
+        </table>
+
+        <div class="print-sec-title">2. Modalités Financières & Échéancier de Paiement</div>
+        <div class="print-payment-grid">
+            <div class="print-payment-card init">
+                <div class="print-payment-title">1er Paiement (Jour 0 / Commande)</div>
+                <div style="font-size: 7.5pt; color: #475569; margin-bottom: 4px;">Comprend Boîtier, Ventilateurs, Refroidissement, Alimentation + Fret Bateau fixe (30 000 F)</div>
+                <div class="print-payment-amount" id="printInitAmount">0 F CFA</div>
+            </div>
+            <div class="print-payment-card split">
+                <div class="print-payment-title">Solde en 3 Tranches Mensuelles</div>
+                <div style="font-size: 7.5pt; color: #475569; margin-bottom: 4px;">Pièces restantes + Fret Avion fixe 5 kg (60 000 F inclus)</div>
+                <div class="print-payment-amount" id="printMonthAmount">0 F CFA / mois</div>
+                <div style="font-size: 7.5pt; color: #475569; margin-top: 2px;">Échéances : Fin Mois 1, Fin Mois 2, Fin Mois 3</div>
+            </div>
+        </div>
+
+        <div class="print-signatures">
+            <div class="print-sign-box">
+                <span><strong>Pour le Client :</strong> (Lu et approuvé)</span>
+                <span style="font-size: 7pt; color: #94a3b8;">Signature & Date</span>
+            </div>
+            <div class="print-sign-box">
+                <span><strong>Pour Akouly Gaming :</strong> Direction Commerciale</span>
+                <span style="font-size: 7pt; color: #94a3b8;">Cachet & Signature</span>
+            </div>
+        </div>
+
+        <div class="print-terms">
+            Garantie 3 mois pièces & main d'œuvre. Tous les composants sont certifiés fonctionnels et testés avant livraison. Montage, Wi-Fi 5 GHz haute vitesse 600m, régulateur Binatone 1000W et livraison gratuite à Abidjan inclus. En raison des changements qui peuvent survenir (stock épuisé, modèle indisponible), les images des produits ne sont pas contractuelles, seules les spécifications techniques et les dimensions seront respectées à la lettre. En cas de litige, vous serez informé par mail.
+        </div>
+    </div>
+
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
@@ -149,5 +1368,1565 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
     <script src="animations/toggle-data.js"></script>
     <script src="main.js"></script>
+
+    <!-- LOGIQUE DU CONFIGURATEUR PC -->
+    <script>
+        /* ==========================================================================
+           BASE DE DONNÉES STRICTEMENT CONFORME AUX TARIFS ET SPÉCIFICATIONS
+           ========================================================================== */
+        const DB = {
+            packs: [
+                {
+                    id: "pack_daloa_black",
+                    name: "Pack Daloa — Noir",
+                    color: "Noir",
+                    price: 42000,
+                    tdp: 600,
+                    formFactor: "M-ATX",
+                    maxCoolerHeight: 160,
+                    specs: {
+                        case: "Boîtier S01 / S02 Noir Compact (Double Chambre)",
+                        motherboardCompat: "Micro-ATX / Mini-ITX",
+                        psu: "Alimentation 600W (ATX-600) incluse",
+                        cooling: "Ventirad Thermalright AX120R SE V2 (148 mm)",
+                        fans: "4 ventilateurs A305 RGB inclus",
+                        shipping: "Transport bateau fixe (30 000 F dans 1er paiement)"
+                    },
+                    details: [
+                        "Boîtier double chambre panoramique (335 × 275 × 355 mm)",
+                        "Alimentation 600W câbles plats noirs",
+                        "Ventirad 4 caloducs cuivre AGHP haute dissipation (148 mm)",
+                        "4 ventilateurs RGB (3 intake, 1 exhaust)"
+                    ]
+                },
+                {
+                    id: "pack_daloa_white",
+                    name: "Pack Daloa — Blanc",
+                    color: "Blanc",
+                    price: 43500,
+                    tdp: 600,
+                    formFactor: "M-ATX",
+                    maxCoolerHeight: 160,
+                    specs: {
+                        case: "Boîtier S01 / S02 Blanc Pur (Double Chambre)",
+                        motherboardCompat: "Micro-ATX / Mini-ITX",
+                        psu: "Alimentation 600W (ATX-600) incluse",
+                        cooling: "Ventirad Thermalright AX120R SE V2 (148 mm)",
+                        fans: "4 ventilateurs A305 RGB inclus",
+                        shipping: "Transport bateau fixe (30 000 F dans 1er paiement)"
+                    },
+                    details: [
+                        "Finition blanche pure avec parois en verre trempé",
+                        "Alimentation 600W câbles plats noirs",
+                        "Ventirad Thermalright silencieux et performant",
+                        "4 ventilateurs RGB pré-installés"
+                    ]
+                },
+                {
+                    id: "pack_bouake_black",
+                    name: "Pack Bouaké — Noir",
+                    color: "Noir",
+                    price: 79800,
+                    tdp: 700,
+                    formFactor: "ATX",
+                    maxCoolerHeight: 160,
+                    specs: {
+                        case: "Boîtier 285A Grand Volume ATX Noir Panoramique",
+                        motherboardCompat: "ATX / Micro-ATX / Mini-ITX",
+                        psu: "Alimentation 700W (ATX-700) incluse",
+                        cooling: "Watercooling AIO C303-1 360 mm ARGB (3 fans)",
+                        fans: "7 ventilateurs A603 ARGB Miroir Infini inclus",
+                        shipping: "Transport bateau fixe (30 000 F dans 1er paiement)"
+                    },
+                    details: [
+                        "Boîtier spacieux Cube ATX (420 × 285 × 400 mm) sans montant d'angle",
+                        "Alimentation 700W haute puissance",
+                        "Watercooling AIO liquide 360 mm haute dissipation",
+                        "7 ventilateurs ARGB avec effets miroir infini (6 intake, 1 exhaust)"
+                    ]
+                },
+                {
+                    id: "pack_bouake_white",
+                    name: "Pack Bouaké — Blanc",
+                    color: "Blanc",
+                    price: 89800,
+                    tdp: 700,
+                    formFactor: "ATX",
+                    maxCoolerHeight: 160,
+                    specs: {
+                        case: "Boîtier 285A Grand Volume ATX Blanc Pure Snow",
+                        motherboardCompat: "ATX / Micro-ATX / Mini-ITX",
+                        psu: "Alimentation 700W (ATX-700) incluse",
+                        cooling: "Watercooling AIO C303-1 360 mm ARGB White Edition",
+                        fans: "7 ventilateurs A603 ARGB Miroir Infini White inclus",
+                        shipping: "Transport bateau fixe (30 000 F dans 1er paiement)"
+                    },
+                    details: [
+                        "Design White Edition intégral panoramique double chambre",
+                        "Alimentation 700W performante",
+                        "Watercooling 360 mm blanc avec éclairage ARGB synchronisé",
+                        "7 ventilateurs ARGB effet miroir infini"
+                    ]
+                }
+            ],
+
+            cpus: [
+                {
+                    id: "cpu_i3_12100f",
+                    name: "Intel Core i3-12100F",
+                    price: 40000,
+                    socket: "LGA1700",
+                    brand: "Intel",
+                    tdp: 58,
+                    specs: { socket: "LGA1700", cores: "4 Cœurs / 8 Threads", freq: "3.3 GHz base (4.3 GHz Boost)", cache: "12 Mo Cache", pcie: "PCIe 4.0 / 5.0", tdp: "58W" },
+                    details: ["4 cœurs hautes performances, idéal pour le gaming 1080p fluide à petit prix"]
+                },
+                {
+                    id: "cpu_r5_3600x",
+                    name: "AMD Ryzen 5 3600X",
+                    price: 60000,
+                    socket: "AM4",
+                    brand: "AMD",
+                    tdp: 95,
+                    specs: { socket: "AM4", cores: "6 Cœurs / 12 Threads", freq: "3.8 GHz base (4.4 GHz Boost)", cache: "35 Mo Cache", pcie: "PCIe 4.0", tdp: "95W" },
+                    details: ["Processeur polyvalent AM4, idéal pour le gaming 1080p et la bureautique réactive"]
+                },
+                {
+                    id: "cpu_r5_5500",
+                    name: "AMD Ryzen 5 5500",
+                    price: 65000,
+                    socket: "AM4",
+                    brand: "AMD",
+                    tdp: 65,
+                    specs: { socket: "AM4", cores: "6 Cœurs / 12 Threads", freq: "3.6 GHz base (4.2 GHz Boost)", cache: "19 Mo Cache", pcie: "PCIe 3.0", tdp: "65W" },
+                    details: ["Architecture Zen 3 optimisée, consommation maîtrisée pour les jeux modernes"]
+                },
+                {
+                    id: "cpu_r5_5600xt",
+                    name: "AMD Ryzen 5 5600XT",
+                    price: 100000,
+                    socket: "AM4",
+                    brand: "AMD",
+                    tdp: 65,
+                    specs: { socket: "AM4", cores: "6 Cœurs / 12 Threads", freq: "3.7 GHz base (4.6 GHz Boost)", cache: "35 Mo Cache", pcie: "PCIe 4.0", tdp: "65W" },
+                    details: ["Hautes fréquences Zen 3, performances exceptionnelles en jeux compétitifs"]
+                },
+                {
+                    id: "cpu_r7_5700x",
+                    name: "AMD Ryzen 7 5700X",
+                    price: 110000,
+                    socket: "AM4",
+                    brand: "AMD",
+                    tdp: 65,
+                    specs: { socket: "AM4", cores: "8 Cœurs / 16 Threads", freq: "3.4 GHz base (4.6 GHz Boost)", cache: "36 Mo Cache", pcie: "PCIe 4.0", tdp: "65W" },
+                    details: ["8 cœurs physiques parfaits pour le multitâche lourd, le streaming et le rendu vidéo"]
+                },
+                {
+                    id: "cpu_i5_13600kf",
+                    name: "Intel Core i5-13600KF",
+                    price: 150000,
+                    socket: "LGA1700",
+                    brand: "Intel",
+                    tdp: 125,
+                    specs: { socket: "LGA1700", cores: "14 Cœurs (6P+8E) / 20 Threads", freq: "3.5 GHz base (5.1 GHz Boost)", cache: "24 Mo Cache", pcie: "PCIe 5.0", tdp: "125W" },
+                    details: ["Puissance brute hybride 14 cœurs pour le gaming 1440p et la création de contenu"]
+                },
+                {
+                    id: "cpu_r9_5900x",
+                    name: "AMD Ryzen 9 5900X",
+                    price: 160000,
+                    socket: "AM4",
+                    brand: "AMD",
+                    tdp: 105,
+                    specs: { socket: "AM4", cores: "12 Cœurs / 24 Threads", freq: "3.7 GHz base (4.8 GHz Boost)", cache: "70 Mo Cache", pcie: "PCIe 4.0", tdp: "105W" },
+                    details: ["Monstre de productivité avec 12 cœurs pour création 3D, montage 4K et gros calculs"]
+                },
+                {
+                    id: "cpu_i5_14600k",
+                    name: "Intel Core i5-14600K",
+                    price: 190000,
+                    socket: "LGA1700",
+                    brand: "Intel",
+                    tdp: 125,
+                    specs: { socket: "LGA1700", cores: "14 Cœurs (6P+8E) / 20 Threads", freq: "3.5 GHz base (5.3 GHz Boost)", cache: "24 Mo Cache", pcie: "PCIe 5.0", tdp: "125W" },
+                    details: ["14e génération Intel montant à 5.3 GHz, performances de pointe en gaming et multitâche"]
+                },
+                {
+                    id: "cpu_r7_5800x3d",
+                    name: "AMD Ryzen 7 5800X3D",
+                    price: 250000,
+                    socket: "AM4",
+                    brand: "AMD",
+                    tdp: 105,
+                    specs: { socket: "AM4", cores: "8 Cœurs / 16 Threads", freq: "3.4 GHz base (4.5 GHz Boost)", cache: "100 Mo 3D V-Cache", pcie: "PCIe 4.0", tdp: "105W" },
+                    details: ["Technologie 3D V-Cache offrant des performances gaming exceptionnelles et une fluidité maximale"]
+                }
+            ],
+
+            motherboards: [
+                {
+                    id: "mb_a520m",
+                    name: "Asus Prime A520M-Plus II",
+                    price: 38000,
+                    socket: "AM4",
+                    brand: "AMD",
+                    format: "Micro-ATX",
+                    ramSlots: 4,
+                    maxRam: "128 Go",
+                    specs: { socket: "Socket AMD AM4", format: "Micro-ATX", ram: "4 Slots DDR4 3200 MHz (jusqu'à 128 Go)", m2: "1x M.2 NVMe PCIe 3.0", pcie: "PCIe 3.0 x16" },
+                    details: ["Carte mère stable et économique, 4 slots RAM pour une évolutivité maximale"]
+                },
+                {
+                    id: "mb_h610m",
+                    name: "H610M Gaming",
+                    price: 45000,
+                    socket: "LGA1700",
+                    brand: "Intel",
+                    format: "Micro-ATX",
+                    ramSlots: 2,
+                    maxRam: "64 Go",
+                    specs: { socket: "Socket Intel LGA1700", format: "Micro-ATX", ram: "DDR4 3200 MHz", m2: "1x M.2 NVMe PCIe", pcie: "PCIe 4.0 x16" },
+                    details: ["Carte mère Intel LGA1700 fiable, format Micro-ATX, idéale pour Core i3 et Core i5"]
+                },
+                {
+                    id: "mb_b550m",
+                    name: "Gigabyte B550M DS3H",
+                    price: 70000,
+                    socket: "AM4",
+                    brand: "AMD",
+                    format: "Micro-ATX",
+                    ramSlots: 4,
+                    maxRam: "128 Go",
+                    specs: { socket: "Socket AMD AM4", format: "Micro-ATX", ram: "4 Slots DDR4 3200 MHz (jusqu'à 128 Go)", m2: "2x M.2 NVMe (PCIe 4.0 / 3.0)", pcie: "PCIe 4.0 x16" },
+                    details: ["Support complet PCIe 4.0 pour GPU et SSD ultra rapides, 4 slots RAM DDR4, double port M.2"]
+                },
+                {
+                    id: "mb_b660m",
+                    name: "B660M Gaming",
+                    price: 90000,
+                    socket: "LGA1700",
+                    brand: "Intel",
+                    format: "Micro-ATX",
+                    ramSlots: 4,
+                    maxRam: "128 Go",
+                    specs: { socket: "Socket Intel LGA1700", format: "Micro-ATX", ram: "4 Slots DDR4 3200 MHz (jusqu'à 128 Go)", m2: "2x M.2 NVMe PCIe 4.0", pcie: "PCIe 4.0 x16" },
+                    details: ["Performances optimales pour processeurs Intel 12e/13e/14e gén, 4 slots RAM DDR4, double port M.2 PCIe 4.0"]
+                }
+            ],
+
+            rams: [
+                {
+                    id: "ram_2x4",
+                    name: "2x4 Go (8 Go) DDR4 3200 MHz",
+                    price: 30000,
+                    capacity: "8 Go (2x4 Go)",
+                    speed: "3200 MHz",
+                    specs: { type: "DDR4", config: "2x4 Go", speed: "3200 MHz" },
+                    details: ["Kit 2 barrettes réactif en 3200 MHz pour usage bureautique et jeux légers esport"]
+                },
+                {
+                    id: "ram_2x8",
+                    name: "2x8 Go (16 Go) DDR4 3200 MHz",
+                    price: 65000,
+                    capacity: "16 Go (2x8 Go)",
+                    speed: "3200 MHz",
+                    specs: { type: "DDR4", config: "2x8 Go", speed: "3200 MHz" },
+                    details: ["Le standard recommandé pour faire tourner tous les jeux récents en multitâche fluide"]
+                },
+                {
+                    id: "ram_2x16",
+                    name: "2x16 Go (32 Go) DDR4 3200 MHz",
+                    price: 120000,
+                    capacity: "32 Go (2x16 Go)",
+                    speed: "3200 MHz",
+                    specs: { type: "DDR4", config: "2x16 Go", speed: "3200 MHz" },
+                    details: ["Capacité confortable de 32 Go pour streaming, montage vidéo 4K et jeux très gourmands"]
+                }
+            ],
+
+            gpus: [
+                {
+                    id: "gpu_gtx_1660s",
+                    name: "NVIDIA GeForce GTX 1660 Super 6 Go",
+                    price: 90000,
+                    vram: "6 Go GDDR6",
+                    tdp: 125,
+                    specs: { vram: "6 Go GDDR6", bus: "192-bit", perf: "Gaming 1080p Médium/High", tdp: "125W" },
+                    details: ["Excellente carte d'entrée de gamme pour jouer à GTA V, Fortnite, Valorant en 1080p fluide"]
+                },
+                {
+                    id: "gpu_rx_6700xt",
+                    name: "AMD Radeon RX 6700 XT 12 Go",
+                    price: 190000,
+                    vram: "12 Go GDDR6",
+                    tdp: 230,
+                    specs: { vram: "12 Go GDDR6", bus: "192-bit", perf: "Gaming 1440p Ultra fluide", tdp: "230W" },
+                    details: ["12 Go de VRAM et grande puissance de calcul pour jouer en 1440p 2K sans concession"]
+                },
+                {
+                    id: "gpu_rtx_3070ti",
+                    name: "NVIDIA GeForce RTX 3070 Ti 8 Go",
+                    price: 310000,
+                    vram: "8 Go GDDR6X",
+                    tdp: 290,
+                    specs: { vram: "8 Go GDDR6X", bus: "256-bit", perf: "Gaming 1440p Extrême + Ray Tracing", tdp: "290W" },
+                    details: ["Mémoire GDDR6X ultra-rapide avec support DLSS et Ray Tracing haute performance"]
+                },
+                {
+                    id: "gpu_rtx_3080ti",
+                    name: "NVIDIA GeForce RTX 3080 Ti 12 Go",
+                    price: 430000,
+                    vram: "12 Go GDDR6X",
+                    tdp: 350,
+                    specs: { vram: "12 Go GDDR6X", bus: "384-bit", perf: "Gaming 4K Ultime & Création Studio", tdp: "350W" },
+                    details: ["Performances graphiques d'élite pour jouer en 4K Ultra et production 3D intensive"]
+                }
+            ],
+
+            ssds: [
+                {
+                    id: "ssd_sata_512gb",
+                    name: "SSD SATA III 512 Go",
+                    price: 35000,
+                    format: "SATA 2.5\"",
+                    capacity: "512 Go",
+                    speed: "550 Mo/s lecture",
+                    specs: { type: "SATA III 6 Gb/s", capacity: "512 Go", speed: "550 Mo/s" },
+                    details: ["Stockage économique 512 Go rapide pour Windows et jeux essentiels"]
+                },
+                {
+                    id: "ssd_m2_512gb",
+                    name: "SSD M.2 NVMe 512 Go",
+                    price: 60000,
+                    format: "M.2 NVMe",
+                    capacity: "512 Go",
+                    speed: "plus de 3 500 Mo/s",
+                    specs: { type: "M.2 2280 NVMe", capacity: "512 Go", speed: "plus de 3 500 Mo/s" },
+                    details: ["Vitesse ultra rapide sans câble, démarrage instantané du système"]
+                },
+                {
+                    id: "ssd_sata_1tb",
+                    name: "SSD SATA III 1 To",
+                    price: 65000,
+                    format: "SATA 2.5\"",
+                    capacity: "1 To (1000 Go)",
+                    speed: "550 Mo/s lecture",
+                    specs: { type: "SATA III 6 Gb/s", capacity: "1 To", speed: "550 Mo/s" },
+                    details: ["Espace confortable de 1 To au meilleur coût pour grande bibliothèque"]
+                },
+                {
+                    id: "ssd_m2_1tb",
+                    name: "SSD M.2 NVMe 1 To",
+                    price: 95000,
+                    format: "M.2 NVMe",
+                    capacity: "1 To (1000 Go)",
+                    speed: "plus de 3 500 Mo/s",
+                    specs: { type: "M.2 2280 NVMe", capacity: "1 To", speed: "plus de 3 500 Mo/s" },
+                    details: ["Performance maximale et 1 To d'espace pour chargement ultra-rapide"]
+                }
+            ],
+
+            accessories: [
+                {
+                    id: "acc_wifi_5ghz",
+                    name: "Adaptateur Wi-Fi 5 GHz Haute Vitesse 600m",
+                    price: 0,
+                    tag: "INCLUS / OFFERT",
+                    specs: { type: "Dual Band Wi-Fi 5 GHz / 2.4 GHz", speed: "600 Mbps (Portée 600m) + antenne", port: "USB 3.0" },
+                    details: ["Connexion sans fil rapide et stable à votre box internet", "Prêt à l'emploi dès le premier allumage"]
+                },
+                {
+                    id: "acc_fanhub",
+                    name: "Fan Hub PWM & ARGB 10 Ports",
+                    price: 0,
+                    tag: "INCLUS / OFFERT",
+                    specs: { type: "Contrôleur PWM 4-pin & ARGB 3-pin 5V", ports: "10 ventilateurs", power: "Alimentation SATA" },
+                    details: ["Centralise et synchronise tous les ventilateurs du boîtier et éclairage RGB"]
+                },
+                {
+                    id: "acc_binatone_1000w",
+                    name: "Régulateur de Tension Binatone 1000W",
+                    price: 0,
+                    tag: "INCLUS / OFFERT",
+                    specs: { power: "1000 Watts", protect: "Protection anti-surtension & baisse de tension", brand: "Binatone Officiel" },
+                    details: ["Protection indispensable contre les coupures et variations électriques à Abidjan"]
+                },
+                {
+                    id: "acc_montage_win11",
+                    name: "Montage Pro, BIOS, Windows 11 & Optimisations",
+                    price: 0,
+                    tag: "INCLUS / OFFERT",
+                    specs: { os: "Windows 11 Pro activé", tests: "Stress test 2h & mise à jour BIOS", cableMgmt: "Cable management soigné" },
+                    details: ["Montage complet avec gestion des câbles invisible, machine 100% prête à jouer"]
+                },
+                {
+                    id: "acc_livraison_abidjan",
+                    name: "Livraison Sécurisée Gratuite à Domicile",
+                    price: 0,
+                    tag: "INCLUS / OFFERT",
+                    specs: { zone: "Toutes communes d'Abidjan", type: "Livraison directe à domicile", assurance: "Transport sécurisé" },
+                    details: ["Livraison gratuite directement à votre domicile ou bureau (aucun retrait boutique)"]
+                }
+            ],
+
+            presets: [
+                {
+                    id: "preset_intel_budget",
+                    title: "Preset 1 : Intel Esport & Budget (1080p)",
+                    desc: "Pack Daloa Noir + Intel Core i3-12100F + H610M Gaming + 8 Go RAM (2x4) + GTX 1660 Super 6 Go + SSD SATA 512 Go.",
+                    packId: "pack_daloa_black",
+                    cpuId: "cpu_i3_12100f",
+                    mbId: "mb_h610m",
+                    ramId: "ram_2x4",
+                    gpuId: "gpu_gtx_1660s",
+                    ssdId: "ssd_sata_512gb"
+                },
+                {
+                    id: "preset_amd_gamer",
+                    title: "Preset 2 : AMD Gaming 1080p Équilibré",
+                    desc: "Pack Daloa Noir + Ryzen 5 5500 + B550M + 16 Go RAM (2x8) + GTX 1660 Super 6 Go + SSD M.2 512 Go.",
+                    packId: "pack_daloa_black",
+                    cpuId: "cpu_r5_5500",
+                    mbId: "mb_b550m",
+                    ramId: "ram_2x8",
+                    gpuId: "gpu_gtx_1660s",
+                    ssdId: "ssd_m2_512gb"
+                },
+                {
+                    id: "preset_intel_streamer",
+                    title: "Preset 3 : Intel Gaming 1440p & Streaming",
+                    desc: "Pack Bouaké Noir + Intel Core i5-13600KF + B660M Gaming + 16 Go RAM (2x8) + RX 6700 XT 12 Go + SSD M.2 1 To.",
+                    packId: "pack_bouake_black",
+                    cpuId: "cpu_i5_13600kf",
+                    mbId: "mb_b660m",
+                    ramId: "ram_2x8",
+                    gpuId: "gpu_rx_6700xt",
+                    ssdId: "ssd_m2_1tb"
+                },
+                {
+                    id: "preset_amd_ultimate",
+                    title: "Preset 4 : AMD Gaming & Création Ultime",
+                    desc: "Pack Bouaké Blanc + Ryzen 7 5800X3D + B550M + 32 Go RAM (2x16) + RTX 3080 Ti 12 Go + SSD M.2 1 To.",
+                    packId: "pack_bouake_white",
+                    cpuId: "cpu_r7_5800x3d",
+                    mbId: "mb_b550m",
+                    ramId: "ram_2x16",
+                    gpuId: "gpu_rtx_3080ti",
+                    ssdId: "ssd_m2_1tb"
+                },
+                {
+                    id: "preset_intel_pro",
+                    title: "Preset 5 : Intel Pro Studio & Calcul (14600K)",
+                    desc: "Pack Bouaké Noir + Intel Core i5-14600K + B660M Gaming + 32 Go RAM (2x16) + RTX 3080 Ti 12 Go + SSD M.2 1 To.",
+                    packId: "pack_bouake_black",
+                    cpuId: "cpu_i5_14600k",
+                    mbId: "mb_b660m",
+                    ramId: "ram_2x16",
+                    gpuId: "gpu_rtx_3080ti",
+                    ssdId: "ssd_m2_1tb"
+                }
+            ]
+        };
+
+        /* ==========================================================================
+           ÉTAT DE L'APPLICATION
+           ========================================================================== */
+        const STATE = {
+            currentStep: 1,
+            selected: {
+                pack: null,
+                cpu: null,
+                mb: null,
+                ram: null,
+                gpu: null,
+                ssd: null
+            },
+            clientInfo: {
+                name: "",
+                phone: "",
+                email: "",
+                address: ""
+            }
+        };
+
+        const STEPS_CONFIG = [
+            { num: 1, key: "pack", title: "1. Boîtier", subtitle: "Pack Boîtier, Alimentation & Refroidissement", icon: "fa-cube" },
+            { num: 2, key: "cpu", title: "2. CPU", subtitle: "Processeur Intel LGA1700 ou AMD AM4", icon: "fa-microchip" },
+            { num: 3, key: "mb", title: "3. Carte mère", subtitle: "Carte mère adaptée au processeur sélectionné", icon: "fa-chess-board" },
+            { num: 4, key: "ram", title: "4. RAM", subtitle: "Mémoire vive DDR4 3200 MHz", icon: "fa-memory" },
+            { num: 5, key: "gpu", title: "5. GPU", subtitle: "Carte graphique dédiée (Obligatoire)", icon: "fa-tv" },
+            { num: 6, key: "ssd", title: "6. SSD", subtitle: "Stockage SSD rapide pour Windows et jeux", icon: "fa-hard-drive" },
+            { num: 7, key: "acc", title: "7. Accessoires", subtitle: "Pack d'accessoires & services 100% inclus et offerts", icon: "fa-shield-halved" },
+            { num: 8, key: "summary", title: "8. Devis & Financement", subtitle: "Récapitulatif financier et validation de commande", icon: "fa-file-invoice-dollar" }
+        ];
+
+        /* ==========================================================================
+           FONCTIONS DE CALCUL FINANCIER & ALIMENTATION
+           ========================================================================== */
+        function calculateTotals() {
+            const packPrice = STATE.selected.pack ? STATE.selected.pack.price : 0;
+            const boatShipping = STATE.selected.pack ? 30000 : 0;
+            const initialPayment = packPrice + boatShipping;
+
+            const cpuPrice = STATE.selected.cpu ? STATE.selected.cpu.price : 0;
+            const mbPrice = STATE.selected.mb ? STATE.selected.mb.price : 0;
+            const ramPrice = STATE.selected.ram ? STATE.selected.ram.price : 0;
+            const gpuPrice = STATE.selected.gpu ? STATE.selected.gpu.price : 0;
+            const ssdPrice = STATE.selected.ssd ? STATE.selected.ssd.price : 0;
+            
+            const hasAnyAirPart = (STATE.selected.cpu || STATE.selected.mb || STATE.selected.ram || STATE.selected.gpu || STATE.selected.ssd);
+            const airShipping = hasAnyAirPart ? 60000 : 0;
+            const airPartsTotal = cpuPrice + mbPrice + ramPrice + gpuPrice + ssdPrice + airShipping;
+
+            const monthlyInstallment = Math.round(airPartsTotal / 3);
+            const grandTotal = initialPayment + airPartsTotal;
+
+            let estimatedWattage = 65;
+            if (STATE.selected.cpu) estimatedWattage += (STATE.selected.cpu.tdp || 65);
+            if (STATE.selected.gpu) estimatedWattage += (STATE.selected.gpu.tdp || 120);
+
+            const psuCapacity = STATE.selected.pack ? STATE.selected.pack.tdp : 600;
+
+            return {
+                initialPayment,
+                airPartsTotal,
+                airShipping,
+                monthlyInstallment,
+                grandTotal,
+                estimatedWattage,
+                psuCapacity
+            };
+        }
+
+        /* ==========================================================================
+           GESTION DU STEPPER & DE L'INTERFACE
+           ========================================================================== */
+        function initApp() {
+            renderStepper();
+            renderCurrentStep();
+            updateSidebar();
+        }
+
+        function renderStepper() {
+            const nav = document.getElementById("stepperNav");
+            if (!nav) return;
+            nav.innerHTML = STEPS_CONFIG.map((step, idx) => {
+                const isCurrent = step.num === STATE.currentStep;
+                const isCompleted = step.num < STATE.currentStep || (step.key !== "summary" && step.key !== "acc" && STATE.selected[step.key]);
+                const activeClass = isCurrent ? "active" : "";
+                const completedClass = isCompleted ? "completed" : "";
+
+                let divider = "";
+                if (idx < STEPS_CONFIG.length - 1) {
+                    divider = '<div class="step-divider"></div>';
+                }
+
+                return `
+                    <div class="step-item ${activeClass} ${completedClass}" onclick="goToStep(${step.num})">
+                        <div class="step-number">
+                            ${isCompleted && !isCurrent ? '<i class="fa-solid fa-check"></i>' : step.num}
+                        </div>
+                        <div class="step-title">${step.title}</div>
+                    </div>
+                    ${divider}
+                `;
+            }).join('');
+        }
+
+        function goToStep(num) {
+            if (num < 1 || num > 8) return;
+            STATE.currentStep = num;
+            renderStepper();
+            renderCurrentStep();
+            const cfgElem = document.getElementById("configurateur");
+            if (cfgElem) {
+                cfgElem.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
+        function renderCurrentStep() {
+            const card = document.getElementById("flowCard");
+            if (!card) return;
+            const config = STEPS_CONFIG.find(s => s.num === STATE.currentStep);
+
+            let stepContentHtml = "";
+            if (STATE.currentStep === 1) {
+                stepContentHtml = renderPacksStep();
+            } else if (STATE.currentStep === 2) {
+                stepContentHtml = renderCpusStep();
+            } else if (STATE.currentStep === 3) {
+                stepContentHtml = renderMotherboardsStep();
+            } else if (STATE.currentStep === 4) {
+                stepContentHtml = renderRamsStep();
+            } else if (STATE.currentStep === 5) {
+                stepContentHtml = renderGpusStep();
+            } else if (STATE.currentStep === 6) {
+                stepContentHtml = renderSsdsStep();
+            } else if (STATE.currentStep === 7) {
+                stepContentHtml = renderAccessoriesStep();
+            } else if (STATE.currentStep === 8) {
+                stepContentHtml = renderSummaryStep();
+            }
+
+            card.innerHTML = `
+                <div class="flow-header">
+                    <div class="flow-header-left">
+                        <h3><i class="fa-solid ${config.icon}" style="color: var(--accent-gold);"></i> ${config.title}</h3>
+                        <p>${config.subtitle}</p>
+                    </div>
+                    <div class="flow-badges">
+                        <span class="badge-shipping"><i class="fa-solid fa-plane"></i> Fret Aérien Inclus (5 kg fixe)</span>
+                    </div>
+                </div>
+
+                <div class="flow-body">
+                    ${stepContentHtml}
+                </div>
+
+                <div class="flow-footer-nav">
+                    <button class="btn-prev" onclick="goToStep(${STATE.currentStep - 1})" ${STATE.currentStep === 1 ? "disabled" : ""}>
+                        <i class="fa-solid fa-arrow-left"></i> Précédent
+                    </button>
+                    ${
+                        STATE.currentStep < 8
+                            ? `<button class="btn-next" onclick="handleNextStep()">Suivant <i class="fa-solid fa-arrow-right"></i></button>`
+                            : `<button class="btn-next" onclick="openOrderModal()"><i class="fa-solid fa-cart-shopping"></i> Commander</button>`
+                    }
+                </div>
+            `;
+
+            setTimeout(() => {
+                drawProductCanvases();
+            }, 50);
+        }
+
+        function handleNextStep() {
+            if (STATE.currentStep === 1 && !STATE.selected.pack) {
+                STATE.selected.pack = DB.packs[0];
+            } else if (STATE.currentStep === 2 && !STATE.selected.cpu) {
+                STATE.selected.cpu = DB.cpus[0];
+                if (!STATE.selected.mb || STATE.selected.mb.socket !== STATE.selected.cpu.socket) {
+                    STATE.selected.mb = DB.motherboards.find(m => m.socket === STATE.selected.cpu.socket) || DB.motherboards[0];
+                }
+            } else if (STATE.currentStep === 3 && !STATE.selected.mb) {
+                const reqSocket = STATE.selected.cpu ? STATE.selected.cpu.socket : null;
+                STATE.selected.mb = (reqSocket ? DB.motherboards.find(m => m.socket === reqSocket) : null) || DB.motherboards[0];
+            } else if (STATE.currentStep === 4 && !STATE.selected.ram) {
+                STATE.selected.ram = DB.rams[0];
+            } else if (STATE.currentStep === 5 && !STATE.selected.gpu) {
+                STATE.selected.gpu = DB.gpus[0];
+            } else if (STATE.currentStep === 6 && !STATE.selected.ssd) {
+                STATE.selected.ssd = DB.ssds[0];
+            }
+            updateSidebar();
+            goToStep(STATE.currentStep + 1);
+        }
+
+        /* ==========================================================================
+           RENDU DES ÉTAPES INDIVIDUELLES
+           ========================================================================== */
+        function renderPacksStep() {
+            const sorted = [...DB.packs].sort((a, b) => a.price - b.price);
+            return `
+                <div class="prod-grid">
+                    ${sorted.map(pack => {
+                        const isSel = STATE.selected.pack && STATE.selected.pack.id === pack.id;
+                        const isWhite = pack.color.toLowerCase() === "blanc";
+                        return `
+                            <div class="prod-card ${isSel ? "selected" : ""}" onclick="selectItem('pack', '${pack.id}')">
+                                <div class="card-selected-tag"><i class="fa-solid fa-check"></i></div>
+                                <div class="prod-card-top">
+                                    <div class="prod-canvas-box ${isWhite ? "white-case" : ""}">
+                                        <canvas id="canvas_${pack.id}" class="prod-img-canvas" width="113" height="113"></canvas>
+                                    </div>
+                                    <div class="prod-info-col">
+                                        <div class="prod-name">${pack.name}</div>
+                                        <div class="prod-subtitle">Alimentation ${pack.tdp}W + Fans Inclus</div>
+                                        <div class="prod-specs-snippet">${pack.specs.case} • ${pack.specs.cooling}</div>
+                                    </div>
+                                </div>
+                                <div class="prod-card-bottom">
+                                    <div class="prod-price">${formatNumber(pack.price)} F CFA</div>
+                                    <button type="button" class="btn-more-specs" onclick="event.stopPropagation(); openSpecsModal('pack', '${pack.id}')">
+                                        <i class="fa-solid fa-circle-plus"></i> Détails
+                                    </button>
+                                </div>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+            `;
+        }
+
+        function renderCpusStep() {
+            const sorted = [...DB.cpus].sort((a, b) => a.price - b.price);
+            return `
+                <div class="prod-grid">
+                    ${sorted.map(cpu => {
+                        const isSel = STATE.selected.cpu && STATE.selected.cpu.id === cpu.id;
+                        const isIntel = cpu.socket === "LGA1700";
+                        return `
+                            <div class="prod-card ${isSel ? "selected" : ""}" onclick="selectItem('cpu', '${cpu.id}')">
+                                <div class="card-selected-tag"><i class="fa-solid fa-check"></i></div>
+                                <div class="prod-card-top">
+                                    <div class="prod-canvas-box">
+                                        <canvas id="canvas_${cpu.id}" class="prod-img-canvas" width="113" height="113"></canvas>
+                                    </div>
+                                    <div class="prod-info-col">
+                                        <div class="prod-name">${cpu.name}</div>
+                                        <div class="prod-subtitle" style="color: ${isIntel ? '#38bdf8' : 'var(--accent-gold)'};">Socket ${cpu.socket} • ${cpu.specs.cores}</div>
+                                        <div class="prod-specs-snippet">${cpu.specs.freq} • TDP ${cpu.tdp}W</div>
+                                    </div>
+                                </div>
+                                <div class="prod-card-bottom">
+                                    <div class="prod-price">${formatNumber(cpu.price)} F CFA</div>
+                                    <button type="button" class="btn-more-specs" onclick="event.stopPropagation(); openSpecsModal('cpu', '${cpu.id}')">
+                                        <i class="fa-solid fa-circle-plus"></i> Détails
+                                    </button>
+                                </div>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+            `;
+        }
+
+        function renderMotherboardsStep() {
+            const selectedCpu = STATE.selected.cpu;
+            const targetSocket = selectedCpu ? selectedCpu.socket : null;
+            
+            let displayBoards = DB.motherboards;
+            if (targetSocket) {
+                displayBoards = DB.motherboards.filter(m => m.socket === targetSocket);
+            }
+            const sorted = [...displayBoards].sort((a, b) => a.price - b.price);
+
+            return `
+                <div style="display: flex; flex-direction: column; gap: 0.8rem;">
+                    ${selectedCpu ? `
+                        <div class="socket-filter-bar">
+                            <i class="fa-solid fa-microchip" style="color: var(--accent-gold); font-size: 0.9rem;"></i>
+                            <span style="font-size: 0.8rem; color: var(--text-muted);">Processeur sélectionné : <strong style="color: var(--text-main);">${selectedCpu.name}</strong></span>
+                            <span class="socket-filter-tag ${targetSocket === 'LGA1700' ? 'intel' : 'amd'}">Socket ${targetSocket}</span>
+                        </div>
+                    ` : ''}
+
+                    <div class="prod-grid">
+                        ${sorted.map(mb => {
+                            const isSel = STATE.selected.mb && STATE.selected.mb.id === mb.id;
+                            const isIntel = mb.socket === "LGA1700";
+                            return `
+                                <div class="prod-card ${isSel ? "selected" : ""}" onclick="selectItem('mb', '${mb.id}')">
+                                    <div class="card-selected-tag"><i class="fa-solid fa-check"></i></div>
+                                    <div class="prod-card-top">
+                                        <div class="prod-canvas-box">
+                                            <canvas id="canvas_${mb.id}" class="prod-img-canvas" width="113" height="113"></canvas>
+                                        </div>
+                                        <div class="prod-info-col">
+                                            <div class="prod-name">${mb.name}</div>
+                                            <div class="prod-subtitle" style="color: ${isIntel ? '#38bdf8' : 'var(--accent-gold)'};">Socket ${mb.socket} • ${mb.format}</div>
+                                            <div class="prod-specs-snippet">${mb.specs.ram} • ${mb.specs.m2}</div>
+                                        </div>
+                                    </div>
+                                    <div class="prod-card-bottom">
+                                        <div class="prod-price">${formatNumber(mb.price)} F CFA</div>
+                                        <button type="button" class="btn-more-specs" onclick="event.stopPropagation(); openSpecsModal('mb', '${mb.id}')">
+                                            <i class="fa-solid fa-circle-plus"></i> Détails
+                                        </button>
+                                    </div>
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderRamsStep() {
+            const sorted = [...DB.rams].sort((a, b) => a.price - b.price);
+            return `
+                <div class="prod-grid">
+                    ${sorted.map(ram => {
+                        const isSel = STATE.selected.ram && STATE.selected.ram.id === ram.id;
+                        return `
+                            <div class="prod-card ${isSel ? "selected" : ""}" onclick="selectItem('ram', '${ram.id}')">
+                                <div class="card-selected-tag"><i class="fa-solid fa-check"></i></div>
+                                <div class="prod-card-top">
+                                    <div class="prod-canvas-box">
+                                        <canvas id="canvas_${ram.id}" class="prod-img-canvas" width="113" height="113"></canvas>
+                                    </div>
+                                    <div class="prod-info-col">
+                                        <div class="prod-name">${ram.name}</div>
+                                        <div class="prod-subtitle">DDR4 3200 MHz</div>
+                                        <div class="prod-specs-snippet">${ram.details[0]}</div>
+                                    </div>
+                                </div>
+                                <div class="prod-card-bottom">
+                                    <div class="prod-price">${formatNumber(ram.price)} F CFA</div>
+                                    <button type="button" class="btn-more-specs" onclick="event.stopPropagation(); openSpecsModal('ram', '${ram.id}')">
+                                        <i class="fa-solid fa-circle-plus"></i> Détails
+                                    </button>
+                                </div>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+            `;
+        }
+
+        function renderGpusStep() {
+            const sorted = [...DB.gpus].sort((a, b) => a.price - b.price);
+            return `
+                <div class="prod-grid">
+                    ${sorted.map(gpu => {
+                        const isSel = STATE.selected.gpu && STATE.selected.gpu.id === gpu.id;
+                        return `
+                            <div class="prod-card ${isSel ? "selected" : ""}" onclick="selectItem('gpu', '${gpu.id}')">
+                                <div class="card-selected-tag"><i class="fa-solid fa-check"></i></div>
+                                <div class="prod-card-top">
+                                    <div class="prod-canvas-box">
+                                        <canvas id="canvas_${gpu.id}" class="prod-img-canvas" width="113" height="113"></canvas>
+                                    </div>
+                                    <div class="prod-info-col">
+                                        <div class="prod-name">${gpu.name}</div>
+                                        <div class="prod-subtitle">${gpu.vram} • TDP ${gpu.tdp}W</div>
+                                        <div class="prod-specs-snippet">${gpu.specs.perf}</div>
+                                    </div>
+                                </div>
+                                <div class="prod-card-bottom">
+                                    <div class="prod-price">${formatNumber(gpu.price)} F CFA</div>
+                                    <button type="button" class="btn-more-specs" onclick="event.stopPropagation(); openSpecsModal('gpu', '${gpu.id}')">
+                                        <i class="fa-solid fa-circle-plus"></i> Détails
+                                    </button>
+                                </div>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+            `;
+        }
+
+        function renderSsdsStep() {
+            const sorted = [...DB.ssds].sort((a, b) => a.price - b.price);
+            return `
+                <div class="prod-grid">
+                    ${sorted.map(ssd => {
+                        const isSel = STATE.selected.ssd && STATE.selected.ssd.id === ssd.id;
+                        return `
+                            <div class="prod-card ${isSel ? "selected" : ""}" onclick="selectItem('ssd', '${ssd.id}')">
+                                <div class="card-selected-tag"><i class="fa-solid fa-check"></i></div>
+                                <div class="prod-card-top">
+                                    <div class="prod-canvas-box">
+                                        <canvas id="canvas_${ssd.id}" class="prod-img-canvas" width="113" height="113"></canvas>
+                                    </div>
+                                    <div class="prod-info-col">
+                                        <div class="prod-name">${ssd.name}</div>
+                                        <div class="prod-subtitle">${ssd.format} • ${ssd.speed}</div>
+                                        <div class="prod-specs-snippet">${ssd.details[0]}</div>
+                                    </div>
+                                </div>
+                                <div class="prod-card-bottom">
+                                    <div class="prod-price">${formatNumber(ssd.price)} F CFA</div>
+                                    <button type="button" class="btn-more-specs" onclick="event.stopPropagation(); openSpecsModal('ssd', '${ssd.id}')">
+                                        <i class="fa-solid fa-circle-plus"></i> Détails
+                                    </button>
+                                </div>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+            `;
+        }
+
+        function renderAccessoriesStep() {
+            return `
+                <div style="display: flex; flex-direction: column; gap: 1rem;">
+                    <div style="background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 8px; padding: 0.8rem 1rem; font-size: 0.82rem; color: #a7f3d0; display: flex; align-items: center; gap: 0.6rem;">
+                        <i class="fa-solid fa-gift" style="font-size: 1.1rem; color: #10b981;"></i>
+                        <span>Tous les accessoires, services d'assemblage, régulateur et transport à Abidjan ci-dessous sont <strong>100% inclus et gratuits</strong> dans votre configuration.</span>
+                    </div>
+
+                    <div class="prod-grid">
+                        ${DB.accessories.map(acc => {
+                            return `
+                                <div class="prod-card selected" style="cursor: default;">
+                                    <div class="card-selected-tag" style="background: #10b981;"><i class="fa-solid fa-check"></i></div>
+                                    <div class="prod-card-top">
+                                        <div class="prod-canvas-box">
+                                            <canvas id="canvas_${acc.id}" class="prod-img-canvas" width="113" height="113"></canvas>
+                                        </div>
+                                        <div class="prod-info-col">
+                                            <div class="prod-name">${acc.name}</div>
+                                            <div class="prod-subtitle" style="color: #10b981;">OFFERT / 100% INCLUS</div>
+                                            <div class="prod-specs-snippet">${acc.details[0]}</div>
+                                        </div>
+                                    </div>
+                                    <div class="prod-card-bottom">
+                                        <div class="prod-price free">GRATUIT (0 F)</div>
+                                        <button type="button" class="btn-more-specs" onclick="event.stopPropagation(); openSpecsModal('acc', '${acc.id}')">
+                                            <i class="fa-solid fa-circle-plus"></i> Détails
+                                        </button>
+                                    </div>
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderSummaryStep() {
+            const calc = calculateTotals();
+            const isReadyToOrder = STATE.selected.pack && STATE.selected.cpu && STATE.selected.mb && STATE.selected.ram && STATE.selected.gpu && STATE.selected.ssd;
+
+            return `
+                <div style="display: flex; flex-direction: column; gap: 1.25rem;">
+                    
+                    <div class="disclaimer-banner">
+                        <i class="fa-solid fa-circle-info" style="color: #38bdf8; font-size: 1.1rem; margin-top: 2px;"></i>
+                        <div>
+                            <strong>Note de conformité contractuelle :</strong> En raison des changements qui peuvent survenir (stock épuisé, modèle indisponible), les images des produits ne sont pas contractuelles, seules les spécifications techniques et les dimensions seront respectées à la lettre. En cas de litige, vous serez informé par mail.
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem;">
+                        
+                        <div style="background: var(--cfg-bg-card); border: 1px solid var(--cfg-border-subtle); border-radius: var(--radius-md, 12px); padding: 1.2rem; display: flex; flex-direction: column; gap: 0.8rem;">
+                            <h4 style="font-size: 1rem; color: #38bdf8; display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0;">
+                                <i class="fa-solid fa-ship"></i> 1. Versement Initial (Jour 0)
+                            </h4>
+                            <p style="font-size: 0.8rem; color: var(--text-muted);">
+                                Déclenche la commande et l'acheminement sécurisé par bateau du boîtier et de ses équipements.
+                            </p>
+                            <div style="background: rgba(2, 132, 199, 0.08); border-radius: 6px; padding: 0.8rem; font-size: 0.85rem; display: flex; flex-direction: column; gap: 0.3rem;">
+                                <div style="display: flex; justify-content: space-between;">
+                                    <span>Boîtier & Équipements :</span>
+                                    <span class="mono">${STATE.selected.pack ? formatNumber(STATE.selected.pack.price) : 0} F</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between;">
+                                    <span>Fret Maritime fixe :</span>
+                                    <span class="mono">30 000 F</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; font-weight: 800; border-top: 1px dashed rgba(2, 132, 199, 0.3); padding-top: 0.4rem; color: #38bdf8;">
+                                    <span>Sous-total Jour 0 :</span>
+                                    <span class="mono">${formatNumber(calc.initialPayment)} F CFA</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="background: var(--cfg-bg-card); border: 1px solid var(--cfg-border-subtle); border-radius: var(--radius-md, 12px); padding: 1.2rem; display: flex; flex-direction: column; gap: 0.8rem;">
+                            <h4 style="font-size: 1rem; color: var(--accent-gold); display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0;">
+                                <i class="fa-solid fa-calendar-days"></i> 2. Solde en 3 Tranches Mensuelles
+                            </h4>
+                            <p style="font-size: 0.8rem; color: var(--text-muted);">
+                                Composants électroniques acheminés par avion express (5 kg = 60 000 F fixe).
+                            </p>
+                            <div style="background: rgba(242, 177, 52, 0.06); border-radius: 6px; padding: 0.8rem; font-size: 0.85rem; display: flex; flex-direction: column; gap: 0.3rem;">
+                                <div style="display: flex; justify-content: space-between;">
+                                    <span>Tranche 1 (Mois 1) :</span>
+                                    <span class="mono font-bold">${formatNumber(calc.monthlyInstallment)} F CFA</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between;">
+                                    <span>Tranche 2 (Mois 2) :</span>
+                                    <span class="mono font-bold">${formatNumber(calc.monthlyInstallment)} F CFA</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between;">
+                                    <span>Tranche 3 (Mois 3) :</span>
+                                    <span class="mono font-bold">${formatNumber(calc.monthlyInstallment)} F CFA</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="background: var(--cfg-bg-card); border: 1px solid var(--cfg-border-subtle); border-radius: var(--radius-md, 12px); padding: 1.2rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; font-size: 1.1rem; font-weight: 800; flex-wrap: wrap; gap: 0.5rem;">
+                            <span>TOTAL DE LA CONFIGURATION :</span>
+                            <span class="mono" style="color: var(--accent-gold); font-size: 1.45rem;">${formatNumber(calc.grandTotal)} F CFA</span>
+                        </div>
+                        <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.3rem;">
+                            Comprend l'ensemble des 6 composants matériels, les 5 accessoires et services offerts, le transport par bateau (30 000 F), le fret avion express (60 000 F) et la livraison gratuite à domicile à Abidjan.
+                        </div>
+                    </div>
+
+                    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                        <button class="btn-main-order ${!isReadyToOrder ? 'disabled' : ''}" style="flex: 2; min-width: 200px;" onclick="openOrderModal()">
+                            <i class="fa-solid fa-cart-shopping"></i> Commander
+                        </button>
+                        <button class="btn-prev" style="flex: 1; min-width: 160px; justify-content: center; padding: 0.85rem;" onclick="triggerPrintInvoice()">
+                            <i class="fa-solid fa-file-pdf"></i> Imprimer / Devis PDF
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        /* ==========================================================================
+           SÉLECTION ET MISE À JOUR DU DEVIS
+           ========================================================================== */
+        function selectItem(category, itemId) {
+            if (category === "pack") {
+                STATE.selected.pack = DB.packs.find(p => p.id === itemId);
+            } else if (category === "cpu") {
+                STATE.selected.cpu = DB.cpus.find(c => c.id === itemId);
+                if (STATE.selected.mb && STATE.selected.mb.socket !== STATE.selected.cpu.socket) {
+                    const compatibleMb = DB.motherboards.find(m => m.socket === STATE.selected.cpu.socket);
+                    STATE.selected.mb = compatibleMb || null;
+                }
+            } else if (category === "mb") {
+                STATE.selected.mb = DB.motherboards.find(m => m.id === itemId);
+            } else if (category === "ram") {
+                STATE.selected.ram = DB.rams.find(r => r.id === itemId);
+            } else if (category === "gpu") {
+                STATE.selected.gpu = DB.gpus.find(g => g.id === itemId);
+            } else if (category === "ssd") {
+                STATE.selected.ssd = DB.ssds.find(s => s.id === itemId);
+            }
+
+            renderCurrentStep();
+            updateSidebar();
+        }
+
+        function updateSidebar() {
+            const list = document.getElementById("summaryItemsList");
+            if (!list) return;
+            const calc = calculateTotals();
+
+            const items = [
+                { label: "1. Boîtier & Refroidissement", item: STATE.selected.pack },
+                { label: "2. CPU (Processeur)", item: STATE.selected.cpu },
+                { label: "3. Carte Mère", item: STATE.selected.mb },
+                { label: "4. RAM (DDR4 3200)", item: STATE.selected.ram },
+                { label: "5. GPU (Graphique)", item: STATE.selected.gpu },
+                { label: "6. SSD (Stockage)", item: STATE.selected.ssd }
+            ];
+
+            const hasAnySelection = items.some(i => i.item !== null);
+
+            if (!hasAnySelection) {
+                list.innerHTML = `
+                    <div style="color: var(--text-muted); font-size: 0.8rem; text-align: center; padding: 1.5rem 0;">
+                        Sélectionnez vos composants étape par étape pour construire votre devis.
+                    </div>
+                `;
+            } else {
+                list.innerHTML = items.map(slot => {
+                    if (!slot.item) {
+                        return `
+                            <div class="summary-item" style="opacity: 0.4;">
+                                <div class="summary-item-left">
+                                    <span class="summary-label">${slot.label}</span>
+                                    <span class="summary-val" style="font-style: italic;">En attente de choix</span>
+                                </div>
+                                <span class="summary-price">-</span>
+                            </div>
+                        `;
+                    }
+                    return `
+                        <div class="summary-item">
+                            <div class="summary-item-left">
+                                <span class="summary-label">${slot.label}</span>
+                                <span class="summary-val">${slot.item.name}</span>
+                            </div>
+                            <span class="summary-price">${formatNumber(slot.item.price)} F</span>
+                        </div>
+                    `;
+                }).join('') + `
+                    <div class="summary-item" style="border-top: 1px dashed var(--cfg-border-subtle); padding-top: 0.4rem; margin-top: 0.2rem;">
+                        <div class="summary-item-left">
+                            <span class="summary-label">Transport Maritime (Boîtier)</span>
+                            <span class="summary-val" style="color: #38bdf8;">Bateau (30 000 F fixe)</span>
+                        </div>
+                        <span class="summary-price" style="color: #38bdf8;">30 000 F</span>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-item-left">
+                            <span class="summary-label">Fret Aérien Restant (5 kg fixe)</span>
+                            <span class="summary-val" style="color: #38bdf8;">Avion (60 000 F inclus)</span>
+                        </div>
+                        <span class="summary-price" style="color: #38bdf8;">60 000 F</span>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-item-left">
+                            <span class="summary-label">Services & Accessoires</span>
+                            <span class="summary-val" style="color: var(--accent-gaming, #10b981);">Wi-Fi 600m, Binatone, Win 11, Montage</span>
+                        </div>
+                        <span class="summary-price" style="color: var(--accent-gaming, #10b981);">GRATUIT</span>
+                    </div>
+                `;
+            }
+
+            // MAJ Alimentation
+            const psuPct = Math.min(100, Math.round((calc.estimatedWattage / calc.psuCapacity) * 100));
+            const psuWattageEl = document.getElementById("psuWattageText");
+            if (psuWattageEl) psuWattageEl.textContent = `${calc.estimatedWattage}W / ${calc.psuCapacity}W (${psuPct}%)`;
+            const psuBar = document.getElementById("psuBarFill");
+            if (psuBar) {
+                psuBar.style.width = `${psuPct}%`;
+                if (psuPct > 80) {
+                    psuBar.style.backgroundColor = "var(--accent-danger, #ef4444)";
+                } else if (psuPct > 65) {
+                    psuBar.style.backgroundColor = "var(--accent-gold)";
+                } else {
+                    psuBar.style.backgroundColor = "var(--accent-gaming, #10b981)";
+                }
+            }
+
+            // MAJ Échéancier
+            const initEl = document.getElementById("instInitialVal");
+            if (initEl) initEl.textContent = `${formatNumber(calc.initialPayment)} F CFA`;
+            const m1El = document.getElementById("instMonth1Val");
+            if (m1El) m1El.textContent = `${formatNumber(calc.monthlyInstallment)} F CFA`;
+            const m2El = document.getElementById("instMonth2Val");
+            if (m2El) m2El.textContent = `${formatNumber(calc.monthlyInstallment)} F CFA`;
+            const m3El = document.getElementById("instMonth3Val");
+            if (m3El) m3El.textContent = `${formatNumber(calc.monthlyInstallment)} F CFA`;
+            const totEl = document.getElementById("grandTotalVal");
+            if (totEl) totEl.textContent = `${formatNumber(calc.grandTotal)} F CFA`;
+
+            // Bouton Commander
+            const isComplete = STATE.selected.pack && STATE.selected.cpu && STATE.selected.mb && STATE.selected.ram && STATE.selected.gpu && STATE.selected.ssd;
+            const orderBtn = document.getElementById("btnSidebarOrder");
+            if (orderBtn) {
+                if (isComplete) {
+                    orderBtn.classList.remove("disabled");
+                } else {
+                    orderBtn.classList.add("disabled");
+                }
+            }
+        }
+
+        /* ==========================================================================
+           GESTION DES MODALES (SPECS, PRESETS, COMMANDE)
+           ========================================================================== */
+        function openSpecsModal(category, itemId) {
+            let item = null;
+            if (category === "pack") item = DB.packs.find(p => p.id === itemId);
+            else if (category === "cpu") item = DB.cpus.find(c => c.id === itemId);
+            else if (category === "mb") item = DB.motherboards.find(m => m.id === itemId);
+            else if (category === "ram") item = DB.rams.find(r => r.id === itemId);
+            else if (category === "gpu") item = DB.gpus.find(g => g.id === itemId);
+            else if (category === "ssd") item = DB.ssds.find(s => s.id === itemId);
+            else if (category === "acc") item = DB.accessories.find(a => a.id === itemId);
+
+            if (!item) return;
+
+            const body = document.getElementById("specsModalBody");
+            let specsHtml = "";
+            if (item.specs) {
+                specsHtml = Object.entries(item.specs).map(([k, v]) => {
+                    return `<div style="display: flex; justify-content: space-between; padding: 0.35rem 0; border-bottom: 1px solid rgba(255,255,255,0.06); font-size: 0.8rem;">
+                        <span style="color: var(--text-muted); text-transform: capitalize;">${k} :</span>
+                        <span style="font-weight: 600; color: var(--text-main);">${v}</span>
+                    </div>`;
+                }).join('');
+            }
+
+            let detailsHtml = "";
+            if (item.details && item.details.length > 0) {
+                detailsHtml = `
+                    <div style="margin-top: 0.8rem;">
+                        <div style="font-size: 0.82rem; font-weight: 700; color: var(--accent-gold); margin-bottom: 0.3rem;">Points forts & Fiche détaillée :</div>
+                        <ul style="font-size: 0.78rem; color: var(--text-muted); padding-left: 1.2rem; line-height: 1.5;">
+                            ${item.details.map(d => `<li>${d}</li>`).join('')}
+                        </ul>
+                    </div>
+                `;
+            }
+
+            body.innerHTML = `
+                <h3 style="font-size: 1.25rem; font-weight: 800; color: var(--text-main);">${item.name}</h3>
+                <div style="font-size: 0.85rem; color: var(--accent-cyan); font-weight: 600; margin-bottom: 0.8rem;">
+                    ${item.price === 0 ? "Accessoire Inclus / Offert" : `${formatNumber(item.price)} F CFA`}
+                </div>
+                <div style="background: var(--cfg-bg-card); border: 1px solid var(--cfg-border-subtle); border-radius: 8px; padding: 0.8rem;">
+                    ${specsHtml}
+                </div>
+                ${detailsHtml}
+            `;
+
+            document.getElementById("specsModal").classList.add("open");
+        }
+
+        function closeSpecsModal() {
+            document.getElementById("specsModal").classList.remove("open");
+        }
+
+        function openPresetsModal() {
+            const container = document.getElementById("presetsList");
+            if (!container) return;
+
+            container.innerHTML = DB.presets.map(p => {
+                return `
+                    <div style="background: var(--cfg-bg-card); border: 1px solid var(--cfg-border-subtle); border-radius: var(--radius-md, 12px); padding: 1rem; cursor: pointer; transition: var(--trans-fast);" 
+                         onmouseover="this.style.borderColor='var(--accent-gold)'" 
+                         onmouseout="this.style.borderColor='var(--cfg-border-subtle)'"
+                         onclick="applyPreset('${p.id}')">
+                        <div style="font-weight: 800; font-size: 0.95rem; color: var(--accent-gold);">${p.title}</div>
+                        <div style="font-size: 0.82rem; color: var(--text-muted); margin: 0.25rem 0 0.6rem 0;">${p.desc}</div>
+                        <button class="btn-next" style="padding: 0.4rem 0.8rem; font-size: 0.75rem;">
+                            <i class="fa-solid fa-wand-magic-sparkles"></i> Charger ce Preset
+                        </button>
+                    </div>
+                `;
+            }).join('');
+
+            document.getElementById("presetsModal").classList.add("open");
+        }
+
+        function closePresetsModal() {
+            document.getElementById("presetsModal").classList.remove("open");
+        }
+
+        function applyPreset(presetId) {
+            const preset = DB.presets.find(p => p.id === presetId);
+            if (!preset) return;
+
+            STATE.selected.pack = DB.packs.find(p => p.id === preset.packId);
+            STATE.selected.cpu = DB.cpus.find(c => c.id === preset.cpuId);
+            STATE.selected.mb = DB.motherboards.find(m => m.id === preset.mbId);
+            STATE.selected.ram = DB.rams.find(r => r.id === preset.ramId);
+            STATE.selected.gpu = DB.gpus.find(g => g.id === preset.gpuId);
+            STATE.selected.ssd = DB.ssds.find(s => s.id === preset.ssdId);
+
+            closePresetsModal();
+            goToStep(8);
+        }
+
+        function openOrderModal() {
+            const missing = [];
+            if (!STATE.selected.pack) missing.push({ name: "1. Boîtier (Pack)", step: 1 });
+            if (!STATE.selected.cpu) missing.push({ name: "2. CPU (Processeur)", step: 2 });
+            if (!STATE.selected.mb) missing.push({ name: "3. Carte Mère", step: 3 });
+            if (!STATE.selected.ram) missing.push({ name: "4. RAM (Mémoire)", step: 4 });
+            if (!STATE.selected.gpu) missing.push({ name: "5. GPU (Carte Graphique)", step: 5 });
+            if (!STATE.selected.ssd) missing.push({ name: "6. SSD (Stockage)", step: 6 });
+
+            if (missing.length > 0) {
+                const listNames = missing.map(m => `• ${m.name}`).join('\n');
+                alert(`Impossible de commander pour l'instant : votre configuration est incomplète (${6 - missing.length}/6 pièces sélectionnées).\n\nVeuillez sélectionner les composants suivants :\n${listNames}\n\nVous êtes redirigé vers : ${missing[0].name}`);
+                goToStep(missing[0].step);
+                return;
+            }
+
+            const calc = calculateTotals();
+            document.getElementById("modalInitAmt").textContent = `${formatNumber(calc.initialPayment)} F CFA`;
+            document.getElementById("modalMonthAmt").textContent = `${formatNumber(calc.monthlyInstallment)} F CFA / mois`;
+            document.getElementById("modalTotalAmt").textContent = `${formatNumber(calc.grandTotal)} F CFA`;
+
+            document.getElementById("orderModal").classList.add("open");
+        }
+
+        function closeOrderModal() {
+            document.getElementById("orderModal").classList.remove("open");
+        }
+
+        /* ==========================================================================
+           SOUMISSION DE COMMANDE & TRANSMISSION DEVIS
+           ========================================================================== */
+        function handleFinalOrder(e) {
+            e.preventDefault();
+            const name = document.getElementById("orderName").value.trim();
+            const phone = document.getElementById("orderPhone").value.trim();
+            const email = document.getElementById("orderEmail").value.trim();
+            const address = document.getElementById("orderAddress").value.trim();
+
+            STATE.clientInfo = { name, phone, email, address };
+            const calc = calculateTotals();
+
+            const orderBody = `COMMANDE & DEVIS PC SUR MESURE — AKOULY GAMING
+==================================================
+
+INFORMATIONS CLIENT :
+- Nom : ${name}
+- Téléphone / WhatsApp : ${phone}
+- Email Client : ${email}
+- Adresse de Livraison Gratuite : ${address}
+
+CONFIGURATION MATÉRIELLE CHOISIE :
+- Boîtier & Pack : ${STATE.selected.pack.name} (${formatNumber(STATE.selected.pack.price)} F)
+- CPU (Processeur) : ${STATE.selected.cpu.name} [Socket ${STATE.selected.cpu.socket}] (${formatNumber(STATE.selected.cpu.price)} F)
+- Carte Mère : ${STATE.selected.mb.name} [Socket ${STATE.selected.mb.socket}] (${formatNumber(STATE.selected.mb.price)} F)
+- RAM : ${STATE.selected.ram.name} (${formatNumber(STATE.selected.ram.price)} F)
+- GPU : ${STATE.selected.gpu.name} (${formatNumber(STATE.selected.gpu.price)} F)
+- Stockage (SSD) : ${STATE.selected.ssd.name} (${formatNumber(STATE.selected.ssd.price)} F)
+- Accessoires inclus : Wi-Fi 5 GHz haute vitesse 600m, Fan Hub ARGB, Régulateur Binatone 1000W, Montage Windows 11, Livraison Gratuite à Abidjan
+
+ÉCHÉANCIER FINANCIER & MODALITÉS DE PAIEMENT :
+- 1er Paiement (Jour 0 / Pack + Bateau) : ${formatNumber(calc.initialPayment)} F CFA
+- Tranche 1 (Mois 1) : ${formatNumber(calc.monthlyInstallment)} F CFA
+- Tranche 2 (Mois 2) : ${formatNumber(calc.monthlyInstallment)} F CFA
+- Tranche 3 (Mois 3) : ${formatNumber(calc.monthlyInstallment)} F CFA
+--------------------------------------------------
+TOTAL : ${formatNumber(calc.grandTotal)} F CFA
+
+CLAUSE CONTRACTUELLE :
+En raison des changements qui peuvent survenir, stock épuisé, modèle indisponible, les images des produits ne sont pas contractuelles, seules les spécifications techniques et les dimensions seront respectées à la lettre. En cas de litige, vous serez informé par mail.
+`;
+
+            const mailtoUrl = `mailto:akoulymarket@gmail.com?cc=${encodeURIComponent(email)}&subject=${encodeURIComponent(`Commande & Devis PC - ${name} (${phone})`)}&body=${encodeURIComponent(orderBody)}`;
+            window.open(mailtoUrl, '_blank');
+
+            closeOrderModal();
+            alert(`Merci ${name} ! Votre commande et votre devis ont été générés avec succès.\n\nVotre messagerie s'ouvre pour transmettre votre commande à Akouly Gaming et vous envoyer une copie directe du devis à : ${email}`);
+        }
+
+        function handleSendQuestion(e) {
+            e.preventDefault();
+            const email = document.getElementById("userEmailInput").value.trim();
+            const subject = document.getElementById("userSubjectInput").value.trim();
+            const msg = document.getElementById("userMessageInput").value.trim();
+
+            const bodyText = `QUESTION CLIENT - AKOULY GAMING\n\nDe : ${email}\nObjet : ${subject}\n\nMessage :\n${msg}`;
+            const mailtoUrl = `mailto:akoulymarket@gmail.com?subject=${encodeURIComponent(`Question: ${subject}`)}&body=${encodeURIComponent(bodyText)}`;
+            window.open(mailtoUrl, '_blank');
+
+            alert("Merci pour votre question ! Votre message a été préparé pour notre équipe technique.");
+        }
+
+        /* FAQ ACCORDION : 1 SEULE RÉPONSE OUVERTE À LA FOIS */
+        function toggleFaqAccordion(headerBtn) {
+            const item = headerBtn.closest('.accordion-item');
+            const wasOpen = item.classList.contains('open');
+            document.querySelectorAll('.accordion-item').forEach(el => el.classList.remove('open'));
+            if (!wasOpen) {
+                item.classList.add('open');
+            }
+        }
+
+        function triggerPrintInvoice() {
+            const isComplete = STATE.selected.pack && STATE.selected.cpu && STATE.selected.mb && STATE.selected.ram && STATE.selected.gpu && STATE.selected.ssd;
+            const calc = calculateTotals();
+
+            if (!isComplete) {
+                alert("Veuillez sélectionner l'ensemble des 6 composants matériels avant d'imprimer votre devis.");
+                return;
+            }
+
+            document.getElementById("printQuoteDate").textContent = new Date().toLocaleDateString('fr-FR');
+            document.getElementById("printClientName").textContent = STATE.clientInfo.name || "Client Particulier";
+            document.getElementById("printClientPhone").textContent = STATE.clientInfo.phone || "Non renseigné";
+            document.getElementById("printClientEmail").textContent = STATE.clientInfo.email || "Non renseigné";
+            document.getElementById("printClientAddress").textContent = STATE.clientInfo.address || "Abidjan (Livraison Gratuite)";
+
+            const tbody = document.getElementById("printTableBody");
+            const rows = [
+                { name: "Pack Boîtier & Refroidissement", desc: `${STATE.selected.pack.name} + Alim ${STATE.selected.pack.tdp}W + Fans`, ship: "Bateau (30k F)", price: STATE.selected.pack.price },
+                { name: "Processeur (CPU)", desc: `${STATE.selected.cpu.name} (Socket ${STATE.selected.cpu.socket})`, ship: "Avion (Inclus)", price: STATE.selected.cpu.price },
+                { name: "Carte Mère", desc: `${STATE.selected.mb.name} (Socket ${STATE.selected.mb.socket}, DDR4)`, ship: "Avion (Inclus)", price: STATE.selected.mb.price },
+                { name: "Mémoire RAM", desc: `${STATE.selected.ram.name}`, ship: "Avion (Inclus)", price: STATE.selected.ram.price },
+                { name: "Carte Graphique (GPU)", desc: `${STATE.selected.gpu.name} (${STATE.selected.gpu.vram})`, ship: "Avion (Inclus)", price: STATE.selected.gpu.price },
+                { name: "Stockage Principal (SSD)", desc: `${STATE.selected.ssd.name} (${STATE.selected.ssd.speed})`, ship: "Avion (Inclus)", price: STATE.selected.ssd.price },
+                { name: "Fret Aérien Restant (5 kg fixe)", desc: "Acheminement sécurisé électronique par avion express", ship: "Avion (60 000 F)", price: 60000 },
+                { name: "Transport Maritime Boîtier", desc: "Acheminement sécurisé boîtier et alimentation", ship: "Bateau (30 000 F)", price: 30000 },
+                { name: "Accessoires & Montage Offerts", desc: "Wi-Fi 5 GHz 600m, Fan Hub, Binatone 1000W, Windows 11, Livraison", ship: "Gratuit", price: 0 }
+            ];
+
+            tbody.innerHTML = rows.map(r => `
+                <tr>
+                    <td><strong>${r.name}</strong></td>
+                    <td>${r.desc}</td>
+                    <td>${r.ship}</td>
+                    <td style="text-align: right; font-family: monospace; font-weight: 700;">${formatNumber(r.price)} F</td>
+                </tr>
+            `).join('') + `
+                <tr class="total-row">
+                    <td colspan="3"><strong>TOTAL (Toutes taxes et transports inclus)</strong></td>
+                    <td style="text-align: right; font-family: monospace;">${formatNumber(calc.grandTotal)} F CFA</td>
+                </tr>
+            `;
+
+            document.getElementById("printInitAmount").textContent = `${formatNumber(calc.initialPayment)} F CFA`;
+            document.getElementById("printMonthAmount").textContent = `${formatNumber(calc.monthlyInstallment)} F CFA / mois`;
+
+            window.print();
+        }
+
+        /* ==========================================================================
+           DESSIN VECTORIEL DES COMPOSANTS (CANVAS 113px)
+           ========================================================================== */
+        function drawProductCanvases() {
+            const canvases = document.querySelectorAll('.prod-img-canvas');
+            canvases.forEach(canvas => {
+                const ctx = canvas.getContext('2d');
+                const id = canvas.id.toLowerCase();
+                const w = 113, h = 113;
+                canvas.width = w;
+                canvas.height = h;
+
+                ctx.clearRect(0, 0, w, h);
+
+                if (id.includes('pack_daloa_white') || id.includes('pack_bouake_white')) {
+                    ctx.fillStyle = '#ffffff';
+                    ctx.fillRect(0, 0, w, h);
+
+                    ctx.strokeStyle = '#cbd5e1';
+                    ctx.lineWidth = 1;
+                    ctx.strokeRect(0, 0, w, h);
+
+                    ctx.strokeStyle = '#0f172a';
+                    ctx.lineWidth = 2.5;
+                    ctx.strokeRect(26, 18, 60, 76);
+                    ctx.fillStyle = '#f8fafc';
+                    ctx.fillRect(26, 18, 60, 76);
+
+                    ctx.fillStyle = 'rgba(56, 189, 248, 0.12)';
+                    ctx.fillRect(30, 22, 52, 68);
+
+                    ctx.strokeStyle = '#38bdf8';
+                    ctx.lineWidth = 2;
+                    ctx.beginPath(); ctx.arc(56, 38, 12, 0, Math.PI * 2); ctx.stroke();
+                    ctx.beginPath(); ctx.arc(56, 68, 12, 0, Math.PI * 2); ctx.stroke();
+                    ctx.fillStyle = '#f2b134';
+                    ctx.beginPath(); ctx.arc(56, 38, 3.5, 0, Math.PI * 2); ctx.fill();
+                    ctx.beginPath(); ctx.arc(56, 68, 3.5, 0, Math.PI * 2); ctx.fill();
+
+                    ctx.fillStyle = '#0284c7';
+                    ctx.font = 'bold 8px sans-serif';
+                    ctx.textAlign = 'center';
+                    ctx.fillText('WHITE EDITION', 56, 102);
+                    return;
+                }
+
+                ctx.fillStyle = '#11141a';
+                ctx.fillRect(0, 0, w, h);
+
+                if (id.includes('pack_daloa_black') || id.includes('pack_bouake_black')) {
+                    ctx.strokeStyle = '#334155';
+                    ctx.lineWidth = 2;
+                    ctx.strokeRect(26, 18, 60, 76);
+                    ctx.fillStyle = 'rgba(15, 23, 42, 0.8)';
+                    ctx.fillRect(26, 18, 60, 76);
+
+                    ctx.strokeStyle = '#f2b134';
+                    ctx.lineWidth = 2;
+                    ctx.beginPath(); ctx.arc(56, 38, 12, 0, Math.PI * 2); ctx.stroke();
+                    ctx.beginPath(); ctx.arc(56, 68, 12, 0, Math.PI * 2); ctx.stroke();
+                    ctx.fillStyle = '#00f0ff';
+                    ctx.beginPath(); ctx.arc(56, 38, 3.5, 0, Math.PI * 2); ctx.fill();
+                    ctx.beginPath(); ctx.arc(56, 68, 3.5, 0, Math.PI * 2); ctx.fill();
+                } else if (id.includes('cpu')) {
+                    const isIntelCpu = id.includes('12100') || id.includes('13600') || id.includes('14600') || id.includes('intel');
+                    ctx.strokeStyle = isIntelCpu ? '#0284c7' : '#f2b134';
+                    ctx.lineWidth = 2;
+                    ctx.strokeRect(28, 28, 56, 56);
+                    ctx.fillStyle = isIntelCpu ? 'rgba(2, 132, 199, 0.15)' : 'rgba(242, 177, 52, 0.12)';
+                    ctx.fillRect(28, 28, 56, 56);
+                    ctx.fillStyle = isIntelCpu ? '#38bdf8' : '#f2b134';
+                    ctx.font = 'bold 11px sans-serif';
+                    ctx.textAlign = 'center';
+                    ctx.fillText(isIntelCpu ? 'LGA1700' : 'AM4', 56, 54);
+                    ctx.font = '8px sans-serif';
+                    ctx.fillStyle = '#94a3b8';
+                    ctx.fillText(isIntelCpu ? 'INTEL CPU' : 'AMD RYZEN', 56, 68);
+                } else if (id.includes('mb')) {
+                    const isIntelMb = id.includes('h610') || id.includes('b660');
+                    ctx.strokeStyle = isIntelMb ? '#0284c7' : '#00f0ff';
+                    ctx.lineWidth = 1.5;
+                    ctx.strokeRect(22, 22, 68, 68);
+                    ctx.fillStyle = isIntelMb ? 'rgba(2, 132, 199, 0.1)' : 'rgba(0, 240, 255, 0.08)';
+                    ctx.fillRect(22, 22, 68, 68);
+                    ctx.fillStyle = isIntelMb ? '#38bdf8' : '#f2b134';
+                    for (let i = 0; i < 4; i++) {
+                        ctx.fillRect(66 + i * 5, 28, 3, 24);
+                    }
+                    ctx.fillStyle = isIntelMb ? '#0284c7' : '#00f0ff';
+                    ctx.fillRect(30, 62, 52, 6);
+                    ctx.font = 'bold 8px sans-serif';
+                    ctx.textAlign = 'center';
+                    ctx.fillText(isIntelMb ? 'LGA1700 DDR4' : 'AM4 DDR4', 56, 82);
+                } else if (id.includes('ram')) {
+                    ctx.strokeStyle = '#f2b134';
+                    ctx.lineWidth = 1.5;
+                    ctx.strokeRect(18, 42, 76, 28);
+                    ctx.fillStyle = '#f2b134';
+                    for (let c = 26; c <= 78; c += 14) {
+                        ctx.fillRect(c, 48, 10, 14);
+                    }
+                    ctx.fillStyle = '#e2e8f0';
+                    ctx.fillRect(22, 70, 68, 3);
+                } else if (id.includes('gpu')) {
+                    ctx.strokeStyle = '#f2b134';
+                    ctx.lineWidth = 1.5;
+                    ctx.strokeRect(18, 32, 76, 48);
+                    ctx.fillStyle = 'rgba(242, 177, 52, 0.1)';
+                    ctx.fillRect(18, 32, 76, 48);
+                    ctx.strokeStyle = '#00f0ff';
+                    ctx.beginPath(); ctx.arc(40, 56, 14, 0, Math.PI * 2); ctx.stroke();
+                    ctx.beginPath(); ctx.arc(72, 56, 14, 0, Math.PI * 2); ctx.stroke();
+                    ctx.fillStyle = '#00f0ff';
+                    ctx.beginPath(); ctx.arc(40, 56, 3, 0, Math.PI * 2); ctx.fill();
+                    ctx.beginPath(); ctx.arc(72, 56, 3, 0, Math.PI * 2); ctx.fill();
+                } else if (id.includes('ssd')) {
+                    if (id.includes('sata')) {
+                        ctx.strokeStyle = '#94a3b8';
+                        ctx.lineWidth = 1.5;
+                        ctx.strokeRect(26, 30, 60, 52);
+                        ctx.fillStyle = 'rgba(148, 163, 184, 0.1)';
+                        ctx.fillRect(26, 30, 60, 52);
+                        ctx.fillStyle = '#f2b134';
+                        ctx.fillRect(36, 42, 40, 16);
+                    } else {
+                        ctx.strokeStyle = '#f2b134';
+                        ctx.lineWidth = 1.5;
+                        ctx.strokeRect(24, 46, 64, 20);
+                        ctx.fillStyle = 'rgba(242, 177, 52, 0.15)';
+                        ctx.fillRect(24, 46, 64, 20);
+                        ctx.fillStyle = '#00f0ff';
+                        ctx.fillRect(32, 50, 16, 12);
+                        ctx.fillRect(54, 50, 16, 12);
+                    }
+                } else if (id.includes('wifi')) {
+                    ctx.strokeStyle = '#00f0ff';
+                    ctx.lineWidth = 2;
+                    ctx.beginPath(); ctx.arc(w/2, 65, 12, Math.PI * 1.2, Math.PI * 1.8); ctx.stroke();
+                    ctx.beginPath(); ctx.arc(w/2, 65, 22, Math.PI * 1.25, Math.PI * 1.75); ctx.stroke();
+                    ctx.beginPath(); ctx.arc(w/2, 65, 32, Math.PI * 1.3, Math.PI * 1.7); ctx.stroke();
+                    ctx.fillStyle = '#f2b134';
+                    ctx.beginPath(); ctx.arc(w/2, 68, 5, 0, Math.PI * 2); ctx.fill();
+                } else if (id.includes('binatone')) {
+                    ctx.strokeStyle = '#10b981';
+                    ctx.lineWidth = 2;
+                    ctx.strokeRect(26, 26, 60, 60);
+                    ctx.fillStyle = 'rgba(16, 185, 129, 0.1)';
+                    ctx.fillRect(26, 26, 60, 60);
+                    ctx.fillStyle = '#10b981';
+                    ctx.fillRect(38, 42, 36, 18);
+                    ctx.fillStyle = '#090b0e';
+                    ctx.fillRect(42, 46, 28, 10);
+                } else if (id.includes('montage')) {
+                    ctx.strokeStyle = '#f2b134';
+                    ctx.lineWidth = 2;
+                    ctx.beginPath(); ctx.arc(w/2, h/2, 26, 0, Math.PI * 2); ctx.stroke();
+                    ctx.fillStyle = 'rgba(242, 177, 52, 0.15)'; ctx.fill();
+                    ctx.fillStyle = '#f2b134';
+                    ctx.fillRect(w/2 - 4, h/2 - 14, 8, 28);
+                    ctx.fillRect(w/2 - 14, h/2 - 4, 28, 8);
+                } else if (id.includes('livraison')) {
+                    ctx.fillStyle = '#10b981';
+                    ctx.fillRect(26, 44, 42, 26);
+                    ctx.fillRect(68, 52, 20, 18);
+                    ctx.fillStyle = '#090b0e';
+                    ctx.beginPath(); ctx.arc(38, 72, 7, 0, Math.PI * 2); ctx.fill();
+                    ctx.beginPath(); ctx.arc(76, 72, 7, 0, Math.PI * 2); ctx.fill();
+                } else {
+                    ctx.strokeStyle = '#f2b134';
+                    ctx.lineWidth = 1.5;
+                    ctx.strokeRect(28, 28, 56, 56);
+                    ctx.fillStyle = 'rgba(242, 177, 52, 0.15)';
+                    ctx.fillRect(28, 28, 56, 56);
+                    ctx.fillStyle = '#f2b134';
+                    ctx.beginPath(); ctx.arc(w/2, h/2, 10, 0, Math.PI * 2); ctx.fill();
+                }
+            });
+        }
+
+        function formatNumber(num) {
+            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+        }
+
+        window.addEventListener("DOMContentLoaded", () => {
+            initApp();
+        });
+    </script>
 </body>
 </html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Guide d'Achat PC — Akouly Gaming</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+:root{--dark:#0f172a;--gold:#f2b134;--blue:#0284c7;--bg:#f8fafc;--card:#fff;--border:#cbd5e1;--text:#1e293b;--muted:#64748b}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,sans-serif;font-size:13px;line-height:1.45}
+header{background:var(--card);border-bottom:1px solid var(--border);padding:8px 16px;position:sticky;top:0;z-index:10}
+.nav{max-width:760px;margin:0 auto;display:flex;align-items:center;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:8px;text-decoration:none;color:var(--dark);font-weight:800;font-size:15px}
+.brand img{height:32px}
+.badge-free{background:#eff6ff;color:var(--blue);border:1px solid #bfdbfe;padding:3px 9px;border-radius:99px;font-size:11px;font-weight:700}
+main{max-width:760px;margin:0 auto;padding:14px 12px 28px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:12px 14px;margin-bottom:10px}
+.hero{text-align:center;padding:14px}
+.hero h1{font-size:18px;color:var(--dark);margin-bottom:3px}
+.hero p{color:var(--muted);font-size:12px}
+.pay-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+@media(max-width:500px){.pay-grid{grid-template-columns:1fr}}
+.pay-box{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:10px 12px}
+.pay-box.init{border-left:4px solid var(--blue)}.pay-box.split{border-left:4px solid var(--gold)}
+.pay-box h3{font-size:13px;color:var(--dark);margin-bottom:2px}
+.pay-box p{font-size:11.5px;color:var(--muted)}
+.pay-box .val{font-weight:700;color:var(--dark);font-size:11.5px;margin-top:3px}
+.step-row{display:flex;gap:8px;align-items:flex-start;padding:7px 0;border-bottom:1px solid #f1f5f9}
+.step-row:last-child{border-bottom:none}
+.step-badge{min-width:20px;height:20px;border-radius:4px;background:var(--dark);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:11px}
+.step-info h3{font-size:12.5px;color:var(--dark)}
+.step-info p{font-size:11.5px;color:var(--muted)}
+.annex-row{padding:5px 0;border-bottom:1px solid #f1f5f9;font-size:11.5px;color:var(--muted)}
+.annex-row:last-child{border-bottom:none}
+.annex-tag{font-weight:700;color:var(--blue);margin-bottom:1px}
+.accordion-item{border-bottom:1px solid #f1f5f9}
+.accordion-item:last-child{border-bottom:none}
+.accordion-header{width:100%;background:none;border:none;color:var(--text);padding:8px 0;text-align:left;font-size:12.5px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:6px}
+.accordion-header:hover{color:var(--blue)}
+.accordion-icon{font-size:10px;color:var(--gold);transition:transform .2s}
+.accordion-item.open .accordion-icon{transform:rotate(180deg)}
+.accordion-body{max-height:0;overflow:hidden;transition:max-height .25s ease,padding .25s ease;color:var(--muted);font-size:11.5px;line-height:1.45}
+.accordion-item.open .accordion-body{max-height:180px;padding-bottom:8px;padding-left:12px}
+.cta-box{background:var(--dark);color:#fff;border-radius:8px;padding:14px;text-align:center;margin-bottom:10px}
+.cta-box h2{font-size:15px;margin-bottom:3px}
+.cta-box p{color:#94a3b8;font-size:11.5px;margin-bottom:8px}
+.btn-cta{background:var(--gold);color:#000;padding:7px 16px;border-radius:6px;font-weight:700;font-size:12px;text-decoration:none;display:inline-flex;align-items:center;gap:5px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:6px}
+@media(max-width:480px){.form-grid{grid-template-columns:1fr}}
+.f-group{display:flex;flex-direction:column;gap:2px}
+.f-group label{font-size:10.5px;font-weight:600;color:var(--muted)}
+.input-ctrl{border:1px solid var(--border);padding:6px 8px;border-radius:4px;font-size:11.5px;outline:none;font-family:inherit}
+.input-ctrl:focus{border-color:var(--gold)}
+.btn-submit{background:var(--dark);color:#fff;border:none;padding:7px 12px;border-radius:4px;font-weight:700;font-size:11.5px;cursor:pointer;display:inline-flex;align-items:center;gap:5px;margin-top:6px}
+</style>
+</head>
+<body>
+<header>
+<div class="nav">
+<a href="gaming.html#configurateur" class="brand"><img src="logo-akouly-market.png" alt="Logo">Akouly Gaming</a>
+<span class="badge-free"><i class="fa-solid fa-truck"></i> Livraison Gratuite</span>
+</div>
+</header>
+<main>
+<section class="card hero">
+<h1>Processus d'Achat PC sur Mesure</h1>
+<p>Commandez votre PC de bureau personnalisé avec paiement échelonné en 3 tranches et livraison offerte à Abidjan.</p>
+</section>
+<div class="pay-grid">
+<div class="pay-box init">
+<h3><i class="fa-solid fa-ship" style="color:var(--blue)"></i> 1. Pack Initial (Jour 0)*</h3>
+<p>Boîtier, alim, ventilateurs et ventirad/AIO expédiés par bateau.</p>
+<div class="val">💰 Prix Pack + 30 000 F CFA (fret bateau fixe).</div>
+</div>
+<div class="pay-box split">
+<h3><i class="fa-solid fa-calendar-days" style="color:#d97706"></i> 2. Pièces Restantes (3 Mois)**</h3>
+<p>CPU Intel/AMD, carte mère (LGA1700/AM4), RAM DDR4 3200, GPU, SSD + fret avion 5 kg (60 000 F)***.</p>
+<div class="val">📅 Réglé en 3 mensualités égales.</div>
+</div>
+</div>
+<section class="card">
+<h2 style="font-size:13.5px;color:var(--dark);margin-bottom:6px"><i class="fa-solid fa-list-check" style="color:var(--gold)"></i> Les 5 Étapes de votre Commande</h2>
+<div class="step-row"><div class="step-badge">1</div><div class="step-info"><h3>Choix du Boîtier</h3><p>Sélectionnez le Pack Daloa ou le Pack Bouaké en Noir ou Blanc.</p></div></div>
+<div class="step-row"><div class="step-badge">2</div><div class="step-info"><h3>Choix des Composants & Accessoires</h3><p>Sélectionnez CPU (Intel Core i3/i5 ou AMD Ryzen), Carte Mère (LGA1700 ou AM4), RAM (DDR4 3200 MHz), GPU (GTX 1660 Super à RTX 3080 Ti), SSD. Wi-Fi 5 GHz 600m, Fan Hub, transfo Binatone 1000W et montage inclus.</p></div></div>
+<div class="step-row"><div class="step-badge">3</div><div class="step-info"><h3>Paiement Initial & Contrat</h3><p>Réglez le Pack Initial (Boîtier + 30 000 F bateau)*. Devis et bon de commande transmis par mail.</p></div></div>
+<div class="step-row"><div class="step-badge">4</div><div class="step-info"><h3>Paiement en 3 Tranches</h3><p>Réglez le solde des pièces et fret avion en 3 mensualités (Mois 1, Mois 2, Mois 3)**.</p></div></div>
+<div class="step-row"><div class="step-badge">5</div><div class="step-info"><h3>Montage & Livraison Gratuite</h3><p>Montage soigné, Windows 11 Pro, tests complets et livraison gratuite de votre PC à domicile****.</p></div></div>
+</section>
+<section class="card">
+<h2 style="font-size:13.5px;color:var(--dark);margin-bottom:6px"><i class="fa-solid fa-asterisk" style="color:var(--blue)"></i> Annexe : Détails & Conditions Commerciales</h2>
+<div class="annex-row"><div class="annex-tag">* Pack Initial & Transport Bateau (Jour 0)</div><p>Valide la commande. Daloa : 42 000 F (Noir) / 43 500 F (Blanc). Bouaké : 79 800 F (Noir) / 89 800 F (Blanc). Bateau : 30 000 F fixe.</p></div>
+<div class="annex-row"><div class="annex-tag">** Pièces Restantes & Échéancier 3 Tranches</div><p>Le solde (CPU, carte mère, RAM, GPU, SSD + avion) est divisé en 3 tranches sur 90 jours.</p></div>
+<div class="annex-row"><div class="annex-tag">*** Fret Aérien des Pièces Restantes</div><p>Expédition avion au tarif fixe de 12 000 F CFA / kg (forfait de base 5 kg = 60 000 F CFA avant 6 kg).</p></div>
+<div class="annex-row"><div class="annex-tag">**** Garantie 3 Mois & Services Inclus</div><p>Garantie 3 mois pièces. Wi-Fi 5 GHz 600m et régulateur Binatone 1000W offerts. Livraison PC monté 100% gratuite (aucun retrait boutique).</p></div>
+<div class="annex-row"><div class="annex-tag">***** Retards & Rétractation</div><p>Grâce de 10 jours en cas de retard sur une tranche (puis 10 000 F/sem). Rétractation : 80% sous 48h, 50% après tranche 1, 20% après tranche 2.</p></div>
+<div class="annex-row" style="background:#eff6ff;padding:6px;border-radius:4px;border:1px solid #bfdbfe;margin-top:4px"><div class="annex-tag" style="color:#0284c7">****** Clause de Conformité Matérielle & Disponibilité</div><p style="color:#1e293b">En raison des changements qui peuvent survenir, stock épuisé, modèle indisponible, les images des produits ne sont pas contractuelles, seules les spécifications techniques et les dimensions seront respectées à la lettre. En cas de litige, vous serez informé par mail.</p></div>
+</section>
+<section class="card">
+<h2 style="font-size:13.5px;color:var(--dark);margin-bottom:6px"><i class="fa-solid fa-circle-question" style="color:var(--gold)"></i> Questions Fréquentes (FAQ)</h2>
+<div class="accordion-item"><button class="accordion-header" onclick="toggleFaqAccordion(this)"><span><i class="fa-solid fa-circle-check" style="color:#10b981"></i> Wi-Fi et branchements immédiats sans adaptateur en plus ?</span><i class="fa-solid fa-chevron-down accordion-icon"></i></button><div class="accordion-body">Oui, un adaptateur Wi-Fi 5 GHz 600m est inclus gratuitement et tous les câbles nécessaires sont fournis pour un allumage direct.</div></div>
+<div class="accordion-item"><button class="accordion-header" onclick="toggleFaqAccordion(this)"><span><i class="fa-solid fa-circle-check" style="color:#10b981"></i> Est-ce que la mémoire RAM est facile à ajouter plus tard ?</span><i class="fa-solid fa-chevron-down accordion-icon"></i></button><div class="accordion-body">Oui, nos cartes mères disposent de slots RAM DDR4 pour faire évoluer votre mémoire à tout moment.</div></div>
+<div class="accordion-item"><button class="accordion-header" onclick="toggleFaqAccordion(this)"><span><i class="fa-solid fa-circle-check" style="color:#10b981"></i> Choix du stockage : SSD M.2 NVMe vs SSD SATA ?</span><i class="fa-solid fa-chevron-down accordion-icon"></i></button><div class="accordion-body">M.2 NVMe pour rapidité maximale (plus de 3 500 Mo/s), SSD SATA pour grand espace au meilleur prix.</div></div>
+<div class="accordion-item"><button class="accordion-header" onclick="toggleFaqAccordion(this)"><span><i class="fa-solid fa-circle-check" style="color:#10b981"></i> Protection contre les coupures de courant à Abidjan ?</span><i class="fa-solid fa-chevron-down accordion-icon"></i></button><div class="accordion-body">Oui, alimentations certifiées + régulateur Binatone 1000W offert pour une protection renforcée contre les surtensions et coupures.</div></div>
+<div class="accordion-item"><button class="accordion-header" onclick="toggleFaqAccordion(this)"><span><i class="fa-solid fa-circle-check" style="color:#10b981"></i> Pourquoi les prix des pièces informatiques sont-ils élevés ?</span><i class="fa-solid fa-chevron-down accordion-icon"></i></button><div class="accordion-body">Les pièces de performance (RAM, GPU, CPU, SSD) se raréfient sur le marché mondial, ce qui entraîne des hausses de coût.</div></div>
+<div class="accordion-item"><button class="accordion-header" onclick="toggleFaqAccordion(this)"><span><i class="fa-solid fa-circle-check" style="color:#10b981"></i> Pourquoi pas d'alimentation Platinum ou Gold ?</span><i class="fa-solid fa-chevron-down accordion-icon"></i></button><div class="accordion-body">Le niveau mesure le rendement de conversion électrique. Le Bronze fait parfaitement le travail et le transfo Binatone 1000W protège le PC.</div></div>
+<div class="accordion-item"><button class="accordion-header" onclick="toggleFaqAccordion(this)"><span><i class="fa-solid fa-circle-check" style="color:#10b981"></i> Comment choisir une bonne configuration ?</span><i class="fa-solid fa-chevron-down accordion-icon"></i></button><div class="accordion-body">Prenez un preset selon votre budget et vos besoins (Gaming 1080p, 1440p, 4K ou création).</div></div>
+</section>
+<div class="cta-box">
+<h2>Prêt à configurer votre machine ?</h2>
+<p>Accédez au configurateur interactif pour personnaliser chaque pièce.</p>
+<a href="gaming.html#configurateur" class="btn-cta"><i class="fa-solid fa-sliders"></i> Ouvrir le Configurateur PC</a>
+</div>
+<section class="card">
+<h2 style="font-size:13.5px;color:var(--dark);margin-bottom:3px"><i class="fa-solid fa-envelope" style="color:var(--gold)"></i> D'autres questions ?</h2>
+<p style="font-size:11.5px;color:var(--muted)">Posez votre question à notre équipe technique.</p>
+<form onsubmit="event.preventDefault();const em=document.getElementById('qem').value,sb=document.getElementById('qsb').value,ms=document.getElementById('qms').value;window.open('mailto:akoulymarket@gmail.com?subject='+encodeURIComponent('Question: '+sb)+'&body='+encodeURIComponent(ms),'_blank');alert('Votre question a été envoyée !');">
+<div class="form-grid">
+<div class="f-group"><label>Votre Email *</label><input type="email" id="qem" class="input-ctrl" placeholder="email@domaine.com" required></div>
+<div class="f-group"><label>Objet *</label><input type="text" id="qsb" class="input-ctrl" placeholder="Sujet de votre question" required></div>
+</div>
+<div class="f-group" style="margin-top:6px"><label>Votre Question *</label><textarea id="qms" class="input-ctrl" rows="2" placeholder="Écrivez votre message..." required></textarea></div>
+<button type="submit" class="btn-submit"><i class="fa-solid fa-paper-plane"></i> Envoyer ma question</button>
+</form>
+</section>
+</main>
+<script>
+function toggleFaqAccordion(headerBtn){
+const item=headerBtn.closest('.accordion-item');
+const wasOpen=item.classList.contains('open');
+document.querySelectorAll('.accordion-item').forEach(el=>el.classList.remove('open'));
+if(!wasOpen)item.classList.add('open');
+}
+</script>
+</body>
+</html>
