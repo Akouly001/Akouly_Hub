@@ -1158,75 +1158,85 @@ body[data-page="home"] .brand-logo {
     display: flex;
     flex-direction: column;
     height: 100%;
-    padding: 1.3rem;
+    padding: 1.25rem;
 }
 
 .certs-aligned-grid .cert-year {
     font-family: var(--font-code);
     font-size: 0.78rem;
     color: var(--text-dim);
-    margin-bottom: 0.4rem;
+    margin-bottom: 0.35rem;
     line-height: 1.2;
 }
 
 .certs-aligned-grid .cert-title {
     font-family: var(--font-heading);
-    font-size: 1rem;
+    font-size: 0.98rem;
     font-weight: 700;
     line-height: 1.35;
     margin-bottom: 0.35rem;
     min-height: 2.7rem;
-    display: flex;
-    align-items: flex-start;
+    max-height: 2.7rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 .certs-aligned-grid .cert-issuer {
     color: var(--text-muted);
-    font-size: 0.83rem;
-    line-height: 1.4;
-    margin-bottom: 0.75rem;
-    min-height: 2.35rem;
-    display: flex;
-    align-items: flex-start;
+    font-size: 0.82rem;
+    line-height: 1.3;
+    margin-bottom: 0.65rem;
+    min-height: 1.15rem;
+    max-height: 1.15rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
 }
 
 .certs-aligned-grid .cert-desc {
-    font-size: 0.84rem;
+    font-size: 0.83rem;
     color: var(--text-muted);
-    line-height: 1.5;
-    margin-bottom: 1.1rem;
-    flex-grow: 1;
-    min-height: 3.8rem;
-    display: flex;
-    align-items: flex-start;
+    line-height: 1.45;
+    margin-bottom: 1rem;
+    min-height: 2.5rem;
+    max-height: 2.5rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 .certs-aligned-grid .cert-actions {
     margin-top: auto;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0.4rem;
-    width: 100%;
-    padding-top: 0.3rem;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    flex-wrap: nowrap !important;
+    gap: 0.4rem !important;
+    width: 100% !important;
+    padding-top: 0.4rem;
 }
 
 .certs-aligned-grid .cert-actions .btn,
 .certs-aligned-grid .cert-action-btn {
-    padding: 0.35rem 0.65rem !important;
-    font-size: 0.78rem !important;
-    white-space: nowrap;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.35rem;
-    border-radius: 6px;
+    padding: 0.32rem 0.6rem !important;
+    font-size: 0.76rem !important;
+    white-space: nowrap !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 0.35rem !important;
+    border-radius: 6px !important;
+    flex-shrink: 0 !important;
 }
 
 .certs-aligned-grid .cert-actions .cert-badge {
-    white-space: nowrap;
-    font-size: 0.72rem;
-    padding: 0.25rem 0.5rem;
-    flex-shrink: 0;
+    white-space: nowrap !important;
+    font-size: 0.72rem !important;
+    padding: 0.22rem 0.48rem !important;
+    flex-shrink: 0 !important;
 }
 
 
