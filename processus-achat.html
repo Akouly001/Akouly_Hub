@@ -192,6 +192,11 @@
       color: #000;
       border-color: var(--accent-green);
     }
+    .step-item.not-completed .step-number {
+      background: rgba(239, 68, 68, 0.14);
+      color: #ef4444;
+      border-color: rgba(239, 68, 68, 0.35);
+    }
     .step-number {
       width: 24px;
       height: 24px;
@@ -207,8 +212,17 @@
       transition: var(--trans-fast);
     }
     .step-item.active .step-number {
-      background: var(--accent-gold);
+      border-color: var(--accent-gold);
+      box-shadow: 0 0 8px rgba(242, 177, 52, 0.4);
+    }
+    .step-item.active.completed .step-number {
+      background: var(--accent-green);
       color: #000;
+      border-color: var(--accent-gold);
+    }
+    .step-item.active.not-completed .step-number {
+      background: rgba(239, 68, 68, 0.22);
+      color: #f87171;
       border-color: var(--accent-gold);
     }
     .step-title {
@@ -223,6 +237,9 @@
     }
     .step-item.completed .step-title {
       color: var(--text-main);
+    }
+    .step-item.not-completed .step-title {
+      color: var(--text-muted);
     }
     .step-divider {
       flex: 1;
@@ -2300,23 +2317,40 @@
       });
     }
 
+    function isStepSelected(step) {
+      if (step.key === "pack") return !!STATE.selected.pack;
+      if (step.key === "cpu") return !!STATE.selected.cpu;
+      if (step.key === "mb") return !!STATE.selected.mb;
+      if (step.key === "ram") return !!STATE.selected.ram;
+      if (step.key === "gpu") return !!STATE.selected.gpu;
+      if (step.key === "ssd") return !!STATE.selected.ssd;
+      if (step.key === "acc") return !!(STATE.selected.pack || STATE.currentStep >= 7);
+      if (step.key === "summary") return !!(STATE.selected.pack && STATE.selected.cpu && STATE.selected.mb && STATE.selected.ram && STATE.selected.gpu && STATE.selected.ssd);
+      return false;
+    }
+
     function renderStepper() {
       const nav = document.getElementById("stepperNav");
+      if (!nav) return;
       nav.innerHTML = STEPS_CONFIG.map((step, idx) => {
         const isCurrent = step.num === STATE.currentStep;
-        const isCompleted = step.num < STATE.currentStep || (step.key !== "summary" && step.key !== "acc" && STATE.selected[step.key]);
+        const isSelected = isStepSelected(step);
         const activeClass = isCurrent ? "active" : "";
-        const completedClass = isCompleted ? "completed" : "";
+        const completedClass = isSelected ? "completed" : "not-completed";
 
         let divider = "";
         if (idx < STEPS_CONFIG.length - 1) {
           divider = '<div class="step-divider"></div>';
         }
 
+        const statusIcon = isSelected 
+          ? '<i class="fa-solid fa-check"></i>' 
+          : '<i class="fa-solid fa-xmark"></i>';
+
         return `
-          <div class="step-item ${activeClass} ${completedClass}" onclick="goToStep(${step.num})">
+          <div class="step-item ${activeClass} ${completedClass}" onclick="goToStep(${step.num})" title="${step.title} : ${isSelected ? 'Validé' : 'Non sélectionné'}">
             <div class="step-number">
-              ${isCompleted && !isCurrent ? '<i class="fa-solid fa-check"></i>' : `<i class="fa-solid ${step.icon}"></i>`}
+              ${statusIcon}
             </div>
             <div class="step-title">${step.title}</div>
           </div>
@@ -2781,6 +2815,7 @@
 
       renderCurrentStep();
       updateSidebar();
+      renderStepper();
     }
 
     function updateSidebar() {
