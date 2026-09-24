@@ -1144,6 +1144,90 @@ body[data-page="home"] .brand-logo {
 .cert-badge.cyber { color: var(--accent-cyber); background: rgba(6, 182, 212, 0.1); }
 .cert-badge.ebios { color: var(--accent-biz); background: rgba(245, 158, 11, 0.1); }
 
+/* Scoped layout alignment for Section 3 featured certificate cards */
+.certs-aligned-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.2rem;
+    align-items: stretch;
+}
+
+.certs-aligned-grid .cert-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 1.3rem;
+}
+
+.certs-aligned-grid .cert-year {
+    font-family: var(--font-code);
+    font-size: 0.78rem;
+    color: var(--text-dim);
+    margin-bottom: 0.4rem;
+    line-height: 1.2;
+}
+
+.certs-aligned-grid .cert-title {
+    font-family: var(--font-heading);
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.35;
+    margin-bottom: 0.35rem;
+    min-height: 2.7rem;
+    display: flex;
+    align-items: flex-start;
+}
+
+.certs-aligned-grid .cert-issuer {
+    color: var(--text-muted);
+    font-size: 0.83rem;
+    line-height: 1.4;
+    margin-bottom: 0.75rem;
+    min-height: 2.35rem;
+    display: flex;
+    align-items: flex-start;
+}
+
+.certs-aligned-grid .cert-desc {
+    font-size: 0.84rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+    margin-bottom: 1.1rem;
+    flex-grow: 1;
+    min-height: 3.8rem;
+    display: flex;
+    align-items: flex-start;
+}
+
+.certs-aligned-grid .cert-actions {
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.4rem;
+    width: 100%;
+    padding-top: 0.3rem;
+}
+
+.certs-aligned-grid .cert-actions .btn,
+.certs-aligned-grid .cert-action-btn {
+    padding: 0.35rem 0.65rem !important;
+    font-size: 0.78rem !important;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    border-radius: 6px;
+}
+
+.certs-aligned-grid .cert-actions .cert-badge {
+    white-space: nowrap;
+    font-size: 0.72rem;
+    padding: 0.25rem 0.5rem;
+    flex-shrink: 0;
+}
+
+
 .parcours-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
