@@ -2197,20 +2197,90 @@ body[data-page="home"] .brand-logo {
     }
 }
 
+@media (max-width: 992px) {
+    .container {
+        padding-left: 1.25rem;
+        padding-right: 1.25rem;
+    }
+    .projects-grid, .skills-grid {
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 1.2rem;
+    }
+    .modal-content {
+        max-width: 92vw !important;
+        max-height: 88vh !important;
+        padding: 1.5rem !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .page-banner {
+        padding: 2.5rem 1rem !important;
+        text-align: center;
+    }
+    .page-title {
+        font-size: clamp(1.45rem, 5.5vw, 2rem) !important;
+        justify-content: center;
+        text-align: center;
+    }
+    .section-title {
+        font-size: clamp(1.35rem, 5vw, 1.85rem) !important;
+        text-align: center;
+    }
+    .modal-content {
+        max-width: 95vw !important;
+        max-height: 90vh !important;
+        padding: 1.2rem !important;
+        margin: 1rem auto !important;
+    }
+    .modal-close {
+        top: 0.6rem !important;
+        right: 0.6rem !important;
+        width: 32px !important;
+        height: 32px !important;
+        font-size: 1.3rem !important;
+    }
+    .table-responsive, table {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+}
+
 @media (max-width: 600px) {
-    .container { padding-left: 12px; padding-right: 12px; }
+    .container { padding-left: 14px; padding-right: 14px; }
     .form-row { grid-template-columns: 1fr; gap: 0; }
-    .projects-grid { grid-template-columns: 1fr; }
-    .skills-grid { grid-template-columns: 1fr; }
+    .projects-grid { grid-template-columns: 1fr; gap: 1rem; }
+    .skills-grid { grid-template-columns: 1fr; gap: 1rem; }
     .certifications-flow { grid-template-columns: 1fr; }
+    .certs-aligned-grid { grid-template-columns: 1fr; }
     .univers-grid { grid-template-columns: 1fr; }
     .actions-grid { grid-template-columns: 1fr; }
     .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
     
-    .hero-title { font-size: 1.85rem; }
-    .hero-h1 { font-size: 1.85rem; }
-    .page-title { font-size: 1.55rem; }
+    .hero-title { font-size: clamp(1.6rem, 6vw, 2rem); }
+    .hero-h1 { font-size: clamp(1.6rem, 6vw, 2rem); }
+    .page-title { font-size: 1.5rem; }
     
+    .project-card, .skill-card, .cert-card {
+        padding: 1.25rem 1rem !important;
+    }
+    .project-title {
+        font-size: 1.05rem !important;
+    }
+    .project-desc {
+        font-size: 0.85rem !important;
+        line-height: 1.55 !important;
+    }
+    .project-tags {
+        gap: 0.35rem !important;
+    }
+    .project-tag {
+        font-size: 0.72rem !important;
+        padding: 0.18rem 0.5rem !important;
+    }
+
     /* Boutons et barres d'action Dimension */
     .project-action-bar {
         flex-direction: column;
@@ -2220,11 +2290,11 @@ body[data-page="home"] .brand-logo {
         width: 100%;
         justify-content: center;
         padding: 0.65rem 1rem;
-        font-size: 0.9rem;
+        font-size: 0.88rem;
     }
 
     .dim-card {
-        padding: 1.2rem;
+        padding: 1.2rem 1rem;
         max-width: 96%;
         border-radius: var(--radius-sm);
     }
@@ -2250,9 +2320,14 @@ body[data-page="home"] .brand-logo {
 }
 
 @media (max-width: 380px) {
-    .hero-h1 { font-size: 1.6rem; }
-    .hero-sub { font-size: 0.95rem; }
-    .carousel-container-4-5 { max-width: 240px; }
+    .container { padding-left: 10px; padding-right: 10px; }
+    .hero-h1 { font-size: 1.5rem; }
+    .hero-title { font-size: 1.5rem; }
+    .hero-sub { font-size: 0.88rem; }
+    .carousel-container-4-5 { max-width: 230px; }
+    .project-card, .skill-card, .cert-card {
+        padding: 1rem 0.85rem !important;
+    }
 }
 
 /* ==========================================================================
