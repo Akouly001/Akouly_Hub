@@ -63,10 +63,10 @@
     width: 100%;
 }
 
-/* Global Anti-Overflow Protection */
+/* Global Anti-Overflow Protection (clip prevents breaking position: sticky on PC & tablets) */
 html, body {
     max-width: 100%;
-    overflow-x: hidden !important;
+    overflow-x: clip;
     position: relative;
     box-sizing: border-box;
 }
@@ -242,7 +242,7 @@ body {
     font-family: var(--font-body);
     line-height: 1.6;
     min-height: 100vh;
-    overflow-x: hidden;
+    overflow-x: clip;
     transition: background-color 0.25s ease, color 0.25s ease;
     position: relative;
     -webkit-font-smoothing: antialiased;
@@ -331,7 +331,9 @@ body[data-page="lab"] {
 .header {
     position: sticky;
     top: 0;
-    z-index: 1000;
+    left: 0;
+    width: 100%;
+    z-index: 10000;
     background: var(--bg-header);
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
@@ -3904,10 +3906,10 @@ img, video, canvas, svg {
 
 
 /* ==========================================================================
-   SURLIGNAGE MAGIQUE DÉGRADÉ ROUGE VIBRANT (.underline--magical)
+   SURLIGNAGE MAGIQUE DÉGRADÉ VERT ÉMERAUDE (.underline--magical)
    ========================================================================== */
 .underline--magical {
-    background-image: linear-gradient(120deg, #ff416c 0%, #ff4b2b 100%) !important;
+    background-image: linear-gradient(120deg, #10b981 0%, #059669 100%) !important;
     background-repeat: no-repeat !important;
     background-size: 100% 0.22em !important;
     background-position: 0 88% !important;
@@ -3928,7 +3930,7 @@ img, video, canvas, svg {
 }
 
 [data-theme="light"] .underline--magical {
-    background-image: linear-gradient(120deg, #ef4444 0%, #dc2626 100%) !important;
+    background-image: linear-gradient(120deg, #10b981 0%, #047857 100%) !important;
     background-size: 100% 0.25em !important;
     color: inherit;
 }
