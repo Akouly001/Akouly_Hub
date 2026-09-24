@@ -51,60 +51,80 @@
             display: inline-flex;
             background: var(--cfg-bg-panel, #0f131a);
             border: 1px solid var(--border-color, #242b38);
-            border-radius: var(--radius-md, 10px);
-            padding: 5px;
-            gap: 6px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+            border-radius: var(--radius-lg, 16px);
+            padding: 8px;
+            gap: 10px;
+            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.35);
         }
 
         [data-theme="light"] .gaming-nav-tabs {
             background: #ffffff;
             border-color: #e2e8f0;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
         }
 
         .gaming-tab-btn {
-            padding: 0.75rem 1.8rem;
+            padding: 1.35rem 3rem;
             font-family: var(--font-heading);
-            font-size: 1.05rem;
-            font-weight: 700;
-            border-radius: 7px;
-            border: 1px solid transparent;
+            font-size: 1.5rem;
+            font-weight: 800;
+            border-radius: 12px;
+            border: 2px solid transparent;
             background: transparent;
             color: var(--text-muted);
             cursor: pointer;
             display: inline-flex;
             align-items: center;
-            gap: 0.6rem;
+            gap: 0.9rem;
             transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
             will-change: transform;
             text-decoration: none;
             user-select: none;
         }
 
+        .gaming-tab-btn i {
+            font-size: 1.65rem;
+        }
+
         .gaming-tab-btn:hover {
             color: var(--text-main);
-            background: rgba(16, 185, 129, 0.08);
-            border-color: rgba(16, 185, 129, 0.35);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.18);
+            background: rgba(16, 185, 129, 0.1);
+            border-color: rgba(16, 185, 129, 0.4);
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.25);
         }
 
         .gaming-tab-btn:active {
-            transform: translateY(0);
+            transform: translateY(0) scale(1);
         }
 
         .gaming-tab-btn.active {
             color: #ffffff;
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.28), rgba(6, 182, 212, 0.28));
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.35), rgba(6, 182, 212, 0.35));
             border-color: var(--accent-gaming, #10b981);
-            box-shadow: 0 4px 20px rgba(16, 185, 129, 0.25);
+            box-shadow: 0 8px 30px rgba(16, 185, 129, 0.35);
         }
 
         [data-theme="light"] .gaming-tab-btn.active {
             color: #059669;
-            background: rgba(16, 185, 129, 0.12);
+            background: rgba(16, 185, 129, 0.16);
             border-color: #10b981;
+        }
+
+        @media (max-width: 768px) {
+            .gaming-nav-tabs {
+                width: 100%;
+                display: flex;
+            }
+            .gaming-tab-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 1rem 1.2rem;
+                font-size: 1.15rem;
+            }
+            .gaming-tab-btn i {
+                font-size: 1.25rem;
+            }
         }
 
         .gaming-extra-actions {
@@ -144,65 +164,43 @@
             pointer-events: none !important;
         }
 
-        /* ── BOUTIQUE VIEW CARDS & LAYOUT ── */
-        .boutique-hero-banner {
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.12), rgba(6, 182, 212, 0.08));
-            border: 1px solid rgba(16, 185, 129, 0.25);
-            border-radius: var(--radius-md, 12px);
-            padding: 2rem;
-            margin-bottom: 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 1.5rem;
-        }
-
-        .boutique-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
-            margin-top: 1.5rem;
-        }
-
-        .boutique-card {
-            background: var(--cfg-bg-panel, #0f131a);
-            border: 1px solid var(--border-color, #242b38);
-            border-radius: var(--radius-md, 12px);
-            padding: 1.5rem;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.2s ease, box-shadow 0.2s ease;
-        }
-
-        .boutique-card:hover {
-            transform: translateY(-4px);
-            border-color: var(--accent-gaming, #10b981);
-            box-shadow: 0 8px 30px rgba(16, 185, 129, 0.18);
-        }
-
-        .boutique-card-img-box {
-            background: #ffffff;
-            border-radius: 8px;
-            padding: 1rem;
+        /* ── BOUTIQUE COMING SOON VIEW (FOND FLOU) ── */
+        .boutique-coming-soon-box {
+            min-height: 420px;
             display: flex;
             align-items: center;
             justify-content: center;
-            height: 190px;
-            margin-bottom: 1.2rem;
+            background: rgba(15, 19, 26, 0.45);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: var(--radius-lg, 16px);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.35);
+            margin: 1.5rem 0;
+            position: relative;
             overflow: hidden;
         }
 
-        .boutique-card-img-box img {
-            max-height: 100%;
-            max-width: 100%;
-            object-fit: contain;
-            transition: transform 0.3s ease;
+        [data-theme="light"] .boutique-coming-soon-box {
+            background: rgba(255, 255, 255, 0.55);
+            border-color: rgba(0, 0, 0, 0.08);
         }
 
-        .boutique-card:hover .boutique-card-img-box img {
-            transform: scale(1.06);
+        .boutique-coming-soon-text {
+            font-family: var(--font-heading);
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: var(--text-main);
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        @media (max-width: 640px) {
+            .boutique-coming-soon-text {
+                font-size: 1.5rem;
+            }
         }
 
         .stepper-container {
@@ -1545,122 +1543,8 @@
 
             <!-- VUE 2 : BOUTIQUE AKOULY GAMING -->
             <div id="gamingBoutiqueContainer" class="gaming-route-view" style="display: none;">
-                <div class="boutique-hero-banner">
-                    <div>
-                        <h3 style="font-size: 1.35rem; font-weight: 800; color: #fff; margin-bottom: 0.35rem; display: flex; align-items: center; gap: 0.6rem;">
-                            <i class="fa-solid fa-store" style="color: var(--accent-gaming);"></i> Boutique &amp; Packs Prêts-à-Livrer
-                        </h3>
-                        <p style="color: var(--text-muted); font-size: 0.9rem; max-width: 650px; margin-bottom: 0;">
-                            Commandez directement vos packs châssis, kits d'upgrade et composants informatiques certifiés avec garantie locale et facilités de paiement.
-                        </p>
-                    </div>
-                    <div>
-                        <a href="https://wa.me/2250700000000?text=Bonjour%20Akouly%20Gaming,%20je%20souhaite%20commander%20dans%20la%20boutique" target="_blank" class="btn btn-primary" style="background: linear-gradient(135deg, var(--accent-gaming), var(--accent-cyber)); border: none; padding: 0.75rem 1.4rem; font-weight: 700; border-radius: 8px; display: inline-flex; align-items: center; gap: 0.5rem; color: #000; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);">
-                            <i class="fa-brands fa-whatsapp" style="font-size: 1.1rem;"></i> Contact Direct Boutique
-                        </a>
-                    </div>
-                </div>
-
-                <div class="boutique-grid">
-                    <!-- Pack Daloa -->
-                    <div class="boutique-card">
-                        <div>
-                            <div class="boutique-card-img-box">
-                                <img src="images/hardware/Case noir daloa.png" alt="Pack Daloa">
-                            </div>
-                            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.4rem;">
-                                <h4 style="font-size: 1.15rem; font-weight: 800; color: #fff;">Pack Daloa</h4>
-                                <span style="background: rgba(16, 185, 129, 0.15); color: var(--accent-gaming); padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.72rem; font-weight: 700;">En Stock</span>
-                            </div>
-                            <p style="color: var(--text-muted); font-size: 0.84rem; margin-bottom: 0.8rem; line-height: 1.4;">
-                                Châssis S01/S02 Aquarium M-ATX double chambre + Alimentation 600W + 4 Ventilateurs RGB A305 + Ventirad Thermalright AX120R SE V2.
-                            </p>
-                        </div>
-                        <div style="border-top: 1px solid var(--border-color); padding-top: 0.8rem; display: flex; justify-content: space-between; align-items: center;">
-                            <div>
-                                <div style="font-size: 0.7rem; color: var(--text-muted);">À partir de</div>
-                                <div style="font-size: 1.15rem; font-weight: 800; color: var(--accent-gold); font-family: monospace;">42 000 F CFA</div>
-                            </div>
-                            <button onclick="onGamingRouteClick('config'); setTimeout(() => selectOption('pack', 'pack_daloa_black'), 500);" class="btn btn-secondary" style="padding: 0.4rem 0.85rem; font-size: 0.8rem; border-color: var(--accent-gaming); color: var(--accent-gaming);">
-                                <i class="fa-solid fa-sliders"></i> Configurer
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Pack Bouaké -->
-                    <div class="boutique-card">
-                        <div>
-                            <div class="boutique-card-img-box">
-                                <img src="images/hardware/Case blanc.png" alt="Pack Bouaké">
-                            </div>
-                            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.4rem;">
-                                <h4 style="font-size: 1.15rem; font-weight: 800; color: #fff;">Pack Bouaké</h4>
-                                <span style="background: rgba(16, 185, 129, 0.15); color: var(--accent-gaming); padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.72rem; font-weight: 700;">En Stock</span>
-                            </div>
-                            <p style="color: var(--text-muted); font-size: 0.84rem; margin-bottom: 0.8rem; line-height: 1.4;">
-                                Châssis S03/S04 Aquarium M-ATX vue panoramique sans pilier + Alimentation 600W + 4 Ventilateurs RGB A305 + Ventirad AX120R SE V2.
-                            </p>
-                        </div>
-                        <div style="border-top: 1px solid var(--border-color); padding-top: 0.8rem; display: flex; justify-content: space-between; align-items: center;">
-                            <div>
-                                <div style="font-size: 0.7rem; color: var(--text-muted);">À partir de</div>
-                                <div style="font-size: 1.15rem; font-weight: 800; color: var(--accent-gold); font-family: monospace;">45 000 F CFA</div>
-                            </div>
-                            <button onclick="onGamingRouteClick('config'); setTimeout(() => selectOption('pack', 'pack_bouake_black'), 500);" class="btn btn-secondary" style="padding: 0.4rem 0.85rem; font-size: 0.8rem; border-color: var(--accent-gaming); color: var(--accent-gaming);">
-                                <i class="fa-solid fa-sliders"></i> Configurer
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Carte Mère ASUS TUF B850M-PLUS WIFI -->
-                    <div class="boutique-card">
-                        <div>
-                            <div class="boutique-card-img-box">
-                                <img src="images/hardware/B850M.png" alt="ASUS TUF B850M-PLUS WIFI">
-                            </div>
-                            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.4rem;">
-                                <h4 style="font-size: 1.15rem; font-weight: 800; color: #fff;">ASUS TUF B850M-PLUS WIFI</h4>
-                                <span style="background: rgba(56, 189, 248, 0.15); color: #38bdf8; padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.72rem; font-weight: 700;">Socket AM5</span>
-                            </div>
-                            <p style="color: var(--text-muted); font-size: 0.84rem; margin-bottom: 0.8rem; line-height: 1.4;">
-                                Carte mère gaming ultra-robuste AM5, DDR5, Wi-Fi 6E &amp; Bluetooth intégrés, slots PCIe 5.0 et dissipateurs thermiques renforcés.
-                            </p>
-                        </div>
-                        <div style="border-top: 1px solid var(--border-color); padding-top: 0.8rem; display: flex; justify-content: space-between; align-items: center;">
-                            <div>
-                                <div style="font-size: 0.7rem; color: var(--text-muted);">Prix unitaire</div>
-                                <div style="font-size: 1.15rem; font-weight: 800; color: var(--accent-gold); font-family: monospace;">140 000 F CFA</div>
-                            </div>
-                            <button onclick="onGamingRouteClick('config')" class="btn btn-secondary" style="padding: 0.4rem 0.85rem; font-size: 0.8rem;">
-                                <i class="fa-solid fa-sliders"></i> Voir
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- AMD Ryzen 7 7800X3D -->
-                    <div class="boutique-card">
-                        <div>
-                            <div class="boutique-card-img-box">
-                                <img src="images/hardware/AMD.png" alt="Ryzen 7 7800X3D">
-                            </div>
-                            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.4rem;">
-                                <h4 style="font-size: 1.15rem; font-weight: 800; color: #fff;">Ryzen 7 7800X3D</h4>
-                                <span style="background: rgba(239, 68, 68, 0.15); color: #ef4444; padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.72rem; font-weight: 700;">Gaming King</span>
-                            </div>
-                            <p style="color: var(--text-muted); font-size: 0.84rem; margin-bottom: 0.8rem; line-height: 1.4;">
-                                Le processeur gaming ultime avec technologie 3D V-Cache (96 Mo de cache L3), 8 cœurs / 16 threads jusqu'à 5.0 GHz.
-                            </p>
-                        </div>
-                        <div style="border-top: 1px solid var(--border-color); padding-top: 0.8rem; display: flex; justify-content: space-between; align-items: center;">
-                            <div>
-                                <div style="font-size: 0.7rem; color: var(--text-muted);">Prix unitaire</div>
-                                <div style="font-size: 1.15rem; font-weight: 800; color: var(--accent-gold); font-family: monospace;">190 000 F CFA</div>
-                            </div>
-                            <button onclick="onGamingRouteClick('config')" class="btn btn-secondary" style="padding: 0.4rem 0.85rem; font-size: 0.8rem;">
-                                <i class="fa-solid fa-sliders"></i> Voir
-                            </button>
-                        </div>
-                    </div>
+                <div class="boutique-coming-soon-box">
+                    <div class="boutique-coming-soon-text">Ouverte bientôt</div>
                 </div>
             </div><!-- /#gamingBoutiqueContainer -->
         </section>
