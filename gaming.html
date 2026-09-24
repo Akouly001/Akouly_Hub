@@ -1354,7 +1354,7 @@
                         </button>
                     </div>
 
-                    <div class="gaming-extra-actions">
+                    <div class="gaming-extra-actions" id="configExtraActions">
                         <button class="btn-preset" onclick="openPresetsModal()">
                             <i class="fa-solid fa-wand-magic-sparkles"></i> Presets Conseillés
                         </button>
@@ -3893,6 +3893,7 @@ En raison des changements qui peuvent survenir, stock épuisé, modèle indispon
             const configContainer = document.getElementById('gamingConfigContainer');
             const boutiqueContainer = document.getElementById('gamingBoutiqueContainer');
             const configSubtitle = document.getElementById('configSubtitleBlock');
+            const configExtraActions = document.getElementById('configExtraActions');
 
             // Phase 1 : Balayage entrant (Sweep in -> 0%)
             if (loader) {
@@ -3906,10 +3907,12 @@ En raison des changements qui peuvent survenir, stock épuisé, modèle indispon
                     if (configContainer) configContainer.style.display = 'block';
                     if (boutiqueContainer) boutiqueContainer.style.display = 'none';
                     if (configSubtitle) configSubtitle.style.display = 'block';
+                    if (configExtraActions) configExtraActions.style.display = 'flex';
                 } else if (route === 'boutique') {
                     if (configContainer) configContainer.style.display = 'none';
                     if (boutiqueContainer) boutiqueContainer.style.display = 'block';
                     if (configSubtitle) configSubtitle.style.display = 'none';
+                    if (configExtraActions) configExtraActions.style.display = 'none';
                 }
 
                 // Phase 3 : Balayage sortant (Sweep out -> 100%)
