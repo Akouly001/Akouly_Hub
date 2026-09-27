@@ -1,4 +1,30 @@
+# Robots.txt pour Akouly Ecosystem (https://akouly.netlify.app)
+# Autorisation globale pour tous les moteurs de recherche et robots d'indexation
+
 User-agent: *
 Allow: /
 
+# Autorisation explicite des agents IA (LLMs & Web Assistants)
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: cohere-ai
+Allow: /
+
+# Emplacement du Sitemap XML
 Sitemap: https://akouly.netlify.app/sitemap.xml

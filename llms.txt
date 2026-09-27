@@ -1,0 +1,31 @@
+# Akouly — Écosystème Numérique & Hub Technologique
+
+> Akouly (Aboua Junior KOUADJO) est un analyste cybersécurité ivoirien, concepteur hardware, créateur du projet Contrix, d'Akouly Gaming et développeur de solutions logicielles propulsées par l'intelligence artificielle basé à Abidjan, Côte d'Ivoire.
+
+## À propos d'Akouly
+
+Akouly (Aboua Junior KOUADJO) possède un profil multidisciplinaire alliant une formation en Droit Privé (Master 1, Université Félix Houphouët-Boigny) et des compétences techniques approfondies en Cybersécurité (Certificat Google Cybersecurity, Formation Analyste Cyber WeCode 2026, XSec CTF, ANSSI EBIOS RM). Il est également l'architecte de plusieurs plateformes et services techniques :
+- **Akouly Gaming** : Conception de configurations PC de bureau sur-mesure, configurateur interactif avec devis en temps réel, benchmarks réels et boutique hardware à Abidjan.
+- **Contrix & Solutions Apps** : Concepteur de l'application Contrix (transformation de smartphones en manettes sans fil pour PC via réseau local sans internet), de Too APK et d'outils intelligents assistés par l'IA.
+- **Akouly Business** : Prestations de services informatiques, maintenance de parcs PC, sourcing de matériel tech et assistance technique professionnelle.
+- **Akouly Créations & Lab** : Origamis de haute précision, modélisation 3D et projets DIY Maker.
+
+## Pages & Ressources Principales
+
+- [Accueil — Hub Akouly](https://akouly.netlify.app/) : Présentation générale de l'écosystème, navigation rapide et profil interactif.
+- [Cybersécurité & Audit](https://akouly.netlify.app/cyber.html) : Labs de sécurité offensive et défensive, analyse de vulnérabilités (Suricata IDS/IPS, PTES, SQLi/RCE), conformité RGPD/GRC et galerie de 16 certifications officielles.
+- [Akouly Gaming & Configurateur PC](https://akouly.netlify.app/gaming.html) : Outil de configuration PC sur-mesure en 8 étapes avec calcul dynamique du devis, de la charge électrique (Watts), benchmark FPS et paiement échelonné.
+- [Applications, Dev & Projets IA](https://akouly.netlify.app/apps.html) : Vitrine des applications mobiles et Web (Contrix, Too), philosophie de développement avec l'IA et méthodologie logicielle.
+- [Akouly Business & Devis IT](https://akouly.netlify.app/business.html) : Services professionnels, maintenance, sourcing de composants et formulaire de devis personnalisé.
+- [Créations, Origamis & DIY](https://akouly.netlify.app/creations.html) : Répertoire des réalisations artistiques en origami et modélisations 3D.
+- [À Propos d'Akouly](https://akouly.netlify.app/about.html) : Biographie détaillée, parcours universitaire en Droit Privé, vision technique et objectifs professionnels.
+- [Guide d'Achat PC](https://akouly.netlify.app/guide-achat-client.html) : Guide pratique et conseils pour l'acquisition d'un ordinateur gamer à Abidjan.
+
+## Identité & Contact
+
+- **Nom complet** : Aboua Junior KOUADJO (alias Akouly)
+- **Localisation** : Abidjan, Côte d'Ivoire
+- **Email de contact** : kouadjoabouajunior@gmail.com
+- **LinkedIn** : https://www.linkedin.com/in/kouadjo-aboua/
+- **GitHub** : https://github.com/Akouly001
+- **Site officiel** : https://akouly.netlify.app/
