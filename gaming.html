@@ -1744,7 +1744,7 @@
                 </div>
 
                 <div style="display: flex; gap: 0.8rem; margin-top: 1.25rem;">
-                    <button type="submit" class="btn-main-order" style="flex: 1; margin-top: 0;">
+                    <button type="submit" id="btnSubmitOrder" class="btn-main-order" style="flex: 1; margin-top: 0;">
                         <i class="fa-solid fa-cart-shopping"></i> Commander
                     </button>
                     <button type="button" class="btn-prev" onclick="triggerPrintInvoice()">
@@ -3514,10 +3514,16 @@
         }
 
         /* ==========================================================================
-           SOUMISSION DE COMMANDE & TRANSMISSION DEVIS
+           SOUMISSION DE COMMANDE & TRANSMISSION DEVIS (GOOGLE APPS SCRIPT)
            ========================================================================== */
-        function handleFinalOrder(e) {
+        // URL du Web App Google Apps Script (Déployé avec accès "Tout le monde")
+        const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz_VOTRE_ID_APPS_SCRIPT/exec";
+
+        async function handleFinalOrder(e) {
             e.preventDefault();
+            const submitBtn = document.getElementById("btnSubmitOrder");
+            const originalBtnHtml = submitBtn ? submitBtn.innerHTML : '<i class="fa-solid fa-cart-shopping"></i> Commander';
+
             const name = document.getElementById("orderName").value.trim();
             const phone = document.getElementById("orderPhone").value.trim();
             const email = document.getElementById("orderEmail").value.trim();
@@ -3556,11 +3562,47 @@ CLAUSE CONTRACTUELLE :
 En raison des changements qui peuvent survenir, stock épuisé, modèle indisponible, les images des produits ne sont pas contractuelles, seules les spécifications techniques et les dimensions seront respectées à la lettre. En cas de litige, vous serez informé par mail.
 `;
 
-            const mailtoUrl = `mailto:akoulymarket@gmail.com?cc=${encodeURIComponent(email)}&subject=${encodeURIComponent(`Commande & Devis PC - ${name} (${phone})`)}&body=${encodeURIComponent(orderBody)}`;
-            window.open(mailtoUrl, '_blank');
+            const orderPayload = {
+                name,
+                phone,
+                email,
+                address,
+                orderBody,
+                initialPayment: formatNumber(calc.initialPayment),
+                monthlyInstallment: formatNumber(calc.monthlyInstallment),
+                grandTotal: formatNumber(calc.grandTotal)
+            };
 
-            closeOrderModal();
-            alert(`Merci ${name} ! Votre commande et votre devis ont été générés avec succès.\n\nVotre messagerie s'ouvre pour transmettre votre commande à Akouly Gaming et vous envoyer une copie directe du devis à : ${email}`);
+            // État de chargement sur le bouton
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Envoi en cours...`;
+            }
+
+            try {
+                if (APPS_SCRIPT_URL && !APPS_SCRIPT_URL.includes("VOTRE_ID_APPS_SCRIPT")) {
+                    await fetch(APPS_SCRIPT_URL, {
+                        method: "POST",
+                        mode: "no-cors",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(orderPayload)
+                    });
+                }
+                
+                closeOrderModal();
+                alert(`Merci ${name} ! Votre commande a été enregistrée avec succès.\n\nVotre devis officiel en PDF a été généré et envoyé automatiquement par email à : ${email}\nNotre équipe Akouly Gaming a également reçu votre dossier.`);
+            } catch (error) {
+                console.error("Erreur d'envoi automatique :", error);
+                const mailtoUrl = `mailto:akoulymarket@gmail.com?cc=${encodeURIComponent(email)}&subject=${encodeURIComponent(`Commande & Devis PC - ${name} (${phone})`)}&body=${encodeURIComponent(orderBody)}`;
+                window.open(mailtoUrl, '_blank');
+                closeOrderModal();
+                alert(`Votre commande a été préparée. Votre messagerie s'ouvre pour l'envoyer directement.`);
+            } finally {
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalBtnHtml;
+                }
+            }
         }
 
         function handleSendQuestion(e) {
