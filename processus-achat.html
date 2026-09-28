@@ -1471,15 +1471,32 @@
           </div>
         </div>
 
-        <div style="display: flex; gap: 0.8rem; margin-top: 1.25rem;">
-          <button type="submit" id="btnSubmitOrder" class="btn-main-order" style="flex: 1; margin-top: 0;">
+        <div style="margin-top: 1.25rem;">
+          <button type="submit" id="btnSubmitOrder" class="btn-main-order" style="width: 100%; margin-top: 0; justify-content: center;">
             <i class="fa-solid fa-cart-shopping"></i> Commander
-          </button>
-          <button type="button" class="btn-prev" onclick="triggerPrintInvoice()">
-            <i class="fa-solid fa-file-pdf"></i> Imprimer / Devis PDF
           </button>
         </div>
       </form>
+    </div>
+  </div>
+
+  <!-- MODALE CONFIRMATION COMMANDE SUCCÈS (FENÊTRE FLOTTANTE) -->
+  <div class="modal-backdrop" id="orderSuccessModal" onclick="if(event.target === this) closeOrderSuccessModal();">
+    <div class="modal-content" style="max-width: 480px; text-align: center; padding: 2rem 1.8rem; border: 1px solid rgba(16, 185, 129, 0.3); box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6), 0 0 25px rgba(16, 185, 129, 0.15);">
+      <button class="modal-close" onclick="closeOrderSuccessModal()"><i class="fa-solid fa-xmark"></i></button>
+      <div style="width: 60px; height: 60px; border-radius: 50%; background: rgba(16, 185, 129, 0.15); border: 2px solid #10b981; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.2rem auto; font-size: 1.6rem; color: #10b981; box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);">
+        <i class="fa-solid fa-check"></i>
+      </div>
+      <h3 style="font-size: 1.25rem; font-weight: 800; color: var(--text-main); margin-bottom: 1rem; line-height: 1.4;">
+        Merci <span id="orderSuccessClientName" style="color: var(--accent-gold);"></span> ! Votre commande a été enregistrée avec succès.
+      </h3>
+      <p style="font-size: 0.95rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 1.6rem;">
+        Veuillez consulter vos mails SVP.<br>
+        L'équipe Akouly Gaming prendra contact avec vous via WhatsApp très bientôt.
+      </p>
+      <button type="button" onclick="closeOrderSuccessModal()" class="btn-main-order" style="width: 100%; justify-content: center; padding: 0.85rem 1.5rem; font-size: 0.95rem; margin-top: 0;">
+        <i class="fa-solid fa-circle-check"></i> Fermer
+      </button>
     </div>
   </div>
 
@@ -2324,6 +2341,7 @@
           closePresetsModal();
           closeOrderModal();
           closeGuideModal();
+          closeOrderSuccessModal();
         }
       });
     }
@@ -2790,11 +2808,8 @@
           </div>
 
           <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-            <button class="btn-main-order ${!isReadyToOrder ? 'disabled' : ''}" style="flex: 2;" onclick="openOrderModal()">
+            <button class="btn-main-order ${!isReadyToOrder ? 'disabled' : ''}" style="flex: 1; width: 100%; justify-content: center;" onclick="openOrderModal()">
               <i class="fa-solid fa-cart-shopping"></i> Commander
-            </button>
-            <button class="btn-prev" style="flex: 1; justify-content: center; padding: 0.85rem;" onclick="triggerPrintInvoice()">
-              <i class="fa-solid fa-file-pdf"></i> Imprimer / Devis PDF
             </button>
           </div>
         </div>
@@ -3290,18 +3305,36 @@ En raison des changements qui peuvent survenir, stock épuisé, modèle indispon
         }
 
         closeOrderModal();
-        alert(`Merci ${name} ! Votre commande a été enregistrée avec succès.\n\nVotre devis officiel en PDF a été généré et envoyé automatiquement par email à : ${email}\nNotre équipe Akouly Gaming a également reçu votre dossier.`);
+        showOrderSuccessModal(name);
       } catch (error) {
         console.error("Erreur d'envoi automatique :", error);
         const mailtoUrl = `mailto:akoulymarket@gmail.com?cc=${encodeURIComponent(email)}&subject=${encodeURIComponent(`Commande & Devis PC - ${name} (${phone})`)}&body=${encodeURIComponent(orderBody)}`;
         window.open(mailtoUrl, '_blank');
         closeOrderModal();
-        alert(`Votre commande a été préparée. Votre messagerie s'ouvre pour l'envoyer directement.`);
+        showOrderSuccessModal(name);
       } finally {
         if (submitBtn) {
           submitBtn.disabled = false;
           submitBtn.innerHTML = originalBtnHtml;
         }
+      }
+    }
+
+    function showOrderSuccessModal(clientName) {
+      const nameEl = document.getElementById("orderSuccessClientName");
+      if (nameEl) {
+        nameEl.textContent = clientName || "Client";
+      }
+      const modal = document.getElementById("orderSuccessModal");
+      if (modal) {
+        modal.classList.add("open");
+      }
+    }
+
+    function closeOrderSuccessModal() {
+      const modal = document.getElementById("orderSuccessModal");
+      if (modal) {
+        modal.classList.remove("open");
       }
     }
 
