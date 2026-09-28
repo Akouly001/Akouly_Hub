@@ -13,7 +13,7 @@ Akouly (Aboua Junior KOUADJO) possède un profil multidisciplinaire alliant une 
 ## Pages & Ressources Principales
 
 - [Accueil — Hub Akouly](https://akouly.netlify.app/) : Présentation générale de l'écosystème, navigation rapide et profil interactif.
-- [Cybersécurité & Audit](https://akouly.netlify.app/cyber.html) : Labs de sécurité offensive et défensive, analyse de vulnérabilités (Suricata IDS/IPS, PTES, SQLi/RCE), conformité RGPD/GRC et galerie de 16 certifications officielles.
+- [Cybersécurité & Audit](https://akouly.netlify.app/cyber.html) : Labs de sécurité offensive et défensive, analyse de vulnérabilités (Suricata IDS/IPS, PTES, SQLi/RCE), conformité RGPD/GRC et galerie de 17 certifications officielles.
 - [Akouly Gaming & Configurateur PC](https://akouly.netlify.app/gaming.html) : Outil de configuration PC sur-mesure en 8 étapes avec calcul dynamique du devis, de la charge électrique (Watts), benchmark FPS et paiement échelonné.
 - [Applications, Dev & Projets IA](https://akouly.netlify.app/apps.html) : Vitrine des applications mobiles et Web (Contrix, Too), philosophie de développement avec l'IA et méthodologie logicielle.
 - [Akouly Business & Devis IT](https://akouly.netlify.app/business.html) : Services professionnels, maintenance, sourcing de composants et formulaire de devis personnalisé.
