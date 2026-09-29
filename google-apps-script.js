@@ -9,12 +9,12 @@
  * 2. Génération automatique du Devis officiel en PDF (sans répétition de clause)
  * 3. Génération du 2e Document officiel "Règles de Paiement — Akouly Gaming" en PDF
  * 4. Sauvegarde automatique des 2 PDF dans votre dossier Google Drive dédié
- * 5. Notification instantanée par email à l'équipe Akouly (akoulymarket@gmail.com + kouadjoabouajunior@gmail.com)
+ * 5. Notification instantanée par email à AkoulyMarket (akoulymarket@gmail.com)
  * 6. Envoi automatique au CLIENT de son Devis PDF + Document des Règles de Paiement
  */
 
 const DRIVE_FOLDER_ID = "15xH2h7VLTSk3IfTMdEi-j74Acw1XC-cq";
-const ADMIN_EMAILS = "akoulymarket@gmail.com, kouadjoabouajunior@gmail.com";
+const ADMIN_EMAIL = "akoulymarket@gmail.com";
 
 function doPost(e) {
   try {
@@ -264,7 +264,7 @@ function doPost(e) {
     // 4. NOTIFICATION ADMIN (AKOULY MARKET & AKOULY GAMING)
     // ==========================================================================
     MailApp.sendEmail({
-      to: ADMIN_EMAILS,
+      to: ADMIN_EMAIL,
       replyTo: (data.email && data.email.indexOf("@") !== -1) ? data.email : undefined,
       subject: `🚨 NOUVELLE COMMANDE PC - ${data.name} (${data.phone})`,
       body: `Nouvelle commande enregistrée sur Akouly Gaming !\n\n` +
