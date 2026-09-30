@@ -1343,10 +1343,10 @@
             }
         }
 
-        /* CARTE COMMUNAUTÉ YOUTUBE */
+        /* CARTE COMMUNAUTÉ & RÉSEAUX (YOUTUBE / TIKTOK) */
         .youtube-community-card {
             background: linear-gradient(135deg, rgba(239, 68, 68, 0.08) 0%, var(--cfg-bg-card, #141820) 100%);
-            border: 1px solid rgba(239, 68, 68, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.12);
             border-radius: var(--radius-lg, 16px);
             padding: 2.2rem 2rem;
             position: relative;
@@ -1355,28 +1355,40 @@
             transition: var(--trans-fast, all 0.25s ease);
         }
         .youtube-community-card:hover {
-            border-color: rgba(239, 68, 68, 0.5);
-            box-shadow: 0 12px 40px rgba(239, 68, 68, 0.15);
+            border-color: rgba(239, 68, 68, 0.4);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
         }
         .youtube-community-text {
             color: var(--text-muted);
-            font-size: 0.95rem;
-            line-height: 1.65;
-            max-width: 800px;
+            font-size: 0.98rem;
+            line-height: 1.7;
+            max-width: 820px;
         }
-        .btn-youtube-channel {
+        .social-buttons-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            align-items: center;
+            margin-top: 1.4rem;
+        }
+        .btn-social-channel {
             display: inline-flex;
             align-items: center;
             gap: 0.75rem;
-            background: #ef4444;
             color: #ffffff !important;
             font-weight: 700;
             font-size: 0.95rem;
             padding: 0.85rem 1.8rem;
             border-radius: 9999px;
             text-decoration: none;
+            transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+        }
+        .btn-social-channel i {
+            font-size: 1.25rem;
+        }
+        .btn-youtube-channel {
+            background: #ef4444;
             box-shadow: 0 4px 18px rgba(239, 68, 68, 0.35);
-            transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
         }
         .btn-youtube-channel:hover {
             background: #dc2626;
@@ -1384,8 +1396,17 @@
             box-shadow: 0 8px 25px rgba(239, 68, 68, 0.5);
             color: #ffffff !important;
         }
-        .btn-youtube-channel i {
-            font-size: 1.25rem;
+        .btn-tiktok-channel {
+            background: #000000;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.4), 0 0 12px rgba(0, 242, 234, 0.15);
+        }
+        .btn-tiktok-channel:hover {
+            background: #111111;
+            border-color: rgba(0, 242, 234, 0.7);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 242, 234, 0.3), 0 0 15px rgba(255, 0, 79, 0.3);
+            color: #ffffff !important;
         }
     </style>
 </head>
@@ -1680,19 +1701,22 @@
                 </div>
             </section>
 
-            <!-- Section 2 : Communauté & Vidéos YouTube -->
+            <!-- Section 2 : Découvrir l'Univers Akouly (YouTube & TikTok) -->
             <section class="scroll-reveal" style="margin-top: 3.5rem; margin-bottom: 2rem;">
                 <div class="youtube-community-card">
-                    <div class="section-label" style="margin-bottom: 0.4rem; color: #ef4444; font-weight: 800; font-size: 0.8rem; letter-spacing: 1px;">// REJOIGNEZ LA COMMUNAUTÉ</div>
+                    <div class="section-label" style="margin-bottom: 0.4rem; color: #ef4444; font-weight: 800; font-size: 0.8rem; letter-spacing: 1px;">// DÉCOUVRIR MON UNIVERS</div>
                     <h2 class="section-title" style="margin-bottom: 0.8rem; font-size: 1.6rem;">
-                        La Passion Hardware & Gaming en <span style="color: #ef4444;">Vidéo</span>
+                        En savoir plus sur <span>Akouly</span>
                     </h2>
                     <p class="youtube-community-text">
-                        Retrouvez nos présentations de configurations sur-mesure, nos tests de matériel en conditions réelles, nos guides d'optimisation et les coulisses de l'atelier Akouly. Venez échanger avec nous, poser vos questions et partager vos retours d'expérience au sein de la communauté.
+                        Je suis Akouly : tech, cybersécurité, projets perso, unboxing, moto — tout ce qui fait ma vie, partagé avec des astuces et sans blabla.
                     </p>
-                    <div style="margin-top: 1.4rem;">
-                        <a href="https://www.youtube.com/@Akouly-225" target="_blank" rel="noopener noreferrer" class="btn-youtube-channel">
-                            <i class="fab fa-youtube"></i> Découvrir la chaîne YouTube
+                    <div class="social-buttons-row">
+                        <a href="https://www.youtube.com/@Akouly-225" target="_blank" rel="noopener noreferrer" class="btn-social-channel btn-youtube-channel">
+                            <i class="fab fa-youtube"></i> Suivre sur YouTube
+                        </a>
+                        <a href="https://www.tiktok.com/@Akouly_" target="_blank" rel="noopener noreferrer" class="btn-social-channel btn-tiktok-channel">
+                            <i class="fab fa-tiktok"></i> Suivre sur TikTok
                         </a>
                     </div>
                 </div>
