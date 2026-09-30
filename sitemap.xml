@@ -1,57 +1,103 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+
+  <!-- 1. Page d'Accueil / Hub Principal -->
   <url>
     <loc>https://akouly.netlify.app/</loc>
-    <lastmod>2026-09-27</lastmod>
-    <changefreq>weekly</changefreq>
+    <lastmod>2026-09-30</lastmod>
+    <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
-  <url>
-    <loc>https://akouly.netlify.app/cyber.html</loc>
-    <lastmod>2026-09-27</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
+
+  <!-- 2. Akouly Gaming — Configurateur PC Gamer sur-mesure & Hardware -->
   <url>
     <loc>https://akouly.netlify.app/gaming.html</loc>
-    <lastmod>2026-09-27</lastmod>
+    <lastmod>2026-09-30</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- 3. Cybersécurité, Audit, Labs & 17 Certifications -->
+  <url>
+    <loc>https://akouly.netlify.app/cyber.html</loc>
+    <lastmod>2026-09-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
+
+  <!-- 4. Apps & Développement, APKs (Contrix, Too) & IA -->
   <url>
     <loc>https://akouly.netlify.app/apps.html</loc>
-    <lastmod>2026-09-27</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <lastmod>2026-09-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
   </url>
+
+  <!-- 5. Akouly Business & Services IT Professionnels -->
   <url>
     <loc>https://akouly.netlify.app/business.html</loc>
-    <lastmod>2026-09-27</lastmod>
-    <changefreq>monthly</changefreq>
+    <lastmod>2026-09-30</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
+
+  <!-- 6. Créations, Origami de Haute Précision & 3D -->
   <url>
     <loc>https://akouly.netlify.app/creations.html</loc>
-    <lastmod>2026-09-27</lastmod>
-    <changefreq>monthly</changefreq>
+    <lastmod>2026-09-30</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
+
+  <!-- 7. Guide d'Achat Client PC & FAQ Abidjan -->
+  <url>
+    <loc>https://akouly.netlify.app/guide-achat-client.html</loc>
+    <lastmod>2026-09-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- 8. Processus d'Achat PC en 3 Tranches -->
+  <url>
+    <loc>https://akouly.netlify.app/processus-achat.html</loc>
+    <lastmod>2026-09-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- 9. À Propos d'Akouly (Biographie & Parcours) -->
   <url>
     <loc>https://akouly.netlify.app/about.html</loc>
-    <lastmod>2026-09-27</lastmod>
+    <lastmod>2026-09-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
+
+  <!-- 10. Galerie Photo & Visuels Créatifs -->
   <url>
-    <loc>https://akouly.netlify.app/processus-achat.html</loc>
-    <lastmod>2026-09-27</lastmod>
+    <loc>https://akouly.netlify.app/photo.html</loc>
+    <lastmod>2026-09-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- 11. Galerie Origami & Projets Pliage -->
+  <url>
+    <loc>https://akouly.netlify.app/origami.html</loc>
+    <lastmod>2026-09-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- 12. Lab Expérimental & Recherches -->
+  <url>
+    <loc>https://akouly.netlify.app/lab.html</loc>
+    <lastmod>2026-09-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
-  <url>
-    <loc>https://akouly.netlify.app/guide-achat-client.html</loc>
-    <lastmod>2026-09-27</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
+
 </urlset>
