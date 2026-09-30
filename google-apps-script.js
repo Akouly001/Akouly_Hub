@@ -251,13 +251,13 @@ function doPost(e) {
     // 3. CONVERSION EN BLOBS PDF & SAUVEGARDE SUR GOOGLE DRIVE
     // ==========================================================================
     // PDF 1 : Devis
-    const pdfDevisBlob = Utilities.newBlob(devisHtml, "text/html", `Devis_${safeClientName}.html`).getAs("application/pdf");
+    const pdfDevisBlob = Utilities.newBlob(devisHtml, "text/html", "devis.html").getAs("application/pdf");
     pdfDevisBlob.setName(`Devis_Akouly_Gaming_${safeClientName}_${fileDate}.pdf`);
     const devisFile = folder.createFile(pdfDevisBlob);
 
     // PDF 2 : Règles de Paiement
-    const pdfReglesBlob = Utilities.newBlob(reglesHtml, "text/html", "Regles_Paiement.html").getAs("application/pdf");
-    pdfReglesBlob.setName(`Regles_de_Paiement_Akouly_Gaming_${safeClientName}_${fileDate}.pdf`);
+    const pdfReglesBlob = Utilities.newBlob(reglesHtml, "text/html", "regles.html").getAs("application/pdf");
+    pdfReglesBlob.setName(`Regles_de_Paiement_Akouly_Gaming.pdf`);
     const reglesFile = folder.createFile(pdfReglesBlob);
 
     // ==========================================================================
@@ -281,7 +281,7 @@ function doPost(e) {
             `- Devis PDF : ${devisFile.getUrl()}\n` +
             `- Règles Paiement PDF : ${reglesFile.getUrl()}\n\n` +
             `DÉTAIL MATÉRIEL :\n${data.orderBody}`,
-      attachments: [pdfDevisBlob]
+      attachments: [devisFile.getBlob()]
     });
 
     // ==========================================================================
@@ -290,20 +290,20 @@ function doPost(e) {
     if (data.email && data.email.indexOf("@") !== -1) {
       MailApp.sendEmail({
         to: data.email,
-        replyTo: "akoulymarket@gmail.com",
+        replyTo: ADMIN_EMAIL,
         subject: `Confirmation de votre commande PC & Devis officiel — Akouly Gaming`,
         body: `Bonjour ${data.name},\n\n` +
               `Nous avons bien enregistré votre commande pour votre configuration PC sur-mesure chez Akouly Gaming !\n\n` +
-              `Vous trouverez en pièces jointes de ce mail :\n` +
+              `Vous trouverez en pièces jointes de cet email vos 2 documents officiels :\n` +
               `1. Votre Devis officiel détaillé au format PDF\n` +
-              `2. Le document officiel « Règles de Paiement — Akouly Gaming » (échéancier en 4 fois, délais, garanties 6 mois et conditions d'annulation).\n\n` +
+              `2. Le document officiel « Règles de Paiement — Akouly Gaming » (échéancier en 4 fois sur 3 mois, délais, garanties et conditions d'annulation).\n\n` +
               `Notre équipe Akouly Gaming prendra contact avec vous très bientôt via WhatsApp ou téléphone au ${data.phone} pour valider votre dossier et finaliser le premier versement (Jour 0).\n\n` +
               `À très bientôt,\n` +
               `L'équipe Akouly Gaming\n` +
               `Abidjan, Côte d'Ivoire\n` +
               `Email : akoulymarket@gmail.com\n` +
               `Site : https://akouly.netlify.app/gaming.html`,
-        attachments: [pdfDevisBlob, pdfReglesBlob]
+        attachments: [devisFile.getBlob(), reglesFile.getBlob()]
       });
     }
 

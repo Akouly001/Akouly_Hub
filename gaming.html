@@ -1342,6 +1342,51 @@
                 line-height: 1.2;
             }
         }
+
+        /* CARTE COMMUNAUTÉ YOUTUBE */
+        .youtube-community-card {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.08) 0%, var(--cfg-bg-card, #141820) 100%);
+            border: 1px solid rgba(239, 68, 68, 0.25);
+            border-radius: var(--radius-lg, 16px);
+            padding: 2.2rem 2rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+            transition: var(--trans-fast, all 0.25s ease);
+        }
+        .youtube-community-card:hover {
+            border-color: rgba(239, 68, 68, 0.5);
+            box-shadow: 0 12px 40px rgba(239, 68, 68, 0.15);
+        }
+        .youtube-community-text {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.65;
+            max-width: 800px;
+        }
+        .btn-youtube-channel {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: #ef4444;
+            color: #ffffff !important;
+            font-weight: 700;
+            font-size: 0.95rem;
+            padding: 0.85rem 1.8rem;
+            border-radius: 9999px;
+            text-decoration: none;
+            box-shadow: 0 4px 18px rgba(239, 68, 68, 0.35);
+            transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+        }
+        .btn-youtube-channel:hover {
+            background: #dc2626;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(239, 68, 68, 0.5);
+            color: #ffffff !important;
+        }
+        .btn-youtube-channel i {
+            font-size: 1.25rem;
+        }
     </style>
 </head>
 <body data-page="gaming">
@@ -1635,24 +1680,20 @@
                 </div>
             </section>
 
-            <!-- Section 2 : Reviews Hardware (Intégrée à la vue Configurateur) -->
+            <!-- Section 2 : Communauté & Vidéos YouTube -->
             <section class="scroll-reveal" style="margin-top: 3.5rem; margin-bottom: 2rem;">
-                <div class="section-label">// TESTS & MATÉRIEL</div>
-                <h2 class="section-title">Reviews <span>Hardware</span></h2>
-
-                <div class="projects-grid">
-                    <div class="project-card">
-                        <div style="font-size: 1.6rem; color: var(--accent-cyber); margin-bottom: 0.5rem;"><i class="fas fa-keyboard"></i></div>
-                        <h3 class="project-title">Clavier Mécanique Motospeed CK104</h3>
-                        <p class="project-desc">Review vidéo et test de durabilité du clavier mécanique Motospeed CK104 : switchs Outemu Red/Blue, réactivité en jeu et rapport qualité/prix.</p>
-                        <div class="project-tags"><span class="project-tag">Motospeed CK104</span><span class="project-tag">Switchs Mécaniques</span><span class="project-tag">Review</span></div>
-                    </div>
-
-                    <div class="project-card">
-                        <div style="font-size: 1.6rem; color: var(--accent-dev); margin-bottom: 0.5rem;"><i class="fas fa-headset"></i></div>
-                        <h3 class="project-title">Casque Gaming G19BT (Test Micro)</h3>
-                        <p class="project-desc">Test complet d'ergonomie et enregistrement vidéo réalisé directement avec le microphone du casque G19BT pour évaluer la clarté vocale en jeu.</p>
-                        <div class="project-tags"><span class="project-tag">Casque G19BT</span><span class="project-tag">Test Micro</span><span class="project-tag">Audio Gaming</span></div>
+                <div class="youtube-community-card">
+                    <div class="section-label" style="margin-bottom: 0.4rem; color: #ef4444; font-weight: 800; font-size: 0.8rem; letter-spacing: 1px;">// REJOIGNEZ LA COMMUNAUTÉ</div>
+                    <h2 class="section-title" style="margin-bottom: 0.8rem; font-size: 1.6rem;">
+                        La Passion Hardware & Gaming en <span style="color: #ef4444;">Vidéo</span>
+                    </h2>
+                    <p class="youtube-community-text">
+                        Retrouvez nos présentations de configurations sur-mesure, nos tests de matériel en conditions réelles, nos guides d'optimisation et les coulisses de l'atelier Akouly. Venez échanger avec nous, poser vos questions et partager vos retours d'expérience au sein de la communauté.
+                    </p>
+                    <div style="margin-top: 1.4rem;">
+                        <a href="https://www.youtube.com/@Akouly-225" target="_blank" rel="noopener noreferrer" class="btn-youtube-channel">
+                            <i class="fab fa-youtube"></i> Découvrir la chaîne YouTube
+                        </a>
                     </div>
                 </div>
             </section>
