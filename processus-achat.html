@@ -121,6 +121,26 @@
       align-items: center;
       gap: 0.4rem;
     }
+    .btn-clear-cart {
+      background: rgba(239, 68, 68, 0.08);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      color: #f87171;
+      padding: 0.35rem 0.8rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      cursor: pointer;
+      transition: var(--trans-fast, all 0.2s ease);
+    }
+    .btn-clear-cart:hover {
+      background: rgba(239, 68, 68, 0.2);
+      border-color: #ef4444;
+      color: #ffffff;
+      transform: translateY(-1px);
+    }
 
     .nav-actions {
       display: flex;
@@ -1286,7 +1306,7 @@
           <i class="fa-solid fa-chevron-down accordion-icon"></i>
         </button>
         <div class="accordion-body">
-          Le SSD assure un démarrage instantané de Windows et de vos jeux sans temps d'attente. Si vous privilégiez la rapidité maximale, prenez un SSD M.2 NVMe (plus de 3 500 Mo/s). Si vous privilégiez l'espace pour une vaste bibliothèque au meilleur coût, prenez un SSD SATA (512 Go ou 1 To).
+          Le SSD assure un démarrage instantané de Windows et de vos jeux sans temps d'attente. Si vous privilégiez la rapidité maximale, prenez un SSD M.2 NVMe (plus de 3 000 Mo/s). Si vous privilégiez l'espace pour une vaste bibliothèque au meilleur coût, prenez un SSD SATA (512 Go ou 1 To).
         </div>
       </div>
 
@@ -1610,7 +1630,7 @@
               <i class="fa-solid fa-chevron-down" style="font-size: 0.7rem; color: var(--accent-gold); transition: transform 0.2s;"></i>
             </button>
             <div class="guide-faq-body" style="display: none; font-size: 0.76rem; color: var(--text-muted); padding: 0.3rem 0 0.3rem 1.2rem; line-height: 1.4;">
-              Le SSD NVMe M.2 offre des vitesses extrêmes (jusqu'à 3 500 Mo/s) idéales pour le gaming compétitif et le montage vidéo. Le SSD SATA offre un excellent compromis tarifaire.
+              Le SSD NVMe M.2 offre des vitesses extrêmes (plus de 3 000 Mo/s) idéales pour le gaming compétitif et le montage vidéo. Le SSD SATA offre un excellent compromis tarifaire.
             </div>
           </div>
           <div class="guide-faq-item" style="border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 0.35rem;">
@@ -2013,7 +2033,7 @@
         {
           id: "ram_2x4",
           name: "2x4 Go (8 Go) DDR4 3200 MHz",
-          price: 30000,
+          price: 35000,
           capacity: "8 Go (2x4 Go)",
           speed: "3200 MHz",
           specs: { type: "DDR4", config: "2x4 Go", speed: "3200 MHz" },
@@ -2082,7 +2102,7 @@
         {
           id: "ssd_sata_512gb",
           name: "SSD SATA III 512 Go",
-          price: 35000,
+          price: 40000,
           format: "SATA 2.5\"",
           capacity: "512 Go",
           speed: "550 Mo/s lecture",
@@ -2095,14 +2115,14 @@
           price: 60000,
           format: "M.2 NVMe",
           capacity: "512 Go",
-          speed: "plus de 3 500 Mo/s",
-          specs: { type: "M.2 2280 NVMe", capacity: "512 Go", speed: "plus de 3 500 Mo/s" },
+          speed: "plus de 3 000 Mo/s",
+          specs: { type: "M.2 2280 NVMe", capacity: "512 Go", speed: "plus de 3 000 Mo/s" },
           details: ["Vitesse ultra rapide sans câble, démarrage instantané du système"]
         },
         {
           id: "ssd_sata_1tb",
           name: "SSD SATA III 1 To",
-          price: 65000,
+          price: 70000,
           format: "SATA 2.5\"",
           capacity: "1 To (1000 Go)",
           speed: "550 Mo/s lecture",
@@ -2115,8 +2135,8 @@
           price: 95000,
           format: "M.2 NVMe",
           capacity: "1 To (1000 Go)",
-          speed: "plus de 3 500 Mo/s",
-          specs: { type: "M.2 2280 NVMe", capacity: "1 To", speed: "plus de 3 500 Mo/s" },
+          speed: "plus de 3 000 Mo/s",
+          specs: { type: "M.2 2280 NVMe", capacity: "1 To", speed: "plus de 3 000 Mo/s" },
           details: ["Performance maximale et 1 To d'espace pour chargement ultra-rapide"]
         }
       ],
@@ -2327,9 +2347,70 @@
     }
 
     /* ==========================================================================
-       GESTION DU STEPPER & DE L'INTERFACE
+       GESTION DU STEPPER & DE L'INTERFACE & PERSISTANCE LOCALE
        ========================================================================== */
+    function saveStateToStorage() {
+      try {
+        const stateToSave = {
+          currentStep: STATE.currentStep || 1,
+          selectedIds: {
+            pack: STATE.selected.pack ? STATE.selected.pack.id : null,
+            cpu: STATE.selected.cpu ? STATE.selected.cpu.id : null,
+            mb: STATE.selected.mb ? STATE.selected.mb.id : null,
+            ram: STATE.selected.ram ? STATE.selected.ram.id : null,
+            gpu: STATE.selected.gpu ? STATE.selected.gpu.id : null,
+            ssd: STATE.selected.ssd ? STATE.selected.ssd.id : null
+          }
+        };
+        localStorage.setItem("akouly_gaming_config_state", JSON.stringify(stateToSave));
+      } catch (e) {
+        console.warn("Erreur sauvegarde localStorage :", e);
+      }
+    }
+
+    function loadStateFromStorage() {
+      try {
+        const raw = localStorage.getItem("akouly_gaming_config_state");
+        if (!raw) return false;
+        const saved = JSON.parse(raw);
+        if (saved && saved.selectedIds) {
+          if (saved.selectedIds.pack) STATE.selected.pack = DB.packs.find(p => p.id === saved.selectedIds.pack) || null;
+          if (saved.selectedIds.cpu) STATE.selected.cpu = DB.cpus.find(c => c.id === saved.selectedIds.cpu) || null;
+          if (saved.selectedIds.mb) STATE.selected.mb = DB.motherboards.find(m => m.id === saved.selectedIds.mb) || null;
+          if (saved.selectedIds.ram) STATE.selected.ram = DB.rams.find(r => r.id === saved.selectedIds.ram) || null;
+          if (saved.selectedIds.gpu) STATE.selected.gpu = DB.gpus.find(g => g.id === saved.selectedIds.gpu) || null;
+          if (saved.selectedIds.ssd) STATE.selected.ssd = DB.ssds.find(s => s.id === saved.selectedIds.ssd) || null;
+          if (saved.currentStep && saved.currentStep >= 1 && saved.currentStep <= 8) {
+            STATE.currentStep = saved.currentStep;
+          }
+          return true;
+        }
+      } catch (e) {
+        console.warn("Erreur chargement localStorage :", e);
+      }
+      return false;
+    }
+
+    function clearConfigCart() {
+      STATE.selected = {
+        pack: null,
+        cpu: null,
+        mb: null,
+        ram: null,
+        gpu: null,
+        ssd: null
+      };
+      STATE.currentStep = 1;
+      try {
+        localStorage.removeItem("akouly_gaming_config_state");
+      } catch (e) {}
+      renderStepper();
+      renderCurrentStep();
+      updateSidebar();
+    }
+
     function initApp() {
+      loadStateFromStorage();
       renderStepper();
       renderCurrentStep();
       updateSidebar();
@@ -2391,6 +2472,7 @@
     function goToStep(num) {
       if (num < 1 || num > 8) return;
       STATE.currentStep = num;
+      saveStateToStorage();
       renderStepper();
       renderCurrentStep();
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -2426,7 +2508,9 @@
             <p>${config.subtitle}</p>
           </div>
           <div class="flow-badges">
-            <span class="badge-shipping"><i class="fa-solid fa-plane"></i> Fret Aérien Inclus (5 kg fixe)</span>
+            <button type="button" class="btn-clear-cart" onclick="clearConfigCart()" title="Réinitialiser tous les composants choisis">
+              <i class="fa-solid fa-trash-can"></i> Vider mon panier
+            </button>
           </div>
         </div>
 
@@ -2842,6 +2926,7 @@
       renderCurrentStep();
       updateSidebar();
       renderStepper();
+      saveStateToStorage();
     }
 
     function updateSidebar() {
