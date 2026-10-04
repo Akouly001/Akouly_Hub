@@ -6125,8 +6125,6 @@ TOTAL : ${formatNumber(calc.grandTotal)} F CFA
         /* ==========================================================================
            LOGIQUE COMPLÈTE DE LA BOUTIQUE INTÉGRÉE
            ========================================================================== */
-        (function() {
-            
         const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbykf59RWgndLXWtbP6rOcRbzwn2pMFlztpf1PhS6NBpT_Y9S2oAsQQcsoE2Nk44uZPibg/exec";
         const BOUTIQUE_SHEET_ID = "14p01xmFOzG6qXOjx8g2vZZJshHl22JpTArorHt9m4l4";
 
@@ -7974,11 +7972,11 @@ TOTAL : ${formatNumber(calc.grandTotal)} F CFA
             });
         });
     
-            window.initBoutique = function() {
-                if (typeof renderProducts === 'function') renderProducts(typeof currentCat !== 'undefined' ? currentCat : 'all');
-                if (typeof updateCartUI === 'function') updateCartUI();
-            };
-        })();
+        function initBoutique() {
+            if (typeof renderProducts === 'function') renderProducts(typeof currentCat !== 'undefined' ? currentCat : 'all');
+            if (typeof updateCartUI === 'function') updateCartUI();
+        }
+        window.initBoutique = initBoutique;
 
 </script>
 </body>
