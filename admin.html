@@ -3,570 +3,1304 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portail d'Authentification Sécurisé — CTF Admin</title>
+    <title>Administration & Back-Office — Akouly Boutique</title>
     <link rel="icon" type="image/png" href="images/logo-monogram-1.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600;700&family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
+    <!-- SDK EmailJS pour envoi d'OTP par email -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <style>
-        .ctf-wrapper {
+
+
+
+
+
+
+
+
+        :root {
+            --adm-bg: #090d16;
+            --adm-card: #111827;
+            --adm-surface: #1e293b;
+            --adm-border: rgba(255, 255, 255, 0.08);
+            --adm-text: #f8fafc;
+            --adm-text-muted: #94a3b8;
+            --adm-primary: #10b981;
+            --adm-gold: #eab308;
+            --adm-cyan: #06b6d4;
+            --adm-danger: #ef4444;
+        }
+
+        [data-theme="light"] {
+            --adm-bg: #f1f5f9;
+            --adm-card: #ffffff;
+            --adm-surface: #f8fafc;
+            --adm-border: rgba(0, 0, 0, 0.08);
+            --adm-text: #0f172a;
+            --adm-text-muted: #64748b;
+        }
+
+        body {
+            background-color: var(--adm-bg);
+            color: var(--adm-text);
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+
+        /* Top Bar */
+        .adm-header {
+            background: var(--adm-card);
+            border-bottom: 1px solid var(--adm-border);
+            padding: 0.85rem 1.5rem;
             display: flex;
-            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .adm-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: var(--adm-text);
+            text-decoration: none;
+        }
+
+        .adm-badge {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--adm-primary);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            padding: 0.2rem 0.5rem;
+            border-radius: 6px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .adm-nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        /* Container */
+        .adm-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 1.5rem 1rem;
+        }
+
+        /* Auth Screen (2FA OTP) */
+        .auth-overlay {
+            display: flex;
             align-items: center;
             justify-content: center;
-            min-height: 75vh;
-            padding: 2rem 1rem;
-            font-family: 'Courier New', Courier, monospace;
+            min-height: 80vh;
+            padding: 1.5rem 1rem;
         }
 
-        .ctf-card {
-            background-color: #161b22;
-            border: 1px solid #30363d;
-            border-radius: 8px;
-            padding: 30px;
+        .auth-box {
+            background: var(--adm-card);
+            border: 1px solid var(--adm-border);
+            border-radius: 18px;
+            padding: 2.4rem 2rem;
             width: 100%;
-            max-width: 420px;
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+            max-width: 440px;
             text-align: center;
-            box-sizing: border-box;
+            box-shadow: 0 20px 45px rgba(0,0,0,0.5);
+            position: relative;
         }
 
-        .ctf-card h2 {
-            color: #58a6ff;
-            margin-bottom: 15px;
-            font-family: 'Courier New', Courier, monospace;
+        .auth-step {
+            animation: authFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes authFadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .auth-icon-circle {
+            width: 58px;
+            height: 58px;
+            border-radius: 50%;
+            background: rgba(16, 185, 129, 0.12);
+            border: 2px solid var(--adm-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
             font-size: 1.4rem;
-            font-weight: bold;
-            letter-spacing: 0.05em;
+            color: var(--adm-primary);
+            margin: 0 auto 1.2rem;
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.2);
         }
 
-        .ctf-input {
+        .auth-icon-circle.otp-mode {
+            background: rgba(234, 179, 8, 0.12);
+            border-color: var(--adm-gold);
+            color: var(--adm-gold);
+            box-shadow: 0 0 20px rgba(234, 179, 8, 0.25);
+        }
+
+        .auth-box input[type="password"] {
             width: 100%;
-            padding: 12px;
-            background: #0d1117;
-            border: 1px solid #30363d;
-            border-radius: 4px;
-            color: #58a6ff;
-            font-size: 14px;
-            font-family: 'Courier New', Courier, monospace;
-            margin-bottom: 15px;
+            padding: 0.85rem 1rem;
+            border-radius: 8px;
+            background: var(--adm-surface);
+            border: 1px solid var(--adm-border);
+            color: var(--adm-text);
+            font-size: 1.1rem;
             text-align: center;
+            letter-spacing: 2px;
+            margin: 1.2rem 0;
             outline: none;
             box-sizing: border-box;
-            transition: border-color 0.2s ease;
+            transition: border-color 0.2s, box-shadow 0.2s;
         }
 
-        .ctf-input:focus {
-            border-color: #58a6ff;
-            box-shadow: 0 0 8px rgba(88, 166, 255, 0.2);
+        .auth-box input[type="password"]:focus {
+            border-color: var(--adm-primary);
+            box-shadow: 0 0 12px rgba(16, 185, 129, 0.25);
         }
 
-        .ctf-btn {
+        /* 6-digit OTP Inputs Grid */
+        .otp-inputs-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 8px;
+            margin: 1.5rem 0 1.2rem;
+        }
+
+        .otp-digit {
             width: 100%;
-            padding: 12px;
-            background-color: #238636;
-            border: none;
-            border-radius: 4px;
-            color: #ffffff;
-            font-weight: bold;
-            cursor: pointer;
-            font-size: 14px;
-            font-family: 'Courier New', Courier, monospace;
-            transition: background-color 0.2s ease, transform 0.15s ease;
-            box-sizing: border-box;
-        }
-
-        .ctf-btn:hover {
-            background-color: #2ea043;
-            transform: scale(1.02);
-        }
-
-        .ctf-footer {
-            margin-top: 30px;
-            font-size: 11px;
-            color: #8b949e;
+            height: 52px;
+            font-size: 1.5rem;
+            font-weight: 800;
             text-align: center;
-            font-family: 'Courier New', Courier, monospace;
+            border-radius: 10px;
+            background: var(--adm-surface);
+            border: 2px solid var(--adm-border);
+            color: var(--adm-gold);
+            font-family: 'Fira Code', monospace;
+            outline: none;
+            transition: all 0.2s ease;
+            box-sizing: border-box;
+            padding: 0;
         }
 
-        .rate-limit-pill {
+        .otp-digit:focus {
+            border-color: var(--adm-gold);
+            box-shadow: 0 0 14px rgba(234, 179, 8, 0.35);
+            background: rgba(234, 179, 8, 0.06);
+            transform: translateY(-2px);
+        }
+
+        .otp-subtext {
+            font-size: 0.85rem;
+            color: var(--adm-text-muted);
+            margin: 0.4rem 0 0.8rem;
+            line-height: 1.5;
+        }
+
+        .otp-subtext strong {
+            color: var(--adm-text);
+        }
+
+        .otp-footer-actions {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 1.2rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--adm-border);
+            font-size: 0.82rem;
+        }
+
+        .btn-link-action {
+            background: none;
+            border: none;
+            color: var(--adm-text-muted);
+            cursor: pointer;
+            font-size: 0.82rem;
+            font-family: inherit;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            padding: 0.35rem 0.6rem;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        .btn-link-action:hover:not(:disabled) {
+            color: var(--adm-primary);
+            background: rgba(16, 185, 129, 0.08);
+        }
+
+        .btn-link-action:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* KPI Cards */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .kpi-card {
+            background: var(--adm-card);
+            border: 1px solid var(--adm-border);
+            border-radius: 12px;
+            padding: 1.2rem 1.4rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .kpi-val {
+            font-size: 1.5rem;
+            font-weight: 800;
+            font-family: 'Fira Code', monospace;
+            color: var(--adm-text);
+            margin-top: 0.2rem;
+        }
+
+        .kpi-label {
+            font-size: 0.78rem;
+            color: var(--adm-text-muted);
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .kpi-icon {
+            width: 46px;
+            height: 46px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+        }
+
+        /* Tabs */
+        .adm-tabs {
+            display: flex;
+            gap: 0.5rem;
+            border-bottom: 1px solid var(--adm-border);
+            margin-bottom: 1.5rem;
+            overflow-x: auto;
+        }
+
+        .adm-tab-btn {
+            padding: 0.75rem 1.25rem;
+            background: none;
+            border: none;
+            border-bottom: 2px solid transparent;
+            color: var(--adm-text-muted);
+            font-size: 0.92rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .adm-tab-btn.active {
+            color: var(--adm-primary);
+            border-bottom-color: var(--adm-primary);
+        }
+
+        /* Tables & Content */
+        .adm-section {
+            display: none;
+        }
+
+        .adm-section.active {
+            display: block;
+        }
+
+        .table-card {
+            background: var(--adm-card);
+            border: 1px solid var(--adm-border);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .table-header-bar {
+            padding: 1rem 1.25rem;
+            border-bottom: 1px solid var(--adm-border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .adm-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.86rem;
+            text-align: left;
+        }
+
+        .adm-table th {
+            background: var(--adm-surface);
+            padding: 0.75rem 1rem;
+            font-weight: 700;
+            color: var(--adm-text-muted);
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid var(--adm-border);
+        }
+
+        .adm-table td {
+            padding: 0.85rem 1rem;
+            border-bottom: 1px solid var(--adm-border);
+            vertical-align: middle;
+        }
+
+        .adm-table tr:hover {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        /* Status Badge */
+        .status-select {
+            padding: 0.35rem 0.6rem;
+            border-radius: 6px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            border: 1px solid var(--adm-border);
+            background: var(--adm-surface);
+            color: var(--adm-text);
+            cursor: pointer;
+            outline: none;
+        }
+
+        /* Buttons */
+        .btn-adm {
+            padding: 0.55rem 1rem;
+            border-radius: 8px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            padding: 0.35rem 0.8rem;
-            background: rgba(88, 166, 255, 0.1);
-            border: 1px solid rgba(88, 166, 255, 0.25);
-            border-radius: 20px;
-            color: #58a6ff;
-            font-size: 0.78rem;
-            margin-top: 15px;
-            font-family: var(--font-code);
+            transition: all 0.2s;
+            text-decoration: none;
         }
 
-        .rate-limit-locked {
-            background: rgba(248, 81, 73, 0.12) !important;
-            border-color: rgba(248, 81, 73, 0.4) !important;
-            color: #ff7b72 !important;
+        .btn-adm-primary {
+            background: var(--adm-primary);
+            color: #ffffff;
+        }
+        .btn-adm-primary:hover {
+            filter: brightness(1.1);
         }
 
-        .auth-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-md);
-            padding: 2.5rem 2rem;
-            max-width: 440px;
-            margin: 0 auto;
-            text-align: center;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+        .btn-adm-secondary {
+            background: var(--adm-surface);
+            border: 1px solid var(--adm-border);
+            color: var(--adm-text);
+        }
+        .btn-adm-secondary:hover {
+            border-color: var(--adm-primary);
         }
 
-        .otp-box {
-            display: flex;
-            justify-content: center;
-            gap: 0.6rem;
-            margin: 1.5rem 0;
+        .btn-adm-danger {
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #f87171;
+        }
+        .btn-adm-danger:hover {
+            background: rgba(239, 68, 68, 0.3);
         }
 
-        .otp-input {
-            width: 46px;
-            height: 52px;
-            font-size: 1.5rem;
-            text-align: center;
-            font-family: var(--font-code);
-            font-weight: 700;
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-sm);
-            background: var(--bg-dark);
-            color: var(--accent-cyber);
-            outline: none;
-            transition: var(--transition);
-        }
-
-        .otp-input:focus {
-            border-color: var(--accent-cyber);
-            box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.2);
-        }
-
-        .ctf-popup-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: 99999;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 1.2rem;
-            box-sizing: border-box;
-        }
-
-        .ctf-popup-backdrop {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.78);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-        }
-
-        .ctf-popup-card {
+        /* Switch toggle */
+        .switch {
             position: relative;
-            z-index: 100000;
-            background-color: #161b22;
-            border: 1px solid #f85149;
-            border-radius: 8px;
-            padding: 24px;
+            display: inline-block;
+            width: 38px;
+            height: 22px;
+        }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider {
+            position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #475569; transition: .3s; border-radius: 22px;
+        }
+        .slider:before {
+            position: absolute; content: ""; height: 16px; width: 16px; left: 3px; bottom: 3px;
+            background-color: white; transition: .3s; border-radius: 50%;
+        }
+        input:checked + .slider { background-color: var(--adm-primary); }
+        input:checked + .slider:before { transform: translateX(16px); }
+
+        /* Modals */
+        .adm-modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(0,0,0,0.75);
+            backdrop-filter: blur(4px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 1rem;
+            box-sizing: border-box;
+        }
+        .adm-modal-overlay.active { display: flex; }
+
+        .adm-modal-card {
+            background: var(--adm-card);
+            border: 1px solid var(--adm-border);
+            border-radius: 14px;
             width: 100%;
-            max-width: 380px;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.85), 0 0 25px rgba(248, 81, 73, 0.3);
-            text-align: center;
-            animation: popupSlideIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            max-width: 540px;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 1.8rem;
             box-sizing: border-box;
         }
 
-        @keyframes popupSlideIn {
-            from {
-                opacity: 0;
-                transform: scale(0.88) translateY(12px);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1) translateY(0);
-            }
+        .adm-form-group {
+            margin-bottom: 1rem;
+            text-align: left;
+        }
+        .adm-form-group label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--adm-text-muted);
+            margin-bottom: 0.35rem;
+        }
+        .adm-form-input, .adm-form-select, .adm-form-textarea {
+            width: 100%;
+            padding: 0.65rem 0.85rem;
+            border-radius: 8px;
+            background: var(--adm-surface);
+            border: 1px solid var(--adm-border);
+            color: var(--adm-text);
+            font-size: 0.88rem;
+            font-family: inherit;
+            outline: none;
+            box-sizing: border-box;
+        }
+        .adm-form-input:focus, .adm-form-select:focus, .adm-form-textarea:focus {
+            border-color: var(--adm-primary);
         }
 
-        .ctf-popup-icon {
-            width: 52px;
-            height: 52px;
-            border-radius: 50%;
-            background: rgba(248, 81, 73, 0.12);
-            border: 1px solid rgba(248, 81, 73, 0.35);
-            color: #ff7b72;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.6rem;
-            margin: 0 auto 1.1rem auto;
+        @media (max-width: 768px) {
+            .adm-table th:nth-child(4), .adm-table td:nth-child(4),
+            .adm-table th:nth-child(5), .adm-table td:nth-child(5) {
+                display: none;
+            }
+        }
+    
+        /* Anti-tamper & Lockout modal */
+        .lockout-banner {
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid var(--adm-danger);
+            color: #fca5a5;
+            padding: 0.8rem;
+            border-radius: 8px;
+            font-size: 0.82rem;
+            margin-top: 0.8rem;
+            display: none;
+        }
+    
+        /* Anti-tamper & Lockout modal */
+        .lockout-banner {
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid var(--adm-danger);
+            color: #fca5a5;
+            padding: 0.8rem;
+            border-radius: 8px;
+            font-size: 0.82rem;
+            margin-top: 0.8rem;
+            display: none;
+        }
+    
+        /* Anti-tamper & Lockout modal */
+        .lockout-banner {
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid var(--adm-danger);
+            color: #fca5a5;
+            padding: 0.8rem;
+            border-radius: 8px;
+            font-size: 0.82rem;
+            margin-top: 0.8rem;
+            display: none;
+        }
+    
+        /* Anti-tamper & Lockout modal */
+        .lockout-banner {
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid var(--adm-danger);
+            color: #fca5a5;
+            padding: 0.8rem;
+            border-radius: 8px;
+            font-size: 0.82rem;
+            margin-top: 0.8rem;
+            display: none;
+        }
+    
+        /* Anti-tamper & Lockout modal */
+        .lockout-banner {
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid var(--adm-danger);
+            color: #fca5a5;
+            padding: 0.8rem;
+            border-radius: 8px;
+            font-size: 0.82rem;
+            margin-top: 0.8rem;
+            display: none;
+        }
+    
+        /* Anti-tamper & Lockout modal */
+        .lockout-banner {
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid var(--adm-danger);
+            color: #fca5a5;
+            padding: 0.8rem;
+            border-radius: 8px;
+            font-size: 0.82rem;
+            margin-top: 0.8rem;
+            display: none;
+        }
+    
+        /* Anti-tamper & Lockout modal */
+        .lockout-banner {
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid var(--adm-danger);
+            color: #fca5a5;
+            padding: 0.8rem;
+            border-radius: 8px;
+            font-size: 0.82rem;
+            margin-top: 0.8rem;
+            display: none;
+        }
+    
+        /* Anti-tamper & Lockout modal */
+        .lockout-banner {
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid var(--adm-danger);
+            color: #fca5a5;
+            padding: 0.8rem;
+            border-radius: 8px;
+            font-size: 0.82rem;
+            margin-top: 0.8rem;
+            display: none;
+        }
+        .auth-icon-circle.user-mode {
+            background: rgba(168, 85, 247, 0.15);
+            color: #a855f7;
         }
     </style>
 </head>
-<body data-page="forbidden">
-    <!-- ÉCRAN DE CHARGEMENT CIRCULAIRE (PRELOADER) -->
-    <div id="page-preloader" class="preloader-overlay" aria-hidden="true">
-        <div class="loader loader-cyber"></div>
-    </div>
+<body>
 
+    <!-- ── EN-TÊTE ADMIN ── -->
+    <header class="adm-header">
+        <a href="boutique.html" class="adm-brand">
+            <i class="fa-solid fa-store" style="color: var(--adm-gold);"></i>
+            <span>AKOULY <span style="color: var(--adm-primary);">ADMIN</span></span>
+            <span class="adm-badge">SÉCURITÉ 3FA</span>
+        </a>
 
-    <div id="errorModal" class="ctf-popup-modal" style="display: none;">
-        <div class="ctf-popup-backdrop" id="errorModalBackdrop"></div>
-        <div class="ctf-popup-card">
-            <div class="ctf-popup-icon">
-                <i class="fas fa-triangle-exclamation"></i>
-            </div>
-            <h3 style="color: #ff7b72; margin-bottom: 0.8rem; font-family: 'Courier New', Courier, monospace; font-size: 1.25rem; font-weight: bold; letter-spacing: 0.04em;">
-                [ACCÈS REFUSÉ]
-            </h3>
-            <p id="errorModalText" style="color: #c9d1d9; font-size: 0.95rem; margin-bottom: 1.5rem; line-height: 1.5; font-family: 'Courier New', Courier, monospace;">
-                Message d'erreur...
-            </p>
-            <button type="button" id="closeErrorModalBtn" class="ctf-btn" style="background-color: #21262d; border: 1px solid #30363d; color: #58a6ff; width: 100%;">
-                <i class="fas fa-xmark"></i> Fermer
+        <div class="adm-nav-actions">
+            <button type="button" class="btn-adm btn-adm-secondary" id="themeToggleBtn" title="Thème">
+                <i class="fa-solid fa-moon"></i>
             </button>
-        </div>
-    </div>
-
-    <header class="header">
-        <div class="container nav-wrapper">
-            <a href="index.html" class="brand-logo" title="Page d'accueil Akouly">
-                <img src="images/logo-dark.png" alt="Akouly Logo" class="logo-img">
-            </a>
-            <nav>
-                <ul class="nav-links" id="navLinks">
-                    <li class="mobile-only-link"><a href="index.html" class="nav-link"><i class="fas fa-home"></i> Accueil</a></li>
-                    <li><a href="cyber.html" class="nav-link"><i class="fas fa-shield-halved"></i> Cybersécurité</a></li>
-                    <li><a href="gaming.html" class="nav-link"><i class="fas fa-gamepad"></i> Gaming</a></li>
-                    <li><a href="apps.html" class="nav-link"><i class="fas fa-code"></i> Apps & Dev</a></li>
-                    <li><a href="business.html" class="nav-link"><i class="fas fa-briefcase"></i> Business</a></li>
-                    <li><a href="lab.html" class="nav-link"><i class="fas fa-scissors"></i> Créations</a></li>
-                </ul>
-            </nav>
-            <div class="nav-actions">
-                <button class="theme-toggle-btn" id="themeToggleBtn" title="Bascule Thème Clair / Sombre">
-                    <i class="fas fa-sun" style="color: #f59e0b;"></i>
-                </button>
-                <button class="menu-toggle" id="menuToggle" aria-label="Menu" aria-expanded="false">
-                    <span class="bar bar-1"></span>
-                    <span class="bar bar-2"></span>
-                    <span class="bar bar-3"></span>
-                </button>
-            </div>
+            <button type="button" class="btn-adm btn-adm-danger" id="logoutBtn" style="display: none;" onclick="logoutAdmin()">
+                <i class="fa-solid fa-right-from-bracket"></i> <span>Quitter</span>
+            </button>
         </div>
     </header>
 
-    <div id="ctfSection" class="ctf-wrapper">
-        <div class="ctf-card" id="login-card">
-            <h2>PORTAIL ADMIN</h2>
-            <p style="font-size: 13px; color: #8b949e; margin-bottom: 0;">Console d'administration sécurisée.</p>
-        </div>
+    <!-- ── ÉCRAN DE VERROUILLAGE / AUTHENTIFICATION (3 ÉTAPES : CLÉ + OTP EMAIL + IDENTIFIANTS) ── -->
+    <div id="authScreen" class="auth-overlay">
+        <div class="auth-box">
+            <!-- ÉTAPE 1 : CLÉ D'ACCÈS -->
+            <div id="authStep1" class="auth-step">
+                <div class="auth-icon-circle">
+                    <i class="fa-solid fa-lock"></i>
+                </div>
+                <h2 style="font-size: 1.3rem; margin: 0 0 0.4rem;">Espace Gestionnaire</h2>
+                <p class="otp-subtext">Étape 1/3 : Entrez votre mot de passe administrateur</p>
 
-        <footer class="ctf-footer">
-            &copy; 2026 Corporation Sécurisée — Tous droits réservés.
-        </footer>
+                <form id="authFormStep1" onsubmit="handleStep1Password(event)">
+                    <input type="password" id="adminSecretInput" placeholder="••••••••" required autocomplete="current-password" autofocus />
+                    <button type="submit" id="btnStep1Submit" class="btn-adm btn-adm-primary" style="width: 100%; justify-content: center; padding: 0.85rem;">
+                        <i class="fa-solid fa-arrow-right"></i> Continuer vers l'OTP
+                    </button>
+                </form>
+                <div id="authStep1Error" style="color: var(--adm-danger); font-size: 0.82rem; margin-top: 0.8rem; display: none;"></div>
+                <div id="lockoutBanner" class="lockout-banner"></div>
+            </div>
+
+            <!-- ÉTAPE 2 : CODE OTP VIA EMAILJS -->
+            <div id="authStep2" class="auth-step" style="display: none;">
+                <div class="auth-icon-circle otp-mode">
+                    <i class="fa-solid fa-shield-halved"></i>
+                </div>
+                <h2 style="font-size: 1.3rem; margin: 0 0 0.4rem;">Vérification OTP (2FA)</h2>
+                <p class="otp-subtext">Étape 2/3 : Un code à 6 chiffres a été envoyé à <strong>kouadjoabouajunior@gmail.com</strong></p>
+
+                <form id="authFormStep2" onsubmit="handleStep2Otp(event)">
+                    <div class="otp-inputs-grid" id="otpInputsGrid">
+                        <input type="text" maxlength="1" class="otp-digit" id="otpDigit1" inputmode="numeric" pattern="[0-9]*" autocomplete="off" />
+                        <input type="text" maxlength="1" class="otp-digit" id="otpDigit2" inputmode="numeric" pattern="[0-9]*" autocomplete="off" />
+                        <input type="text" maxlength="1" class="otp-digit" id="otpDigit3" inputmode="numeric" pattern="[0-9]*" autocomplete="off" />
+                        <input type="text" maxlength="1" class="otp-digit" id="otpDigit4" inputmode="numeric" pattern="[0-9]*" autocomplete="off" />
+                        <input type="text" maxlength="1" class="otp-digit" id="otpDigit5" inputmode="numeric" pattern="[0-9]*" autocomplete="off" />
+                        <input type="text" maxlength="1" class="otp-digit" id="otpDigit6" inputmode="numeric" pattern="[0-9]*" autocomplete="off" />
+                    </div>
+
+                    <button type="submit" id="btnStep2Submit" class="btn-adm btn-adm-primary" style="width: 100%; justify-content: center; padding: 0.85rem;">
+                        <i class="fa-solid fa-arrow-right"></i> Valider et Passer à l'Étape 3
+                    </button>
+                </form>
+
+                <div id="authStep2Msg" style="font-size: 0.82rem; margin-top: 0.8rem; display: none;"></div>
+
+                <div class="otp-footer-actions">
+                    <button type="button" class="btn-link-action" onclick="backToStep1()">
+                        <i class="fa-solid fa-arrow-left"></i> Retour
+                    </button>
+                    <button type="button" class="btn-link-action" id="btnResendOtp" onclick="resendOtpCode()" disabled>
+                        <i class="fa-solid fa-rotate-right"></i> Renvoyer (<span id="resendCountdown">60</span>s)
+                    </button>
+                </div>
+            </div>
+
+            <!-- ÉTAPE 3 : IDENTIFIANTS GESTIONNAIRE (3FA) -->
+            <div id="authStep3" class="auth-step" style="display: none;">
+                <div class="auth-icon-circle user-mode">
+                    <i class="fa-solid fa-user-shield"></i>
+                </div>
+                <h2 style="font-size: 1.3rem; margin: 0 0 0.4rem;">Accès Gestionnaire (3FA)</h2>
+                <p class="otp-subtext">Étape 3/3 : Saisissez vos identifiants personnels</p>
+
+                <form id="authFormStep3" onsubmit="handleStep3Credentials(event)">
+                    <div style="text-align: left; margin-bottom: 0.3rem;">
+                        <label style="font-size: 0.8rem; color: var(--adm-text-muted); font-weight: 600;">Nom d'utilisateur</label>
+                    </div>
+                    <input type="text" id="adminUsernameInput" placeholder="Nom d'utilisateur" required autocomplete="username" />
+                    
+                    <div style="text-align: left; margin-bottom: 0.3rem;">
+                        <label style="font-size: 0.8rem; color: var(--adm-text-muted); font-weight: 600;">Mot de passe</label>
+                    </div>
+                    <input type="password" id="adminPasswordInput" placeholder="••••••••" required autocomplete="current-password" />
+
+                    <button type="submit" id="btnStep3Submit" class="btn-adm btn-adm-primary" style="width: 100%; justify-content: center; padding: 0.85rem; margin-top: 0.5rem;">
+                        <i class="fa-solid fa-unlock-keyhole"></i> Valider et Déverrouiller le Portail
+                    </button>
+                </form>
+
+                <div id="authStep3Error" style="color: var(--adm-danger); font-size: 0.82rem; margin-top: 0.8rem; display: none;"></div>
+
+                <div class="otp-footer-actions">
+                    <button type="button" class="btn-link-action" onclick="backToStep2()">
+                        <i class="fa-solid fa-arrow-left"></i> Retour à l'OTP
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <!-- 
-    +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++.+++++++++++++++++++++++++++++.-------------------------------------.-------------------------.+++++++++++++++++++++++++++++.++++++++++.----------------------------------.++++++++++++++++++++++++++++++++++++++++++++++++++++++++.---------.-------------.---------.++++++++++++++++++++++++++++++++++++.--------------------------.-------------------------------------.+++++++++++++++++++++++++++++++++++++++++++++++++++++.--.---------------------.+++++++++++++++++++++++++.------------------------.++++++++++++++++++++++++++++++++++++++++.---------------------------------------------.+++++++++++++++++++++++++++++++++++++++++++++.---------------------------------.-----------------------------------------.++++++++++++++++++++++++++++++++++++++++.----------------------------------------...+++++++++++++++++++++++++++++++++++++++++++++++++++.------------------------------------------------.++++++++++++++++++++++++++++++.+++++++++++++++++++++++++++++++++++++++++.-----------------------.++++.------------------------------------------..
-    -->
+    <!-- ── POINT D'INJECTION DYNAMIQUE SÉCURISÉ DU DASHBOARD (VIDE EN CLAIR DANS LE CODE SOURCE) ── -->
+    <div id="secureAdminApp"></div>
 
-    <div id="secureAppContainer"></div>
-
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-    <script src="domains.js"></script>
-    <script src="main.js"></script>
-
+    <!-- Scripts -->
     <script>
-    (function() {
-        'use strict';
+        // ── VAULT CHIFFRÉ AES-256-GCM (ZÉRO INFORMATION ADMIN EN CLAIR DANS LE SOURCE) ──
+        const SECURE_VAULT_PAYLOAD = "3jGQhUgL/mccT+3IvpDJ3bnVqlovanOsyXNAG3CHfPvkz4ldda7KSCexrqNaqZ/yOqaL9/ajKQ7uf4wMmw2BBYKQy/OhczfuKa6Ako8k8CZBKygf2pY+GnXfJzgDqMuiGJd4VooEGpNb22eD1Cx1OKmyDs+S7V5vPyPFWelOfR9ObIXmMWQR3nkD1mG/YjmQIdh0IwBPSnBZqKnQRK7AuT1sFndBy/MRkX5UcYMF7/i61NQ1EY5N6pf5gbLqRtjG6PMs+w9Lfa8Cajr2MjKCfo12ZAU5TeNS1Nt98ULVdPF7oKHkLhUknvrFdxID2RN29SPnEWhCTPANwLsDdFS8DwCHeBLZLYUGo0/Q5ykeLwNeYSPACsyTS9FRjxwgIbVKvXb9apfQlXR2mo5+rz/6t+YclbLWdbWd1gM8dNQFttNhOv9yQK5eulqyI8WN5tCiC7YxgY6zvUWc6DUqicYy9bUL+gLdTPLMxr9TpqygZX+Z4ii0ru7jJ8tPqav/3zF4xPllJkJe5OEwkF63rDkC728pn6ZRWbHy2nP6wL9Hgg+upzRu5Zyzeveb1ic2FA+6QWJ5NYghw+vdfejaLjycKWW7Z/arVRkpX4/T/Cu3XSRpsrvGkc1svgUeZT76F/1bBH0DpGZn3kJyHin3NYaiqEFzEnn7hUCyfYFktUbq1ZVOlSZxcowM4rZhJUU8ESAKa5M+euJ4PXSfDauhWThjo8QiRHniZ0OzUgE/dJ1qEV0YU+h8SlDgtRFNu8BUxnUWtcSIDbPFOzXdYUH9qYUTeZ1IINWsYaALxAp6Rj/ZPzXQGZwrlEWeREvOdWlXxTAbxON0toDhjP5IpXiti5Eg2pr13dIDl/70h2CQhFVrBOsy1IWcRGA+SS5eJJkhxwFJkeoe4I6G0r2vh0+nh6QdW7VlYlKV6j/QGR0FVTiaeh9gFJ55sSK5wBuXaMURwngw6HBv03ldtlXIsnvAAk5mhZoXGQ7IVOz6LLmiEZ5mkMMnP/G+ss+Pa1wqrfBrdf0o3kNyxhDdxl9JfrlLnb+wdJNl9R0yDSiW0Cb0MkdGDSMi0Xrr9pZz87c6Oh6BoaH1U1w+4XR2KAVjyZ1yRAmqxYt+9VVRY+32Y4haIcYiMuR4/qEGaUcdSgQCIGluusntly28CmhnardrUz8K7GbqpaST4AAWzivLNmWcBCU5rcbIwURgmLavFUPeu1j9801yfrY4sgWAHS30VX0GULsJ2fSBQVKOy2ahYlkJ+zK8CJR/nk3lJcdCky1LFHX1K3z5WXH0xWByO0EOIUEpQ2BvNDspHNF6CaGgYZ7qPQrWCDJqBy5AqKR9IMwNeQ5H5ncwop6wT04+ZJArx5WLHQnQO4OuHJ/bXGrWSQS70DQh9TNcvt0xXbwieN2RgN/XORy3qxylWJ82FmU+8Qc9rZn6/jxqRTbePOhd00wBqDMEndrmf/lgZupmQ5ga2j4O1RTNN//ktH4A7Kq+4sebVlUa5wo4zytZ67sj2Vzj1zVvaXt8WcAEa2Jf+/xnsTOx6w06n9xJ1LzOHkXV/dHbBcaQIocsBc7pAjWSB07NNKwfXYXfT//yoF8Tp6RJMZuvcLCNWpE4HrCGvsWz3/qIZgyYxtF52taq7T40TpytwkbrDgxn0DUCpGX3DqySOmMAZLYGsiWCNSLlsej6uIYEVMQeZGK1Lr7OBGCu9TqDIAOqAbiopNJ4DJo95Y11ihY7eGGX3kl30l2kyQVbmG4cjKnFI+LsbJXUswDxKdsvEAFxe4KuzftMe5u2dtyyCBwB+ZxA7hATUWK+C2zHzk2mL3z5zd6yR2q3nL7eKDsRm4sWZjay5624c0twV+FqTFb4a81UGG77iif+nnh6JHn16Xioa5crsgcu+FWd/vtGOMFVBkBGQxiZY6y/ss8enTgIw2eDhvwsWhVT85F6Ye7/yRgCvW31kLC5BH1xpeZ3WhBhMOw2eroYBMs0LaHPxwOZwkiq2ZP2t+g4maQAE2PPnyAiN7WFwtvUroKelFMdVVY0Qv0Wi1gKpquoJLCQGflI1HLo/dz0cwoi4+tn5j+rhdzCYWzXpaH/8sMITCKM+YTymfFdZI2Gxf4I+AGfwCG3Y4KRZ10RAOLdwMu4qYzkde7SRovlv1VoIi2rs6ozIwzKCeGh+bS0ahH09gaAQVAS9Sz9J80x+8hIsNrd+WTEphqMURLMQBQXtTdakbIulXrSiFR9bAmnUrj1bYPLrKpXYz64ugFhq4VCxB6gaS42sHIgIeCyjDSW6RMORGWgiz0kdUoXK5SSfyV9qM4NXJNcQR0FeXCYq35/a5/wFHr0vPqjSVm/PQ6zgp8h77qIH0lGwOx4rLmFlMGdQhVElQqqWJ7BOaj3sua7TgGCwwyhy9cEJyRbpwn5FjzToCOeUyIp+/rS5SF09VeMXWg4jZ4KLrV6gf/bVNpNHSmpfo3pCqq2wagbqtUG2yXPTdtagWutfSTeNS4oUpFZlvrZ5jU/rhebLl1gbjM1ja1T4EqavAqGoPDe07Eyi1EBEhtC5PqkviIqal0Yu+kebYSy7aepTXqaQWMbt+1Esv9bHB9cllovVG52hJw98WkmYNCGpF0qCNJxtzBG5geqMjY4HCpIcnEorsh7z++KnSspsrCjoj6qSAFQq7Ss/D/x7av9b7EB1+OrVNEB0PScubuek5e20zerRjKvMjQ9K6X26MsB8zmbaxHEeqvRDGlnt2Vpb5bChv+PyFfxaJ3HSyaDe24RwVFy1VIlxBhgI1DmTc5PRiq7/5e66ejEYX1DZ0VQ7f/Zs6V3j2hp7XMyuk6KCHQCvGLOBL1Sbe6B5HpjnyNWrObx+wjljFw0UmnoigJqTwxXmHDyf58d6t6Y0nsrKsNBXZ12GNjV5pNtg7cMTJABI+GtApMhUGOQY3a+IuRvhlGhLB8i0Ygs/g1RAkhKxr3LDlr32V0FYbjpq6549xisElfCZN2YItxbneY1dlnZf58w78iAidq5pPEkwk0M668/+eREL2Z4N++9pAavej4sPym+hxDtkPs8JkvUCPyT0HdKXVbwEjGOc8ErOYE5mQpjg05L+8DwOp635x9+adC/iO/P84B+PBAzYWGm1Zu8wnO9nnLAluZLsmEqDvfrFcCt75thDnYoV4dORD2IRJ2UyO8LqLkFYgsPLVAf1lUE9c5g9qsV9iQP6pOVMhgo71WHBGIiF4p9tvcVXERbsl3BhqCynkGVK3FBDahtogV3ewosooInoohQbOxOGTZTd6g2CZjUY1DWG2gP4x1//BXrsvUWnmersVvIq3ytCuYPiccYqZPFmRJ8/gtkc/k7g2mPWFOvQaLszL9AbJGkXKf4GDSknXSMU8nn5zogpf0HS//rSKs3JhHTscZ8T67iYKEv7SqB1ou4lMTJUQafO4+puUDjmmfnm88KLKuwVRzdPjggZgUZgdnnOd6nwtdvYJbjK2WvQFx7xmKu6LetaCmfp4azTx5XdAURIGGucfaMfKHP0OicdW/wHJUh6OXU8lirAbL/AYPdwhm+4iWO9Q5tOiY6ZQxups/6oBDIz5eiubzHa6m8iMd5lJ0W6upnwM9e3kL0NH1VKXKeSSybX5ds4T9qnqpRYD8WUDTrhgATo998Hs+i/a+A5z9VUtSQN3PYOUP68fxjC5SmsfV1tKS22JNJN30Nr8hJAIcIJqXH3kQ3vuDAkYISs6Br7SgzGvvCX8SuLqTJvWIt122T8a6ybz1Od/d8kYx4xrCgiHrlYyomR2vRONM8QKPrYTcFVw0mNLiI4z6Dnh/QggentaKypfxbcpNmPBnP5EOwfztmkfl9JeetPmHsn+x/zotaNyzPIeYYzHt8XFkOJ+A35nVz7C00W/5LUCLpImdyXIzkiZNK+6mPOoBmEYx8ISbO9y/ZyHTmiZr7sjs4TPyYSV5iN+dhwMODc4SEpi8i+3+GN2I0QaP3W+m4wvGOYs+Xg/nXnVse5jkX4DDYTIiBOU1S2T6Nqj+aQBu4ijvH6qXRnqUygpwsTxUn4b8gskDEvzHcOEYwVaoW9G5Awg33OkADxjVSZpXW6lEPYOC06uVbIBsZGyLfaKKhyNb4LWeFwYjTRX+6SIP+ZvNz9R7FzT+khVkRaSAaKoeyswLFwt8XTD2lgRKK1ohCp0FbdNyhguVtNiLTPZRBOgIxfsou+TUzkFmE/VuALJXZ9Wd46Jtc9KeR5lstDdAypoibtfGeONi+Nda+TYUa+0/mvJAlV2dNsmluUcWJK4dLTAJkLbgWrzrl9D5rXJoDX/ty9JX0sJErBGpq1WhQIJ6kYs8jTr/2uR0aJOGmqyIbDcRWC2F5mb9HTnbBSv3AofeTJ5R1iw6Z+0yTPD+S7Nsc9OAHMqw2B6Zrde1KW0mFVovWMAPJDfScog5vENktOf14nI4fZeWHo2Yowq0eB0I6LcCDaG3wpTUINw8pFdtIMdRly28I4SBuNvYNHRY2GPVr+FSU2o3/OFmoJifwC4bg6LOydQxOq9hU8IqwALUlSxapNcgbeVKvbLNp8nMuLZ5bRXQmBhSXwqpLrX8fD+JMPYJLQesU1SZnBH9P/+yQfUGtmHsJ7X/1NplAI+lQSpadZnp681r+Oh99jUpBXCCH19r1q2VcP/Zd6nQDbhtC2OtPjQuT7vbc1660s5X9C/IZGSmo4BFUzVy8DYWQFe1yiqWn0WyE/OpO1XiWOAT3FFGiIfjTdNZ9iRYIWmHbE1w/vRcQLZgd/JIB5/AmKVs9HUH4bXr2ZLs9Mqu1PY8kIr30Vi/xuoyDi6aPg9euPdCJSvGBqNa+AN7qXXkmkzBCUgGD7LLwO4DBs3LMbs7KRJJKJ9rzzoFULZgOeh3cHx2tOYukn14spvD0QGfmw3R1kX1RgPWEjVYanqxIdswkes675lv9ghWrF63lgE32wKfLici+eG2kWLp3lXR+4IU4baqmLhnwg5zylPMOd+GtAXEiCPCcQRS89PSCi0ysJbZViKwzZrPFGLorAmTFOOIDe2ukQByipLzfj4U0pdVB7knzvj4ZaD9zbHc/vd+yy40jxMyCMaCFh5sd7jt7qdWxaa/5GdXAQQyB2AJ+MCCTffuNC6O3tw/d2fHViL+WFm5+eOlmw1zPThWiTkwdcRrlGPq9oWTEAd/dD68Uu9RxxqwlPNwzFfgU1cialr24ogzLRWnoqtiWIBOx7TuNey8GQTRzZm0FwgsOkUWb/P7cxi8HVX8rpgy3pqzxL1PuoVmZv0K4/gJ+FjI6NboSqATAm/p7h7ohUSO0au3As42VyRl7X1Nzo4AectThpUkAKZzqo9GKK6fVTiAquBBsuN07Kiv+wFlRXYcM43c84ZtI5WjiBWYPvBXmUpGf0wU1jcL0TmR1NOF7omYdTiyvKa/s78r0Gd7b+2iL0tZB4za5V3zUZ/izOTTjsLsdd6qbNWoIAny9Zke/M6PhoXMQad6RHUHCkcAKcF8MEkp1HCfft8iuWXIbk0mWIP0AI2EAobQXC4wNLX0P1oKu91o2sYhY3x6/qBVbg6eRJhaflXqoLJjnQOaqa4cLz0WwhKge69OksS5AT1DRvWef3L4ZPiPimn7TNC2QqaVuJ0I5eioj917lkXcs8yqeuTbgF2/Yor0KqfklVxFppyppk7+eoMGOfDfZq9ipAh7tsQZBejLxMhY95J1tMrxIZB3gqpwzM3zRbfwBQjlMYrg9xzueHzUm0xNCTIuUHHIYLrnCi1RjWrWFqwQAkvP0al7OGqHbqzjJ6sgmQGqNLTfz4rnkQ0FrEUCi2uKsfeLIpxMRPy8AkUwD07AdQvjBsLD68K/qvgK2Ha2jkWhaa8cVQzMQq4L5TLk+P/e4j4zXJ3wt1E5lcr83+Z0yL74guC7bQ9C+AQGkFY5NPTUvmhIizGpobcT7lebAy7J+aX5Sj4WaE+rgBAXjBylb7p9VlrD1zQPgIphLyCSkpuvl4N3+a6WmbLunzSzVrJRtFj3VSkesdDxdgX7xEqfXhuh7Xmpb97r45tHzb2r4CyM6f9fkIej1EdNsKDeXAkYh7OofDLIsFYz5rjQM7876KBvyYUkB4KIjqnd7dzSEhzmThVz8ML1outKTyTERHQYCE9KU0dXVoaAbWA+cU8M2QRvC2MIMLDmXuT7//NnWanu0U2INxxhJEtEL8WifB87Te0QRO+vUUIKfWbyKHx+S4O2RNqU3890SE5qV/3tAuSxSWF9hy0hjgTNno7Dl5KdO9JHCKi5cOS40pGiMuPQG4VKSOxOI8yskObLmCHPKEMy5u34S7qA9TdAMIqDUIkVYT9mX/U+V5AWq8+tZxyXtMBx9Gto9J7PoyDD+nxIeDv6cBzPfzfYHIhftlG8XmdnIYHs/pr7WVpIaUCtWHfbfKcMliyjYm0YpRtPEoLxypuoxvGHxnZTvjpt+/937silDRNJkJ4g4SipUS6CuZNzdiJQTZz6qsw6HrEar8OCBUem/yg6fZbrPOQW2At7wPYX7kAwfkMH9OELK9XvEf62IVZSPdqoHnlRdsH90dWswScfAaHekmVdcUlagash4xC1qjxCSBwKP68gea1KegVkpiwQErxv3jgBGHWt5nkqSwNANOQefZO97eke2z7gUk9VZduiPyW7IxZot2196kuTaK8435jo4Eht+ZCraR0m4vY8dleri4i8OW1LgVnkivgCsVPvhKmAN+xQ+4335YKKnDh0EJ6LLIjxXwBEYWTHkJ0KbI1tr/ip1R0vcRsWhBBEpnbBnWjdAVGCUhspoFAWtf4R6ecExb2Hlz4KdbC6zG6/YH0MJDlDWhgMlDkL924IcYZSeslHHDag1qYpncKf5xbo/cLOdcVVtmg47RBuqVIQ23IbW5FIJSaF9phn14FrQ7YBqrkDfZQ7vZWM/vQxu8mo+gtJtip1DipiXqifApHY+Wc6RoR4ChleYI/HGxSPdazpQ5F4gZk6No+k5qbuDBnyPqEF3QN07OoLdTYu9YaHr/B9kd+rArZSd4KQB9VMdnmlyioE4LpDsCkfKPZhNpPi6jh8S21xFT9uziFJjjZTvvoAR01SDFAR+X2QoICt4lPKsJfKvodHAyxohrxc7GUhIuhrHRbaN/WbWPqH/xiy+gX//QpJOQZYwi85Pd/WO6MQ0meKSHwgltImkD3LOUsSoXLWkGRkXFpqh8OXm0IOu6oQn6qCIpew/jahZv/z2W4fUZ4AxIFhyhsSlMTh3boZBIK8ALbATxytaaHQlcXSLy1Z/2RV3yJohTw3+mlBhv/cxScWlYZ+nUXZIRkX6gcm2sZTVfbq6kljmWISJwfW1W1rACkP46gPYYP1ZmY66W596vz+RoWxJpUzfX7m2HS5NR7/cH9kfzSo15EtDNZfQUEWJnkUjtYMmyEkbgEcUYi4k932sk/HQiAZV9UE5Lc1aU5WhHsyQVj2enaZNg7xP+Hu8srcW2QU1g2i+zDF52MtMSoVC8EmwLKnsxJ/TTaL5BxGiHYfY6pHp4t7ZsOYtL45YNUdWn87gZyQXg3MPw6v/Z7QehdXNQgkO8uhjU6x1zY+cjGl0RdXCqCIs0PJAW/lMtT0ttFV8vXCyjPBk01mOZxoWikYl4z6cHY8V6MPk6TnJkHYM4BeVIAW6Xm+6xS3KG8TEpu/AnMAG4xO/7OgdDnHq2J0k/KPac1Ct9pHEeWFF8m0FVBH/1kCcizZhX0jOtMvxK4lPT0Mw0VQeVW6FvazyHo4q17YbvuIc5HPhvnd6tqvecpBg8G8+k3PCzklkgpezDpbR7axlXMjbVPfROrffUCeYV2pxaiS52IIb3ZMfzEY3AyKrWokqOSuVd7sk9BmaOAYbPqRy6zQtbCd9T2mNndgg56unYlJ4im7aXyFSigomPZvilDJSVnP9H7XaylrCah2xXmvfj2IyKcZSkYYF7dUM/B3o14FG5tje8Ywi2QSLEAeYuD2kAQjtxtFJ9QOD4XZ1S5TqVMWKMexdO+tllJUhYmRpxFxZGcC1tdXnda1c1YS13WNrFPT4Lc75v+DixeUxiMhnwW06M7YqYyINs6gAnx610VwQaW4loL0t7rb/69s7F3/oOVBgSiTncu7ebJdXZ6wKK/kHA1eYbKdaovA0fRRq/CmKGFC55/pVeO0C438PK2ZurUbdo5PP3IzfKkVMOttaC/b2VYL5N9i5CQibggv2ikTSQR90C90kKL+rB58Od/JlfhxG+qQw1VeSkaBEU20fzrknVF6nGAoNbbscCIR1pwet9bBDpYOikPVJSpv3aWdgmvGVG9qnLdQVtkEabuvpfld1IPubeX3/Sfb7OeZRmJK+06gWbDtedJsUu8vMRSc4+ap+w0HqHJxtiVGcpBx5WxJHaI9yb8iCxrmjhEXL3m9OqDNVMTZ5W+A8dvyDAKIw+NO73VjmUcycgF5Hkj99YSl2Jbap2IvvsJxkiDBycnuCpdF2ov4WFdvoisM6eRE2cMSxu30TbJjcO7la+C0H4a6IzlPRHzjSRKewDFfpqzQ3V2tyjH4p2RhZAN0KA5akzgyz5yC2eJsHHbiaXbZcSj7C9aoSrqGgsIedWC0dOykwxYHyQUzUFsPlgJ4kah8v0+i/nkS4Lqn9CInHa23vJ0OuZsqAp+QQxHvJ9LjXsLIOP4bsTDuM+zAo++gUgIMeLjWccQHmtpZv+SNmhj8DFrxbHRaajxVJ6XTHyYFEkMSPWrlQho6xTg5rpYN4AlLjl67q8lDjVeOxZmE8fzdWVo17U6BpUPA6J3/M+P3a25oIZuh2ov1CZ4d5lJTnATfxMAXXll8x/wqb3ACcv28vA2/avmtqnneKY+dLy1zZFHwRrDNGb7ei+qEwGuRUXI5edPyLm2+qAKHFEzxBjSyLIB67DKbGER2u6euKbzhaurQjrwu7HOjb7HJb4SbjYclQXUGaTyodRunH/bd0mPNXs+FVHt2HlnZ+inJLpXfB+D/hh1EGUU1jhmzXqKEblY2g+PJIaXDmiwZZjyJwY7DNbvmVi83CauapRpJPgoZxrrmm8NK2ws8JkI1s4Uu1m2heSYFND8lEzOLulqkUNz9ZAVNOl/gbm/YzHTcYBMbIvcrSmpQJZSRq+IXmVzAbDHlEJYjnmk1sGaXt6O5MWaaq7mpR6cwKc0E2L2yK9TzsveVkUlnthQMBYnu6pCVSG15bRWuNwROTewqktNRd0/saHolQKeV79lRsGrCTXdHalSRUFpk7OYhoAB7ZnYaQhpC5KeL7WJg+EJxVnFjjEkM+dqVYr3bTqhctXf9wFmrM32X2iT/Ht7G+kd+mtBVOCmbKwMdYMcSYeqyc/Jkw22f7vbu5YWFL0lZMBzUigZASxHAGGivT3lST5HR49wI0Bqby+9SMrOUeVAXZu3W/2wWeJoVqXlmgUm05ShxnFggZD8aHC3f3qv14V3b41b76/ghEObsYSKPQIF3bRqWMWceg1S8b4/iKHApEfca8x89VPyNChyciMtXJjDLWJoXo8aRK5AEuJyCOQ7sSOmfAE1xEQUzmsH52iFQLU3ke3aC23aSoxT0O2hMwZnrJ7MO/YX6pFANq2YK27sO72jEhiXofZMUkBE58bakt2FfIj2CDAy8NUPQgD13wEbHXHHzrI56/XLrp4I/R3utQlnlzaOMVkZjhRxAlGuC+6JUpMddjtvBPVto/wS13U4EYMpXCuZGMwYi9pOs+R6nJeiWEWbqYLO70wfJhFIi4lEZUfmNJcWnvib3UZkcu3trHNgF3QlIU82ZkiRsA8VB80K951MmfWvpIf9PvGHuoW8RXr9leIx6yqpy6gi63akvmry+iS4OqymwQxL8ElhVTgMTvRAvYtVJ5JFqw/VQkG7QMvEF7rWGBF3d1J8ya/Dn7YhLION6wCGicMOdrLc9B+oWXy6wbX76bUwUayx6NX58P+wj0+isuAMiePWG9CNzUzOuOEDhjF8cT3jJ5c9hqB9G3TqpZ/AHZIPr8Z+Z2wakhqudLM08PF8eHH9M+dgzaRK7KVbCoN/Aax5SE8h6eOw38giCVXi2La4ODS71Mg4LCw3vGRVlBLbVu9ilpEmK2T1VbvRX8NmXBFEycbFlpstRJdAyV9oRwuN9Mmrt51rGkZI7kzQRUax9gD7P08r+Z7mOXTBo/Tw2iw9WJCXinXNNYqjQbN8VUAzjwrGJRwpiwPFnoXmgSTRIeJMsQjqy90Ki9+HQ/e3hVfrPxCOYsaNPYRAdMlyVIXKp78g5Zi66Ijkm654uRstGuhRUSDmap6S7xRWxgyyFw++RDQI9h9jYm3pFH0n50M3M6mZqlgCwzJT7CobZSnrJYnW64XxE74q1mTI0V57OIRGLrzvV5FkRoGZAqedYWx86LcVOu/AV5SC2HqCDGTxE7Wka/Wzt5V4dif8Nlv5jEEYu+JHRhVuLhNQHEO4HrBw4PAui7K4Gv2JUysv+t1iuxgFTCYRj06UhIx+9GhHs2xiEObfv2GRidLJQIMplnGQOMPH3ctREz9Y739sS+ZSce1f2wL3xmkO5FXVLDd0hvz/7wDw8Jntt1zk+zyYprVEcO/6erPompwEY8pJUqeK7OKTDDT45UqFedJ0rEqqNOUkZZLagI6Y08txzVs0tJsy1JoEOt1gEx/+MgNacaOUnOQ7OH1XVmQ2CtPqnLdD2SU8T+1miq8VoQBKkaROD4EKjRjyzJLFupAVmvAi12z83aWHTHj5LSOjwQXdKOUZ6rmCBgv/953fAeDqsJDUwgvTvCouG0XXiyacLt139tVtaVUMS4IRaH9U6MAWxO2X3E4N3t/rNNeJK35RM4Rv5L8faR381EJa/kwp4SuEmga+nwCnr4A+YTf0725gwRODGp1xvnYXU+55NrbvrBaKTvcRHtrtThtaUIhC1ti/arDfh9BFjEPtec3am5Lggo/1FWwUS52MYJonaawfEIaU5KCphHrHQym0Ksej7x8aKDIAba73k1CtclnF866RmH2Cme/jYIdH1hYFQWf1FBR0B+/DTvL8lUIsVOBJgJLR7rYevGjAiuT8GSGG3najXSm7p101QHfCQbPQ4NpYlUVGU+D0NwcIrGze7f5sM66TtKnenjLCtXkFUF0AWer2ZHqz3gP++DwfNVBw3X04MuTWICZpDWTrvVywUWo4kLGNNUorKJ6XX7XZDxDogiwK+4RRIzl5HsFdz9+PyIO1ELuohIWMMDRLQoezELFAArJnZnW67gmQbpA5esGT7tpchshuU80ftcdR9gGjn2r36mdEaQX4Iwopvh3sNCZtPx82eiSPuiGUd6HbrZ9Ybn7+/0Xmj5+Sa8UbYT9MH7nscm6rFNSC5KfJ9BDP0M6zdiUYAZ1HZB6EmMxB/B5EJcsb4FgIVRFvgWLDM0vbypRLayIUupz6fdZnIb5mZs/8vF8ehDMHAWLbmCVgU9phvde5DSZtTbjfsvIm4CmzSWhaNlHrDUSM5axknr2OPU11jqKhCAnQJmfSP107o+VtTblp9GsMgo3bHEy1jQZffYbdJqsql+Fd5BHBzGStTny5FWIlDLt39KN7ujvXlwEgNUYm47RpvN87sRGPsOKeOi1S5rgUOtetJ5N6tb8cgg/7RqGMMJ5tY1D6HwVIss4oW7HxlOGv/kINiXp9PqN9pxB/GMJTyIvV2bqtkYl/tJqhHN2X9eOTNrDI8ED3M8JcK86MfFW6NX30zTFTEm880TncukurncZ4Hx5luHsvLg+qvwp2+RqpRZLPnRVHArdJIH33GsjhVSaIhgUSTjHneqUzU/dt2bX4lua+co43/MONRDySAPG9ljuOReMVLRkfEW67ZDO50EMlRSrRdpuAumILn1NkpakDugX3OSaLf9yKzRV7qlKpTfcw9SJfjmyJ70B7t45sqrYAkGC7iXfTEdfFTqiB9jfJ5sY71sJZkQhy7pNWBeIcpMUPPbjxCx+L2K/1PvOVRQ+TCU17bePBPbc/KM/YfLFbMQKZh9fLRDI+Edp9gxk03W9+fnV301VWceYIWj72m9GF62XFwEMB2uulZeIxWRH6X4YhYRsWG0L9kgf8C2fJPeFLAS6GsOQ1N/d1yeUHnr2do+c7Ryb5c+L3AWw9pMqKgWZL7SkslqaZPuUFYG3pDI5jntGGdlk5gyjmfI7qd+PEMD71tJDUvgOG0YJsq2eT7KUMC2TGKP6cTmGtrXtltbZuxiszmx/HiV3KL+6QvWfeQrtivGPYwJwP6AGbCqUubIv8x6aKAZOXcKuVS0VDq113eicIwFXfkvIBpiwUE0JZyULpvoDOo9oHG3dQu0xwXvgXqPm0P4gr9TKqjEHtIyv+ZWtfEmYNqfQzXFQa5AasZ/mblEs0CbpC6vkRZy26zC1I9SZbvu5+W3BbaQxkaCTtLRvY3c9A3+O+eRo607JYiPhccLCT/C6pBRFQrY4/7cMNHVLe5BuUegC2I83p00I5lpg0JPj+qt4FPwrVkS2S1Onobc0SNDGrrN6dyoUhEOrgGPuHYuAZICqL17KfCHrBFmU4VSLgrI9SdsmWYcVdAeakb46xdKPJykO97j4vXykQ7AKwac7HiKNhHKJmZs0X2XpPnstjxG0yL6ThfrzogyMIUln1yHVLOQkob/1Se2omqZCYCq+JBvYvizDeFDqEaPfTxUmRMy0OMxeMmekpUc/EfAVe9Gf0oUFRrtdGVkfk0WZKdXcOl2DhI6p/Ny5cnDHH6URAjzXhOxLXVOtvqvb8F5IuE1mKsuOLEo6WABP/giCpgoCBVZ+WvUKGuEQofNq+p9b8LEfx75Ne3MlbfGp8/lWVniD+SnRDh60X8cIi9eg6ZY3TVYlYtesczQ+aRqQazDTFmYKdb/zS3BafNjnF7+TPdQPzBkNschIe/cX1nNaVq2TMnEUNp7/OdwvyUsTRSg9egtL1ecXeOJ+Ia37vtJ5IaRytQETn5iny3LDsTuQ8ielVdzW+9h8JYqE4D54cV0yw24z7409cxgsZVNk1nXK8lWgsrG4LxBljtO165xMLPxG3qhvpvrmLs2lH3eJ7SIfdh/SMsYUnh/Vm2Lq3RtQUel5w0nXt7CFdyfFMfr17xGkH32zKP2Ie7JClhwZYK5fln49yFM7GVFujj4c8fd5fB+iiLW8n4o1PzXGGPZ+/AqKhbr9wbPUTl8Slx+TGAo5vDGlx/MYxlhRgSk4jlFMqBs3LLH9RLemaFU8QShpnGPh5J6v8f4I5cLIi2lmJN+kuU2/kJPaL14onf6maMDVX5hnYzGO1IDLKKQ/XcSr1WeW2xUURWVsl32CMkGMgFQIrFTYgaD/MVPBGBrcPFelycDxjmpXtbv1EGXstsb+Cvv52iAg3FHzRa3DcJ8R+9SGfQDwQK2Q8SUBIzdhNaTyM1pl684O6NynEtJkhw1pJSZ48ibuZFaz7k2AZf1ec+kKk6z2JZjuZdBQ5j55lEelRSZKGzaXH8ijB+R8aV8MOGW7wODOVQ/jfArd+7vc6592kX58KhqO8bmI0ufPyN4gBHwz6zNkBlPSboJua1q1GkNX1eMWAnG7y1xGTM7YXFhh3NuXRrsQ4KMvRnEdlunkWpiZk4RTTGaul15mS3PpU0l+BXWdnhl+XCBwyojUc1095XacyPYLoefX9wJWBlMAD4jTjCPAKYNhnKwEltaitDYTxl28PwCqof2IGJEHYkfP5/w3y/vvanMQ7gcLnHagKJOpcb5WZ/KjFGShz2fPy9xnp9cMa8JEjjgI8ukAbWCcKUinX4Ekd9FNOs2XdskNnm7U6CLlxa9X0oDbWL54QMZPiTP9jCrxzvsQvtcqrbSVj05rgVP/GoPnSydmg/7gPVg3yQyKwZvLNUd3P8MEVn6yMnJH1DLP1JQxCgizFr/5K2E8QasANifvea1l4V/GX8tmTrlxYXPqCkzuh1DuWPo4Y/6dWmt8HREh84Hy8hwjuqVzJbBxL52IVQZ7PphmAtRvzK198Wo8K2c5r9pLrPf6jgIsaMMLWCasRw20h8pUT6naKWZdAlxuZ8HrgOxQ61f/oa+ve6/Di/P+T9inOoGSB4tWXjqkKJ8sYKYZIn26+SzBzG0keOMgjJPNchJdiwFaBkEWFxjB3L1hg5hc7P3w3QfM/JuGX+UBCw3LVVfptGGojzH3oxfDDGe+IM0I5nfPY6fnmUDDPcgHa0Ip+2mxhdDhBD3HZiavZeBoHAJOUejcdSmlMO1/Rt5ONYq29q5Kqb0IhuwvhCYOhEYssx4yciPekgCOjRe8MC+x4yNSThg0VqXRxiky93QNxXzPZTB5HkX4eYTS8vPBnq4+StOC9kxIcT0RyCizjExEZVUOfzR+3eIG1gilv+CSiTzCJN0UcFUiuWdTgv0EyMQa2aO27fv7EnN9YkiNUJlaPm29tSF8PJtN9shh0h1T/L8hCw0gLVMK6p1CUISXOPrXU008aeQKGcGgiQQ13nGf37Kr26m/aL8rP3epxyz1Wan+RgBIK4E0h98VkNCZ6iVASxFKZU6cgSrQ5SVvvIg+p1W69govImjV2DDm55AwFJnAfF7YkcOTsEYdd72kIdsdUpIXHugB+gKYhp69CJ6gk8osAh9Ol8TGThMTVxwlSwk9ey/HfqHRUrCM4WZIG3laUeQYHxRlXt3pMQ7Oebl9t/a/t0S318LjVMpePEo8IIC3OP8lo7VmiKBKnr3dpQTAPYrtnS6o3SfN73kl3W8KLpiBFhuESCpaIf8tLnci0ZMs0yMS8KM/O2MjTUt6UNhG+8KMeqMFH2kJq7gR/kdkDyGo2oX7e0+QTHXJHhAEFoGJwc3YK7t4ovHY9mpjsF4Lc3tmR7JdCjbusEdk8zhbQ4irJXKE9W2nGx+LW45qetVqgJeRRdN9QAWqUKIDY8RHX5iBZQXrIwI3l9xjrfdK/E50Y492poJ5PqMM/zM6LbnphkFXVcLxREO3LouL/JYh+YvuO7jh1OwxalfbWUYQG56kkC1eSpsgboiVhRDGo+0LFMSTlwLNufHdN3cg7IRJfiJJdbbNjADhCPu8U6va+ATswlfm0985JWm/0ffgHnIwWVddAFCsRsIq8tAtp1cy+g87gIWFr62wEemLvZZ7MDv3/omYfdiUIQRUX9v6ADNHOWhc5DLiuc+FmSk8ZKUUwzONX/fQg15J6DVtSZ05YSskJ/v7zUNo9jFG/3yY728a6Kd6T5csisn0TzSCswwy+fvocutWsZBS0Vo+Kid72AqWZBMBmyXqbuw+9nRl7BM3O2wKrPeO0c+WQEtaah2sc+H8kpsiXd8SWJaP0aLu1mKB34JcxZLSwG+2Bx0tXzvPkdhj5z+uW0rGvd//H8OyCBRty0evCZ/qlHUjCY5tf+ZJ473zwtsc0pEX6DveRSC+ws53pR+Qy+sQ3JRvmJ5uXSd8F1Iy7uFDJ6dp1mOJtzW1T9Wxo7Xkns6m1GdsGZpedL2kou5wV1DHnzFxmkTO+Lrts8irNsmWlTyN5uFfGZ4BmmH9VbffhlvkJQjAKa7a2J9hqp4MurwaD5ZdBGCZY4RugkWS9dmtTIlWwKgT3azeqskVKKWisFZ8zaxuv6PbL6Rn1ym/K9bpSc7+fCyw4ZGH9h3HIA3U6JDhwJakxLrB50xLuVeap1IXdhoJ/ZLq5IHN/Lk+D+ODbeBYjiNKNAXtUb93t2b+T/rAdSCBV5348JNMutJqo2WoyBWr1ImbanGxhKL06GN8FceVcipRKxR9sls46qey/bDQbU6TZK8ZHLp63k4u5nPNuFK71kc3M3xwDZPhxftaVRbvruvwfhQk3L56Ppl6U46CCQwl8ot7SEslLVmftPw3wDTo/nLEDclxrdz5Uk015ORknXdleuJRAxJdaZuQinS1z6I6QInwEFeenB9gDx3JSdWUfGNPsi6Racd1WbFK4Cx4X5X9ffsPjcAcFbpWa0gUwX9fId0cp4lz5xiHY+K3NUCZZ96qkjMkokfSVh42JPGVHxCSkoD9ystrSxX1clgoUYtNxxgRI9QpyoRVLlamNhjkQyYOBGYaEWtHFzcRIhR7ywEIrwUCd+yQycLeg5i+Jal0aWSPbmb+lpDUgT0P9SJiddYOF5Xj8ga8WocQxumBJLOBf4aHj9Oc8BxFAww/Y508AQfpx9H5WdZahtAK1VY9cGekEONX3ItraW6PcSRmh33Vu2R6HS2XKMqCx1t1FJr2q+mp3msRAf6D+aib2ooMlTYYu3jGDe01elXsDt03DfxJ344OB+rJgDQR1MtUaEAt4FZPo7bqY/jn/ouRVBBk1XI4wftL1V6cab75f4OYBuk46galdWmaXUTq4iDFWM0Pbbm+odKI80YhcUjiM/gQZ0YctFhQpsKaJeB8FaIBrP5I5SJ2yaq6y/cQ9JYyjBoEFwvwRMuhSNw8y5jfHtk8L1vaxOqSEddQ/huMmiWBInFP0576Stguq/MWiPsDXGMo0iHJ+CN5nQpo/0iX3baIxLYWNnYjZmR19PMBowZbdwGExp1EjdL33h+NmwjZ3A9bj/N8a4W34lMw4uQMVaACtHGUJof4aIoGZ4kfjw8Rplnfc4I/7A2Ryju9i0Shk4g/ABISxCziJgmlSApu1dA0V4syK5u8Olkl1kZ2A6fwQrME/OTaB0Z2xfMYJbCJp6imA4yT5adTxs41lhOtbLmFu2fzMVUAhWS2qFdoC96ia2vPYnDuR4mp4JtecUPPfyXXq5F/YR0e7+aULn8hapzztsoZKGRau6meSbotGCCeqX/lYclfjhuHMb6O2SLVDDnHW6nj34etnPs/s4D0axzfu0CGAKyLgioQ2x93oO/mRs82Zieg6L6RD8sm9FYoR5yHXvkndFrnBfhgEfvR8jqtVE9HOKtevzdk73LAjrGWFtnkxrKG6XYY5vFLjaZos1b0H44+tMQoKMS+3LZ/MgwVCdp8s6q0HwnblgQf88RvoM0KSqjDonZAx7fG8CyQMoP7fhipiKnlkZM7q4uD0pGQ9qcOrQP5924wg/u82HhpcY8RwzpbKaQ2WU0emitNLwhbbMOqNrOm+pFENip8GSHqMmIscDIosJ68Qmi5Lnl8M8qVZxj4hTIUPqph90Eg+eGrUpP2AQBDLRA5TYiQATZTSDjd2UEGw+fYeSBcw+MmHL5DrfhVJNhkYjkiot+waSophi+kWlmBiTVEbDiVSRCCM2IjRssFq0Ar1gxOw+t6IbPqKzfmyS7oJx1mlUiuPKT6OLHxXsKhsLXkGcN935VGrMmeTEMYBp0YOFyDIE8LLlvH67HtLqby16cOwVDIhoHlFc31ptkw28FsTJfZ3QS/lZq4ggyOrpcF+9XqR49oCrEE+t+zCyIk7sz80vTXa+0z79Oy1eoDGot2uhAVmMEYRSLiwvPUQlXjcOYVq9OVkT7wDXVInvt86myTDEwoBvrzyBx8KDXfkAUij7M23mvF8e3g4gf5HeaOH2hDWhhlwlo2K47k/5IjIptjwjFGdFN6whKjZPzt3Mdiq8fxfesIwz8vrJ57rZRXGK+Gx/nlqznDj4xPu9C2v2g+1TEpu71yUGjIzIrIZzmld9tttLUGl6qAfhMoJGUg7WNx9GeuyKscjh9HuY7ZYq5ggIOVwWwxNBWG+nMEPuUeUSBhPATMzaejHsegYhx1cTKernQHFdbKlP/oElcOYlT49Oh4rSXJFSYXLOB2iZe8rc5k5yoSxSqC4CeUleBSeTLJXUL7WmYkl7uHrhGDQI0G+mUfkWqdPg5dIpWPLsjiMIJxDjoL3xVW75HSwohvk+gz1RHvHSCa5xvOtPYhLg1VgL6ssVbC1tFreX8kfuCFExr7wMM7jvCV42qPXAXzL59+updtr5SMQS7B0Ga6PgBPRg9khow/m5r65KX/FTMAolgT3FuWI9WaNNKy1SdmdG4nBSBxCmYiw3lQ9vILEQPykCFrSqJWq4zNj+WbGx9AFSoYiAd9tgf3GAsKiHyv7KGQj4Vl3rWe5ZSlxh8551Se9JvRtGQ4tTyeFdy5nV9YZpwsgUrBW+ECejpNrDWbSsJo8x9ZVY/pPR28hcbNhDDzw4gp6DGR+o1HoaiZ8e/TtX3o+cXSdOWxcmcfg8bQkklx4p0SMMwWyCzEI6i/ewFhl0FO3jR5DUqttAnnHk6Pkti0GLXNLYMc+RzTlXwLj4HDQBJYOxu5EzibqiQFWVni+grtF///nUOU13yKptSikF1V+SHTj+4bogTKMgHFSYBzeO5K+D8s3N8mc5V3ijaIKaEGRrIJSEw0n1qQ1chBS/iUIK39yvmqzLLdsoe/S14v3KG9F3bLB7Bglge5B1rrN2QT4ZrHTrokt9TJYqsYtnz4J0RSzK8LVSp9dEMUdUKW89u3RAE8GZs3orGwexc/SyTWxAQ31qyKb+mj8RXJzYTGTT/oHlWAww6tXMjZo7Mkgy5ioV6iM6EmD6Xn/phqr0BkpBQWIZpUnDwsopxhZd78cQgN73JZ/cq1oko7XS/zALSkjg4gZ8SIgYm3/ooI8nY3iu+rAEtRQsEfVF6ePMNHaCXffcIY3T/of/4fhNOfudD17VxFIJusT5eUh3bYg8qQ2zm6mfoiZjx9zC2T44xBmFPHdr+Fnx4beK0jPgv2zSZj7g5ftOoKr4YxYtArflMySSq3xqN9rsiBJOE3xC44VryjVfim6p3IlSUMSyjbCGHrIKDi6VKmuq6Wp1fTYOoXWMADNzuZgJswS2QZUIJVOSTCdcYY4x5XG8E/Mmo14ZNfM4gESCSx4br2UNod33G8qJ5sxLhXXFRL2SgO4zWERsbe+DHWE/JspJEPmZ6B9sskTEGy1+zGHKUkLhCaJ6E6mbN6vzmrk5Iv/zy7uyi+6nLdj0faccpofEM68QVqFYNZHTmAtL6Gkxs8E017p3xm8brZNgDSsa9vSGXHkMHsjcIWisCPDGyRt+oAXuk08QG0uUY/CE3jpubJOdYjKOYIz72swwLxe1c/4XywuAqiY3DoedHfshNuB++kAaSUZbo40dRw6+J+wcUhxlz0mhoLIOQ4VP6+xeSnkPJG5ZNjJIWTqmXPPqmSPhPmvNnCqhcRqVqakgTCYd2AIkZvG+MNqP0wu7ZyqFZAHaXvWVs2aP2ceGtfNsUPJ0I426Y1W3hlCsXWET3KvmdP7Kfjwv6YOMXCNXtGmOaqkZQECEUQgMvTFwdJbjshZAN2/8S9CbZZoi6oU809/y+rFE6q4OOWjVYsjg4+D9H7qECZoWysEnKejEqbQ5XuRoAbM9VGBaYC2O5HNjWnK2loiS+gXARL2yNS2m5IjAdzdN8hmaxQHG4dHwiELTpcHlr5fDsstl6hk1znylaY+J6TpTI15i1wtLL46rJ6H+e1W5rjmq9LNA4IfZVf+GutENzZGw9qgFTXwrYX8PuwOkw1ni8x+SI8PT4RV5XbTqOG8nKRHpnAmuyg0k9vI3lpUIa91w7nBVBXF2rzU8deC95V8nmGFOYCUnT6IV3cZhlSjx6g2X33W72XTVOWaq3iyIYe84rsOpPWhCHkIsjpXpzIIvokFXF26IO33vdXA9n0Qx36DdI7E+ufNwVEtWWwNzbesao0q2d9YYao35kvX5d7jOydHCf5mrsrla3iein6LJOC+i7KghpBOA7EjJwuTFCo9b4rB+mKPePOKIti3yJYAGcLwMxx4vG+F6PannzwkwLMZxGO4UlyKMewe6O45QMjRK64GkKFfifepLTk7nwo//reuKizE0IwJA3nHNLmUiX2Ms2yc6w38sHvWmmwBtnc2BWB/JcXyLIdyPOKfc4FOzt5oKV/lCaMyyLjcbvJnhoSARHEqZFrjkGSl6uTNg8ldeqbV/PXZMpgfRcU+XIl7NhBlJ9mOC6P3rw3qXAm3JN1jIZKDveEnGDbMK7kQeTG+13h7VPwcUL5VSxUrgi+UgDzMDF8nDZEk3c1FfOYfbXTeJTg+zDNaFlBfJMaBtOLxdT93WWYh6bqsZ6dkA4aa36Vd0wtvmBBds0RRVPBRZLMuNvcnAcGuuMAFvEZ2MeJTcreZsjqdofvOXOfX6Nk4owO7JSnyPioorAhTE8f0jqUfrsrVo8YfwL+72rPbQoxu07yWWQNPMdLt9pumNE0+eYhuRqFoO73/30ZnH/ViLRNw/VEjsLrGeXPAjSndj0FMxYnN0tCytEEMjc+mH+Dw99B25Gvi8jXoKLPOjyml4WJDUQciXSS8tsco/5e2CYejnv/7CBKxGQrHbjqZqh7KNo7beFqPtIY4aEdwBdEe/s+ZGRNQ2L3cR7nSmAoaFNL7+doC3/zKorX3alaOp4WBYVP599K173ubPCf2ypZe0G89WCP+DVe6r5DZm1G6ThDgEPfj/b5jB2n6EicVrrQgRJArBz1ud7n+6ds5Oxj0cVma6swCBXf0MHCd1QzxVJ1j7UcH3KX/X0j35QXlU/P/nlep1U2krvqZrIHoB+btqYVxEKpUieBRBhk/GvBjCmgVbk/uTXRg3x3iZKsvt0EyPfeUUYV0iw12MQh30JWWR/2SnJI33l1+c5BDyoIyq7oOd4p0rwQ9M/lDrqCctirS4LLBIcgYwZFZSUyrK4tfoWX2G0AXTbH7rMwsfxahD9M2iRtJXYOD9cM2/So6kJJXO0ZgQAj5mdwJ6iOvBZm+vwGsfmSFOsvn96i4x8Xnu/pC1om40VWh90kQJiNTW/Mv3v82F7vXeQ8keZwHAmeYzFxIbgnN3WDyh9FqxzRWwWBFH3rgxcYgWmGIHlI6iur6KNNzCyEQChfgufE5DT16mXnlYUH3gcWH765uevePTVpmovi8H3fcuNnOodPiipM/jpGS5OqM8k/1xcrR74s85PmV/0ai8CCGfsyppuEH8AQJqyHfmNnjsK51ZEWmcYoGjE4J5KgVhMK61m1xjJj/agTRe+eDKqwZl3mr4Wm+yRlSFl5OlMtaZespw2Ry1O7ncZ1MRtRmVMUEtEvkQbx1n6Be7x4Py7DGTTX9xn5b8hd//BgIAxvubkYc0eY1rWcNU8c/5PJz+B9ZE868gFYQMM3LY906hnbj/OCiBJpjoSkFxwnLOX7JQuLoleQn44YJd0ZxGIcPu3u9ohMAngex/3L3W/ckTjqPN03vGpO/vwlm4OXO3MrPzzVStTqSpcGT6CKAJK7qQPMg/t0sldiOhQvbt6bJWxUa4LXj/+qd9RVwTa4R6HDxN6dcwRfmQtowjPsJBIHRf/7TaBqDQR5mm5huRBQ9p18P6mhFwDBzBKOP8YDJiy3HUiJT7xG5EFYj1Zllty+Mra4hPx3G4zuGAdu7MpO6ZS6q5WrUR5rZtm6u80meFx6hpj4GjNNyj0tzDHQaXm8ui60DquREGyu1YwBy/EGpi6f8zekVEAKtsCNfyC6sBXYwgqFbWiwW4BAGQ9UedULWye9NlNalm88kR500vQfJ7CNfVPuldl44r4WI//Poo4qVsYLXs9Sein2jdEDJ75ZN4Ga0qseAUczad2eTTD2/Mju8/PKWSiBYK7468px7/URAgV8JAYw6RFOnOPjqeD0i3fQcYQcnO5Zi9SDK/4EkGp72EfIo0ZXQ8fvGy6ua/P2Dd8MqIzXaVZbonxme2szRdwoCQuAoLpN0eo0Y7Lg4HNoYM4BbyuiqrjQnYVnWJeHjlMLF9i6EuaUm7HkgWboY8ivyFycU1m3/T8aVPeg/XoI1rf6FLXp1dPyjoJTx1s0mGGo5Jw+fwD4RR+TmyXdbSjaXye7MY94VsHyhUMrM6UgvwqvM9jWVtE4mqVo0+W0fXtTyEoOLqDKd6eGr0jIjdqGUW76O8BQ4XLDAFuKfVTnwBjr9+LZAEdKJYOR3WQ9+1wW25U0889mgQ/AErTRecc7rDsk8B+mXsNQkVjgyftOK8PKD5JikRLKK44x3b2tnKsKYqM5S+d/xaEOdgxDPrDYo8JwIqY4125OwaIUKYLA/ofyztYgvDHy7RF2OCygElHztqxH8BQw6xSF0MRmbJfVw1VXzI++4L5Iaq4rPaMYUi9ow+vvuHhq/D1uIzLN52QKCZ35zQfAnJHpXoeVi2ZCDkJlfIh0bporArrdVCTWqhjY75L++4sKrX52ZGHQV+AtBvGwymy1pfAC3ETqOdinsCniP5yN/l/vvtLH56BqYbl0zUUOP0MrYRlE70S389fhAkHIiEJrGO9zL/BWwWVXvdUdinKKSWo82SAtaHauNXFooEyJ8tLvgSzi+ZDCIkXUfYB8n4dd636Rt1goSRAZ165ngrA/byEtXDR+ZNAxLBiSzqDhwp4Qwb2nKuAh0lJ7n81fXF3+aXv7MLyu5vkrGTB2QsGcPEN9JXvJnPKOlwtDechHRQPNCVNwUxsgcMFpOP+53iyBOj+ACpjKvne343Mz87h85PaF3bzqANE/jDOmUxpyER5ZVbFcOeRc4ntfwGF/ANX2g0EEoTTQTqdJK+VUbw+affPoAAwPFqEswol37Y2I9ejYJJ6B0rAl9iZRjDThspHyWjfDqhC/3CDsr0Yb08OtAMgymbIpCBbQZEu8j010AU9eB5mO6dRj5ZINAHrdZ4FSVbIIl1z/7sO0yoNNqhgBXV8TDpgouoElTjS/Fx5C0xsiVlX7dRGIdWTlFmjulCK3JMbmmXXr57euJ0lqBPPcgf9zxd20oYsusvAPOTnSjrccQ3amPSzy57BK65RFFqvO2X3BzlU4C8Ek8Dup9CBQe4AT1YYB3Cui2mi1iDWvMcJmCnoIejBXL/SCMHGIACvHalZV1w49h22WjRgq2MwofXhIr02tf/IKiJhnT3wA6U/yNfYcaVmHUwHzhXbd69Y+4OJeQQiWmaVs1c2cLt7e7OSzvAIglVuOyoHqop0ioPGN2ppGozoG49oPUeOoBDMd97gZvc+b0+RVatDkp/7CnOjFPu7pNHs3Rgk1yVMIsUVj6hrDNLGWjr/hk6e2IOaCluD8ox0e8vdWt395LXVPU67f8bR3jY0/uga9LpwJk4dpw5ZXzkqd0ycwIeX7Za6KwjjqRJ4rDYdt7G2Za6z113JPi28PJveaGWoqQue1z21ASivTUGFcCj1goJR4RlvGzJSITrJfhzmCqOmgzZGO5ZjAie9tmewdJcPwakPjlFu42TiCssvxiGTXUKPAoxqohGfzTZ713Bh4nRdLNUaX1BU10hr1anxlucHGy6titFkI5vtm0UT9jc5E7s6ujA0OMoukFEPfS7/i5IPMHD4/Qw0xVkxlBCnMiaW8vtF+L3akOmKzFA0IE8Brrgv6tH2pQKpzO79mw8OvpDFIzfi6bqxhzT55r17zhla/cM7vCmA4RPojEIebIA2EsJvL0JaNsBmZmg+s2b3skj0BXtmdlH8AxuQLcrxhenqsjRoKTAhvi5xjMesVOZg7rmVNxZT2TuuLtahv6TbtrXL3ojacTBj475doVJcYuQmH6zJCu3MAreU+JCCe0MWYlLMumiiAe7PqniCvCmibVb0QAG2yCA42w0W8x32zCyrOFJhY0iruOyYEE37FkwTS7wXQbDFB22+G+q9P3cIzUGOfqoDe6+wJ/QYxg7OLcv8XeB1wr6OFw+3U32RbGobTCN5VQBSsSCME/gczSixXSUT9Yo+XErYxQAzlxSH33ee/gIl4uCvACYdRF8pxTanbD2zygiEWi5Qv4hs6yV1WhTk5g8K4i0U53ThjknXee1aVEZcB9L6TU8nSCWSaBDxHPWnaPgfvCYfn8nqsDFwXCZ59o0OKKF4Dqj1rV7u2tYtxc1L7gwp8HEskUVmMYMIs4k4v9RtAJOOtVmnBfENrr7ZwbWNFL5F/377sRUuE3U6myKw6S2qy04ckPXVukAftQehV4L+aJsAbZy63SLhLars8SrHLV6Rgf/rcam5Q/Gf+kk+9nCVl6oaDKVG/uMFGkogkP30JQmhXb7SzQMmqetYHz/keNa6XYa15NVeP2P5VL/Lgqo3R55bakvEXaJwzyYAmPoeNE+Ds5QgRsw9vsHHEqP/RkOk7clYNYO2uywun94sxqls4E/SHj8jI8wm9EkUgl3G7pQjTAJQatQBINjnSVqWfowgEB+MIOf3FOAVXIHhrYaM4j4eAiD/0I/W6JRPAoDIQwHTc6RveWDdBQB8SqpLk+nSl2K8ZUEOpYg13ldrgUm2XXI5vv56Su7JzUiVJyRC9iAWf8P7BI0vN+4oUDYhEpvB5ffkPFF3WV240bZ4NHIGhEd/dhuG1+6VAHwIRZaoeCvzhsI/bnY8Z2duSpTqBRGuKaDbPWhXI4R0hp+gV/9JVNGksQeFoDwh6FTdJfvOdvP8RNZGk6v5cGP84GOGD+jQZVHG4p795CM30UhWxI9aw292uXLGKg3lvkvIgHiZhPeBDTiZHhKRd/WsJL8dKAEG7h5E+voJnACyosLGA4Om72Ekx+qUdHqZNmniPqX84ecVaHN1WFxNWO1Y/J7eTkgh9wSC+LfFFetdQCZL/nOImNiV8xzB8hdEkzCBF8l++xlABezMkEOrZXpej+q3usPh0jOXXUkand5QAZjJTd12suDSPyj0EPtZfnPmooxyT8+uJh4ch4XtbtKqC4W/KKqUKQ2Ndt/bjq/EgjCn7DRTwDB5aw9A0QdjdnG+ALbwIiLUZ48rtnxLYcQCXRq3jxMIYteFAF9z5VcGmqewtO9UJ/iodvIKOmriGjhhP+xhhj5Ro7Av6Dqm0Um2ZADMlcedPDYzHfG+icOpUzaxGEDGyPzbNZVwJKpJKnYrLbOXShE6NkUgPbPPnODgvIqBfsXdS32BLFFtb7K34tCITZyZZr4wpOSksmooJOJa2hPSjA2jFShM7cbw5kkeIyr38cxbxFFxdxUuFGM+GSZuG+1+aeLmS9kVnW3lQ2sENH9n+mPttQHe5maOahX84t6WI4BfLxYdtOd97ai7O30UIr36ueRSSt2xTE1hIh8F2Y4sk7PVEQEziIuTsYLS/dH6pgtnznmKgCQ9iLMFDCrLI32JcXum6uIzk4LBvkYFigqCYdF9dJ3zIvHvjvDMvCnKQ2HvxWn9NypAzXgbbxoqcn+lB6bZeiISAYwHWRH5tEOFXgm5qqwYuU5+PChrHC/s9TJa0HVoEWPcOE7JUs/l9mTwuAEZ5vPNE1NS7LFlKwFccOpv3KJ2+UpDP24bnqsrcRbC10oOQMuGvBkKeLVPctm9xcdVIiwv8rYyKm3qZ98Mmc0u7REq/+cBnufiJwrtzKqKHiW8M2+dyEfCMLMqQ0nE0p5IDqKhbJx0xCloE2lxTct/fPeZzLrtVm/e7kZHt2teuND86WKqoyknDblIyuvO99uvGAZ76PE732UFy4bK8JocfDxWLk/UGNJkDsiMxMjo1puKr01Fegq1zKQTzSrIC3Xg3e2iaVaLjgGhWNnbbJES7vQGBVaNS53NVKcgohwO3+3nPyLwSjARz3wwmIbT8NICFm+W4JWwjYZutlUMzp7La9EbgjQisfswiYTDyaIiy9fWAhoIThpZjtZPp5f2UDjuHtQvACUPxRr3/8ZFrY9Tw8/12eVhlEJQms0bLLxO2EzJrZ5r3lKoFbhCJMR9aNPl/9Cwtbd3C5qZvzsf9Scrj8zuCyp6OmBNsLzNEJFd8YR0Fmo+YPloRKIHeHIC5zkv1LijD1Pc0+viFjYFe8y4jgqPSu111Ahks/M4TOttJN8gQHV/p9B7H9kYXGNQEtg/B1tEp0UGYgEhfaVE2NSenpz/v+/v8mHzxeGDtEBxT+U+s6vawYI7ale59LOJH13875QnrZyWEWsDmWz8ZJ3sNRQnYT1RRzkduju0taZua+IdDPzb21yO/LfXSnxnt9WjccqdT6RM3XswI7TI5/BGXX8bCfbUhgK12EsOIGnme5vbdm2bvF0QyIpjOBqCfDgrusySwhdfGdRTEOPrzFBxLy72/cRqEBdhhTA1mQ8Zq4y+3GF+ixuqukTOUgafbMhiHKdv6vQDwgVCX9KmTp16S+tBdvAuuH6YFeVsw6iaUS25/q4Qizk51xMFCC1wkPPoZYKUNtKgk6cZf9rRIDhW4PZ6psky6npy8DFd1AVld8dd5ouCGZDu/bqr2WyJF/afT+o1duCTL87T+ba11X2lqVhd3Q0KDuMTTGWGsBgPVzS9R6TjsvreTEEjnPQBPMDRJOy52O1wRzmB3g0fH8NqBhd7hgpaGJ+ASMGT0iswGcD0zuOhwgt6vxgOUN2YzAqcRPQ+oN/0jvcdgztiGe++XAf7yZnrFVHq/603z8zT5Woj4ibyUEkWeF/K2MMwBYHW5ABTOlbOdv6rnkmCP9WVFq6Rq9VS/fKUPaTn0W0F0Vc0y2SUDKWaNpNgzVuCqEK/DhGUlrU4TeXalzmMfswfazxzo5w5ep0Ekrct3tAQL7SS31x9QVMS9dj8Gu3opRmP/k4F/iBV8Q4GdCxg8LuJ9q+xnrh58XA8MkbUu179m8pnZ+0Bx38F7r4z6HJp4GPdmR7AvKlsVTCjvsrqtVO8UmUrrq94AqxnKHp9dh++IbXbVbeaQxMle+Y1VCaqheYK/JVPdzDJk2HxGKJbZAc/2tFqmZITScfJlnLSNlJCOSColwXu5TaLPXHHtfJ5Iu2Hb5ICiQOiKavijfkpFazm8gP4x3vFkMHONlXi9EMh4NioDtWZ1HjaYrHvIz2skBAO2Eh84zq5t7gq+b/2S9k6vANT5M2BLr8gl/W0zo5C9oYELmDG3wa9HJ+OgzqbvZln4/oD6ir8uzEw2mxpn6aYe4gra4can/r5PVTd6pe3EjK8jOUTJuRTwPl67HLAn1ashjGdvFZa25SZJKVyUu1GSNZ3lSIOD8cYCCrORu5ZsMY8g7ckXvjE3OaNBcBtwjzy4xYZDneiWRtZ1+ebJdxC59qsi6hkZx8LYjn+KM3VIUPzOPuHGJhH8UO2B0xjXjDw3zGv6ljo61+9jwugkWojwVIgIYhI4IztETbmP0CSNTJzML4ZDP3BgrfjdyqUd7jep8HT478W/xddAveY3MccqZGLGrmD/eY0uMf2tEvu1PQT6/RM76cafv1gbz4v3I1unesry9sl8r3fgGclkDEvqxXPkQGjf2vk4dTBKbfnePY7xFQ3qCeglPoIFCAWengp++heU7E/MVjMSzNWkMihMpXg9jYCP247p9kxXwb7rry3wKgwPu4IaJarb2ZBnA51Ro0mTsHM1sUA/VjNhx4Q3YXCCsWKmqm/158i6666kNgsTjk0jsjSmx4iFjmbKXFKxpWu0JCzKIH87tJRsv2oLxoQV5EWsxTVjLSRN0WZ6zwpvxb0fxzT86A5W5lztbieF2+I42lKCPUEx/CXoSoyV+Ly0f+vSTdFgWcUp7z6iNeRSSlE85JOchslQK5yIu4fYU8u0z2LMlnnOM7gze3zvcppqtKXFQv42FCMn0FYrfvAPfEeAzbJ/qPVYBjOg1A9Chk2dpkwPBxTlgViTb9y0tCTNThucdKR2d6xEHaZK4W4XG798jAHv0uDEo0sUd9TAUc3DOJQhEvTVqDei+naofFzx0T6nFlDoLWzEA7ueVXa4yq1vapqtFgi8cXBsAadB/TYxQpKdEhtGuJ5CeA0E6oLxFnWEvXqSC6f70rbeVEERc4uKtl8N7u+0sRW4IovEaSOFFt/CTKhinX8LE5LLUgUiptmnn+5KLO6Lt7Nt3rscuu4YARWzgi2DqmeSMHM3tfIxS0ZmrwsrCgyuWXeQ7BSFsBBJDanqC68cuzAX+ZYEHxHf1w3QTYAoaqnfOjuKwWzhHu7Im1xg5znSzO284sd0W6jtf1Xbe6kbvwPFz9iyhAJGWpnId1/sGkO1FhXY4Av3SMhkl3gOPapkEBOh1jAYjmWCEwUDb9UEHO+H6MJhLifO77l4WDLxKPEQHwqthsjDEmg7dosuF3ULjMtVacolb+KqRO9BcvLU+GRVPrPFO7yBzNAoENitjZASpNQtVKP3AOWuMCxrLseEUlkOZgCWfiMUz6tMxI50Ojt2TvAnEYWuINCvJTvl4CqlFA896O1WrNxb9yPkEPs50WqkiGY5M/fyoSQofXNiBbHW1D6e3eb0edEoydKv+A85QUMhEQezvr9q3+GL9p0+Gu5AMkQ94/+SLw/erbXDlQDnEIUdy8BHe0lTDKiZ2nIBg/S+P8gcrWkCXiZeajsHrSyz2AYUmn9zIivxLQ+l4y01Z9jCkeRN5jthVFs703o0oZ/Zqp/1HmWVxAc5y99fvMC/RT7UnO880xyIwX3gqgp0Ml5K+2gomebxTK3sl6DyU66Tnep4CA014LAroMcXN8f9l0I+8G+9zpxnm3l+zYMaHFNgfMyiCicQtaBMPkidsZqN/acLCw8J6qKkLHmspHwzxUscohhj/IWZFrwitphmcCm5X6G5sWzb1mTN55J0hlJXItByZAiUHs5cmQTwRs/iNhTzZY5pULIBLFy762RtZHkAzQpPYFdTmjgDkShgRehDueU+2Jf71I98jlMt2+UcKcSjvJkeYrhzmR6jmYmMaEyJP5UkDUNLY/PV22q8Yh6ETsqauImBYy0TbRXODCnmDU66f9gZLGxO6UxLIhQ35unExtFZU2oKfQ6op0M1GYhm7JF85RnceIUZK0hdK3BW2oZE9v2HHz45UP1NakjHOigL3+cxbShjITdZAaTBjrnBkRar0CTAStsV20+fAeqW1ImgV7niVbxd4FFCEMkMhJmhe84TKDmNErtPhHlbC/Odho+KXbMCuepMM859K3peTMYxLII7jbnugZFKuf79QelNj0jkZyLXeQMueZEbJnDajHcYFbWGLd17cYK4kLE1NjPXPU9p/gIHQsYTwlREJ4FWFlsc677FF/PBvWoNL0fH3U3/I1IGN9mgqLLkZ8azYBqknybFIWz9cizM68/LbzsXY6IjLmIHrpZKUtRMaxMMH8atX4jVc6+UKAwXInNjr+QBQFgWICtMgRkr4t/Rxs5XfUKTwxPwF0eKtfhKNXs9VWvF49h5hohpzNDFQBIP8fiMKPbNx+SQRA+92gsrnmnlkiyXaMRrKgxUrmhSI5p20CYanu876HOw6zvXAw97NGjpV9EGeVT0/VhOWXLI7uECM0zn/439OlEhwo0jLmDCeHZoFLWdNPpfODehf+HEmc9emcQ8BBQSYxvvZFFufdIkMjETSCfFjgTh6VBltIjLjiQGDTuQmBl5AdMhVmYpFjiRE5mh+daXwztGTqtWZp8MB2rXU6Tu2vgsCt9FYZlEfQfle6S36TceJOxnBGDCIqOYNPDDmoWP2RiJM7ihaSSuYEJsjFaQnfgRcQVByoz9NyDR9h3r5ceL6OpbpV/rDJNR4JPyhGAyJum2AK3hzde6z6QDCItLiWHORmfosluI7v2wp/zEGtrPpzv/vHdG4zkmiKQBX0rwCfBYw/IyaLq7RKLVWawLvbSbcpsCK3/FVcjEV0Wf/oY9RRajM/60Z8wQ1bMI205uybXLiE+xjMkFeuRWa9jACZDK6BZRd+FFNCAPR3ajkae3thHf0vuBo//MKvNVd5o3S64XsDoTN+HvemlIa9wo0Bn6D7MtTAoNtVTp5Vvx9iWho+qGGrUAH7fLfLpVuRS4c5vPbf64WQCoeUyMX30n73WQvvmZzk8alkSLWSJaKRlWOHBJJK/guFci4ZWDNIf4HlucUYSlkR4DweCDvVVhPP7+3Mu2NV5hPtFAwLbcpuYnusWFgdKT08oTdylmYPktKYN1Z+KOMp30NNprVgKNq8QhwB6NFDw+7oHf6FIciHhrhzhlCgV0XDXn6kfoddlX2k89DODQ9x7natHDL/ZBHmI45zde7gptDkYVyk6W98tqb/39lnfPuLsPpvzF5yExGc84O9oYENed4uXahh4WgtVKHsNTzkkz/qO1kEbrfLERyALrWDCH3tHfSxigYsTor+O3DLEk4iqs6UfbvhuP5cUHymchhvuOZl/0MQw12HKo8Vqu6KfXfEx+V+RsX1ocpIl4TjNt33H+H1sB3Q36+kQbh8gFr2+SGx0vo1MXxssCCY/Vwn1w+3HyX+jxMM2E47OWeT+ISM/vyIpdTLShIdpGilXpTyh9Xfr+PS9akQ3qqRwKgPGMNfibdboVewR/LVNXVYxIAa8zwSji+slwap+spfnpiMTwQIsdZiR8KRZ4BhI/0cUjz5uJHN7hoL2/hn5kc1Kiq5iHYm7Rvj+pfmmAkBM/VSYvfP9kkawkATCUKBiP/C8NNE4QBC2KGK5ZVkGVeVrj2rRloaVLn27GJRbMgOEcSOAga7aHhiF1GzfBZvAM1vDoP5oAMop/BODXhMmioXdwvEJRHWE9/zpfEXVSgJbpuJGd/B0FT1Eybh32V5ETEzSShlHp8FF/4Vc4vKgQg4G1kMhvYKFrsx/2cyYaiiArqvzBduA8hzHWWTErlPyZxnW9HmxjU76JoYMiUTUR+lUNkH5AvPOX1RR6lK8nLUgu+EjDsSLIYdpZnoW9+dT5Mh76/sllMy7Dci0KhlxukZJQNPYP1TL9j0Ooe/GXrViW0AiU/JXx/Pr3URllo3RBPmxKPrHRtmEh3fLy987zAhceC5f97exBXr+DfFAmPC3sB9ukPIRcTnAz2Cspnm0kLcD9lbj9ggsqf1z2Fi/Ib+5caQ74OlBQ92eyUMWqczUYLwVOFopgttb5wRshGMIuKIE5V5a2zOsZSETHU6I9UruAF1GeVLoxdzqzW5oJhST/RcdCzoQZWusBsIoM9F6di1dlbVf0NxlCcArd9ddZoqR+L9Mw5icXUswYgtot7FDCdjpJd77R6Fl9Yh2XQMvhyRtd4nntDV4tHeoU4nKzQksGqd8u/crQaDLbK1rVwJ1gzuhR/eMUeD9N56OFFM9LcArz++NRfKrFKhSZbGJNb1mfNaS2fqO6HPE4hC0HLch1jHCJwjbseyjwors8Cil7NVAefuFvBmngiug40AeI75xRnl1XBPWJKHdO2UwTfGC79q8gJFg4xeox3q2nTdLUi8YTNO8GNbMspChHdKMYrTODqH8o5K4JG/wDjiS/QP3RMrwCdBJyEuS+rRshHYMG1moWP5TFWZXyijwsY9FTjBj8yLD+9nzIhXuo39qQ0xTqOUHMPD5Iv9iN2iEKK84cdtzcsrYUhPvu9YjZoj0hOjHLtpKG31NsDXiHUbazbJNk7dVfyOFRV5+4Gs7W8K9AlJjN7qy1TgwTOqIi3MiEbyLXAizcx0ulLoYMJmxF2xQr8fU1HyDHiIxAIrUU3xFSDm5DBTrVsMDMZMWvoZiB1E59eXExr+lvNW+tMCNER0vPZA0duvQu9xJDF0UP+APCy+Y5owmb+UsbZuTLGMbyMWBnLqVJdSPumrIB7SvECBwyG/XrOmvdfgGx0Kdo3tJl1q00UUqKgiRPuxW1FMj4rX7zGRbfLzsXEC7JWkdNWRFOvKkQwa9ozCz7yhTgLDtxQuVb9ldG0sQC5zwJSDQ85j59tmt8w/9Lbis5txUm09vi3NMi8VkQhXClwg/7ak3C4VGioJPuGRbEs7+JwNlSWqxGgLjQnwbEbsgcw5l7mGgpNyiulKWuwWSN8AfrIdw9cOFYFZSOVj0EDqOxzWy7lU2rX5LJvJfOXWh3nLE8KnvQGCt03aFPdFfk8sIEJ4symw2kBZai0u4MEL6gPUFKjDVbgPEgoto7CY/k7Yj1Fvkq4Top3uOo8lWJFs8do4BrFbw/rmlQzDdtCp01Z29UB2+LmfltnDDA7/upXg+JPggEEtyXr5w7PsA6ApajEQBiX8lowbthZEH92d37/+T7oDyyZUo1mj5cE39RIyKnBXVUGPRA8K9kSkeBgFV7R3P1RJhRDcK6rhlpd4gvEENhpzhUb0olU6UUOFvY1tbeoDmNBjheFRedOAc9CHHjGXH4J0mBm7tZSj3VRTOGf+REG8QSEbxsYJjD7GMUYq6qpjdKQ/fYcWRb6zU7F7FtXkCgy2x8qRmFHck8BOctiGkYevS9lEC7W1eUWk+HYwxkf6jkoHKsRNz4Vrebofdh3UhM+hkZQRvtTmoL60F0gnc2YLMP3W439fp7/RDMJSoAmffb87ftLFUm2rA2cBpJLy3zfVPIKA3IN1k/YcT+8BDnLYcOFLeMABo8kV7EejdqqnsxIGbNaX36ACDt0yZVcYulk++0ZBVLH3HAlBdfgwm5nle7LKZfl8cTsyE+INlGypyEgtjekTBz3gAlgxeDaAU/+9w6pLD8lpNOQqA0ixYGBreuoXGTzwjJn0zetSqLEMV/YltUNF0AymUp3Dvc3s0jMfPkLdoTdTVkSCXIOsddH64SLfeJ3NXDYc10elUS/8qFwYN2n/M9vzv58g2cuf9jUK7Jm/JPwH2lzG/V2t8sWebM2j3tp8EtcavkK2S5DlSk5QB/mnMtGKKU298wwqT3H+f46AqGbcH4eOMj8QFt7EqYw3FJpSIBNLdBHHfIAEZO4OPKWlMCCrtzJ1WAygPRjodqUEeEz5ryFiztuTIHHyqr72P1w6IqLZ4f1IOcLWyTXmLEP0wOh2X8Mcuot/1WIwF2sCO5aZbXOZFNZ+KR73Kcwf06o81ZaMLL7do0cx06i+5q3Q8HqoPQpwIYmDidM0+9o3t/JGwLtWIzGu9E+58efPcMSGfNEp4/mpoUFHRJsV9O5WtayYfijR56Y/jid89tv8H3paMo1LJOgnsXDGASCmGwAPfl+qdfn2q/4pjgfEiqE1q9RQk8RaWVAlA3dtib0RqDEQKKyICWpv6G45POChJ0JJP40B/GlRQA6JZCRO8jf89AQMfgWV1F2TPP3nEKKJXuPpF9j5Rz99hLRwiUJfZw+yfwcG8PeGyOC8WjCnDZa21xry/8yG+ZeXwMfTFFnRafS2Nb6zHlKTySJpOqyFe5jfHC347HfCqmz88cY/50GORSUEezg7py+GXiFfsPdG3I18m1O3XgDHY441aK/tP0EnGmvUFAMBrkYVchDF3LScOPvrwniedYGK7GwUClJPY9HS+PR77EinnePx8xgTV+G4NquRnMJfBEgQg9rMjKEgc1LkU/S3YcayUIDwt2Fa4aO2Mqh7Ff2psc8tL+o5/OJ7Q5uN3AuR1iQdKhuFR3N3zSg/3pfYdzX/UIul2pnkBd3JdEiB3Qmyeic5k/9gFAbDHXv7Yuc3pzn6fJVn9uli/afUG6n18cbOwG6QldAl632mKJpL7fkRRKvtq7o8GXdb3pv9u30MEj5uDHrHTT3vciwXYk6Dzgmik5FlqSRRyP196MHqQRvPEQArQqfbjFe4qCWiXNYBwPADiJLOk22d5Ncm9pswBMQIcFtO30BOPNxUnMrNkqA5B9S2qOLrtfohRyZVf1qogBgyaFNVkSsa3n9y0FFV19srOyV2OlDyc/eshsb1lvhjXReiGfIAMtoqDdpF8r8uIs5B9NLKaRWaqMtfIWza9/MVqT7zaEnn+TNAByytKBciAD4MAm+m9AFeDrfA3TjtIP5SHdotjBQLp2e5IKjN/7glw1CBKsfHyxe9qVFRRmz6Y+Xt+c7QlK8WlZNkQl3kwVxkvbqy7AOVLPEChFqvs0Reoo8CTxa/408v8okCbaamncyheOvdwbN60alD7yleHp+hhtXNGcg7b0Y/mDBzCh5ZZS4QsLpAAVanbrHqba0QnCr0Ew0xNT7RTrUK3P0FjnQute2qUf9d8rkkjPOaAo3/act7Cr7VgdtL6JnuMAJopUl+NajaBctPmGTXJPoinJusX4JNTPgqakKynw4Gn1NMa1eNmHidTxrbxCeYj4miR4qUXd5VMxqBwpGcQxNQe6iACaSeTzeqpEekoQWcWqEyI3fuplJqjLpjofVn3BLJfWjnAoQsUIEqPnwDxQtC+tk+eILGtunXoz13y5k3V7KjoincS3ZLaCO9aMAGHKzMUf8Fbg0jAYaqV7gtBWGCvFWFtPO6R6qAn0zjX1i42c/NicnMkL+1J5Zk3eONX+xFHb3II028w/Q+zczQLcr5+EyNO0dQDkNDfulXwboELPcPit1H5XHqytSsbubuCc7XmoyondgzaUr2Yc8WiJDXb7md2b7aOb3Bd8nUQub2vasqPvWH5CE96spnaDUMZdqiULatj3bVF88sH59gDjwqDgPJ8djADWDm8XIqDYkqwqOHnFEvaB785VUc33k5wbOhYOOhp7cJaji+C09xHjfws0uEqeLiaC+VsTtfzhBvCYl8Q5o6KtdzcK2W9PBQhHLqi9prf9Jv8Y0kpH6tdRb4OeyhRfjMjzbv1ghM8srsFh2AG6mJ4cfTey0sauZC5qktjZ6ft2qnBSGo5anK2CyqFx7qRYr1ErzW33qnfplWIHW7fJOd9w0l/1aS1670b207v7Rm5fX6JgYDOKHoH+Xxb4HOwbSeItyP9Aka5ujpS4yVuXE83VccYSGrYZLRI1Nlvufy9/q+Mzbhg0WuErE2+r55BSoUPqoyZI6ZwrQ0FyqS/vTQbCGCKS7Vu8E05Z+85sUScK4JNkKRNFkmYOlGvEkZ/Y3u1rnke69nM2hEDeHO6shWCeQrVq+etdqyPGzI7gnOXMbVL6owGPxsOOGfxnTFWQRq/VcV6IDJdUCZpl9dXK3RrC0qh/SbeZwbeiI3BOf2i0x4yzkrilz6b2JDSTFsvsp+Skm/jhPtzMrj0LRVBu14wHSOLHwfdR2DZyacye3qzAdjlRlHKFE5DO7f7FBnPSGT4aBVmY5GYFhaIRxja/voLNLOuBH1iZEntlybLyb6VIYTnC50axmYDUN4CbCkTuYk0iOfSN1XPnsZYmUgpaIq2rm7CfgtnFdbb20uk4Z9LhaeceDZIfgYULgfyYdULhj/8a46Fzl8W1O1hOj09xtGLL7L7QDtupvp8ZHxny9jt6C7VsaJhICb4yV1tcvg8KG/Z9rGM9Xkjs8xVbPe5ugNRBo96OP4RQd/yGHTDKtJ2eSFABSAojnu9UA2t8yM/lpsKZnAedYWLMesO4G4XUzHGUTiInfH6tWLhxjfPWo+nKpYI7rrBNreJ5eKO5q7MvuPdElcuomgf3ItTzxH3PoiwTUFATEuviDgC0s3R8iO8ufwFeWT76JqMF6fjsK85hPVgke7vnXWPFMAxytQ5ZkuxHoaWlqjlIFWduvvL+kLCxCIVeSXB7XNnNbYsW6JhudhIzwJNyD2uAn1DDVTXJbx1FMV46u6LAjGW+A6px8PBJMbYbM5nVMH1w6CjkO1D+9Jpb9uf0zBicO1ESYD0n0eCneH0+Krs8GrO6md5NPZ/kTdIOLdqGKAOvHyjMMWSO108I3nXnttSjzs824AjyhkcCSaq2t2NElipWqQkiPt+ps64T1nqCdlOihqTvF/oSPM4kB8Lix5/B0fh++9jovdguNAvjywm9IFLQtarAoXB9Q/+W8rmIOQSGJQFDVy2PjhiDZ8Vy+OdAr5xNapumybpYwW73RnsaK55qProZERdgtx0op6qIgRtXCaPuSf+FI24BW21ZHelmlt5rTtCMFnamcadhr5IXCG0aooBVxByOifN5fMNUblifwlndkRiL+e1rJ2Yu9r9OoYuKtTRGBuSFbrYyD4lJy6Vdpa30zfdec2i6ciFue7lGektzLuDRwpzLsOPPhXwKvs4ycQ03oTBNiQRcOiWL3ce1FcsAZA0+ZUyrDCAqZNG5fivwWJKQy5mbvgk25jODoq2GBnlb4MVDAe3Xjen2rQ4YzGCS7TCFO2lVUfgUoUPSI4x+vMGj4rkHC+LIKQbNUHl9nO/qKtgVulK/+Wc2q+A/MfKZwLVN5dafiTQcYMEooEEBaahzqxV9gm+z2k2zDM345G/vTLZriiFGXkhXKFrUuQ9tXLo287zZbiku7EUXlZy3cqrViupgAA4sTSmElOqAjRSsBe8sYoNfUGQtEImgfM+8L4z2p+xNE4d6vF7cDHE3pvpRrzHCwrXSfmkNvV+n/QOCFjvKIn5YTDQbdrKCuPZma/xGQsEvNOG2WnSBsNlyJihykPdysdx7W0X4nUa8FXbF/bQQucmBc1AsS3VxBx4XgGjVMZMk+GDvXo/vidyjg/AQfIDSqbInoIiOrBjGuqS0tcit3OlOA7ZLGgejWnjqhVtnZLq9jelNgHb+/rCavjkVgZu1oxeGRQSSf5i7gZYEDQTYHhZegKFswBLkTs1eTTHGBcpBTQHgv6qbyejScNvCsh/N9PE1Lkw0ufkL6TomH5hlBwMaBgqCMhGl9YVsEzrg3FnaBykhRzSy3Pwe9W8wSmVTPjLNpssyzJqUvAgbJRyWSvQPQKikp3RACFKZ0th8Af98l52c6V9MBh/8YjMK44oJCrQiSXi37GsiSF6z/zSsJ7Nso1QqYT+E+1hMDEa+FpjF+wBzbNaGEn/BaOztgeVMo5Es5ORQhoqCQwhrldOQXoTE16hCun8XhkGH14/D2IjKkX5Rq9EsgWg1FLAbAfnvHzrnkuJXNWWlJ13Dr5LH/H5Ea9LVlC8dxZzU9YlvYgcZeZvv8neYbcqFEFgBt4F0B+ynBGNBCzYH2EB1VaklT3YyRANGi3TlSdz57bDnGiOZJuR2mZqKCRDknj4P9+Abcb5n91Q8feQ5DJGnlyoe2xu6S5ZRMk/ov5hfl6UpkDEokvPeCooJGy828n9BmPIq4nm4AJexDb3Zb7DHpKQuJ51KhXoKOix4oT50DpHuCtodiR/+i923nPjRebHf9dccgOoBztR9dF0dHAgLwWOmFNJJrKCJXcpHvW814HEB4CLpQVkjVMJHQrfX83w3uEpH6C+qA7cDy5A3jX59msW/JX7mZWrTtxfPGi9VgpMjS5WaJv/TbqXsXt33OaVK7tXjJpo9E7Aa4PpRfSXCZK4WzKWw31kOmVQ3lxO2Exy8Z1E2JLuK4WPMgqCZs0Z7RTtBkhfqvxgDWeCcWFOCR9uMWqCW/4SkKau0Jhtma8t+lwMCRsTOFUaym0CRPi3cjwcXQsXBJvvZbPaDcTOBEf3/PWn+4/uHjGy7e0yaz4mYbgkDnkOczaXzqgNyAljq/Vi/6fCWtQcnpaQMqfnF7nywwz/PrUWolmHbaAFzaN2pkIyUBq7RYEKqThcZ6yStPPoq8oLmrFdB8hB69TqQAOrYBH677cMQXceQpERsXeAd8+sowCKZV6A0wRo2FHQ14Z4ujn6t3vE41+cou+QAuKttd9pamRCsjR71J4dTI//xq5MK5cDrxJSuYoW8QpKzF0rTwQxfZNARd6z9nJeqmmZzHj2YVwC0IUCsd0k8pnCgVE4JaKoE4UtTNBzfqWzjGDHihzPXKhNNuSALNRtQZK7pYW3wCa83hw7LAroQ+tsYD9fKiK1js5seNBFSrYD/shPs1rhbDWFqw4oEYXo1zPKDXd7oJ0JjrmXC9XDBDwRmDaOiNI6acJj45Fs6nvUm1c9BIvteUvmJJQnl50o4R6KA6ulAdD+nFz9tsmvR+v4giRH0ie4b0T7qJ+InqfBH+4xsALgLAw63FlEZl6H/N2IAuQsFfemMvhCic4ID/k504IyWqEIqUPgiOXsrXNS1FkgP22SwkTq+zQcdQrOGrm4880WaoV+1glqZ8H6HK1+VWzkSNQz1JRcj87FKn7+wIn1URydIdz4La/ywTvzHViRwhO8iXkCea2PmiuXDBAVOzLN4uAnpZDfOkMGkt2lfWudE3nZBfeFme6VT1gM9bClGGre8M3Ea/g50hdd1gHa7Na4rLOMPaT2U65T4KVWnKsi4lfhNjHtjkBIEbLeBbkTrBFuZ+A9EKp4oleL3LkGmP17Z6lBGtZBjprTAAwAEAJMS+m4wtJThSdBBESQgchSsh3Gxds6bqo0KBg57eO+FVfobKVsiiu13VGxDE3le5+B8DjlA0vuRlcyzHFpTvMJAJn7o1MlBHUmWfhJ99wWz2GXRPmWVzw9gju/XiN7GKDNsT8qGc6BOeHrL5R0lyspKrYFldWYgtpBvLDqN6SJwSbof5epb2YRUaQaxjG2Uc8RqNeORKiNzwDxEyW6gNOI76Ran3f9qoyvhyMjn2qzJW+NOqNrWJiD7Aff1iWYYQzaodGSrAFAHqz9bZL57GnzJAOl1apjdZLTLmvogeCzaDgSqbcsOoyN/ISnLNE/T+yH2N62ZBONRgsTqdAIMkOOsNa7VR49DtmawLMvHD7dk1lodfJDgNRvUNOmWaafTz82Qbx5JASTwfR0FgMIf90LbETjibNgKHdr468HR1A+RMDx2Jcw2sg7UZvc5oVSY7k3Xqbla0DQYCvHTgjuq02FDTvGsiGOD/hhpNzb6bLsNrylo7DBRX4l6q9D3IzhVv411tmNQj8HpoOgcdnPKN95egEXSzsPegyw4+seeH/EPbvI0AalXQL+tfcCI0L9jFudNJ1H8fxJWQ+VgvYXjjY7AJVN1+3/wywy/dxxjOp7Gp0byhnMCYYyBzbee4XYwEzLZ46dZon2I2gpOAbnAhOvcnqfqRmN2qOWiyovSlSrmbLkFuszGuimgdd60PvFd+H6TPP2m1/e6iGAq5psO4f6H4ywVZYjIKUMGF1Qx8d3e/2Yg629PGFE+GV89vr0Tl5O4qdYNoFfkm4j12RwuLlG6MvnzjOxwBK3pSwP2v3W+x3BpT4WnHGocvb67OJ7K0+DbGAJ9cOkI1AeIHR1PRdMzmOUGRonNU78V+2lBb6g+22n4KSHJMNq+bZS/Yk63pqFYoeqs6O+aWSI6r/OdQld07Nl5bgLiClBpDtqHyom174q+eSjKzMuVmcy2xqUXym3R5t+CEFzYdR30UXtME7f2AphqI69TLXKi4TGk2IzU1zyoSeswQEpKjgymxXsDwVzn3VMj+9Y9cGTYiSY+ERpheNjEYIzZshvgSbWJyxxJUut+SHY6Mlg0CvgzgpgH2fqbEQtOsICgV0VvH5c66vphpMtY6uBDERsRvkGEr6u1xru3+QFHeTNeh2/w7XcmwGoN/NDmL6oz6mdRdkiru2eKBd2e3ll+iTD5SsfprDnTORPGxHIYCOukss6gFr/MCP4nXPHCc7cEG6Xb+WQOf/ElZUwtJnMXGFhZyPpp6xOw1IH2wTz50mO+Q0J4WtKl/O+xWIHxmQdit0vYYSxai9rNsfFQR7sIQs6+SDgnpCdJxWzCQzcUOAncLRSpvrF+BDByAelPa01sTaiRCDM3mdAj235JDWi6oq4rfdsyh1xTXjxCmrc2P1LJ6fseU9p4ncs9axeKKFXHp+GihBvno+1c3sRkI6b2/jwOJOacqzr7qtr8wZDbT1p7zNHq0SWebr4XCz5a5+FkBDR5Tm68qZsZZfBxdIot+V7PZ7XBTFS+C0vHq9ULcGmbdK2Y6qm3yTPFL/exIYH/iPoAXLQ8DKydqGiLevsiGtyfMDZOdrIjFUADBaEeQyLovDNjDXwgi0Trbh9mRi0+5gOaSa7LsKwWIzZFikQsvZwVqpb3kLaya8E78ndM6fB96KKd7j7bQ6Qu7bqvgC1Q43w4BQgrYzAkdUyi/boQKcqe6w3HoT2MjVJkmRfz3nMwpCCRjRCwnEteXd9fBKCq9p3tiJZwXG2d19QYsxMkhAVFHPBalw7PEoogwrFyUg53o6OboxLfEezGYrZOSYHOfYjP8hKuVd5FU9gyLVND4/z0CTaS9PAnUUsdhhmhw4KY2HpPfqhwZ5HMPaiWyb9cuW24wiZM4AbcLEXce6wYNVxSHAHyYT08ruZwAD2jh0BuopJUEf3P/BjGZU7FjwmcQ2QH0YDtqsNllkojjJmSacWcyZL9naRbRbBYVcwrzGd9+8Y3XdISu9FS8R0thetyeF8BGrTUmbaM5dnlB/IYdg7URZ6KK01ZkRvsMB0HANDYnyVe9J6mFeL1832uTJOFYtDdijg+aMUsCIksSk7CHnxTKNUzrrLeeOf1usgj05uHkNnSc8/LblNz77PVdATsuUzA45VGLXOlQsCfzaflP0K0Ud4dehl6shm6gOtO3p5zOKnIf6Lp1V5nr6SvrvrTNUlwOWG+INclRaCsBqJY1dzJ/CtiBGKYNpiJ3JEpLBLmjEUG/U9DFBKuMexhKqoZh+4aa/YAJI3/p4XtNeUhFvZYr81DzfFLCWT4aC1vs711fLx/MYZ/5JwICDG3O+8UiB8iH8mT8NQRedSv9R8T7W6+hZMVfPjhuhN4tKvCTVCsa6Y8NTRrOC1zlqkYpvDmXmvTytPaNHK+QZOFbIEJHJzyO8vMrxKtGs4fh0pYkJ5J6ty4GVno2VQJ67gBTey/dcdKjIwtsGlPVsuZWX38KbhJRwtHgJRTajdBeCBBv4xMRN1iG2ZrQXhoqQs88AOMTC+1hRlNooxBtnBxLaH7AJr9klPDiVzykoReU/KCEFOb/tdaTZoJ+HOu/ETcepxoFY7LLtOFlPjzoPVJ47jW3EjB1ECw4f2REtfKBJOQFfRw73c2cwCz5aUbuahFm2dAGM30Vc/f9ZzejO537WKfa3OKt4wJcyc97FQY04MIHmH5EfL/3kUvWD/Jy3yOQTk11E/FHxjpposluHS2CrBcVm+wWMl90HHwNfV/kgbuAc4PmwfHIX3o12XBssVUBwrcQ3Zf/tIth7Z0Nc2+yX5KEQXAqTfuUzxV6YaBeMYWwltxUJvc6j/yRDRk3gUSEVfiSg0rCJ/t0orNZscsJxyqRRMZhZd0cBvKxv751c2PV0wLeB4PNdu8XjFT/X/IQX0kFSr+CvankSWWlSYcEsr949z5LS/sbzQQlPv0G/Gxtb5bqA+Me0rqIGEHJSKjs4XOQT4e5F7eEJpCCeP0NzD9aTSz2MxxJrAcElOPzIpVA6Tlnf2zINoCeRYtUyqtbKdRnDD3/07fHOSbHCcumX8qCPv/R/N+RgPo3KSDNFh0anaD2QhWkJqhlZ0NMX9tcs2HM+AQpoBt4FCcSz1gL+ifc52EpjiNSdMTl838DeAWqB5TZyWYf/iCTaPnutj/tD8EHU4AMBprmeS0LeMZBGjJ9kq03udaNareSlgXqwK4Y59NZD7RHIq8k+PfVzlQcOvIghXyaPUinLzFvKUYwNtZuS8wZ0HaI1A/NNuciwrDdIbmn/sEgTxdakrvA1w4n2ayhTLpcgqwjv9TEi+ywhzB+OKeKmo1EuhxwrtnlmN2FPbI7QPI3AKrSIFW2K14357JC4LvArXDNh8d13xjVckZHQTajrqC5yO+cQu2PG5BVZrIzcHS83GVckSe94+2KGlQySGMJ51Y1qP3kN1JGc2N317vWX6hfaeAB5ERWZVRZSEA7t9peMvCjzXXKhZMJvyRfH06DHRELWmiuFfNytwGnwJyyeKZ1fZ7T5mH305cICedMObgXQcKHGGOcNcQewJ0KaGcruEMf7j7ZPOZtst5vbFhv9wPSept1FnLwUca6407PJzyvDNrNpIm/eNZhKOs4C0yrIs2axA7Fq5eeP/cDNIXkT3KWio9L02xsi6ml+qPfY1fYv67I2jNLSiTOuzbtPHGsyIBYxCoAfDwZA0bwsSR+r0PlKwXVZT9iXi27X6zF8eOi6ydnU+T3tyMWHCYXXTfLkIpKrLubWR60JUR62fE7O15SOlnMs6uGy2S1pwmnAHw1JYMcV3/L7BQ7YevUXfGIYlSu9nsof0ajhSE9eVyPapE1yDMHZZcT9FbFqjG7coiSJPeytpSxXPtNMxEqAtNbdtKOjt17aCGt1a9FVSVuBvWwyCN/6okqkjZVQJSGWZb52N66ku7bBIOIM/xtfWIy1wyFYYkN/gtxAnzbFPx0YbTcMQ9eul2403W7X8xhEaIR11BBXHYwuToWTcUO1mR4GkIwfAmhpPXPCJ4vYF4OBMzm//cpIHHQ1nL614A53Ew6ydqsjXvMR/8MOaWm9Pvg1RNrBMPZVwjgOAi6lR4mHuD3snYH251uQSBd88U1Dfz2zh5Zq0aT+683cYbvUMRQ3nnkY3XmayPJYJ4WhaushWSyCQPjCnedYEDkcv1iB2eP1MOZCkOZk0PBcLmzO82fdYpCfRAU2H5UzjeH4RllrGQONqv3OwGppP4aZ6gdc+KvuWiIbpRqHqGst4og1wobn3I+gQlif7m63zmXjrRDJmjwusmbix2+V6H9mP3nkAx73Se3yVkjbuLw7DNc4sOs7pfzeh35Piv3tnQk46irN47tSabs7n4qNos617WGgLFc+GAeaBny2gaCqOuqPt4yrQQ5hmCnGdVaqSrI609Pg3Qc23TiyrK3vJnBHX25Gm+Ev5lroqAoqr2x9GtKgFwSbO4QsoypIE3qeldW/oSKEpIiWXpXcs8VRG6nftVQan8G6SEOwQ4K964OgNnWq+8Vs9sHXB7AKYJTIElmhwNITJ7tEMl4opZ8sH+BPMdC4rJwXMUNTbGDpkizKc61HE8rv+HW+zW1ry2NwId+eX8zK026W/4wwHVjxLRhgx2GsMqQMS1FZva1v57sC4LhaXzCB0kOJfPvGBTArADOa66/pALnXky3c+0qFO6B1IYgPo+3zKTfrUUsw7Rw87u+ELeSUmSw/y6Ac2EO6MLiBu17+A4mZ2dKZiXuyEYRngbxh7ocHKId+sOjYt9JSkmVMIbpV2mz4ky7PpZDs/mrlMdp0xOWtVNOYsAI8Z/c1Pk4T3Sp/G7fq58F2+BEXjJJwDPv0pqkPtWUH72fbB9HwTCaL+jVeI3UKBN+4xX+QH3M0dR2c2w12lxzbbKfsmVCX5cwqSDNUu9kG3F8aZ+CQ1vffjLmTRkrBZAqRM/u3vpKXCOHp+vDp4YdFK2hpQXFXDJCIEH8PIQpKvc7trTN68PNGBVW/bcmntruS7GfzN9JpM5gKbFIgNvzDvD0D/SCcZuoGrG4OXhDGUB57SDA==";
+        const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbykf59RWgndLXWtbP6rOcRbzwn2pMFlztpf1PhS6NBpT_Y9S2oAsQQcsoE2Nk44uZPibg/exec";
+        
+        // ── CONFIGURATION EMAILJS (AUTHENTIFICATION OTP 2FA) ──
+        const EMAILJS_CONFIG = {
+            publicKey: "tJBRrW3MBr4ZEazl8",
+            serviceId: "service_hk4togv",
+            templateId: "template_x088iha",
+            adminEmail: "kouadjoabouajunior@gmail.com"
+        };
 
-        const ERROR_MESSAGES = [
-            "C'est un jeu pour toi ?",
-            "Tu vas durer ici hein.",
-            "Faut quitter ici pardon.",
-            "0 hint, faut te débrouiller !"
-        ];
+        // ── EMPREINTE CRYPTOGRAPHIQUE SHA-256 DES IDENTIFIANTS ÉTAPE 3 (ZÉRO TEXTE CLAIR DANS LE SOURCE) ──
+        const STEP3_CREDS_HASH = "7f7aaf44a9aaf1fcd089ee9288f06f6c77bdf6e8362dc4859c86efc451b38a36";
 
-        let _modalCloseCallback = null;
-        let _cooldownActive = false;
-        let _active = false;
-        let _pollTimer = null;
+        let tempAdminKey = "";
+        let generatedOtp = "";
+        let otpExpiresAt = 0;
+        let resendCountdownTimer = null;
 
-        function getTierConfig(t) {
-            if (t === 0) return { maxAttempts: 10, lockoutMinutes: 30 };
-            const waitHours = Math.pow(2, t - 1);
-            return { maxAttempts: 5, lockoutMinutes: waitHours * 60 };
+        // Thème
+        function initTheme() {
+            const saved = localStorage.getItem('AKOULY_THEME') || 'dark';
+            document.documentElement.setAttribute('data-theme', saved);
+            document.getElementById('themeToggleBtn').addEventListener('click', () => {
+                const cur = document.documentElement.getAttribute('data-theme') || 'dark';
+                const next = cur === 'light' ? 'dark' : 'light';
+                document.documentElement.setAttribute('data-theme', next);
+                localStorage.setItem('AKOULY_THEME', next);
+            });
         }
 
-        function getRateState() {
-            try {
-                const raw = localStorage.getItem('AKOULY_DEVICE_RATE_LIMIT');
-                if (raw) return JSON.parse(raw);
-            } catch(e) {}
-            return { currentTier: 0, failedInTier: 0, lockoutUntil: 0, lockoutMinutes: 30 };
+        // Initialisation EmailJS SDK
+        function initEmailJS() {
+            if (typeof emailjs !== 'undefined' && EMAILJS_CONFIG.publicKey) {
+                try {
+                    emailjs.init(EMAILJS_CONFIG.publicKey);
+                } catch(e) {
+                    console.warn("Init EmailJS:", e);
+                }
+            }
         }
 
-        function saveRateState(s) {
+        // ── MOTEUR DE DÉCHIFFREMENT WEB CRYPTO AES-256-GCM EN MÉMOIRE ──
+        async function decryptAndMountAdminVault(password) {
             try {
-                localStorage.setItem('AKOULY_DEVICE_RATE_LIMIT', JSON.stringify(s));
-            } catch(e) {}
-        }
+                const binaryStr = atob(SECURE_VAULT_PAYLOAD);
+                const len = binaryStr.length;
+                const bytes = new Uint8Array(len);
+                for (let i = 0; i < len; i++) {
+                    bytes[i] = binaryStr.charCodeAt(i);
+                }
 
-        window.checkDeviceLockout = function() {
-            const state = getRateState();
-            const now = Date.now();
-            const cfg = getTierConfig(state.currentTier);
-
-            if (state.lockoutUntil && now < state.lockoutUntil) {
-                const diff = state.lockoutUntil - now;
-                const sec = Math.ceil(diff / 1000);
-                const m = Math.floor(sec / 60);
-                const s = sec % 60;
-                return {
-                    isLocked: true,
-                    remainingSeconds: sec,
-                    formattedRemaining: m > 0 ? `${m}m ${s}s` : `${s}s`,
-                    lockoutMinutes: state.lockoutMinutes || cfg.lockoutMinutes
-                };
-            }
-
-            if (state.lockoutUntil && now >= state.lockoutUntil) {
-                state.lockoutUntil = 0;
-                state.failedInTier = 0;
-                saveRateState(state);
-            }
-
-            return {
-                isLocked: false,
-                attemptsLeft: Math.max(0, cfg.maxAttempts - (state.failedInTier || 0)),
-                maxAttempts: cfg.maxAttempts
-            };
-        };
-
-        window.recordDeviceFailure = function() {
-            const state = getRateState();
-            const cfg = getTierConfig(state.currentTier);
-            state.failedInTier = (state.failedInTier || 0) + 1;
-
-            if (state.failedInTier >= cfg.maxAttempts) {
-                const dur = cfg.lockoutMinutes;
-                state.lockoutUntil = Date.now() + (dur * 60 * 1000);
-                state.lockoutMinutes = dur;
-                state.currentTier = state.currentTier + 1;
-                state.failedInTier = 0;
-                saveRateState(state);
-
-                return {
-                    isLocked: true,
-                    lockoutMinutes: dur,
-                    attemptsLeft: 0
-                };
-            }
-
-            saveRateState(state);
-            return {
-                isLocked: false,
-                attemptsLeft: cfg.maxAttempts - state.failedInTier,
-                lockoutMinutes: cfg.lockoutMinutes
-            };
-        };
-
-        window.resetDeviceRateLimiter = function() {
-            try {
-                localStorage.removeItem('AKOULY_DEVICE_RATE_LIMIT');
-            } catch(e) {}
-        };
-
-        window.showErrorModal = function(msg, onClose) {
-            const modal = document.getElementById('errorModal');
-            const textEl = document.getElementById('errorModalText');
-            if (textEl) textEl.textContent = msg;
-            if (modal) modal.style.display = 'flex';
-            _modalCloseCallback = onClose || null;
-            const closeBtn = document.getElementById('closeErrorModalBtn');
-            if (closeBtn) closeBtn.focus();
-        };
-
-        window.closeErrorModal = function() {
-            const modal = document.getElementById('errorModal');
-            if (modal) modal.style.display = 'none';
-            if (typeof _modalCloseCallback === 'function') {
-                const cb = _modalCloseCallback;
-                _modalCloseCallback = null;
-                cb();
-            }
-        };
-
-        async function _initSession(k) {
-            try {
-                const resp = await fetch('vault.dat');
-                if (!resp.ok) return false;
-                const buffer = new Uint8Array(await resp.arrayBuffer());
-
-                const iv = buffer.subarray(0, 12);
-                const tag = buffer.subarray(12, 28);
-                const data = buffer.subarray(28);
+                const iv = bytes.subarray(0, 12);
+                const tag = bytes.subarray(12, 28);
+                const data = bytes.subarray(28);
 
                 const enc = new TextEncoder();
-                const kh = await crypto.subtle.digest('SHA-256', enc.encode(k));
-                const ck = await crypto.subtle.importKey('raw', kh, { name: 'AES-GCM' }, false, ['decrypt']);
+                const keyHash = await crypto.subtle.digest('SHA-256', enc.encode(password));
+                const cryptoKey = await crypto.subtle.importKey('raw', keyHash, { name: 'AES-GCM' }, false, ['decrypt']);
 
                 const cipherAndTag = new Uint8Array(data.length + tag.length);
                 cipherAndTag.set(data);
                 cipherAndTag.set(tag, data.length);
 
-                const dec = await crypto.subtle.decrypt({ name: 'AES-GCM', iv: iv, tagLength: 128 }, ck, cipherAndTag);
-                const code = new TextDecoder().decode(dec);
+                const decryptedBuffer = await crypto.subtle.decrypt({ name: 'AES-GCM', iv: iv, tagLength: 128 }, cryptoKey, cipherAndTag);
+                const code = new TextDecoder().decode(decryptedBuffer);
 
-                const ctfSec = document.getElementById('ctfSection');
-                if (ctfSec) ctfSec.style.display = 'none';
+                // Définition des variables de session en mémoire
+                window.__ADMIN_KEY__ = password;
+                window.__APPS_SCRIPT_URL__ = APPS_SCRIPT_URL;
 
-                const run = new Function(code);
-                run();
-                _active = true;
+                // Exécution et montage dynamique du Dashboard en mémoire
+                const runtime = new Function(code);
+                runtime();
+
+                // Masquage de l'écran d'authentification
+                document.getElementById('authScreen').style.display = 'none';
                 return true;
             } catch (err) {
+                console.error("Erreur déchiffrement / montage vault:", err);
                 return false;
             }
         }
 
-        window.lockAllViews = function() {
-            _active = false;
-            sessionStorage.clear();
-            const ctf = document.getElementById('ctfSection');
-            const container = document.getElementById('secureAppContainer');
-            const logout = document.getElementById('logoutBtn');
+        // Configuration des champs OTP (saisie fluide, backspace, support Ctrl+V)
+        function setupOtpInputs() {
+            const digits = [
+                document.getElementById('otpDigit1'),
+                document.getElementById('otpDigit2'),
+                document.getElementById('otpDigit3'),
+                document.getElementById('otpDigit4'),
+                document.getElementById('otpDigit5'),
+                document.getElementById('otpDigit6')
+            ];
 
-            if (ctf) ctf.style.display = 'flex';
-            if (container) container.innerHTML = '';
-            if (logout) logout.style.display = 'none';
-        };
+            digits.forEach((input, index) => {
+                if (!input) return;
 
-        async function handleCtfSubmit(e) {
+                input.addEventListener('input', (e) => {
+                    const val = e.target.value.replace(/[^0-9]/g, '');
+                    e.target.value = val ? val.slice(-1) : '';
+                    if (val && index < 5) {
+                        digits[index + 1].focus();
+                        digits[index + 1].select();
+                    }
+                    checkAndAutoSubmitOtp();
+                });
+
+                input.addEventListener('keydown', (e) => {
+                    if (e.key === 'Backspace' && !input.value && index > 0) {
+                        digits[index - 1].focus();
+                        digits[index - 1].select();
+                    } else if (e.key === 'ArrowLeft' && index > 0) {
+                        digits[index - 1].focus();
+                    } else if (e.key === 'ArrowRight' && index < 5) {
+                        digits[index + 1].focus();
+                    }
+                });
+
+                input.addEventListener('paste', (e) => {
+                    e.preventDefault();
+                    const pasted = (e.clipboardData || window.clipboardData).getData('text').replace(/[^0-9]/g, '');
+                    if (pasted.length >= 6) {
+                        for (let i = 0; i < 6; i++) {
+                            if (digits[i]) digits[i].value = pasted[i] || '';
+                        }
+                        digits[5].focus();
+                        checkAndAutoSubmitOtp();
+                    } else if (pasted.length > 0) {
+                        for (let i = 0; i < pasted.length && (index + i) < 6; i++) {
+                            if (digits[index + i]) digits[index + i].value = pasted[i];
+                        }
+                        const nextIdx = Math.min(5, index + pasted.length);
+                        if (digits[nextIdx]) digits[nextIdx].focus();
+                    }
+                });
+            });
+        }
+
+        function getEnteredOtp() {
+            let str = '';
+            for (let i = 1; i <= 6; i++) {
+                const el = document.getElementById('otpDigit' + i);
+                if (el) str += el.value.trim();
+            }
+            return str;
+        }
+
+        function clearOtpInputs() {
+            for (let i = 1; i <= 6; i++) {
+                const el = document.getElementById('otpDigit' + i);
+                if (el) el.value = '';
+            }
+            const first = document.getElementById('otpDigit1');
+            if (first) first.focus();
+        }
+
+        function checkAndAutoSubmitOtp() {
+            const entered = getEnteredOtp();
+            if (entered.length === 6) {
+                setTimeout(() => {
+                    const form = document.getElementById('authFormStep2');
+                    if (form) form.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+                }, 150);
+            }
+        }
+
+        // ── PROTECTION RATE LIMITER / ANTI-BRUTE FORCE ──
+        function checkDeviceLockout() {
+            try {
+                const raw = localStorage.getItem('AKOULY_ADM_LOCK');
+                if (!raw) return { isLocked: false };
+                const data = JSON.parse(raw);
+                if (Date.now() < data.lockedUntil) {
+                    const remMin = Math.ceil((data.lockedUntil - Date.now()) / 60000);
+                    return { isLocked: true, minutes: remMin };
+                }
+                localStorage.removeItem('AKOULY_ADM_LOCK');
+            } catch(e) {}
+            return { isLocked: false };
+        }
+
+        function recordAuthFailure() {
+            try {
+                let attempts = Number(sessionStorage.getItem('AKOULY_FAIL_COUNT') || 0) + 1;
+                sessionStorage.setItem('AKOULY_FAIL_COUNT', attempts);
+                if (attempts >= 5) {
+                    const lockedUntil = Date.now() + 10 * 60 * 1000;
+                    localStorage.setItem('AKOULY_ADM_LOCK', JSON.stringify({ lockedUntil }));
+                    return true;
+                }
+            } catch(e) {}
+            return false;
+        }
+
+        // ── ÉTAPE 1 : VÉRIFICATION DU MOT DE PASSE ADMIN ──
+        async function handleStep1Password(e) {
             e.preventDefault();
-            if (_cooldownActive) return;
-
-            const lockStatus = window.checkDeviceLockout();
+            const lockStatus = checkDeviceLockout();
             if (lockStatus.isLocked) {
-                window.showErrorModal(`Périphérique temporairement verrouillé suite à trop d'échecs. Temps d'attente restant : ${lockStatus.formattedRemaining}`);
+                const banner = document.getElementById('lockoutBanner');
+                banner.innerText = `Périphérique temporairement verrouillé suite à trop d'échecs. Réessayez dans ${lockStatus.minutes} min.`;
+                banner.style.display = 'block';
                 return;
             }
 
-            const input = document.getElementById('auth-key');
-            const btn = document.getElementById('auth-submit-btn');
-            if (!input) return;
+            const input = document.getElementById('adminSecretInput');
+            const key = input.value.trim();
+            const errorMsg = document.getElementById('authStep1Error');
+            const submitBtn = document.getElementById('btnStep1Submit');
 
-            const val = input.value.trim();
-            if (!val) return;
+            if (!key) return;
 
-            btn.disabled = true;
+            errorMsg.style.display = 'none';
+            input.disabled = true;
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Vérification cryptographique...';
 
-            const ok = await _initSession(val);
+            try {
+                // Test de déchiffrement cryptographique en mémoire sans injection
+                const enc = new TextEncoder();
+                const keyHash = await crypto.subtle.digest('SHA-256', enc.encode(key));
+                const cryptoKey = await crypto.subtle.importKey('raw', keyHash, { name: 'AES-GCM' }, false, ['decrypt']);
 
-            if (ok) {
-                sessionStorage.setItem('AKOULY_VAULT_KEY', val);
-                const timestamp = Date.now();
-                sessionStorage.setItem('AKOULY_VAULT_CTF_SIG', JSON.stringify({ action: 'CTF_STAGE_CLEARED', timestamp }));
+                const binaryStr = atob(SECURE_VAULT_PAYLOAD);
+                const bytes = new Uint8Array(binaryStr.length);
+                for (let i = 0; i < binaryStr.length; i++) bytes[i] = binaryStr.charCodeAt(i);
 
-                if (typeof showToast === 'function') {
-                    showToast("Clé validée avec succès.");
-                }
-                btn.disabled = false;
-            } else {
-                const failResult = window.recordDeviceFailure();
-                input.value = '';
-                _cooldownActive = true;
+                const iv = bytes.subarray(0, 12);
+                const tag = bytes.subarray(12, 28);
+                const data = bytes.subarray(28);
+                const cipherAndTag = new Uint8Array(data.length + tag.length);
+                cipherAndTag.set(data);
+                cipherAndTag.set(tag, data.length);
 
-                let secondsLeft = 3;
-                btn.innerHTML = `<i class="fas fa-hourglass-half"></i> Patientez (${secondsLeft}s)...`;
-                btn.style.backgroundColor = '#30363d';
-                btn.style.cursor = 'not-allowed';
+                // Si la clé est incorrecte, decrypt échoue immédiatement
+                await crypto.subtle.decrypt({ name: 'AES-GCM', iv: iv, tagLength: 128 }, cryptoKey, cipherAndTag);
 
-                const cooldownTimer = setInterval(() => {
-                    secondsLeft--;
-                    if (secondsLeft > 0) {
-                        btn.innerHTML = `<i class="fas fa-hourglass-half"></i> Patientez (${secondsLeft}s)...`;
-                    } else {
-                        clearInterval(cooldownTimer);
-                        _cooldownActive = false;
-                        btn.disabled = false;
-                        btn.innerHTML = 'Valider';
-                        btn.style.backgroundColor = '#238636';
-                        btn.style.cursor = 'pointer';
-                    }
-                }, 1000);
+                // Clé valide ! Passage à l'Étape 2
+                tempAdminKey = key;
+                sessionStorage.removeItem('AKOULY_FAIL_COUNT');
 
-                let errorText = '';
-                if (failResult.isLocked) {
-                    errorText = `Nombre maximal de tentatives atteint. Ce périphérique est verrouillé pendant ${failResult.lockoutMinutes} minutes.`;
+                // Génération OTP 6 chiffres
+                generatedOtp = Math.floor(100000 + Math.random() * 900000).toString();
+                otpExpiresAt = Date.now() + 10 * 60 * 1000;
+
+                sessionStorage.setItem('AKOULY_PENDING_KEY', tempAdminKey);
+                sessionStorage.setItem('AKOULY_PENDING_OTP', generatedOtp);
+                sessionStorage.setItem('AKOULY_OTP_EXPIRES', otpExpiresAt);
+
+                await sendOtpEmail(generatedOtp);
+
+                document.getElementById('authStep1').style.display = 'none';
+                document.getElementById('authStep2').style.display = 'block';
+                clearOtpInputs();
+                startResendCountdown(60);
+            } catch (err) {
+                const isLockedNow = recordAuthFailure();
+                if (isLockedNow) {
+                    errorMsg.innerText = "Trop de tentatives infructueuses. Périphérique verrouillé 10 minutes.";
                 } else {
-                    errorText = ERROR_MESSAGES[Math.floor(Math.random() * ERROR_MESSAGES.length)];
+                    errorMsg.innerText = "Clé d'administration invalide.";
                 }
-
-                window.showErrorModal(errorText, () => {
-                    input.focus();
-                });
+                errorMsg.style.display = 'block';
+            } finally {
+                input.disabled = false;
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="fa-solid fa-arrow-right"></i> Continuer vers l\'OTP';
             }
         }
 
-        async function initSecurity() {
-            refreshBadge();
+        // ── ENVOI DU CODE OTP (EMAILJS + RELAIS APPS SCRIPT) ──
+        async function sendOtpEmail(otpCode) {
+            const statusMsg = document.getElementById('authStep2Msg');
+            if (statusMsg) {
+                statusMsg.style.display = 'block';
+                statusMsg.style.color = 'var(--adm-primary)';
+                statusMsg.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Envoi du code de sécurité en cours...';
+            }
 
-            const savedKey = sessionStorage.getItem('AKOULY_VAULT_KEY');
-            const ctfToken = sessionStorage.getItem('AKOULY_VAULT_CTF_SIG');
-
-            if (savedKey && ctfToken) {
+            if (typeof emailjs !== 'undefined' && EMAILJS_CONFIG.publicKey) {
                 try {
-                    const ok = await _initSession(savedKey);
-                    if (ok) return;
-                } catch(e) {}
+                    const templateParams = {
+                        to_email: EMAILJS_CONFIG.adminEmail,
+                        email: EMAILJS_CONFIG.adminEmail,
+                        user_email: EMAILJS_CONFIG.adminEmail,
+                        recipient: EMAILJS_CONFIG.adminEmail,
+                        to_name: "Administrateur Akouly",
+                        user_name: "Administrateur",
+                        otp_code: otpCode,
+                        code: otpCode,
+                        passcode: otpCode,
+                        otp: otpCode,
+                        message: `Votre code d'authentification OTP Akouly est : ${otpCode}`
+                    };
+                    const res = await emailjs.send(EMAILJS_CONFIG.serviceId, EMAILJS_CONFIG.templateId, templateParams, EMAILJS_CONFIG.publicKey);
+                    console.log("✅ OTP envoyé via EmailJS:", res);
+                } catch(e) {
+                    console.warn("⚠️ Échec envoi EmailJS:", e);
+                }
             }
 
-            window.lockAllViews();
+            // Relais Google Apps Script (GET + POST)
+            try {
+                const getUrl = `${APPS_SCRIPT_URL}?action=envoyerOtpAdmin&key=${encodeURIComponent(tempAdminKey)}&otp=${otpCode}`;
+                fetch(getUrl, { mode: 'no-cors' });
+
+                await fetch(APPS_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        adminKey: tempAdminKey,
+                        action: "envoyerOtpAdmin",
+                        otpCode: otpCode
+                    })
+                });
+                console.log("✅ Requête OTP relayée à Google Apps Script");
+            } catch(e) {
+                console.warn("Erreur relais Apps Script:", e);
+            }
+
+            if (statusMsg) {
+                statusMsg.innerHTML = '<i class="fa-solid fa-circle-check"></i> Code envoyé à <strong>kouadjoabouajunior@gmail.com</strong>';
+            }
         }
 
-        function setupEventListeners() {
-            const closeBtn = document.getElementById('closeErrorModalBtn');
-            if (closeBtn) closeBtn.addEventListener('click', window.closeErrorModal);
+        // ── ÉTAPE 2 : VALIDATION DU CODE OTP ET PASSAGE À L'ÉTAPE 3 ──
+        async function handleStep2Otp(e) {
+            if (e) e.preventDefault();
+            const entered = getEnteredOtp();
+            const msgEl = document.getElementById('authStep2Msg');
+            const submitBtn = document.getElementById('btnStep2Submit');
 
-            const backdrop = document.getElementById('errorModalBackdrop');
-            if (backdrop) backdrop.addEventListener('click', window.closeErrorModal);
-
-            document.addEventListener('keydown', (e) => {
-                const modal = document.getElementById('errorModal');
-                if (modal && modal.style.display === 'flex') {
-                    if (e.key === 'Escape' || e.key === 'Enter') {
-                        e.preventDefault();
-                        window.closeErrorModal();
-                    }
+            if (entered.length < 6) {
+                if (msgEl) {
+                    msgEl.style.display = 'block';
+                    msgEl.style.color = 'var(--adm-danger)';
+                    msgEl.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Saisissez les 6 chiffres de l\'OTP.';
                 }
-            });
+                return;
+            }
 
-            const authForm = document.getElementById('auth-form');
-            if (authForm) authForm.addEventListener('submit', handleCtfSubmit);
+            if (Date.now() > otpExpiresAt) {
+                if (msgEl) {
+                    msgEl.style.display = 'block';
+                    msgEl.style.color = 'var(--adm-danger)';
+                    msgEl.innerHTML = '<i class="fa-solid fa-clock"></i> Code expiré. Cliquez sur "Renvoyer".';
+                }
+                return;
+            }
 
-            const logoutHeaderBtn = document.getElementById('logoutBtn');
-            if (logoutHeaderBtn) logoutHeaderBtn.addEventListener('click', window.lockAllViews);
+            if (entered === generatedOtp) {
+                // Succès Étape 2 ! Passage à l'Étape 3
+                sessionStorage.removeItem('AKOULY_FAIL_COUNT');
+                sessionStorage.setItem('AKOULY_STEP2_CLEARED', 'true');
+
+                document.getElementById('authStep2').style.display = 'none';
+                document.getElementById('authStep3').style.display = 'block';
+                
+                const userInp = document.getElementById('adminUsernameInput');
+                if (userInp) {
+                    userInp.value = '';
+                    userInp.focus();
+                }
+                const passInp = document.getElementById('adminPasswordInput');
+                if (passInp) passInp.value = '';
+                const err3 = document.getElementById('authStep3Error');
+                if (err3) err3.style.display = 'none';
+            } else {
+                recordAuthFailure();
+                if (msgEl) {
+                    msgEl.style.display = 'block';
+                    msgEl.style.color = 'var(--adm-danger)';
+                    msgEl.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Code OTP incorrect.';
+                }
+                clearOtpInputs();
+            }
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
-            setupEventListeners();
-            initSecurity();
+        // ── ÉTAPE 3 : VÉRIFICATION DES IDENTIFIANTS GESTIONNAIRE (3FA) ET DÉCHIFFREMENT DU DASHBOARD ──
+        async function handleStep3Credentials(e) {
+            e.preventDefault();
+            const lockStatus = checkDeviceLockout();
+            if (lockStatus.isLocked) {
+                const banner = document.getElementById('lockoutBanner');
+                if (banner) {
+                    banner.innerText = `Périphérique temporairement verrouillé suite à trop d'échecs. Réessayez dans ${lockStatus.minutes} min.`;
+                    banner.style.display = 'block';
+                }
+                return;
+            }
+
+            const userInp = document.getElementById('adminUsernameInput');
+            const passInp = document.getElementById('adminPasswordInput');
+            const errorMsg = document.getElementById('authStep3Error');
+            const submitBtn = document.getElementById('btnStep3Submit');
+
+            const u = userInp.value.trim();
+            const p = passInp.value.trim();
+
+            if (!u || !p) return;
+
+            errorMsg.style.display = 'none';
+            userInp.disabled = true;
+            passInp.disabled = true;
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Validation des accès...';
+
+            try {
+                // Hachage SHA-256 Web Crypto
+                const combo = u + ":" + p;
+                const enc = new TextEncoder();
+                const hashBuf = await crypto.subtle.digest('SHA-256', enc.encode(combo));
+                const hashArr = Array.from(new Uint8Array(hashBuf));
+                const hashHex = hashArr.map(b => b.toString(16).padStart(2, '0')).join('');
+
+                if (hashHex === STEP3_CREDS_HASH) {
+                    // Identifiants validés ! Déchiffrement et montage du Dashboard
+                    const mounted = await decryptAndMountAdminVault(tempAdminKey);
+                    if (mounted) {
+                        sessionStorage.setItem('AKOULY_VAULT_SESSION', tempAdminKey);
+                        sessionStorage.removeItem('AKOULY_PENDING_KEY');
+                        sessionStorage.removeItem('AKOULY_PENDING_OTP');
+                        sessionStorage.removeItem('AKOULY_OTP_EXPIRES');
+                        sessionStorage.removeItem('AKOULY_STEP2_CLEARED');
+                        sessionStorage.removeItem('AKOULY_FAIL_COUNT');
+                    } else {
+                        errorMsg.innerText = "Erreur lors du déchiffrement du coffre-fort.";
+                        errorMsg.style.display = 'block';
+                        submitBtn.disabled = false;
+                        submitBtn.innerHTML = '<i class="fa-solid fa-unlock-keyhole"></i> Valider et Déverrouiller le Portail';
+                    }
+                } else {
+                    recordAuthFailure();
+                    errorMsg.innerText = "Nom d'utilisateur ou mot de passe incorrect.";
+                    errorMsg.style.display = 'block';
+                    passInp.value = '';
+                    passInp.focus();
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = '<i class="fa-solid fa-unlock-keyhole"></i> Valider et Déverrouiller le Portail';
+                }
+            } catch(err) {
+                errorMsg.innerText = "Erreur de validation de sécurité.";
+                errorMsg.style.display = 'block';
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="fa-solid fa-unlock-keyhole"></i> Valider et Déverrouiller le Portail';
+            } finally {
+                userInp.disabled = false;
+                passInp.disabled = false;
+            }
+        }
+
+        // ── RENVOI DU CODE OTP ──
+        async function resendOtpCode() {
+            if (!tempAdminKey) {
+                tempAdminKey = sessionStorage.getItem('AKOULY_PENDING_KEY') || '';
+            }
+            if (!tempAdminKey) {
+                backToStep1();
+                return;
+            }
+            generatedOtp = Math.floor(100000 + Math.random() * 900000).toString();
+            otpExpiresAt = Date.now() + 10 * 60 * 1000;
+            sessionStorage.setItem('AKOULY_PENDING_OTP', generatedOtp);
+            sessionStorage.setItem('AKOULY_OTP_EXPIRES', otpExpiresAt);
+            clearOtpInputs();
+            startResendCountdown(60);
+            await sendOtpEmail(generatedOtp);
+        }
+
+        function startResendCountdown(seconds) {
+            const btn = document.getElementById('btnResendOtp');
+            const span = document.getElementById('resendCountdown');
+            if (!btn || !span) return;
+
+            clearInterval(resendCountdownTimer);
+            let left = seconds;
+            btn.disabled = true;
+            span.innerText = left;
+
+            resendCountdownTimer = setInterval(() => {
+                left--;
+                if (left > 0) {
+                    span.innerText = left;
+                } else {
+                    clearInterval(resendCountdownTimer);
+                    btn.disabled = false;
+                    btn.innerHTML = '<i class="fa-solid fa-rotate-right"></i> Renvoyer le code';
+                }
+            }, 1000);
+        }
+
+        function backToStep1() {
+            clearInterval(resendCountdownTimer);
+            sessionStorage.removeItem('AKOULY_PENDING_KEY');
+            sessionStorage.removeItem('AKOULY_PENDING_OTP');
+            sessionStorage.removeItem('AKOULY_OTP_EXPIRES');
+            sessionStorage.removeItem('AKOULY_STEP2_CLEARED');
+            tempAdminKey = "";
+            generatedOtp = "";
+            document.getElementById('authStep3').style.display = 'none';
+            document.getElementById('authStep2').style.display = 'none';
+            document.getElementById('authStep1').style.display = 'block';
+            const passInput = document.getElementById('adminSecretInput');
+            if (passInput) {
+                passInput.value = '';
+                passInput.focus();
+            }
+            const err1 = document.getElementById('authStep1Error');
+            if (err1) err1.style.display = 'none';
+        }
+
+        function backToStep2() {
+            document.getElementById('authStep3').style.display = 'none';
+            document.getElementById('authStep2').style.display = 'block';
+            sessionStorage.removeItem('AKOULY_STEP2_CLEARED');
+            clearOtpInputs();
+        }
+
+        function logoutAdmin() {
+            sessionStorage.clear();
+            const container = document.getElementById('secureAdminApp');
+            if (container) container.innerHTML = '';
+            location.reload();
+        }
+
+        // ── INITIALISATION & RECONDUCTION DE SESSION SÉCURISÉE ──
+        document.addEventListener('DOMContentLoaded', async () => {
+            initTheme();
+            initEmailJS();
+            setupOtpInputs();
+
+            // 1. Session déjà déverrouillée
+            const savedKey = sessionStorage.getItem('AKOULY_VAULT_SESSION');
+            if (savedKey) {
+                const ok = await decryptAndMountAdminVault(savedKey);
+                if (ok) return;
+            }
+
+            // 2. Étape en cours (survie au rechargement / bascule d'app)
+            const pendKey = sessionStorage.getItem('AKOULY_PENDING_KEY');
+            const pendOtp = sessionStorage.getItem('AKOULY_PENDING_OTP');
+            const exp = Number(sessionStorage.getItem('AKOULY_OTP_EXPIRES') || 0);
+            const step2Cleared = sessionStorage.getItem('AKOULY_STEP2_CLEARED') === 'true';
+
+            if (pendKey && pendOtp && Date.now() < exp) {
+                tempAdminKey = pendKey;
+                generatedOtp = pendOtp;
+                otpExpiresAt = exp;
+
+                if (step2Cleared) {
+                    document.getElementById('authStep1').style.display = 'none';
+                    document.getElementById('authStep2').style.display = 'none';
+                    document.getElementById('authStep3').style.display = 'block';
+                    const userInp = document.getElementById('adminUsernameInput');
+                    if (userInp) userInp.focus();
+                } else {
+                    document.getElementById('authStep1').style.display = 'none';
+                    document.getElementById('authStep3').style.display = 'none';
+                    document.getElementById('authStep2').style.display = 'block';
+                    const remSec = Math.max(1, Math.round((exp - Date.now()) / 1000));
+                    startResendCountdown(Math.min(60, remSec));
+                    clearOtpInputs();
+                }
+                return;
+            }
+
+            const input = document.getElementById('adminSecretInput');
+            if (input) input.focus();
         });
-    })();
     </script>
 </body>
 </html>

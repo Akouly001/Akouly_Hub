@@ -1723,10 +1723,19 @@
             </section>
             </div><!-- /#gamingConfigContainer -->
 
-            <!-- VUE 2 : BOUTIQUE AKOULY GAMING (PAGE DISTINCTE AVEC UNIQUEMENT OUVERTE BIENTÔT SUR FOND FLOU) -->
+            <!-- VUE 2 : BOUTIQUE AKOULY (ACCÈS DIRECT VERS LA BOUTIQUE LOCALE FORMAT 3:4) -->
             <div id="gamingBoutiqueContainer" class="gaming-route-view" style="display: none;">
-                <div class="boutique-coming-soon-box">
-                    <div class="boutique-coming-soon-text">Ouverte bientôt</div>
+                <div class="boutique-coming-soon-box" style="flex-direction: column; gap: 1.5rem; padding: 3rem 1.5rem; text-align: center;">
+                    <div style="width: 70px; height: 70px; border-radius: 20px; background: rgba(0, 240, 255, 0.15); border: 1.5px solid var(--accent-cyan); display: flex; align-items: center; justify-content: center; font-size: 2rem; color: var(--accent-cyan); margin: 0 auto;">
+                        <i class="fa-solid fa-shop"></i>
+                    </div>
+                    <div>
+                        <h2 style="font-family: var(--font-heading); font-size: 2rem; font-weight: 800; color: var(--text-main); margin-bottom: 0.5rem;">Akouly Tech Store</h2>
+                        <p style="color: var(--text-muted); max-width: 550px; margin: 0 auto; font-size: 0.95rem;">Catalogue complet de périphériques, stockage et connectiques au format Canva 3:4 avec panier interactif, commande sans compte et livraison le lendemain.</p>
+                    </div>
+                    <a href="boutique.html" class="btn-main-order" style="max-width: 320px; text-decoration: none; font-size: 1.05rem; padding: 1rem 1.8rem; border-radius: 12px; background: linear-gradient(135deg, #00f0ff, #10b981); color: #000; font-weight: 800; box-shadow: 0 8px 25px rgba(0, 240, 255, 0.35);">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i> Ouvrir la Boutique Locale
+                    </a>
                 </div>
             </div><!-- /#gamingBoutiqueContainer -->
         </section>
@@ -2012,7 +2021,7 @@
                 <div><strong>Devis N° :</strong> <span id="printQuoteNumber">DEV-2026-001</span></div>
                 <div><strong>Date & Heure :</strong> <span id="printQuoteDate"></span></div>
                 <div><strong>Montant Total :</strong> <span id="printQuoteTotal" style="font-weight: 800; color: #0f172a;"></span></div>
-                <div><strong>Validité :</strong> 15 jours • <strong>Contact :</strong> akoulymarket@gmail.com</div>
+                <div><strong>Validité :</strong> 15 jours • <strong>Contact :</strong> kouadjoabouajunior@gmail.com</div>
             </div>
         </div>
 
@@ -3755,7 +3764,7 @@ TOTAL : ${formatNumber(calc.grandTotal)} F CFA
                 showOrderSuccessModal(name);
             } catch (error) {
                 console.error("Erreur d'envoi automatique :", error);
-                const mailtoUrl = `mailto:akoulymarket@gmail.com?cc=${encodeURIComponent(email)}&subject=${encodeURIComponent(`Commande & Devis PC - ${name} (${phone})`)}&body=${encodeURIComponent(orderBody)}`;
+                const mailtoUrl = `mailto:kouadjoabouajunior@gmail.com?cc=${encodeURIComponent(email)}&subject=${encodeURIComponent(`Commande & Devis PC - ${name} (${phone})`)}&body=${encodeURIComponent(orderBody)}`;
                 window.open(mailtoUrl, '_blank');
                 closeOrderModal();
                 showOrderSuccessModal(name);
@@ -3792,7 +3801,7 @@ TOTAL : ${formatNumber(calc.grandTotal)} F CFA
             const msg = document.getElementById("userMessageInput").value.trim();
 
             const bodyText = `QUESTION CLIENT - AKOULY GAMING\n\nDe : ${email}\nObjet : ${subject}\n\nMessage :\n${msg}`;
-            const mailtoUrl = `mailto:akoulymarket@gmail.com?subject=${encodeURIComponent(`Question: ${subject}`)}&body=${encodeURIComponent(bodyText)}`;
+            const mailtoUrl = `mailto:kouadjoabouajunior@gmail.com?subject=${encodeURIComponent(`Question: ${subject}`)}&body=${encodeURIComponent(bodyText)}`;
             window.open(mailtoUrl, '_blank');
 
             alert("Merci pour votre question ! Votre message a été préparé pour notre équipe technique.");

@@ -1675,7 +1675,7 @@
         <div><strong>Devis N° :</strong> <span id="printQuoteNumber">DEV-2026-001</span></div>
         <div><strong>Date & Heure :</strong> <span id="printQuoteDate"></span></div>
         <div><strong>Montant Total :</strong> <span id="printQuoteTotal" style="font-weight: 800; color: #0f172a;"></span></div>
-        <div><strong>Validité :</strong> 15 jours • <strong>Contact :</strong> akoulymarket@gmail.com</div>
+        <div><strong>Validité :</strong> 15 jours • <strong>Contact :</strong> kouadjoabouajunior@gmail.com</div>
       </div>
     </div>
 
@@ -3390,7 +3390,7 @@ TOTAL : ${formatNumber(calc.grandTotal)} F CFA
         showOrderSuccessModal(name);
       } catch (error) {
         console.error("Erreur d'envoi automatique :", error);
-        const mailtoUrl = `mailto:akoulymarket@gmail.com?cc=${encodeURIComponent(email)}&subject=${encodeURIComponent(`Commande & Devis PC - ${name} (${phone})`)}&body=${encodeURIComponent(orderBody)}`;
+        const mailtoUrl = `mailto:kouadjoabouajunior@gmail.com?cc=${encodeURIComponent(email)}&subject=${encodeURIComponent(`Commande & Devis PC - ${name} (${phone})`)}&body=${encodeURIComponent(orderBody)}`;
         window.open(mailtoUrl, '_blank');
         closeOrderModal();
         showOrderSuccessModal(name);
@@ -3427,7 +3427,7 @@ TOTAL : ${formatNumber(calc.grandTotal)} F CFA
       const msg = document.getElementById("userMessageInput").value.trim();
 
       const bodyText = `QUESTION CLIENT - AKOULY GAMING\n\nDe : ${email}\nObjet : ${subject}\n\nMessage :\n${msg}`;
-      const mailtoUrl = `mailto:akoulymarket@gmail.com?subject=${encodeURIComponent(`Question: ${subject}`)}&body=${encodeURIComponent(bodyText)}`;
+      const mailtoUrl = `mailto:kouadjoabouajunior@gmail.com?subject=${encodeURIComponent(`Question: ${subject}`)}&body=${encodeURIComponent(bodyText)}`;
       window.open(mailtoUrl, '_blank');
 
       alert("Merci pour votre question ! Votre message a été préparé pour notre équipe technique.");
