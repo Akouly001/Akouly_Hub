@@ -1408,7 +1408,1630 @@
             box-shadow: 0 8px 25px rgba(0, 242, 234, 0.3), 0 0 15px rgba(255, 0, 79, 0.3);
             color: #ffffff !important;
         }
-    </style>
+    
+
+        /* ── BOUTIQUE EMBEDDED STYLES ── */
+
+        /* ==========================================================================
+           VARIABLES & THÈMES (SYNCHRONISÉS AVEC LA VERSION EN LIGNE D'AKOULY)
+           ========================================================================== */
+        :root, [data-theme="dark"] {
+            --bq-bg: #0b0f19;
+            --bq-surface: #111827;
+            --bq-card: #151d30;
+            --bq-card-hover: #1e293b;
+            --bq-input: #0c1220;
+            
+            --bq-border: #1f293d;
+            --bq-border-hover: #374151;
+            
+            --bq-text: #f9fafb;
+            --bq-text-muted: #9ca3af;
+            --bq-text-dim: #6b7280;
+            
+            --bq-primary: #10b981; /* Vert Gaming Officiel */
+            --bq-primary-glow: rgba(16, 185, 129, 0.3);
+            --bq-cyan: #00f0ff;
+            --bq-gold: #f2b134;
+            --bq-danger: #ef4444;
+            
+            --bq-radius-sm: 8px;
+            --bq-radius-md: 14px;
+            --bq-radius-lg: 20px;
+            
+            --bq-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+        }
+
+        [data-theme="light"] {
+            --bq-bg: #f8fafc;
+            --bq-surface: #ffffff;
+            --bq-card: #ffffff;
+            --bq-card-hover: #f1f5f9;
+            --bq-input: #f8fafc;
+            
+            --bq-border: #e2e8f0;
+            --bq-border-hover: #cbd5e1;
+            
+            --bq-text: #0f172a;
+            --bq-text-muted: #475569;
+            --bq-text-dim: #64748b;
+            
+            --bq-primary: #059669;
+            --bq-primary-glow: rgba(5, 150, 105, 0.18);
+            --bq-cyan: #0284c7;
+            --bq-gold: #d97706;
+            --bq-danger: #dc2626;
+            
+            --bq-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bq-bg);
+            color: var(--bq-text);
+            font-family: var(--font-body, 'Inter', system-ui, sans-serif);
+            line-height: 1.5;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+            transition: background-color 0.25s ease, color 0.25s ease;
+        }
+
+        /* ── NAVBAR PRINCIPALE (CONFORME À L'ÉCOSYSTÈME AKOULY) ── */
+        .site-header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: var(--bq-surface);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--bq-border);
+            padding: 0.75rem 1.5rem;
+            transition: background-color 0.25s ease, border-color 0.25s ease;
+        }
+
+        [data-theme="dark"] .site-header {
+            background: rgba(11, 15, 25, 0.92);
+        }
+        [data-theme="light"] .site-header {
+            background: rgba(255, 255, 255, 0.94);
+        }
+
+        .header-container {
+            max-width: 1350px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        .brand-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            color: var(--bq-text);
+        }
+
+        .brand-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--bq-primary), var(--bq-cyan));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #000;
+            font-size: 1.25rem;
+            font-weight: 800;
+            font-family: var(--font-heading, 'Plus Jakarta Sans', sans-serif);
+        }
+
+        .brand-name {
+            font-family: var(--font-heading, 'Plus Jakarta Sans', sans-serif);
+            font-size: 1.2rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+        }
+
+        .brand-name span {
+            color: var(--bq-primary);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .action-btn {
+            background: var(--bq-surface);
+            border: 1px solid var(--bq-border);
+            color: var(--bq-text-muted);
+            width: 38px;
+            height: 38px;
+            border-radius: var(--bq-radius-sm);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+            text-decoration: none;
+        }
+
+        .action-btn:hover {
+            border-color: var(--bq-primary);
+            color: var(--bq-primary);
+        }
+
+        /* ── SECTION SUPÉRIEURE : BOUTONS SWITCHER + PANIER À DROITE ── */
+        .store-top-bar {
+            max-width: 1350px;
+            width: 100%;
+            margin: 1.8rem auto 0;
+            padding: 0 1.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        /* Switcher identiste à gaming.html */
+        .gaming-nav-tabs {
+            display: inline-flex;
+            background: var(--bq-surface);
+            border: 1px solid var(--bq-border);
+            border-radius: 14px;
+            padding: 5px;
+            gap: 6px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .gaming-tab-btn {
+            padding: 0.75rem 1.5rem;
+            font-family: var(--font-heading, 'Plus Jakarta Sans', sans-serif);
+            font-size: 1.05rem;
+            font-weight: 700;
+            border-radius: 10px;
+            border: 1.5px solid transparent;
+            background: transparent;
+            color: var(--bq-text-muted);
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            user-select: none;
+        }
+
+        .gaming-tab-btn:hover {
+            color: var(--bq-text);
+            background: rgba(16, 185, 129, 0.08);
+        }
+
+        .gaming-tab-btn.active {
+            color: #ffffff;
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.4), rgba(0, 240, 255, 0.25));
+            border-color: var(--bq-primary);
+            box-shadow: 0 4px 15px var(--bq-primary-glow);
+        }
+
+        [data-theme="light"] .gaming-tab-btn.active {
+            color: #059669;
+            background: rgba(16, 185, 129, 0.15);
+        }
+
+        /* Bouton Panier à droite de la boutique */
+        .cart-trigger-btn {
+            background: var(--bq-surface);
+            border: 1.5px solid var(--bq-primary);
+            color: var(--bq-text);
+            padding: 0.75rem 1.4rem;
+            border-radius: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-family: var(--font-heading, 'Plus Jakarta Sans', sans-serif);
+            font-weight: 800;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .cart-trigger-btn:hover {
+            background: var(--bq-primary);
+            color: #000;
+            box-shadow: 0 6px 20px var(--bq-primary-glow);
+            transform: translateY(-2px);
+        }
+
+        .cart-badge {
+            background: var(--bq-gold);
+            color: #000;
+            font-size: 0.75rem;
+            font-weight: 800;
+            padding: 2px 7px;
+            border-radius: 999px;
+            min-width: 20px;
+            text-align: center;
+        }
+
+        /* ── BARRE DE RECHERCHE & CATÉGORIES SOUS LE BOUTON ── */
+        .store-filters-wrap {
+            max-width: 1350px;
+            margin: 1.2rem auto 1.8rem;
+            padding: 0 1.25rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.9rem;
+        }
+
+        .search-field {
+            position: relative;
+            width: 100%;
+        }
+
+        .search-field i {
+            position: absolute;
+            left: 1.1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--bq-text-dim);
+            font-size: 1.05rem;
+        }
+
+        .search-input-box {
+            width: 100%;
+            background: var(--bq-card);
+            border: 1.5px solid var(--bq-border);
+            border-radius: var(--bq-radius-md);
+            padding: 0.8rem 1rem 0.8rem 2.9rem;
+            color: var(--bq-text);
+            font-family: var(--font-body, 'Inter', sans-serif);
+            font-size: 0.95rem;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        .search-input-box:focus {
+            border-color: var(--bq-primary);
+            box-shadow: 0 0 12px var(--bq-primary-glow);
+        }
+
+        /* Catégories compactes */
+        .categories-row {
+            display: flex;
+            gap: 0.55rem;
+            overflow-x: auto;
+            padding-bottom: 0.35rem;
+            scrollbar-width: none;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .categories-row::-webkit-scrollbar {
+            display: none;
+        }
+
+        .cat-chip {
+            background: var(--bq-card);
+            border: 1.5px solid var(--bq-border);
+            color: var(--bq-text-muted);
+            padding: 0.6rem 1.1rem;
+            border-radius: 10px;
+            font-family: var(--font-heading, 'Plus Jakarta Sans', sans-serif);
+            font-weight: 700;
+            font-size: 0.88rem;
+            cursor: pointer;
+            white-space: nowrap;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s ease;
+        }
+
+        .cat-chip:hover {
+            border-color: var(--bq-border-hover);
+            color: var(--bq-text);
+        }
+
+        .cat-chip.active {
+            background: rgba(16, 185, 129, 0.12);
+            border-color: var(--bq-primary);
+            color: var(--bq-primary);
+        }
+
+        .cat-chip .chip-count {
+            font-size: 0.72rem;
+            padding: 1px 6px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 999px;
+            color: var(--bq-text);
+        }
+
+        .cat-chip.active .chip-count {
+            background: var(--bq-primary);
+            color: #000;
+            font-weight: 800;
+        }
+
+        /* ── GRILLE RESPONSIVE DES ARTICLES (FORMAT CANVA 3:4) ── */
+        .store-main-content {
+            max-width: 1350px;
+            margin: 0 auto 3.5rem;
+            padding: 0 1.25rem;
+            flex: 1;
+            overflow-x: clip;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.4rem;
+            will-change: transform, opacity;
+        }
+
+        .product-card {
+            background: var(--bq-card);
+            border: 1.5px solid var(--bq-border);
+            border-radius: var(--bq-radius-lg);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            box-shadow: var(--bq-shadow);
+        }
+
+        .product-card:hover {
+            border-color: var(--bq-border-hover);
+            transform: translateY(-4px);
+            box-shadow: 0 14px 30px rgba(0, 0, 0, 0.35);
+        }
+
+        /* ── CADRE CANVA AU FORMAT CARRÉ STRICT (1:1) — FOND BLANC ÉPURÉ ── */
+        .canva-frame-square {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            position: relative;
+            overflow: hidden;
+            background: #ffffff !important;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-bottom: 1px solid var(--bq-border);
+            cursor: pointer;
+        }
+
+        [data-theme="dark"] .canva-frame-square,
+        [data-theme="light"] .canva-frame-square {
+            background: #ffffff !important;
+        }
+
+        .canva-img-wrap {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            position: relative;
+        }
+
+        .canva-product-img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.3s ease;
+            user-select: none;
+            filter: drop-shadow(0 4px 12px rgba(0,0,0,0.15));
+        }
+
+        .product-card:hover .canva-product-img {
+            transform: scale(1.08);
+        }
+
+        .canva-fallback-icon {
+            width: 84px;
+            height: 84px;
+            border-radius: 18px;
+            background: rgba(0, 0, 0, 0.04);
+            border: 1.5px solid rgba(0, 0, 0, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.7rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .canva-badges {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            right: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .badge-tag {
+            font-size: 0.68rem;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 6px;
+            background: rgba(0, 0, 0, 0.65);
+            color: var(--bq-primary);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            text-transform: uppercase;
+        }
+
+        .badge-stock {
+            font-size: 0.68rem;
+            font-weight: 700;
+            padding: 3px 7px;
+            border-radius: 6px;
+            background: rgba(16, 185, 129, 0.18);
+            color: #34d399;
+            border: 1px solid rgba(16, 185, 129, 0.35);
+        }
+
+        /* ── CORPS DE LA FICHE PRODUIT (SANS TEXTE SOUS LE TITRE) ── */
+        .product-body {
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            gap: 0.75rem;
+        }
+
+        .title-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.4rem;
+        }
+
+        .product-name {
+            font-family: var(--font-heading, 'Plus Jakarta Sans', sans-serif);
+            font-size: 1.08rem;
+            font-weight: 800;
+            color: var(--bq-text);
+            line-height: 1.25;
+        }
+
+        /* Bouton "En savoir plus" */
+        .btn-details {
+            background: rgba(16, 185, 129, 0.08);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            color: var(--bq-primary);
+            font-size: 0.74rem;
+            font-weight: 700;
+            padding: 4px 8px;
+            border-radius: 6px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            white-space: nowrap;
+            transition: all 0.2s ease;
+        }
+
+        .btn-details:hover {
+            background: var(--bq-primary);
+            color: #000;
+        }
+
+        /* Variantes simples & directes */
+        .variant-box {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .variant-dropdown {
+            width: 100%;
+            background: var(--bq-input);
+            border: 1.5px solid var(--bq-border);
+            color: var(--bq-text);
+            padding: 0.55rem 0.7rem;
+            border-radius: var(--bq-radius-sm);
+            font-size: 0.84rem;
+            font-weight: 600;
+            font-family: var(--font-body, 'Inter', sans-serif);
+            outline: none;
+            cursor: pointer;
+            transition: border-color 0.2s ease;
+        }
+
+        .variant-dropdown:focus {
+            border-color: var(--bq-primary);
+        }
+
+        /* Prix & Quantité */
+        .price-qty-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.5rem;
+            margin-top: auto;
+            padding-top: 0.5rem;
+            border-top: 1px dashed var(--bq-border);
+        }
+
+        .price-tag {
+            font-family: var(--font-code, 'Fira Code', monospace);
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--bq-gold);
+        }
+
+        .qty-control {
+            display: inline-flex;
+            align-items: center;
+            background: var(--bq-input);
+            border: 1.5px solid var(--bq-border);
+            border-radius: var(--bq-radius-sm);
+            overflow: hidden;
+        }
+
+        .qty-btn {
+            background: transparent;
+            border: none;
+            color: var(--bq-text);
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-weight: 800;
+            font-size: 0.9rem;
+        }
+
+        .qty-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--bq-primary);
+        }
+
+        .qty-val {
+            width: 32px;
+            height: 28px;
+            background: transparent;
+            border: none;
+            text-align: center;
+            font-family: var(--font-code, 'Fira Code', monospace);
+            font-weight: 700;
+            font-size: 0.85rem;
+            color: var(--bq-text);
+            outline: none;
+        }
+
+        /* ── BOUTON AJOUTER AU PANIER AVEC EFFET ARROW SURVOL INVERSÉ (750MS) ── */
+        .btn-add {
+            position: relative;
+            display: inline-flex;
+            width: 100%;
+            text-decoration: none;
+            color: #ffffff;
+            background-color: #064e3b;
+            padding: 0 0 0 1rem;
+            overflow: hidden;
+            z-index: 1;
+            align-items: center;
+            justify-content: space-between;
+            border-radius: 12px;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            cursor: pointer;
+            font-family: var(--font-heading, 'Plus Jakarta Sans', sans-serif);
+            font-weight: 700;
+            font-size: 0.88rem;
+            box-shadow: 0px 3px 6px -2px rgba(0,0,0,0.4);
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            user-select: none;
+        }
+
+        [data-theme="light"] .btn-add {
+            background-color: #065f46;
+            border-color: rgba(5, 150, 105, 0.3);
+        }
+
+        .btn-add::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            transform: scaleX(0);
+            transform-origin: 0 50%;
+            width: 100%;
+            height: 100%;
+            background-color: #10b981;
+            z-index: -1;
+            transition: transform 750ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        [data-theme="light"] .btn-add::before {
+            background-color: #059669;
+        }
+
+        .btn-add .btn-add-label {
+            flex: 1;
+            text-align: left;
+            color: #ffffff;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+            padding: 0.65rem 0;
+        }
+
+        .btn-add .btn-add-arrow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 0.6rem;
+            padding: 0.75rem 1rem;
+            overflow: hidden;
+            background-color: #10b981;
+            transition: background-color 0.3s ease;
+        }
+
+        [data-theme="light"] .btn-add .btn-add-arrow {
+            background-color: #059669;
+        }
+
+        .btn-add svg {
+            max-width: 16px;
+            width: 16px;
+            height: 16px;
+            max-height: 16px;
+            fill: #ffffff;
+            display: block;
+        }
+
+        .btn-add:hover {
+            border-color: #10b981;
+            box-shadow: 0 6px 20px var(--bq-primary-glow);
+        }
+
+        .btn-add:hover::before {
+            transform: scaleX(1);
+        }
+
+        .btn-add:hover svg {
+            animation: moveArrow 750ms ease forwards;
+        }
+
+        @keyframes moveArrow {
+            0% {
+                transform: translateX(0px);
+            }
+            49% {
+                transform: translateX(45px);
+            }
+            50% {
+                transform: translateX(-45px);
+            }
+            100% {
+                transform: translateX(0px);
+            }
+        }
+
+        /* ── MODALE FLOTTANTE "EN SAVOIR PLUS & ZOOM" ── */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(8px);
+            z-index: 2200;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 1.2rem;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-card {
+            background: var(--bq-surface);
+            border: 1.5px solid var(--bq-border);
+            border-radius: var(--bq-radius-lg);
+            max-width: 680px;
+            width: 100%;
+            padding: 1.5rem;
+            position: relative;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.65);
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+            animation: popIn 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+            max-height: 92vh;
+            overflow-y: auto;
+        }
+
+        @keyframes popIn {
+            from { opacity: 0; transform: scale(0.94); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--bq-border);
+            border-radius: 50%;
+            color: var(--bq-text-muted);
+            width: 32px;
+            height: 32px;
+            font-size: 1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            z-index: 10;
+        }
+
+        .modal-close:hover {
+            background: rgba(239, 68, 68, 0.15);
+            color: var(--bq-danger);
+            border-color: rgba(239, 68, 68, 0.3);
+        }
+
+        .modal-layout-grid {
+            display: grid;
+            grid-template-columns: 270px 1fr;
+            gap: 1.4rem;
+            align-items: start;
+        }
+
+        @media (max-width: 660px) {
+            .modal-layout-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+        }
+
+        /* Cadre Visualiseur d'Image Carré avec Zoom 50% */
+        .modal-media-col {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+
+        .modal-img-viewer {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            border-radius: 14px;
+            overflow: hidden;
+            position: relative;
+            background: #ffffff !important;
+            border: 1.5px solid var(--bq-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: crosshair;
+            box-shadow: inset 0 1px 4px rgba(0,0,0,0.06);
+        }
+
+        [data-theme="dark"] .modal-img-viewer,
+        [data-theme="light"] .modal-img-viewer {
+            background: #ffffff !important;
+        }
+
+        .modal-zoom-img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            padding: 12px;
+            transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+            transform-origin: center center;
+            transform: scale(1);
+            user-select: none;
+            filter: drop-shadow(0 4px 12px rgba(0,0,0,0.15));
+        }
+
+        .modal-zoom-img.is-zoomed {
+            transform: scale(1.5); /* ZOOM STRICT DE 50% */
+        }
+
+        .modal-zoom-controls {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            display: flex;
+            align-items: center;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        .modal-zoom-toggle {
+            pointer-events: auto;
+            background: rgba(0, 0, 0, 0.72);
+            backdrop-filter: blur(6px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            font-size: 0.9rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+
+        .modal-zoom-toggle:hover {
+            background: var(--bq-primary);
+            color: #ffffff;
+            border-color: var(--bq-primary);
+            transform: scale(1.1);
+        }
+
+        /* Vignettes miniatures */
+        .modal-thumbs-row {
+            display: flex;
+            gap: 0.45rem;
+            overflow-x: auto;
+            padding-bottom: 2px;
+        }
+
+        .modal-thumb-item {
+            width: 46px;
+            height: 46px;
+            border-radius: 8px;
+            border: 1.5px solid var(--bq-border);
+            background: #ffffff !important;
+            padding: 3px;
+            cursor: pointer;
+            flex-shrink: 0;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-thumb-item:hover, .modal-thumb-item.active {
+            border-color: var(--bq-primary);
+            box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.3);
+            transform: scale(1.05);
+        }
+
+        .modal-thumb-img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        /* Colonne Informations & Action */
+        .modal-info-col {
+            display: flex;
+            flex-direction: column;
+            gap: 0.85rem;
+        }
+
+        .modal-head {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+        }
+
+        .modal-head-title {
+            font-family: var(--font-heading, 'Plus Jakarta Sans', sans-serif);
+            font-size: 1.25rem;
+            font-weight: 800;
+            line-height: 1.2;
+            margin: 0 0 0.25rem;
+            color: var(--bq-text);
+        }
+
+        .modal-specs {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.45rem;
+            background: var(--bq-card);
+            border: 1px solid var(--bq-border);
+            padding: 0.85rem;
+            border-radius: var(--bq-radius-md);
+            font-size: 0.82rem;
+            color: var(--bq-text);
+            margin: 0;
+        }
+
+        .modal-specs li {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+            line-height: 1.4;
+        }
+
+        .modal-specs li i {
+            color: var(--bq-primary);
+            margin-top: 2px;
+            font-size: 0.78rem;
+        }
+
+        .modal-price-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--bq-border);
+            padding: 0.65rem 0.85rem;
+            border-radius: var(--bq-radius-md);
+        }
+
+        .modal-price-val {
+            font-size: 1.35rem;
+            font-weight: 800;
+            font-family: 'Fira Code', monospace;
+            color: var(--bq-gold);
+        }
+
+        /* ── TIROIR DU PANIER & COMMANDE SANS COMPTE ── */
+        .cart-drawer-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(5px);
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.25s ease;
+        }
+
+        .cart-drawer-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .cart-panel {
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            max-width: 440px;
+            background: var(--bq-surface);
+            border-left: 1px solid var(--bq-border);
+            z-index: 2001;
+            display: flex;
+            flex-direction: column;
+            transform: translateX(100%);
+            transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+            box-shadow: -10px 0 40px rgba(0, 0, 0, 0.6);
+        }
+
+        .cart-drawer-overlay.active .cart-panel {
+            transform: translateX(0);
+        }
+
+        .cart-top {
+            padding: 1.1rem 1.3rem;
+            border-bottom: 1px solid var(--bq-border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--bq-card);
+        }
+
+        .cart-top h3 {
+            font-family: var(--font-heading, 'Plus Jakarta Sans', sans-serif);
+            font-size: 1.15rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .cart-close-icon {
+            background: transparent;
+            border: none;
+            color: var(--bq-text-muted);
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+
+        .cart-close-icon:hover {
+            color: var(--bq-danger);
+        }
+
+        .cart-items {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1.1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .cart-row {
+            background: var(--bq-card);
+            border: 1px solid var(--bq-border);
+            border-radius: var(--bq-radius-md);
+            padding: 0.75rem;
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+        }
+
+        .cart-thumb {
+            width: 46px;
+            aspect-ratio: 3 / 4;
+            background: var(--bq-input);
+            border-radius: 6px;
+            border: 1px solid var(--bq-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.15rem;
+            color: var(--bq-primary);
+            flex-shrink: 0;
+        }
+
+        .cart-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .cart-info-name {
+            font-family: var(--font-heading, 'Plus Jakarta Sans', sans-serif);
+            font-size: 0.88rem;
+            font-weight: 700;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .cart-info-var {
+            font-size: 0.72rem;
+            color: var(--bq-primary);
+            font-weight: 600;
+        }
+
+        .cart-info-price {
+            font-family: var(--font-code, 'Fira Code', monospace);
+            font-size: 0.8rem;
+            color: var(--bq-gold);
+            font-weight: 700;
+        }
+
+        .cart-qty-box {
+            display: inline-flex;
+            align-items: center;
+            background: var(--bq-input);
+            border: 1px solid var(--bq-border);
+            border-radius: 4px;
+            margin-top: 0.2rem;
+        }
+
+        .cart-qty-box button {
+            background: transparent;
+            border: none;
+            color: var(--bq-text);
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            font-size: 0.75rem;
+        }
+
+        .cart-qty-box span {
+            font-family: var(--font-code, 'Fira Code', monospace);
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 0 4px;
+        }
+
+        .cart-del-btn {
+            background: transparent;
+            border: none;
+            color: var(--bq-text-dim);
+            cursor: pointer;
+            padding: 4px;
+            margin-left: auto;
+        }
+
+        .cart-del-btn:hover {
+            color: var(--bq-danger);
+        }
+
+        /* Formulaire Express & Calculs */
+        .cart-bottom-box {
+            padding: 1.1rem;
+            border-top: 1px solid var(--bq-border);
+            background: var(--bq-card);
+            display: flex;
+            flex-direction: column;
+            gap: 0.85rem;
+        }
+
+        .checkout-fields {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+            background: var(--bq-surface);
+            padding: 0.85rem;
+            border-radius: var(--bq-radius-md);
+            border: 1px solid var(--bq-border);
+        }
+
+        .field-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
+        }
+
+        .field-label {
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: var(--bq-text-muted);
+            text-transform: uppercase;
+        }
+
+        .field-input, .field-select {
+            width: 100%;
+            background: var(--bq-input);
+            border: 1.5px solid var(--bq-border);
+            border-radius: var(--bq-radius-sm);
+            padding: 0.55rem 0.7rem;
+            color: var(--bq-text);
+            font-family: var(--font-body, 'Inter', sans-serif);
+            font-size: 0.85rem;
+            outline: none;
+        }
+
+        .field-input:focus, .field-select:focus {
+            border-color: var(--bq-primary);
+        }
+
+        .totals-box {
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+            font-size: 0.84rem;
+            padding-top: 0.35rem;
+            border-top: 1px dashed var(--bq-border);
+        }
+
+        .total-line {
+            display: flex;
+            justify-content: space-between;
+            color: var(--bq-text-muted);
+        }
+
+        .total-line.final-line {
+            font-size: 1.05rem;
+            font-weight: 800;
+            color: var(--bq-text);
+            margin-top: 0.15rem;
+            padding-top: 0.35rem;
+            border-top: 1px solid var(--bq-border);
+        }
+
+        .total-line.final-line .net-amount {
+            color: var(--bq-gold);
+            font-family: var(--font-code, 'Fira Code', monospace);
+        }
+
+        .btn-submit-order {
+            background: linear-gradient(135deg, var(--bq-primary), #047857);
+            color: #ffffff;
+            border: none;
+            border-radius: 12px;
+            padding: 0.85rem;
+            font-family: var(--font-heading, 'Plus Jakarta Sans', sans-serif);
+            font-size: 0.95rem;
+            font-weight: 800;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            transition: all 0.25s ease;
+            box-shadow: 0 4px 15px var(--bq-primary-glow);
+        }
+
+        .btn-submit-order:hover {
+            filter: brightness(1.1);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px var(--bq-primary-glow);
+        }
+
+        .btn-submit-order:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+            filter: none;
+        }
+
+        /* ── TOUTES LES AUTRES INFOS EN BAS ── */
+        .bottom-section {
+            background: var(--bq-surface);
+            border-top: 1px solid var(--bq-border);
+            padding: 2.2rem 1.25rem 1.5rem;
+            margin-top: auto;
+        }
+
+        .bottom-grid {
+            max-width: 1350px;
+            margin: 0 auto 1.8rem;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        .bottom-card {
+            background: var(--bq-card);
+            border: 1px solid var(--bq-border);
+            border-radius: var(--bq-radius-md);
+            padding: 1.2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.55rem;
+        }
+
+        .bottom-card h4 {
+            font-family: var(--font-heading, 'Plus Jakarta Sans', sans-serif);
+            font-size: 0.98rem;
+            font-weight: 800;
+            color: var(--bq-text);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .bottom-card h4 i {
+            color: var(--bq-primary);
+        }
+
+        .bottom-card p, .bottom-card ul {
+            font-size: 0.84rem;
+            color: var(--bq-text-muted);
+            line-height: 1.5;
+        }
+
+        .bottom-card ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+
+        .site-copyright {
+            max-width: 1350px;
+            margin: 0 auto;
+            padding-top: 1.2rem;
+            border-top: 1px solid var(--bq-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+            color: var(--bq-text-dim);
+        }
+
+        /* ── TOAST NOTIFICATION ── */
+        .toast-box {
+            position: fixed;
+            bottom: 1.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 3000;
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+            pointer-events: none;
+        }
+
+        .toast-item {
+            background: var(--bq-surface);
+            border: 1.5px solid var(--bq-primary);
+            color: var(--bq-text);
+            padding: 0.7rem 1.1rem;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 0.86rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* ── SECTION NEWSLETTER ── */
+        .newsletter-section {
+            max-width: 1350px;
+            margin: 0 auto 3rem;
+            padding: 0 1.25rem;
+        }
+
+        .newsletter-card {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.08) 0%, rgba(6, 182, 212, 0.05) 100%), var(--bq-card);
+            border: 1.5px solid var(--bq-border);
+            border-radius: var(--bq-radius-lg);
+            padding: 2.2rem 2.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2.5rem;
+            box-shadow: var(--bq-shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .newsletter-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.15) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .newsletter-content {
+            flex: 1;
+            max-width: 560px;
+        }
+
+        .newsletter-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 999px;
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--bq-primary);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            font-size: 0.76rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.75rem;
+        }
+
+        .newsletter-title {
+            font-family: var(--font-heading, 'Plus Jakarta Sans', sans-serif);
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--bq-text);
+            line-height: 1.35;
+            margin: 0;
+        }
+
+        .newsletter-form {
+            flex: 1;
+            max-width: 540px;
+            display: flex;
+            flex-direction: column;
+            gap: 0.85rem;
+        }
+
+        .newsletter-inputs {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .newsletter-field {
+            position: relative;
+            flex: 1;
+            display: flex;
+            align-items: center;
+        }
+
+        .newsletter-field i {
+            position: absolute;
+            left: 1rem;
+            color: var(--bq-text-dim);
+            font-size: 0.88rem;
+            pointer-events: none;
+            transition: color 0.2s ease;
+        }
+
+        .newsletter-input {
+            width: 100%;
+            background: var(--bq-input);
+            border: 1.5px solid var(--bq-border);
+            border-radius: var(--bq-radius-sm);
+            padding: 0.75rem 1rem 0.75rem 2.5rem;
+            color: var(--bq-text);
+            font-family: var(--font-body, 'Inter', sans-serif);
+            font-size: 0.9rem;
+            outline: none;
+            transition: all 0.2s ease;
+            box-sizing: border-box;
+        }
+
+        .newsletter-input:focus {
+            border-color: var(--bq-primary);
+            box-shadow: 0 0 10px var(--bq-primary-glow);
+        }
+
+        .newsletter-field:focus-within i {
+            color: var(--bq-primary);
+        }
+
+        .newsletter-btn {
+            background: var(--bq-primary);
+            color: #000000;
+            border: none;
+            border-radius: var(--bq-radius-sm);
+            font-family: var(--font-heading, 'Plus Jakarta Sans', sans-serif);
+            font-weight: 800;
+            font-size: 0.92rem;
+            padding: 0.8rem 1.5rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.55rem;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            white-space: nowrap;
+        }
+
+        .newsletter-btn:hover {
+            background: #059669;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(16, 185, 129, 0.35);
+        }
+
+        /* ── MODALE FLOTTANTE NEWSLETTER (30s) ── */
+        .newsletter-modal-card {
+            max-width: 480px;
+            text-align: center;
+            padding: 2.2rem 2rem;
+            position: relative;
+        }
+
+        .newsletter-modal-icon {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto 1.1rem;
+            border-radius: 50%;
+            background: rgba(16, 185, 129, 0.15);
+            border: 1.5px solid rgba(16, 185, 129, 0.35);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.75rem;
+            color: var(--bq-primary);
+            box-shadow: 0 0 20px var(--bq-primary-glow);
+        }
+
+        .newsletter-modal-title {
+            font-family: var(--font-heading, 'Plus Jakarta Sans', sans-serif);
+            font-size: 1.22rem;
+            font-weight: 800;
+            color: var(--bq-text);
+            line-height: 1.35;
+            margin-bottom: 0.6rem;
+        }
+
+        .newsletter-modal-desc {
+            font-size: 0.86rem;
+            color: var(--bq-text-muted);
+            line-height: 1.45;
+            margin-bottom: 1.4rem;
+        }
+
+        .newsletter-modal-form {
+            display: flex;
+            flex-direction: column;
+            gap: 0.85rem;
+            text-align: left;
+        }
+
+        .newsletter-modal-btn {
+            width: 100%;
+            padding: 0.88rem 1.2rem;
+            font-size: 0.95rem;
+            margin-top: 0.2rem;
+        }
+
+        /* ==========================================================================
+           RESPONSIVE DESIGN ADAPTATIONS (SMARTPHONES, TABLETTES & PC)
+           ========================================================================== */
+        @media (max-width: 1120px) {
+            .products-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 1.2rem;
+            }
+            .bottom-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 920px) {
+            .newsletter-card {
+                flex-direction: column;
+                align-items: stretch;
+                padding: 1.75rem 1.5rem;
+                gap: 1.5rem;
+            }
+            .newsletter-content, .newsletter-form {
+                max-width: 100%;
+            }
+        }
+
+        @media (max-width: 820px) {
+            .products-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+            .bottom-grid {
+                grid-template-columns: 1fr;
+            }
+            .store-top-bar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .gaming-nav-tabs {
+                width: 100%;
+                display: flex;
+            }
+            .gaming-tab-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 0.75rem 0.5rem;
+                font-size: 0.95rem;
+            }
+            .cart-trigger-btn {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 580px) {
+            .newsletter-inputs {
+                flex-direction: column;
+            }
+            .newsletter-title {
+                font-size: 1.15rem;
+            }
+        }
+
+        @media (max-width: 520px) {
+            .products-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            .site-header {
+                padding: 0.65rem 1rem;
+            }
+            .store-top-bar, .store-filters-wrap, .store-main-content, .newsletter-section, .bottom-section {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+            .canva-icon-art {
+                width: 80px;
+                height: 80px;
+                font-size: 2.4rem;
+            }
+            .cart-panel {
+                max-width: 100%;
+            }
+            .site-copyright {
+                flex-direction: column;
+                gap: 0.5rem;
+                text-align: center;
+            }
+        }
+    
+</style>
 </head>
 <body data-page="gaming">
     <!-- ÉCRAN DE CHARGEMENT CIRCULAIRE (PRELOADER) -->
@@ -1471,12 +3094,12 @@
             <div class="gaming-view-switcher">
                 <div class="gaming-nav-row">
                     <div class="gaming-nav-tabs">
-                        <button class="gaming-tab-btn active" data-route="config">
+                        <button class="gaming-tab-btn active" data-route="config" onclick="onGamingRouteClick('config')">
                             <i class="fa-solid fa-sliders"></i> Configurateur PC
                         </button>
-                        <a href="boutique.html" class="gaming-tab-btn" data-route="boutique">
+                        <button class="gaming-tab-btn" data-route="boutique" onclick="onGamingRouteClick('boutique')">
                             <i class="fa-solid fa-shop"></i> Boutique
-                        </a>
+                        </button>
                     </div>
 
                     <div class="gaming-extra-actions" id="configExtraActions">
@@ -1487,7 +3110,20 @@
                             <i class="fa-solid fa-book-open"></i> Guide Client
                         </button>
                     </div>
+
+                    <button class="cart-trigger-btn" id="openCartBtn" style="display: none;">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                        <span>Panier</span>
+                        <span class="cart-badge" id="cartBadgeCount">0</span>
+                    </button>
                 </div>
+
+                <div id="configSubtitleBlock" style="margin-top: 0.9rem;">
+                    <p style="color: var(--text-muted); font-size: 0.9rem;">
+                        Assemblez votre configuration idéale étape par étape avec calcul en direct du devis
+                    </p>
+                </div>
+            </div>
 
                 <div id="configSubtitleBlock" style="margin-top: 0.9rem;">
                     <p style="color: var(--text-muted); font-size: 0.9rem;">
@@ -1723,24 +3359,662 @@
             </section>
             </div><!-- /#gamingConfigContainer -->
 
-            <!-- VUE 2 : BOUTIQUE AKOULY (ACCÈS DIRECT VERS LA BOUTIQUE LOCALE FORMAT 3:4) -->
+            <!-- VUE 2 : BOUTIQUE AKOULY (INTÉGRÉE ET ACCESSIBLE VIA L'ONGLET BOUTIQUE) -->
             <div id="gamingBoutiqueContainer" class="gaming-route-view" style="display: none;">
-                <div class="boutique-coming-soon-box" style="flex-direction: column; gap: 1.5rem; padding: 3rem 1.5rem; text-align: center;">
-                    <div style="width: 70px; height: 70px; border-radius: 20px; background: rgba(0, 240, 255, 0.15); border: 1.5px solid var(--accent-cyan); display: flex; align-items: center; justify-content: center; font-size: 2rem; color: var(--accent-cyan); margin: 0 auto;">
-                        <i class="fa-solid fa-shop"></i>
+                <!-- ── BARRE DE RECHERCHE & CATÉGORIES DIRECTEMENT SOUS LE BOUTON ── -->
+    <section class="store-filters-wrap">
+        <div class="search-field">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="searchInput" class="search-input-box" placeholder="Rechercher un produit (Manette, Clavier, SSD, Chargeur...)...">
+        </div>
+
+        <div class="categories-row" id="categoriesRow">
+            <button class="cat-chip active" data-cat="all">
+                <i class="fa-solid fa-border-all"></i>
+                <span>Tous</span>
+                <span class="chip-count">17</span>
+            </button>
+            <button class="cat-chip" data-cat="peripheriques">
+                <i class="fa-solid fa-gamepad"></i>
+                <span>Périphériques & Audio</span>
+                <span class="chip-count">6</span>
+            </button>
+            <button class="cat-chip" data-cat="stockage">
+                <i class="fa-solid fa-hard-drive"></i>
+                <span>Stockage & Composants</span>
+                <span class="chip-count">3</span>
+            </button>
+            <button class="cat-chip" data-cat="connectique">
+                <i class="fa-solid fa-plug-circle-bolt"></i>
+                <span>Alimentation & Connectique</span>
+                <span class="chip-count">8</span>
+            </button>
+        </div>
+    </section>
+
+    <!-- ── GRILLE RESPONSIVE DES ARTICLES (FORMAT CANVA 3:4 SANS TEXTE INUTILE) ── -->
+    <main class="store-main-content">
+        <div class="products-grid" id="productsGrid">
+            <!-- Rendu dynamique JS -->
+        </div>
+    </main>
+
+    <!-- ── MODALE FLOTTANTE "EN SAVOIR PLUS & ZOOM 50%" ── -->
+    <div class="modal-overlay" id="detailsModal">
+        <div class="modal-card">
+            <button class="modal-close" id="closeDetailsBtn" title="Fermer (Échap)">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="modal-layout-grid">
+                <!-- Colonne Gauche : Visualiseur Carré avec Zoom 50% -->
+                <div class="modal-media-col">
+                    <div class="modal-img-viewer" id="modalImgViewer" title="Cliquez ou survolez pour zoomer">
+                        <img id="modalZoomImg" class="modal-zoom-img" alt="Zoom Produit" src="" loading="eager">
+                        <div class="modal-zoom-controls">
+                            <button type="button" class="modal-zoom-toggle" id="modalZoomBtn" onclick="toggleModalZoom()" title="Basculer le zoom">
+                                <i class="fa-solid fa-magnifying-glass-plus"></i>
+                            </button>
+                        </div>
                     </div>
-                    <div>
-                        <h2 style="font-family: var(--font-heading); font-size: 2rem; font-weight: 800; color: var(--text-main); margin-bottom: 0.5rem;">Akouly Tech Store</h2>
-                        <p style="color: var(--text-muted); max-width: 550px; margin: 0 auto; font-size: 0.95rem;">Catalogue complet de périphériques, stockage et connectiques au format Canva 3:4 avec panier interactif, commande sans compte et livraison le lendemain.</p>
+                    <div class="modal-thumbs-row" id="modalThumbsRow">
+                        <!-- Vignettes des variantes -->
                     </div>
-                    <a href="boutique.html" class="btn-main-order" style="max-width: 320px; text-decoration: none; font-size: 1.05rem; padding: 1rem 1.8rem; border-radius: 12px; background: linear-gradient(135deg, #00f0ff, #10b981); color: #000; font-weight: 800; box-shadow: 0 8px 25px rgba(0, 240, 255, 0.35);">
-                        <i class="fa-solid fa-arrow-up-right-from-square"></i> Ouvrir la Boutique Locale
-                    </a>
                 </div>
+
+                <!-- Colonne Droite : Spécifications & Achat Express -->
+                <div class="modal-info-col">
+                    <div class="modal-head">
+                        <div>
+                            <div style="display: flex; gap: 0.5rem; align-items: center; margin-bottom: 0.35rem;">
+                                <span class="badge-tag" id="modalCategory">Catégorie</span>
+                                <span class="badge-stock"><i class="fa-solid fa-check"></i> En Stock</span>
+                            </div>
+                            <h3 class="modal-head-title" id="modalTitle">Article</h3>
+                        </div>
+                    </div>
+
+                    <div class="variant-box">
+                        <label style="font-size: 0.76rem; font-weight: 700; color: var(--bq-text-muted); margin-bottom: 0.3rem; display: block;">Modèle / Variante :</label>
+                        <select id="modalVariantSelect" class="variant-dropdown" onchange="onModalVarChange()"></select>
+                    </div>
+
+                    <div class="modal-price-row">
+                        <div>
+                            <span style="font-size: 0.74rem; color: var(--bq-text-muted); font-weight: 600; display: block;">PRIX UNITAIRE</span>
+                            <span class="modal-price-val" id="modalPriceVal">0 FCFA</span>
+                        </div>
+                        <div class="qty-control">
+                            <button type="button" class="qty-btn" onclick="changeModalQty(-1)">-</button>
+                            <input type="number" id="modalQtyInput" class="qty-val" value="1" min="1" max="99" readonly>
+                            <button type="button" class="qty-btn" onclick="changeModalQty(1)">+</button>
+                        </div>
+                    </div>
+
+                    <ul class="modal-specs" id="modalSpecs">
+                        <!-- Spécifications dynamiques -->
+                    </ul>
+
+                    <button type="button" class="btn-add" id="modalAddToCartBtn" style="width: 100%; justify-content: center; padding: 0.85rem;" onclick="addFromModal()">
+                        <span class="btn-add-label">Ajouter au panier</span>
+                        <span class="btn-add-arrow">
+                            <svg viewBox="0 0 100 100">
+                                <use xlink:href="#arrow" href="#arrow"></use>
+                            </svg>
+                        </span>
+                    </button>
+
+                    <div style="font-size: 0.72rem; color: var(--bq-text-muted); display: flex; align-items: center; justify-content: center; gap: 0.85rem; padding-top: 0.2rem;">
+                        <span>Garantie 1 mois</span>
+                        <span>Livraison J+1</span>
+                        <span>Paiement à réception</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── TIROIR DU PANIER & FORMULAIRE EXPRESS DE COMMANDE SANS COMPTE ── -->
+    <div class="cart-drawer-overlay" id="cartOverlay">
+        <div class="cart-panel">
+            <div class="cart-top">
+                <h3>
+                    <i class="fa-solid fa-cart-shopping" style="color: var(--bq-primary);"></i>
+                    <span>Votre Panier</span>
+                </h3>
+                <button class="cart-close-icon" id="closeCartBtn" title="Fermer">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <div class="cart-items" id="cartItemsList">
+                <!-- Liste des articles -->
+            </div>
+
+            <div class="cart-bottom-box">
+                <!-- Formulaire de commande Express -->
+                <div class="checkout-fields">
+                    <div style="font-family: var(--font-heading, sans-serif); font-size: 0.86rem; font-weight: 700; color: var(--bq-text); margin-bottom: 0.15rem;">
+                        <i class="fa-solid fa-truck-fast" style="color: var(--bq-gold);"></i> Livraison Express (Sans Compte)
+                    </div>
+
+                    <div class="field-group">
+                        <label class="field-label" for="clientName">Nom & Prénom *</label>
+                        <input type="text" id="clientName" class="field-input" placeholder="Ex: Junior Kouadjo" required>
+                    </div>
+
+                    <div class="field-group">
+                        <label class="field-label" for="clientPhone">Numéro de Téléphone *</label>
+                        <input type="tel" id="clientPhone" class="field-input" placeholder="Ex: 07 00 00 00 00" required>
+                    </div>
+
+                    <div class="field-group">
+                        <label class="field-label" for="clientCommune">Commune de Livraison *</label>
+                        <select id="clientCommune" class="field-select" required>
+                            <option value="" data-fee="0">-- Choisissez votre commune --</option>
+                            <optgroup label="Abidjan — Tarif Fixe 1 500 FCFA">
+                                <option value="Abobo" data-fee="1500">Abobo (1 500 FCFA)</option>
+                                <option value="Adjamé" data-fee="1500">Adjamé (1 500 FCFA)</option>
+                                <option value="Attécoubé" data-fee="1500">Attécoubé (1 500 FCFA)</option>
+                                <option value="Cocody" data-fee="1500">Cocody (1 500 FCFA)</option>
+                                <option value="Koumassi" data-fee="1500">Koumassi (1 500 FCFA)</option>
+                                <option value="Marcory" data-fee="1500">Marcory (1 500 FCFA)</option>
+                                <option value="Le Plateau" data-fee="1500">Le Plateau (1 500 FCFA)</option>
+                                <option value="Port-Bouët" data-fee="1500">Port-Bouët (1 500 FCFA)</option>
+                                <option value="Treichville" data-fee="1500">Treichville (1 500 FCFA)</option>
+                                <option value="Yopougon" data-fee="1500">Yopougon (1 500 FCFA)</option>
+                            </optgroup>
+                            <optgroup label="Banlieues — Tarif Fixe 2 000 FCFA">
+                                <option value="Anyama" data-fee="2000">Anyama (2 000 FCFA)</option>
+                                <option value="Bingerville" data-fee="2000">Bingerville (2 000 FCFA)</option>
+                                <option value="Songon" data-fee="2000">Songon (2 000 FCFA)</option>
+                            </optgroup>
+                        </select>
+                    </div>
+
+                    <div class="field-group">
+                        <label class="field-label" for="clientAddress">Lieu précis / Repère (Optionnel)</label>
+                        <input type="text" id="clientAddress" class="field-input" placeholder="Ex: Carrefour Duncan, Pharmacie...">
+                    </div>
+
+                    <!-- Code Promo -->
+                    <div style="margin-top: 0.6rem; padding: 0.6rem 0.75rem; background: var(--bq-card); border: 1px dashed var(--bq-border); border-radius: 8px;">
+                        <div style="font-size: 0.78rem; font-weight: 700; color: var(--bq-text); margin-bottom: 0.35rem; display: flex; align-items: center; justify-content: space-between;">
+                            <span><i class="fa-solid fa-tag" style="color: var(--bq-primary);"></i> Code Promo</span>
+                            <span id="promoStatusMsg" style="font-size: 0.72rem; color: var(--bq-primary); font-weight: 600;"></span>
+                        </div>
+                        <div style="display: flex; gap: 0.4rem;">
+                            <input type="text" id="clientPromoCode" class="field-input" placeholder="Ex: BIENVENUE10" style="text-transform: uppercase; font-size: 0.82rem; padding: 0.45rem 0.6rem; margin-bottom: 0;" />
+                            <button type="button" id="btnApplyPromo" class="qty-btn" style="width: auto; padding: 0 0.85rem; font-size: 0.78rem; font-weight: 700; border-radius: 6px; background: var(--bq-surface); border: 1px solid var(--bq-border); color: var(--bq-text); white-space: nowrap;">Appliquer</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Récapitulatif -->
+                <div class="totals-box">
+                    <div class="total-line">
+                        <span>Sous-total articles :</span>
+                        <span id="subtotalVal">0 FCFA</span>
+                    </div>
+                    <div class="total-line" id="promoDiscountRow" style="display: none; color: var(--bq-primary);">
+                        <span>Remise Promo (<span id="promoPercentVal">0%</span>) :</span>
+                        <span id="promoDiscountVal">-0 FCFA</span>
+                    </div>
+                    <div class="total-line">
+                        <span>Frais de livraison (<span id="communeLabel">À définir</span>) :</span>
+                        <span id="deliveryVal">0 FCFA</span>
+                    </div>
+                    <div class="total-line" style="color: var(--bq-primary); font-size: 0.78rem;">
+                        <span><i class="fa-solid fa-clock"></i> Délai estimé :</span>
+                        <span id="tomorrowVal">Livraison le lendemain</span>
+                    </div>
+                    <div class="total-line final-line">
+                        <span>TOTAL NET :</span>
+                        <span class="net-amount" id="grandTotalVal">0 FCFA</span>
+                    </div>
+                </div>
+
+                <button class="btn-submit-order" id="btnSubmitOrder">
+                    <i class="fa-solid fa-check-circle" style="font-size: 1.15rem;"></i>
+                    <span>Valider la commande</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── MODALE DE CONFIRMATION DE COMMANDE RÉUSSIE (ENREGISTRÉE DANS GOOGLE SHEETS) ── -->
+    <div class="modal-overlay" id="orderSuccessModal">
+        <div class="modal-card" style="text-align: center; max-width: 480px;">
+            <div style="width: 58px; height: 58px; border-radius: 50%; background: rgba(16, 185, 129, 0.15); border: 2px solid var(--bq-primary); display: flex; align-items: center; justify-content: center; font-size: 1.6rem; color: var(--bq-primary); margin: 0 auto 0.4rem;">
+                <i class="fa-solid fa-check"></i>
+            </div>
+            <h3 style="font-family: var(--font-heading, sans-serif); font-size: 1.3rem; font-weight: 800; color: var(--bq-text);">Commande Enregistrée !</h3>
+            <p style="font-size: 0.88rem; color: var(--bq-text-muted); line-height: 1.5;">
+                Merci <strong id="successClientName" style="color: var(--bq-text);"></strong>. Votre commande a été transmise avec succès à notre équipe.
+            </p>
+
+            <div style="background: var(--bq-card); border: 1px solid var(--bq-border); border-radius: 12px; padding: 1rem; text-align: left; font-size: 0.85rem; line-height: 1.6; margin: 0.4rem 0;">
+                <p><strong>Contact :</strong> <span id="successClientPhone"></span></p>
+                <p><strong>Commune :</strong> <span id="successClientCommune"></span></p>
+                <p><strong>Livraison prévue :</strong> <span style="color: var(--bq-primary); font-weight: 700;" id="successDeliveryDate"></span></p>
+                <p style="border-top: 1px dashed var(--bq-border); margin-top: 0.4rem; padding-top: 0.4rem; font-size: 0.95rem;">
+                    <strong>Total à payer :</strong> <span style="color: var(--bq-gold); font-weight: 800; font-family: var(--font-code, monospace);" id="successGrandTotal"></span>
+                </p>
+            </div>
+
+            <p style="font-size: 0.78rem; color: var(--bq-text-dim);">
+                Un conseiller Akouly vous contactera au numéro fourni pour confirmer l'heure de livraison.
+            </p>
+
+            <button type="button" class="btn-submit-order" style="width: 100%; margin-top: 0.4rem;" id="closeSuccessModalBtn">
+                <span>Fermer & Continuer</span>
+            </button>
+        </div>
+    </div>
+    <!-- ── MODALE FLOTTANTE NEWSLETTER (AFFICHAGE APRÈS 30S) ── -->
+    <div class="modal-overlay" id="newsletterModal">
+        <div class="modal-card newsletter-modal-card">
+            <button class="modal-close" id="closeNewsletterModalBtn" onclick="closeNewsletterModal(true)" title="Fermer (Échap)">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div class="newsletter-modal-body">
+                <div class="newsletter-modal-icon">
+                    <i class="fa-solid fa-gift"></i>
+                </div>
+                <div class="newsletter-badge" style="margin: 0 auto 0.75rem;">
+                    <i class="fa-solid fa-sparkles"></i>
+                    <span>Offres Exclusives</span>
+                </div>
+                <h3 class="newsletter-modal-title">Envie d'etre informé des promotions, des nouveaux produits, avoir des codes promos, c'est ici</h3>
+                <p class="newsletter-modal-desc">Inscrivez-vous rapidement pour recevoir nos arrivages de matériel informatique et nos bons plans gaming.</p>
+                
+                <form class="newsletter-modal-form" id="newsletterModalForm" onsubmit="handleNewsletterSubmit(event, 'modal')">
+                    <div class="newsletter-field">
+                        <i class="fa-solid fa-user"></i>
+                        <input type="text" id="modalNewsletterPseudo" class="newsletter-input" placeholder="Votre pseudo" required>
+                    </div>
+                    <div class="newsletter-field">
+                        <i class="fa-solid fa-envelope"></i>
+                        <input type="email" id="modalNewsletterEmail" class="newsletter-input" placeholder="Votre email" required>
+                    </div>
+                    <button type="submit" class="newsletter-btn newsletter-modal-btn" id="modalNewsletterBtn">
+                        <span>S'inscrire et profiter des promos</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── SECTION NEWSLETTER (AVANT LA SECTION TARIFS & LIVRAISON) ── -->
+    <section class="newsletter-section" id="newsletterSection">
+        <div class="newsletter-card">
+            <div class="newsletter-content">
+                <div class="newsletter-badge">
+                    <i class="fa-solid fa-bell"></i>
+                    <span>Newsletter & Offres</span>
+                </div>
+                <h3 class="newsletter-title">Envie d'etre informé des promotions, des nouveaux produits, avoir des codes promos, c'est ici</h3>
+            </div>
+            <form class="newsletter-form" id="newsletterForm" onsubmit="handleNewsletterSubmit(event, 'section')">
+                <div class="newsletter-inputs">
+                    <div class="newsletter-field">
+                        <i class="fa-solid fa-user"></i>
+                        <input type="text" id="newsletterPseudo" class="newsletter-input" placeholder="Votre pseudo" required>
+                    </div>
+                    <div class="newsletter-field">
+                        <i class="fa-solid fa-envelope"></i>
+                        <input type="email" id="newsletterEmail" class="newsletter-input" placeholder="Votre email" required>
+                    </div>
+                </div>
+                <button type="submit" class="newsletter-btn" id="newsletterBtn">
+                    <span>S'inscrire</span>
+                    <i class="fa-solid fa-paper-plane"></i>
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <!-- ── TOUTES LES AUTRES INFOS EN BAS (ZONES DE LIVRAISON & GARANTIE) ── -->
+    <footer class="bottom-section">
+        <div class="bottom-grid">
+            <div class="bottom-card">
+                <h4>Tarifs & Livraison le lendemain</h4>
+                <ul>
+                    <li><strong>1 500 FCFA :</strong> Abobo, Adjamé, Attécoubé, Cocody, Koumassi, Marcory, Le Plateau, Port-Bouët, Treichville, Yopougon</li>
+                    <li><strong>2 000 FCFA :</strong> Anyama, Bingerville, Songon</li>
+                    <li><strong>Délai :</strong> Livraison programmée dès le lendemain.</li>
+                </ul>
+            </div>
+
+            <div class="bottom-card">
+                <h4>Matériel Garanti 1 Mois</h4>
+                <p>Tous les équipements sont vérifiés et bénéficient d'une garantie d'un mois. Échange direct sous 48h en cas d'anomalie.</p>
+            </div>
+
+            <div class="bottom-card">
+                <h4>Service Client & Suivi</h4>
+                <p>Besoin d'assistance ou d'un suivi sur votre livraison ? Notre équipe traite les commandes 7j/7.</p>
+            </div>
+        </div>
+
+        <div class="site-copyright">
+            <span>&copy; <span id="currentYear"></span> Akouly Ecosystem — Boutique Locale</span>
+        </div>
+    </footer>
             </div><!-- /#gamingBoutiqueContainer -->
         </section>
 
     </main>
+
+    
+    <!-- ── MODALES BOUTIQUE INTÉGRÉES ── -->
+<!-- ── MODALE FLOTTANTE "EN SAVOIR PLUS & ZOOM 50%" ── -->
+    <div class="modal-overlay" id="detailsModal">
+        <div class="modal-card">
+            <button class="modal-close" id="closeDetailsBtn" title="Fermer (Échap)">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="modal-layout-grid">
+                <!-- Colonne Gauche : Visualiseur Carré avec Zoom 50% -->
+                <div class="modal-media-col">
+                    <div class="modal-img-viewer" id="modalImgViewer" title="Cliquez ou survolez pour zoomer">
+                        <img id="modalZoomImg" class="modal-zoom-img" alt="Zoom Produit" src="" loading="eager">
+                        <div class="modal-zoom-controls">
+                            <button type="button" class="modal-zoom-toggle" id="modalZoomBtn" onclick="toggleModalZoom()" title="Basculer le zoom">
+                                <i class="fa-solid fa-magnifying-glass-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="modal-thumbs-row" id="modalThumbsRow">
+                        <!-- Vignettes des variantes -->
+                    </div>
+                </div>
+
+                <!-- Colonne Droite : Spécifications & Achat Express -->
+                <div class="modal-info-col">
+                    <div class="modal-head">
+                        <div>
+                            <div style="display: flex; gap: 0.5rem; align-items: center; margin-bottom: 0.35rem;">
+                                <span class="badge-tag" id="modalCategory">Catégorie</span>
+                                <span class="badge-stock"><i class="fa-solid fa-check"></i> En Stock</span>
+                            </div>
+                            <h3 class="modal-head-title" id="modalTitle">Article</h3>
+                        </div>
+                    </div>
+
+                    <div class="variant-box">
+                        <label style="font-size: 0.76rem; font-weight: 700; color: var(--bq-text-muted); margin-bottom: 0.3rem; display: block;">Modèle / Variante :</label>
+                        <select id="modalVariantSelect" class="variant-dropdown" onchange="onModalVarChange()"></select>
+                    </div>
+
+                    <div class="modal-price-row">
+                        <div>
+                            <span style="font-size: 0.74rem; color: var(--bq-text-muted); font-weight: 600; display: block;">PRIX UNITAIRE</span>
+                            <span class="modal-price-val" id="modalPriceVal">0 FCFA</span>
+                        </div>
+                        <div class="qty-control">
+                            <button type="button" class="qty-btn" onclick="changeModalQty(-1)">-</button>
+                            <input type="number" id="modalQtyInput" class="qty-val" value="1" min="1" max="99" readonly>
+                            <button type="button" class="qty-btn" onclick="changeModalQty(1)">+</button>
+                        </div>
+                    </div>
+
+                    <ul class="modal-specs" id="modalSpecs">
+                        <!-- Spécifications dynamiques -->
+                    </ul>
+
+                    <button type="button" class="btn-add" id="modalAddToCartBtn" style="width: 100%; justify-content: center; padding: 0.85rem;" onclick="addFromModal()">
+                        <span class="btn-add-label">Ajouter au panier</span>
+                        <span class="btn-add-arrow">
+                            <svg viewBox="0 0 100 100">
+                                <use xlink:href="#arrow" href="#arrow"></use>
+                            </svg>
+                        </span>
+                    </button>
+
+                    <div style="font-size: 0.72rem; color: var(--bq-text-muted); display: flex; align-items: center; justify-content: center; gap: 0.85rem; padding-top: 0.2rem;">
+                        <span>Garantie 1 mois</span>
+                        <span>Livraison J+1</span>
+                        <span>Paiement à réception</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── TIROIR DU PANIER & FORMULAIRE EXPRESS DE COMMANDE SANS COMPTE ── -->
+    <div class="cart-drawer-overlay" id="cartOverlay">
+        <div class="cart-panel">
+            <div class="cart-top">
+                <h3>
+                    <i class="fa-solid fa-cart-shopping" style="color: var(--bq-primary);"></i>
+                    <span>Votre Panier</span>
+                </h3>
+                <button class="cart-close-icon" id="closeCartBtn" title="Fermer">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <div class="cart-items" id="cartItemsList">
+                <!-- Liste des articles -->
+            </div>
+
+            <div class="cart-bottom-box">
+                <!-- Formulaire de commande Express -->
+                <div class="checkout-fields">
+                    <div style="font-family: var(--font-heading, sans-serif); font-size: 0.86rem; font-weight: 700; color: var(--bq-text); margin-bottom: 0.15rem;">
+                        <i class="fa-solid fa-truck-fast" style="color: var(--bq-gold);"></i> Livraison Express (Sans Compte)
+                    </div>
+
+                    <div class="field-group">
+                        <label class="field-label" for="clientName">Nom & Prénom *</label>
+                        <input type="text" id="clientName" class="field-input" placeholder="Ex: Junior Kouadjo" required>
+                    </div>
+
+                    <div class="field-group">
+                        <label class="field-label" for="clientPhone">Numéro de Téléphone *</label>
+                        <input type="tel" id="clientPhone" class="field-input" placeholder="Ex: 07 00 00 00 00" required>
+                    </div>
+
+                    <div class="field-group">
+                        <label class="field-label" for="clientCommune">Commune de Livraison *</label>
+                        <select id="clientCommune" class="field-select" required>
+                            <option value="" data-fee="0">-- Choisissez votre commune --</option>
+                            <optgroup label="Abidjan — Tarif Fixe 1 500 FCFA">
+                                <option value="Abobo" data-fee="1500">Abobo (1 500 FCFA)</option>
+                                <option value="Adjamé" data-fee="1500">Adjamé (1 500 FCFA)</option>
+                                <option value="Attécoubé" data-fee="1500">Attécoubé (1 500 FCFA)</option>
+                                <option value="Cocody" data-fee="1500">Cocody (1 500 FCFA)</option>
+                                <option value="Koumassi" data-fee="1500">Koumassi (1 500 FCFA)</option>
+                                <option value="Marcory" data-fee="1500">Marcory (1 500 FCFA)</option>
+                                <option value="Le Plateau" data-fee="1500">Le Plateau (1 500 FCFA)</option>
+                                <option value="Port-Bouët" data-fee="1500">Port-Bouët (1 500 FCFA)</option>
+                                <option value="Treichville" data-fee="1500">Treichville (1 500 FCFA)</option>
+                                <option value="Yopougon" data-fee="1500">Yopougon (1 500 FCFA)</option>
+                            </optgroup>
+                            <optgroup label="Banlieues — Tarif Fixe 2 000 FCFA">
+                                <option value="Anyama" data-fee="2000">Anyama (2 000 FCFA)</option>
+                                <option value="Bingerville" data-fee="2000">Bingerville (2 000 FCFA)</option>
+                                <option value="Songon" data-fee="2000">Songon (2 000 FCFA)</option>
+                            </optgroup>
+                        </select>
+                    </div>
+
+                    <div class="field-group">
+                        <label class="field-label" for="clientAddress">Lieu précis / Repère (Optionnel)</label>
+                        <input type="text" id="clientAddress" class="field-input" placeholder="Ex: Carrefour Duncan, Pharmacie...">
+                    </div>
+
+                    <!-- Code Promo -->
+                    <div style="margin-top: 0.6rem; padding: 0.6rem 0.75rem; background: var(--bq-card); border: 1px dashed var(--bq-border); border-radius: 8px;">
+                        <div style="font-size: 0.78rem; font-weight: 700; color: var(--bq-text); margin-bottom: 0.35rem; display: flex; align-items: center; justify-content: space-between;">
+                            <span><i class="fa-solid fa-tag" style="color: var(--bq-primary);"></i> Code Promo</span>
+                            <span id="promoStatusMsg" style="font-size: 0.72rem; color: var(--bq-primary); font-weight: 600;"></span>
+                        </div>
+                        <div style="display: flex; gap: 0.4rem;">
+                            <input type="text" id="clientPromoCode" class="field-input" placeholder="Ex: BIENVENUE10" style="text-transform: uppercase; font-size: 0.82rem; padding: 0.45rem 0.6rem; margin-bottom: 0;" />
+                            <button type="button" id="btnApplyPromo" class="qty-btn" style="width: auto; padding: 0 0.85rem; font-size: 0.78rem; font-weight: 700; border-radius: 6px; background: var(--bq-surface); border: 1px solid var(--bq-border); color: var(--bq-text); white-space: nowrap;">Appliquer</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Récapitulatif -->
+                <div class="totals-box">
+                    <div class="total-line">
+                        <span>Sous-total articles :</span>
+                        <span id="subtotalVal">0 FCFA</span>
+                    </div>
+                    <div class="total-line" id="promoDiscountRow" style="display: none; color: var(--bq-primary);">
+                        <span>Remise Promo (<span id="promoPercentVal">0%</span>) :</span>
+                        <span id="promoDiscountVal">-0 FCFA</span>
+                    </div>
+                    <div class="total-line">
+                        <span>Frais de livraison (<span id="communeLabel">À définir</span>) :</span>
+                        <span id="deliveryVal">0 FCFA</span>
+                    </div>
+                    <div class="total-line" style="color: var(--bq-primary); font-size: 0.78rem;">
+                        <span><i class="fa-solid fa-clock"></i> Délai estimé :</span>
+                        <span id="tomorrowVal">Livraison le lendemain</span>
+                    </div>
+                    <div class="total-line final-line">
+                        <span>TOTAL NET :</span>
+                        <span class="net-amount" id="grandTotalVal">0 FCFA</span>
+                    </div>
+                </div>
+
+                <button class="btn-submit-order" id="btnSubmitOrder">
+                    <i class="fa-solid fa-check-circle" style="font-size: 1.15rem;"></i>
+                    <span>Valider la commande</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── MODALE DE CONFIRMATION DE COMMANDE RÉUSSIE (ENREGISTRÉE DANS GOOGLE SHEETS) ── -->
+    <div class="modal-overlay" id="orderSuccessModal">
+        <div class="modal-card" style="text-align: center; max-width: 480px;">
+            <div style="width: 58px; height: 58px; border-radius: 50%; background: rgba(16, 185, 129, 0.15); border: 2px solid var(--bq-primary); display: flex; align-items: center; justify-content: center; font-size: 1.6rem; color: var(--bq-primary); margin: 0 auto 0.4rem;">
+                <i class="fa-solid fa-check"></i>
+            </div>
+            <h3 style="font-family: var(--font-heading, sans-serif); font-size: 1.3rem; font-weight: 800; color: var(--bq-text);">Commande Enregistrée !</h3>
+            <p style="font-size: 0.88rem; color: var(--bq-text-muted); line-height: 1.5;">
+                Merci <strong id="successClientName" style="color: var(--bq-text);"></strong>. Votre commande a été transmise avec succès à notre équipe.
+            </p>
+
+            <div style="background: var(--bq-card); border: 1px solid var(--bq-border); border-radius: 12px; padding: 1rem; text-align: left; font-size: 0.85rem; line-height: 1.6; margin: 0.4rem 0;">
+                <p><strong>Contact :</strong> <span id="successClientPhone"></span></p>
+                <p><strong>Commune :</strong> <span id="successClientCommune"></span></p>
+                <p><strong>Livraison prévue :</strong> <span style="color: var(--bq-primary); font-weight: 700;" id="successDeliveryDate"></span></p>
+                <p style="border-top: 1px dashed var(--bq-border); margin-top: 0.4rem; padding-top: 0.4rem; font-size: 0.95rem;">
+                    <strong>Total à payer :</strong> <span style="color: var(--bq-gold); font-weight: 800; font-family: var(--font-code, monospace);" id="successGrandTotal"></span>
+                </p>
+            </div>
+
+            <p style="font-size: 0.78rem; color: var(--bq-text-dim);">
+                Un conseiller Akouly vous contactera au numéro fourni pour confirmer l'heure de livraison.
+            </p>
+
+            <button type="button" class="btn-submit-order" style="width: 100%; margin-top: 0.4rem;" id="closeSuccessModalBtn">
+                <span>Fermer & Continuer</span>
+            </button>
+        </div>
+    </div>
+    <!-- ── MODALE FLOTTANTE NEWSLETTER (AFFICHAGE APRÈS 30S) ── -->
+    <div class="modal-overlay" id="newsletterModal">
+        <div class="modal-card newsletter-modal-card">
+            <button class="modal-close" id="closeNewsletterModalBtn" onclick="closeNewsletterModal(true)" title="Fermer (Échap)">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div class="newsletter-modal-body">
+                <div class="newsletter-modal-icon">
+                    <i class="fa-solid fa-gift"></i>
+                </div>
+                <div class="newsletter-badge" style="margin: 0 auto 0.75rem;">
+                    <i class="fa-solid fa-sparkles"></i>
+                    <span>Offres Exclusives</span>
+                </div>
+                <h3 class="newsletter-modal-title">Envie d'etre informé des promotions, des nouveaux produits, avoir des codes promos, c'est ici</h3>
+                <p class="newsletter-modal-desc">Inscrivez-vous rapidement pour recevoir nos arrivages de matériel informatique et nos bons plans gaming.</p>
+                
+                <form class="newsletter-modal-form" id="newsletterModalForm" onsubmit="handleNewsletterSubmit(event, 'modal')">
+                    <div class="newsletter-field">
+                        <i class="fa-solid fa-user"></i>
+                        <input type="text" id="modalNewsletterPseudo" class="newsletter-input" placeholder="Votre pseudo" required>
+                    </div>
+                    <div class="newsletter-field">
+                        <i class="fa-solid fa-envelope"></i>
+                        <input type="email" id="modalNewsletterEmail" class="newsletter-input" placeholder="Votre email" required>
+                    </div>
+                    <button type="submit" class="newsletter-btn newsletter-modal-btn" id="modalNewsletterBtn">
+                        <span>S'inscrire et profiter des promos</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── SECTION NEWSLETTER (AVANT LA SECTION TARIFS & LIVRAISON) ── -->
+    <section class="newsletter-section" id="newsletterSection">
+        <div class="newsletter-card">
+            <div class="newsletter-content">
+                <div class="newsletter-badge">
+                    <i class="fa-solid fa-bell"></i>
+                    <span>Newsletter & Offres</span>
+                </div>
+                <h3 class="newsletter-title">Envie d'etre informé des promotions, des nouveaux produits, avoir des codes promos, c'est ici</h3>
+            </div>
+            <form class="newsletter-form" id="newsletterForm" onsubmit="handleNewsletterSubmit(event, 'section')">
+                <div class="newsletter-inputs">
+                    <div class="newsletter-field">
+                        <i class="fa-solid fa-user"></i>
+                        <input type="text" id="newsletterPseudo" class="newsletter-input" placeholder="Votre pseudo" required>
+                    </div>
+                    <div class="newsletter-field">
+                        <i class="fa-solid fa-envelope"></i>
+                        <input type="email" id="newsletterEmail" class="newsletter-input" placeholder="Votre email" required>
+                    </div>
+                </div>
+                <button type="submit" class="newsletter-btn" id="newsletterBtn">
+                    <span>S'inscrire</span>
+                    <i class="fa-solid fa-paper-plane"></i>
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <!-- ── TOUTES LES AUTRES INFOS EN BAS (ZONES DE LIVRAISON & GARANTIE) ── -->
+    <footer class="bottom-section">
+        <div class="bottom-grid">
+            <div class="bottom-card">
+                <h4>Tarifs & Livraison le lendemain</h4>
+                <ul>
+                    <li><strong>1 500 FCFA :</strong> Abobo, Adjamé, Attécoubé, Cocody, Koumassi, Marcory, Le Plateau, Port-Bouët, Treichville, Yopougon</li>
+                    <li><strong>2 000 FCFA :</strong> Anyama, Bingerville, Songon</li>
+                    <li><strong>Délai :</strong> Livraison programmée dès le lendemain.</li>
+                </ul>
+            </div>
+
+            <div class="bottom-card">
+                <h4>Matériel Garanti 1 Mois</h4>
+                <p>Tous les équipements sont vérifiés et bénéficient d'une garantie d'un mois. Échange direct sous 48h en cas d'anomalie.</p>
+            </div>
+
+            <div class="bottom-card">
+                <h4>Service Client & Suivi</h4>
+                <p>Besoin d'assistance ou d'un suivi sur votre livraison ? Notre équipe traite les commandes 7j/7.</p>
+            </div>
+        </div>
+
+        <div class="site-copyright">
+            <span>&copy; <span id="currentYear"></span> Akouly Ecosystem — Boutique Locale</span>
+        </div>
+    </footer>
+
+    <!-- Toast Notifications -->
+    <div class="toast-box" id="toastBox"></div>
 
     <!-- MODALE FLOTTANTE AGRANDISSEMENT IMAGE (LIGHTBOX) -->
     <div class="cfg-modal-backdrop" id="imageZoomModal" onclick="closeImageZoomModal(event)">
@@ -4164,6 +6438,7 @@ TOTAL : ${formatNumber(calc.grandTotal)} F CFA
             const boutiqueContainer = document.getElementById('gamingBoutiqueContainer');
             const configSubtitle = document.getElementById('configSubtitleBlock');
             const configExtraActions = document.getElementById('configExtraActions');
+            const openCartBtn = document.getElementById('openCartBtn');
 
             // Phase 1 : Balayage entrant (Sweep in -> 0%)
             if (loader) {
@@ -4178,11 +6453,18 @@ TOTAL : ${formatNumber(calc.grandTotal)} F CFA
                     if (boutiqueContainer) boutiqueContainer.style.display = 'none';
                     if (configSubtitle) configSubtitle.style.display = 'block';
                     if (configExtraActions) configExtraActions.style.display = 'flex';
+                    if (openCartBtn) openCartBtn.style.display = 'none';
                 } else if (route === 'boutique') {
                     if (configContainer) configContainer.style.display = 'none';
                     if (boutiqueContainer) boutiqueContainer.style.display = 'block';
                     if (configSubtitle) configSubtitle.style.display = 'none';
                     if (configExtraActions) configExtraActions.style.display = 'none';
+                    if (openCartBtn) openCartBtn.style.display = 'inline-flex';
+                    
+                    // Initialisation ou rafraîchissement des produits de la boutique
+                    if (typeof initBoutique === 'function') {
+                        initBoutique();
+                    }
                 }
 
                 // Phase 3 : Balayage sortant (Sweep out -> 100%)
@@ -4205,6 +6487,1868 @@ TOTAL : ${formatNumber(calc.grandTotal)} F CFA
         window.addEventListener("DOMContentLoaded", () => {
             initApp();
         });
-    </script>
+    
+
+
+        /* ==========================================================================
+           LOGIQUE COMPLÈTE DE LA BOUTIQUE INTÉGRÉE
+           ========================================================================== */
+        (function() {
+            
+        const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbykf59RWgndLXWtbP6rOcRbzwn2pMFlztpf1PhS6NBpT_Y9S2oAsQQcsoE2Nk44uZPibg/exec";
+        const BOUTIQUE_SHEET_ID = "14p01xmFOzG6qXOjx8g2vZZJshHl22JpTArorHt9m4l4";
+
+        /* ==========================================================================
+           DONNÉES DES 17 ARTICLES (AVEC SPÉCIFICATIONS BRÈVES POUR LA MODALE)
+           ========================================================================== */
+        let PRODUCTS = [
+            // --- PÉRIPHÉRIQUES & AUDIO (6 ARTICLES) ---
+            {
+                id: 'hp-km558',
+                name: 'Clavier',
+                category: 'peripheriques',
+                categoryLabel: 'Périphériques & Audio',
+                icon: 'fa-keyboard',
+                accentColor: 'var(--bq-cyan)',
+                image: 'images/boutique/clavier-km558.jpg',
+                specs: [
+                    'Pack complet : Clavier bureautique / multimédia HP KM558 + Souris optique',
+                    'Touches semi-suspendues souples avec rétroéclairage RGB intégré',
+                    'Souris optique filaire ergonomique avec capteur optique précis',
+                    'Connexion USB filaire Plug & Play sans installation de pilote'
+                ],
+                variants: [
+                    {
+                        name: 'Pack Clavier HP KM558 + Souris RGB',
+                        price: 8000,
+                        image: 'images/boutique/clavier-km558.jpg',
+                        specs: [
+                            'Pack complet comprenant un clavier complet avec pavé numérique et une souris optique assortie',
+                            'Touches semi-suspendues à frappe souple et silencieuse avec rétroéclairage RGB',
+                            'Souris optique filaire à prise en main confortable pour un usage quotidien',
+                            'Branchement direct en USB (câble de 1,6 m), compatible Windows et Linux sans pilote'
+                        ]
+                    }
+                ]
+            },
+            {
+                id: 'manettes-pc',
+                name: 'Manettes PC & Xbox',
+                category: 'peripheriques',
+                categoryLabel: 'Périphériques & Audio',
+                icon: 'fa-gamepad',
+                accentColor: 'var(--bq-cyan)',
+                image: 'images/boutique/manette-xbox-filaire.jpg',
+                specs: [
+                    'Manette ergonomique avec sticks analogiques 360° et double moteur de vibration',
+                    'Compatibilité Windows (Steam, Game Pass), Xbox et Android',
+                    'Reconnaissance automatique en mode X-Input'
+                ],
+                variants: [
+                    {
+                        name: 'Filaire USB (Câble 2m)',
+                        price: 8000,
+                        image: 'images/boutique/manette-xbox-filaire.jpg',
+                        specs: [
+                            'Connexion filaire USB directe par câble de 2 mètres sans temps de latence',
+                            'Double moteur de vibration et gâchettes analogiques progressives pour une bonne immersion',
+                            'Reconnue immédiatement par Windows et Steam (standard X-Input)',
+                            'Fonctionne sans batterie ni piles : branchez et jouez sans interruption'
+                        ]
+                    },
+                    {
+                        name: 'Sans fil (À piles)',
+                        price: 15000,
+                        image: 'images/boutique/manette-xbox-piles.jpg',
+                        specs: [
+                            'Connexion sans fil pour jouer librement sans être limité par un fil',
+                            'Fonctionne avec 2 piles AA classiques ou accumulateurs rechargeables',
+                            'Sticks analogiques précis, croix directionnelle réactive et poignées texturées antidérapantes',
+                            'Compatible avec les consoles Xbox et PC'
+                        ]
+                    },
+                    {
+                        name: 'Sans fil avec Dongle Récepteur USB',
+                        price: 23000,
+                        image: 'images/boutique/manette-xbox-dongle.jpg',
+                        specs: [
+                            'Fournie avec son adaptateur récepteur USB 2.4 GHz pour PC fixe et portable',
+                            'Liaison sans fil stable jusqu\'à 10 mètres de distance sans décrochage',
+                            'Double vibration, gâchettes sensibles à la pression et excellente autonomie',
+                            'Configuration Plug & Play reconnue directement sur Windows 10 et 11 sans logiciel'
+                        ]
+                    }
+                ]
+            },
+            {
+                id: 'tapis-souris',
+                name: 'Tapis de souris',
+                category: 'peripheriques',
+                categoryLabel: 'Périphériques & Audio',
+                icon: 'fa-rug',
+                accentColor: 'var(--bq-gold)',
+                image: 'images/boutique/tapis-standard.jpg',
+                specs: [
+                    'Surface textile micro-tissée pour un glissement fluide et précis de la souris',
+                    'Base en caoutchouc naturel antidérapant maintenant fermement le tapis sur le bureau',
+                    'Bordures surjetées et cousues pour empêcher l\'effilochage au fil du temps'
+                ],
+                variants: [
+                    {
+                        name: 'Standard (25 x 30 cm)',
+                        price: 3000,
+                        image: 'images/boutique/tapis-standard.jpg',
+                        specs: [
+                            'Dimensions compactes de 25 x 30 cm idéales pour les espaces réduits et le travail sur laptop',
+                            'Surface en tissu doux facilitant les déplacements des souris optiques et laser',
+                            'Dessous en caoutchouc antidérapant adhérant à tous types de tables',
+                            'Bords renforcés par couture sur tout le contour pour une meilleure durabilité'
+                        ]
+                    },
+                    {
+                        name: 'XXL Extended (80 x 30 cm)',
+                        price: 7500,
+                        image: 'images/boutique/tapis-xxl.jpg',
+                        specs: [
+                            'Grand format de 80 x 30 cm permettant de poser à la fois le clavier et la souris',
+                            'Offre une liberté de mouvement totale pour la bureautique et les jeux',
+                            'Surface micro-tissée confortable pour les poignets avec base en gomme antidérapante',
+                            'Coutures de maintien sur les pourtours, matériau souple et lavable'
+                        ]
+                    }
+                ]
+            },
+            {
+                id: 'souris',
+                name: 'Souris',
+                category: 'peripheriques',
+                categoryLabel: 'Périphériques & Audio',
+                icon: 'fa-computer-mouse',
+                accentColor: 'var(--bq-primary)',
+                image: 'images/boutique/souris-dell.jpg',
+                specs: [
+                    'Capteur optique précis pour un usage bureautique ou loisirs',
+                    'Boutons réactifs et molette de défilement fluide',
+                    'Prise en main ergonomique et branchement simple'
+                ],
+                variants: [
+                    {
+                        name: 'Dell Optical Mouse Filaire USB',
+                        price: 3000,
+                        image: 'images/boutique/souris-dell.jpg',
+                        specs: [
+                            'Souris filaire Dell classique à 3 boutons avec molette de défilement crantée',
+                            'Capteur optique 1000 DPI fiable pour le traitement de texte, la saisie et la navigation web',
+                            'Forme ambidextre pratique pour droitiers et gauchers',
+                            'Connexion USB filaire directe : prête à l\'emploi sans installation'
+                        ]
+                    },
+                    {
+                        name: 'Lenovo M25 Sans fil 2.4GHz',
+                        price: 6000,
+                        image: 'images/boutique/souris-lenovo.jpg',
+                        specs: [
+                            'Boutons à clics silencieux pour travailler tranquillement sans bruit de clic',
+                            'Connexion sans fil 2.4 GHz fiable via petit récepteur nano-USB',
+                            'Alimentation par 1 pile AA avec mise en veille automatique pour préserver la pile',
+                            'Format compact et léger, facile à glisser dans une sacoche d\'ordinateur'
+                        ]
+                    },
+                    {
+                        name: 'T-Wolf G-550 Gaming RGB Filaire',
+                        price: 7000,
+                        image: 'images/boutique/souris-twolf.webp',
+                        specs: [
+                            'Capteur optique avec sensibilité DPI réglable via le bouton central pour adapter la vitesse du curseur',
+                            'Boutons latéraux pratiques pour naviguer rapidement (page suivante / précédente)',
+                            'Rétroéclairage LED RGB intégré avec câble USB renforcé',
+                            'Forme profilée offrant une bonne prise en main pour le jeu et les longues sessions'
+                        ]
+                    },
+                    {
+                        name: 'Ergonomic Mouse Verticale Sans fil',
+                        price: 8000,
+                        image: 'images/boutique/souris-ergonomic.jpg',
+                        specs: [
+                            'Conception verticale ergonomique maintenant la main et le poignet dans une posture naturelle',
+                            'Aide à soulager les tensions musculaires du bras et de l\'épaule lors des longues journées de bureau',
+                            'Connexion sans fil 2.4 GHz avec adaptateur USB inclus',
+                            'Molette fluide, boutons de clic souples et repose-pouce intégré'
+                        ]
+                    }
+                ]
+            },
+            {
+                id: 'enceintes-pc',
+                name: 'Enceintes PC',
+                category: 'peripheriques',
+                categoryLabel: 'Périphériques & Audio',
+                icon: 'fa-volume-high',
+                accentColor: '#a855f7',
+                image: 'images/boutique/enceintes-hp-dhe6000.jpg',
+                specs: [
+                    'Système d\'enceintes stéréo 2.0 (puissance totale 6 Watts)',
+                    'Prise audio Jack 3.5mm universelle compatible PC, ordinateurs portables et smartphones',
+                    'Alimentation directe par port USB 5V (aucune prise secteur 220V nécessaire)',
+                    'Éclairage décoratif RGB et molette de réglage du volume'
+                ],
+                variants: [
+                    {
+                        name: 'HP DHE-6000 Stéréo RGB (Alimentation USB)',
+                        price: 8000,
+                        image: 'images/boutique/enceintes-hp-dhe6000.jpg',
+                        specs: [
+                            'Paire d\'enceintes stéréo 2.0 développant 6W RMS (2 x 3W) pour un son clair et équilibré',
+                            'Prise audio Jack 3.5mm standard pour brancher sur PC portable, tour, écran ou téléphone',
+                            'Alimentation électrique par simple port USB 5V sans adaptateur secteur encombrant',
+                            'Effets lumineux RGB discrets et molette de réglage du volume directement accessible'
+                        ]
+                    }
+                ]
+            },
+            {
+                id: 'cable-manette-ps3',
+                name: 'Câble Manette PS3',
+                category: 'peripheriques',
+                categoryLabel: 'Périphériques & Audio',
+                icon: 'fa-gamepad',
+                accentColor: '#3b82f6',
+                image: 'images/boutique/cable-manette-ps3.jpg',
+                specs: [
+                    'Câble USB Type-A vers Mini-USB (Mini-B 5 broches)',
+                    'Longueur pratique de 1 mètre',
+                    'Permet la charge de la batterie et la synchronisation des données',
+                    'Gaine souple et connecteurs renforcés'
+                ],
+                variants: [
+                    {
+                        name: 'Longueur 1 Mètre Renforcé',
+                        price: 2500,
+                        image: 'images/boutique/cable-manette-ps3.jpg',
+                        specs: [
+                            'Câble de liaison USB-A vers Mini-USB (Mini-B 5 broches) de 1 mètre de longueur',
+                            'Permet de recharger la manette tout en jouant sans interrompre la partie',
+                            'Prend en charge la synchronisation et le transfert de données sur console et PC',
+                            'Embouts surmoulés résistants aux torsions répétées'
+                        ]
+                    }
+                ]
+            },
+
+            // --- STOCKAGE & COMPOSANTS (3 ARTICLES) ---
+            {
+                id: 'disques-ssd',
+                name: 'Disques SSD NVMe M.2',
+                category: 'stockage',
+                categoryLabel: 'Stockage & Composants',
+                icon: 'fa-hard-drive',
+                accentColor: 'var(--bq-cyan)',
+                image: 'images/boutique/ssd-nvme-m2.webp',
+                specs: [
+                    'Format compact M.2 2280 avec interface PCIe NVMe',
+                    'Démarrage quasi instantané du système d\'exploitation et chargement rapide des logiciels',
+                    'Composant à mémoire flash silencieux, robuste et sans pièces mobiles',
+                    'Compatible avec les cartes mères d\'ordinateurs fixes et portables récents'
+                ],
+                variants: [
+                    {
+                        name: 'NVMe M.2 PCIe - 256 Go',
+                        price: 35000,
+                        image: 'images/boutique/ssd-nvme-m2.webp',
+                        specs: [
+                            'Capacité de 256 Go idéale pour installer Windows 10/11 et les logiciels du quotidien',
+                            'Format standard M.2 2280 PCIe NVMe pour PC fixe ou ordinateur portable compatible',
+                            'Réduit considérablement les temps d\'attente au démarrage et lors de l\'ouverture des fichiers',
+                            'Faible consommation d\'énergie et fonctionnement totalement silencieux'
+                        ]
+                    },
+                    {
+                        name: 'NVMe M.2 PCIe - 512 Go',
+                        price: 60000,
+                        image: 'images/boutique/ssd-nvme-m2.webp',
+                        specs: [
+                            'Capacité confortable de 512 Go pour accueillir le système, les suites logicielles et plusieurs jeux',
+                            'Interface PCIe NVMe rapide fluidifiant les transferts et les installations de programmes',
+                            'Format M.2 2280 standard s\'insérant directement sur la carte mère sans câble',
+                            'Excellente fiabilité thermique et résistance aux secousses'
+                        ]
+                    },
+                    {
+                        name: 'NVMe M.2 PCIe - 1 To (1000 Go)',
+                        price: 95000,
+                        image: 'images/boutique/ssd-nvme-m2.webp',
+                        specs: [
+                            'Grande capacité de stockage de 1 To (1000 Go) pour vos projets lourds, vidéos et jeux volumineux',
+                            'Débits de lecture et d\'écriture constants pour le montage vidéo et les calculs lourds',
+                            'Format M.2 2280 PCIe NVMe moderne pour libérer de l\'espace physique dans le boîtier',
+                            'Solution idéale pour remplacer un disque dur mécanique lent ou étendre votre configuration'
+                        ]
+                    }
+                ]
+            },
+            {
+                id: 'boitier-hdd-ssd',
+                name: 'Boîtier Externe HDD/SSD & NVMe',
+                category: 'stockage',
+                categoryLabel: 'Stockage & Composants',
+                icon: 'fa-box-archive',
+                accentColor: 'var(--bq-gold)',
+                image: 'images/boutique/boitier-hdd.jpg',
+                specs: [
+                    'Boîtier externe pour recycler ou utiliser vos disques internes en USB',
+                    'Connexion rapide et reconnaissance immédiate sur PC, Mac et TV',
+                    'Mise en veille automatique pour préserver la durée de vie du disque'
+                ],
+                variants: [
+                    {
+                        name: '2.5" SATA vers USB 3.0 Noir',
+                        price: 5500,
+                        image: 'images/boutique/boitier-hdd.jpg',
+                        specs: [
+                            'Compatible avec tous les disques durs mécaniques 2.5 pouces et SSD 2.5" SATA (7mm et 9.5mm)',
+                            'Interface USB 3.0 avec câble inclus pour transférer rapidement films, photos et documents',
+                            'Montage simple sans tournevis grâce au système de tiroir coulissant',
+                            'Alimenté directement par le port USB de votre ordinateur avec voyant LED d\'activité'
+                        ]
+                    },
+                    {
+                        name: 'NVMe M.2 / SATA vers USB-C (10 Gbps)',
+                        price: 18000,
+                        image: 'images/boutique/boitier-ssd-nvme.jpg',
+                        specs: [
+                            'Boîtier métallique en aluminium adapté aux barrettes SSD M.2 (formats 2242, 2260 et 2280 NVMe / SATA)',
+                            'Interface USB-C (norme USB 3.2 Gen 2) offrant de très hauts débits de transfert de données',
+                            'Châssis en aluminium dissipant efficacement la chaleur générée par le SSD lors des gros transferts',
+                            'Livré avec câble USB et vis de fixation pour une installation soignée'
+                        ]
+                    }
+                ]
+            },
+            {
+                id: 'cles-usb',
+                name: 'Clés USB',
+                category: 'stockage',
+                categoryLabel: 'Stockage & Composants',
+                icon: 'fa-usb',
+                accentColor: 'var(--bq-primary)',
+                image: 'images/boutique/cle-usb-sandisk.jpg',
+                specs: [
+                    'Clés USB d\'origine certifiées SanDisk et Lexar',
+                    'Compatibilité universelle PC, Mac, télévision, autoradio et console',
+                    'Format compact et léger pour transporter facilement vos données'
+                ],
+                variants: [
+                    {
+                        name: 'SanDisk USB 3.0 - 16 Go',
+                        price: 5500,
+                        image: 'images/boutique/cle-usb-sandisk.jpg',
+                        specs: [
+                            'Clé SanDisk d\'origine avec connecteur USB 3.0 (rétrocompatible USB 2.0)',
+                            'Espace de 16 Go adapté pour le stockage de documents, rapports, cours et morceaux de musique',
+                            'Design compact facilitant le transport sur un porte-clés',
+                            'Prête à l\'emploi sans configuration'
+                        ]
+                    },
+                    {
+                        name: 'SanDisk USB 3.0 - 32 Go',
+                        price: 8500,
+                        image: 'images/boutique/cle-usb-sandisk.jpg',
+                        specs: [
+                            'Clé SanDisk officielle en USB 3.0 pour des transferts plus rapides de fichiers',
+                            'Capacité de 32 Go permettant d\'enregistrer photos, cours et utilitaires d\'installation système',
+                            'Format robuste et discret à emporter partout',
+                            'Compatible PC, Mac et appareils multimédias'
+                        ]
+                    },
+                    {
+                        name: 'SanDisk USB 3.0 - 64 Go',
+                        price: 13000,
+                        image: 'images/boutique/cle-usb-sandisk.jpg',
+                        specs: [
+                            'Clé SanDisk originale d\'une capacité de 64 Go avec interface USB 3.0',
+                            'Idéale pour stocker des vidéos, des albums photos complets et sauvegarder des dossiers de travail',
+                            'Boîtier solide protégeant le connecteur USB',
+                            'Reconnue immédiatement sur Windows, macOS et Linux'
+                        ]
+                    },
+                    {
+                        name: 'Lexar USB 2.0 - 16 Go',
+                        price: 4000,
+                        image: 'images/boutique/cle-usb-lexar.jpg',
+                        specs: [
+                            'Clé USB 2.0 Lexar d\'origine, solution simple et économique pour le stockage de base',
+                            '16 Go d\'espace pour vos fichiers Word, PDF, présentations et morceaux MP3',
+                            'Format léger avec trou pour cordon ou anneau de clé',
+                            'Grande compatibilité avec les chaînes Hi-Fi, autoradios et décodeurs TV'
+                        ]
+                    },
+                    {
+                        name: 'Lexar USB 2.0 - 32 Go',
+                        price: 7500,
+                        image: 'images/boutique/cle-usb-lexar.jpg',
+                        specs: [
+                            'Clé USB Lexar certifiée avec capacité de 32 Go',
+                            'Permet de conserver et partager de nombreux fichiers, musique et vidéos',
+                            'Reconnaissance automatique sur tous les ports USB standards',
+                            'Boîtier protecteur et format pratique'
+                        ]
+                    },
+                    {
+                        name: 'Lexar USB 2.0 - 64 Go',
+                        price: 11500,
+                        image: 'images/boutique/cle-usb-lexar.jpg',
+                        specs: [
+                            'Clé Lexar 64 Go offrant un volume de stockage généreux à tarif accessible',
+                            'Parfaite pour les sauvegardes personnelles, films et archives de documents',
+                            'Fonctionne sur ordinateurs de bureau, laptops, téléviseurs et boîtiers multimédias',
+                            'Prise en main aisée et bonne fiabilité de stockage'
+                        ]
+                    }
+                ]
+            },
+
+            // --- ALIMENTATION & CONNECTIQUE (8 ARTICLES) ---
+            {
+                id: 'chargeurs-pc',
+                name: 'Chargeurs PC',
+                category: 'connectique',
+                categoryLabel: 'Alimentation & Connectique',
+                icon: 'fa-bolt-lightning',
+                accentColor: 'var(--bq-gold)',
+                image: 'images/boutique/chargeurs-pc.jpg',
+                specs: [
+                    'Vendu complet : bloc d\'alimentation secteur + câble d\'alimentation avec prise secteur inclus',
+                    'Tension régulée et protections contre les surtensions, les courts-circuits et la surchauffe',
+                    'Connecteurs adaptés à chaque marque et modèle de PC portable'
+                ],
+                variants: [
+                    {
+                        name: 'HP / Compaq : 19.5V (Gros embout)',
+                        price: 8000,
+                        image: 'images/boutique/chargeurs-pc.jpg',
+                        specs: [
+                            'Tension de sortie 19,5 Volts avec gros connecteur rond (7,4 x 5,0 mm et broche centrale)',
+                            'Compatible avec les PC portables HP Pavilion, Compaq Presario, ProBook et EliteBook classiques',
+                            'Livré complet avec son bloc et son câble secteur 220V',
+                            'Protection intégrée contre les variations de tension du réseau électrique'
+                        ]
+                    },
+                    {
+                        name: 'HP / Compaq : 19.5V (Petit embout bleu)',
+                        price: 8000,
+                        image: 'images/boutique/chargeurs-pc.jpg',
+                        specs: [
+                            'Tension de sortie 19,5 Volts avec embout fin à bague bleue (4,5 x 3,0 mm avec pin central)',
+                            'Pour ordinateurs portables récents HP Pavilion 14/15, Envy, EliteBook et ProBook fins',
+                            'Fourni avec bloc d\'alimentation et cordon secteur mural',
+                            'Charge régulière respectant la batterie de votre PC portable'
+                        ]
+                    },
+                    {
+                        name: 'HP / Compaq : 18.5V (Anciens modèles)',
+                        price: 8000,
+                        image: 'images/boutique/chargeurs-pc.jpg',
+                        specs: [
+                            'Tension de sortie 18,5 Volts pour les anciennes générations d\'ordinateurs HP et Compaq',
+                            'Connecteur spécifique assurant un contact franc et sans jeu mécanique',
+                            'Ensemble complet comprenant le boîtier d\'alimentation et le câble secteur',
+                            'Idéal pour remplacer un chargeur d\'origine perdu ou défectueux'
+                        ]
+                    },
+                    {
+                        name: 'Dell : 19.5V (Gros embout)',
+                        price: 8000,
+                        image: 'images/boutique/chargeurs-pc.jpg',
+                        specs: [
+                            'Tension de 19,5V avec gros embout cylindrique (7,4 x 5,0 mm avec aiguille centrale)',
+                            'Compatible avec les gammes Dell Inspiron, Latitude, Vostro et Precision',
+                            'Intègre la broche de communication reconnue par le BIOS Dell pour la charge de la batterie',
+                            'Câble d\'alimentation secteur fourni dans le pack'
+                        ]
+                    },
+                    {
+                        name: 'Dell : 19.5V (Petit embout)',
+                        price: 8000,
+                        image: 'images/boutique/chargeurs-pc.jpg',
+                        specs: [
+                            'Tension de 19,5V avec connecteur fin (4,5 x 3,0 mm avec broche interne)',
+                            'Conçu pour les modèles ultraportables Dell Inspiron récents, XPS 13 et Vostro fins',
+                            'Pack complet comprenant le bloc chargeur et le cordon d\'alimentation',
+                            'Format peu encombrant dans le sac de transport'
+                        ]
+                    },
+                    {
+                        name: 'Lenovo / IBM : 20V (Gros embout rond)',
+                        price: 8000,
+                        image: 'images/boutique/chargeurs-pc.jpg',
+                        specs: [
+                            'Tension de sortie 20 Volts avec gros embout cylindrique rond (7,9 x 5,5 mm avec pin central)',
+                            'Compatible avec les séries Lenovo ThinkPad T60/T61/T400/T410/T420/T430 et IBM',
+                            'Livré complet avec bloc d\'alimentation et câble secteur',
+                            'Sécurité contre la surchauffe et les courts-circuits'
+                        ]
+                    },
+                    {
+                        name: 'Lenovo / IBM : 20V (Embout rectangulaire jaune)',
+                        price: 8000,
+                        image: 'images/boutique/chargeurs-pc.jpg',
+                        specs: [
+                            'Tension 20 Volts avec fiche rectangulaire jaune type Slim Tip',
+                            'Compatible Lenovo ThinkPad (T440, T450, T460, X240, X250, L450), IdeaPad et Yoga',
+                            'Vendu complet avec câble secteur 220V prêt à l\'emploi',
+                            'Recharge stable de la batterie et alimentation en utilisation intensive'
+                        ]
+                    },
+                    {
+                        name: 'Asus : 19V (Embouts standards)',
+                        price: 8000,
+                        image: 'images/boutique/chargeurs-pc.jpg',
+                        specs: [
+                            'Tension 19 Volts avec embout rond standard (5,5 x 2,5 mm)',
+                            'Convient à la majorité des ordinateurs portables Asus traditionnels des séries X, K, A et N',
+                            'Bloc d\'alimentation complet avec cordon secteur inclus',
+                            'Tension stabilisée pour protéger les composants internes du PC'
+                        ]
+                    },
+                    {
+                        name: 'Asus : 19V (Embouts fins)',
+                        price: 8000,
+                        image: 'images/boutique/chargeurs-pc.jpg',
+                        specs: [
+                            'Tension 19 Volts avec connecteur fin (4,0 x 1,35 mm ou 3,0 x 1,1 mm)',
+                            'Pour ordinateurs portables compacts Asus ZenBook, VivoBook et Flip',
+                            'Pack chargeur complet avec prise murale et câble',
+                            'Format léger et compact adapté aux déplacements'
+                        ]
+                    },
+                    {
+                        name: 'Acer : 19V',
+                        price: 8000,
+                        image: 'images/boutique/chargeurs-pc.jpg',
+                        specs: [
+                            'Tension 19 Volts avec connecteur adapté (5,5 x 1,7 mm bague jaune ou bleue)',
+                            'Compatible ordinateurs portables Acer Aspire, TravelMate, Swift et Extensa',
+                            'Bloc chargeur et câble d\'alimentation électrique inclus',
+                            'Délivre une alimentation constante sans micro-coupures'
+                        ]
+                    },
+                    {
+                        name: 'Toshiba : 19V',
+                        price: 8000,
+                        image: 'images/boutique/chargeurs-pc.jpg',
+                        specs: [
+                            'Tension 19 Volts avec fiche standard 5,5 x 2,5 mm',
+                            'Compatible PC portables Toshiba Satellite, Satellite Pro, Tecra et Dynabook',
+                            'Livré complet avec câble secteur prêt à brancher',
+                            'Protection contre les surcharges et surtensions'
+                        ]
+                    },
+                    {
+                        name: 'Sony Vaio : 19V',
+                        price: 8000,
+                        image: 'images/boutique/chargeurs-pc.jpg',
+                        specs: [
+                            'Tension 19 Volts avec embout rond spécifique (6,5 x 4,4 mm avec broche interne)',
+                            'Adapté à l\'ensemble des ordinateurs portables de la gamme Sony Vaio',
+                            'Ensemble complet bloc et cordon secteur 220V',
+                            'Charge sécurisée respectant les tolérances du constructeur'
+                        ]
+                    },
+                    {
+                        name: 'Samsung : 19V',
+                        price: 8000,
+                        image: 'images/boutique/chargeurs-pc.jpg',
+                        specs: [
+                            'Tension 19 Volts avec fiche ronde 5,5 x 3,0 mm (broche centrale)',
+                            'Pour ordinateurs portables de marque Samsung (séries NP, R, RV, Q, etc.)',
+                            'Bloc chargeur complet avec câble secteur fourni',
+                            'Alimentation fiable et continue'
+                        ]
+                    },
+                    {
+                        name: 'Samsung : 12V',
+                        price: 8000,
+                        image: 'images/boutique/chargeurs-pc.jpg',
+                        specs: [
+                            'Tension régulée de 12 Volts pour modèles spécifiques d\'ultraportables et tablettes PC Samsung',
+                            'Connecteur compact parfaitement ajusté à la prise de l\'appareil',
+                            'Câble d\'alimentation secteur inclus',
+                            'Protection électronique intégrée'
+                        ]
+                    },
+                    {
+                        name: 'LG : 19V',
+                        price: 8000,
+                        image: 'images/boutique/chargeurs-pc.jpg',
+                        specs: [
+                            'Tension 19 Volts compatible ordinateurs portables et moniteurs de marque LG',
+                            'Fiche standard assurant un bon contact électrique',
+                            'Fourni avec câble secteur 220V',
+                            'Assure un fonctionnement stable de votre équipement'
+                        ]
+                    },
+                    {
+                        name: 'LG : 12V',
+                        price: 8000,
+                        image: 'images/boutique/chargeurs-pc.jpg',
+                        specs: [
+                            'Tension de sortie 12 Volts pour appareils compacts et écrans de marque LG',
+                            'Connecteur adapté avec polarité standard',
+                            'Livré avec son cordon d\'alimentation électrique',
+                            'Circuit de sécurité contre les surchauffes'
+                        ]
+                    },
+                    {
+                        name: 'Fujitsu : 19V',
+                        price: 8000,
+                        image: 'images/boutique/chargeurs-pc.jpg',
+                        specs: [
+                            'Tension 19 Volts pour ordinateurs portables Fujitsu Siemens et Lifebook',
+                            'Connecteur standard 5,5 x 2,5 mm assurant une bonne fixation',
+                            'Complet avec bloc et câble secteur',
+                            'Qualité de fabrication conforme aux normes CE'
+                        ]
+                    },
+                    {
+                        name: 'MSI : 19V',
+                        price: 8000,
+                        image: 'images/boutique/chargeurs-pc.jpg',
+                        specs: [
+                            'Tension 19 Volts compatible avec les ordinateurs portables bureautiques et multimédias MSI',
+                            'Connecteur robuste évitant tout faux contact pendant l\'utilisation',
+                            'Bloc et câble secteur 220V inclus',
+                            'Protection contre les courts-circuits'
+                        ]
+                    },
+                    {
+                        name: 'Packard Bell : 19V',
+                        price: 8000,
+                        image: 'images/boutique/chargeurs-pc.jpg',
+                        specs: [
+                            'Tension 19 Volts pour ordinateurs portables Packard Bell de la gamme EasyNote',
+                            'Fiche adaptée aux prises des châssis Packard Bell',
+                            'Câble d\'alimentation secteur fourni',
+                            'Permet d\'alimenter le PC et recharger la batterie simultanément'
+                        ]
+                    },
+                    {
+                        name: 'Chargeur PC 65W Universel',
+                        price: 12000,
+                        image: 'images/boutique/chargeurs-pc.jpg',
+                        specs: [
+                            'Bloc chargeur 65 Watts livré avec un assortiment d\'embouts interchangeables',
+                            'Compatible avec de nombreuses marques de PC portables (HP, Lenovo, Asus, Acer, Dell, Toshiba, etc.)',
+                            'Ajustement automatique de la tension selon l\'embout raccordé',
+                            'Idéal en chargeur de secours ou pour les techniciens de maintenance informatique'
+                        ]
+                    },
+                    {
+                        name: 'Chargeur PC Type-C (65W/90W GaN PD)',
+                        price: 22000,
+                        image: 'images/boutique/chargeurs-pc.jpg',
+                        specs: [
+                            'Technologie USB-C Power Delivery (PD) pour ordinateurs portables récents (Dell XPS/Latitude, HP Envy/Spectre, Lenovo ThinkPad/Yoga, MacBook, Asus)',
+                            'Délivre la puissance exacte demandée par l\'ordinateur jusqu\'à 65W/90W',
+                            'Peut également charger rapidement les smartphones, tablettes et consoles (Nintendo Switch)',
+                            'Câble Type-C vers Type-C robuste inclus dans la boîte'
+                        ]
+                    }
+                ]
+            },
+            {
+                id: 'chargeur-45w-samsung',
+                name: 'Chargeur Téléphone',
+                category: 'connectique',
+                categoryLabel: 'Alimentation & Connectique',
+                icon: 'fa-charging-station',
+                accentColor: 'var(--bq-cyan)',
+                image: 'images/boutique/chargeur-samsung-45w.jpeg',
+                specs: [
+                    'Chargeur rapide 45W avec connecteur USB Type-C',
+                    'Câble Type-C vers Type-C fourni dans le coffret',
+                    'Compatible smartphones et tablettes Samsung Galaxy',
+                    'Gestion thermique évitant la surchauffe de la batterie'
+                ],
+                variants: [
+                    {
+                        name: 'Chargeur Samsung 45W (Bloc + Câble Type-C)',
+                        price: 5000,
+                        image: 'images/boutique/chargeur-samsung-45w.jpeg',
+                        specs: [
+                            'Bloc d\'alimentation rapide d\'une puissance maximale de 45 Watts en USB-C',
+                            'Câble Type-C vers Type-C inclus pour la charge et le transfert de photos / vidéos',
+                            'Prend en charge la charge rapide des Samsung Galaxy (S20, S21, S22, S23, S24, Note 10/20, séries A et tablettes)',
+                            'Régule automatiquement la puissance pour préserver la durée de vie de la batterie'
+                        ]
+                    }
+                ]
+            },
+            {
+                id: 'hub-usb-4ports',
+                name: 'Hub USB 4 Ports',
+                category: 'connectique',
+                categoryLabel: 'Alimentation & Connectique',
+                icon: 'fa-network-wired',
+                accentColor: '#3b82f6',
+                image: 'images/boutique/hub-usb-4ports.jpg',
+                specs: [
+                    'Multiplie 1 port USB en 4 ports USB 2.0 accessibles',
+                    'Permet de brancher simultanément souris, clavier, manette et clé USB',
+                    'Format compact et léger pour le bureau ou les déplacements',
+                    'Branchement Plug & Play immédiat sans pilote'
+                ],
+                variants: [
+                    {
+                        name: 'Hub USB 4 Ports 2.0 Compact',
+                        price: 5000,
+                        image: 'images/boutique/hub-usb-4ports.jpg',
+                        specs: [
+                            'Ajoute 4 ports USB 2.0 supplémentaires à partir d\'un seul port de votre ordinateur',
+                            'Pratique pour brancher simultanément clavier, souris, clé USB et manette sans débrancher vos accessoires',
+                            'Boîtier léger et câble souple faciles à transporter avec un ordinateur portable',
+                            'Fonctionne directement dès le branchement sur Windows, Mac et Linux'
+                        ]
+                    }
+                ]
+            },
+            {
+                id: 'support-pc-portable',
+                name: 'Support PC Portable',
+                category: 'connectique',
+                categoryLabel: 'Alimentation & Connectique',
+                icon: 'fa-laptop',
+                accentColor: 'var(--bq-primary)',
+                image: 'images/boutique/support-pc-portable.jpg',
+                specs: [
+                    'Support en aluminium avec plateau pivotant à 360°',
+                    'Ventilateurs intégrés alimentés par port USB',
+                    'Hauteur et inclinaison réglables pour améliorer la posture de travail',
+                    'Patins en silicone antidérapants pour ordinateurs portables de 11 à 17 pouces'
+                ],
+                variants: [
+                    {
+                        name: 'Support Rotatif 360° Aluminium avec Ventilateurs',
+                        price: 18000,
+                        image: 'images/boutique/support-pc-portable.jpg',
+                        specs: [
+                            'Plateau rotatif à 360 degrés en alliage d\'aluminium robuste pour orienter facilement votre écran',
+                            'Ventilateurs intégrés silencieux alimentés par simple prise USB pour refroidir le châssis de l\'ordinateur',
+                            'Hauteur et angle ajustables permettant de positionner l\'écran à hauteur des yeux pour soulager la nuque',
+                            'Surfaces et patins en caoutchouc antidérapant maintenant fermement les ordinateurs de 11 à 17 pouces'
+                        ]
+                    }
+                ]
+            },
+            {
+                id: 'adaptateur-wifi-usb',
+                name: 'Adaptateur Wi-Fi 2.4 GHz',
+                category: 'connectique',
+                categoryLabel: 'Alimentation & Connectique',
+                icon: 'fa-wifi',
+                accentColor: 'var(--bq-cyan)',
+                image: 'images/boutique/adaptateur-wifi-2.4.jpg',
+                specs: [
+                    'Permet d\'ajouter la connexion sans fil Wi-Fi à un ordinateur fixe ou portable',
+                    'Antenne externe orientable pour une meilleure réception du signal',
+                    'Vitesse jusqu\'à 150 Mbps sur la bande 2.4 GHz',
+                    'Branchement USB standard, reconnu sous Windows 10 et 11'
+                ],
+                variants: [
+                    {
+                        name: 'Wi-Fi 2.4 GHz 150 Mbps',
+                        price: 5000,
+                        image: 'images/boutique/adaptateur-wifi-2.4.jpg',
+                        specs: [
+                            'Connecte votre PC de bureau ou votre ordinateur portable au réseau Wi-Fi de votre box ou partage de connexion',
+                            'Antenne externe pivotante orientable pour capter un signal stable à travers les pièces',
+                            'Vitesse de transmission jusqu\'à 150 Mbps sur la fréquence 2.4 GHz',
+                            'Format clé USB compact, reconnu automatiquement sous Windows 10 et Windows 11'
+                        ]
+                    }
+                ]
+            },
+            {
+                id: 'cable-hdmi',
+                name: 'Câbles HDMI 4K',
+                category: 'connectique',
+                categoryLabel: 'Alimentation & Connectique',
+                icon: 'fa-tv',
+                accentColor: 'var(--bq-gold)',
+                image: 'images/boutique/cable-hdmi-60hz.jpg',
+                specs: [
+                    'Câble vidéo et audio HDMI numérique haute définition',
+                    'Prise en charge de l\'affichage 4K Ultra HD et son multicanal',
+                    'Connecteurs dorés assurant un signal propre sans interférence',
+                    'Compatible TV, moniteurs de PC, cartes graphiques et consoles'
+                ],
+                variants: [
+                    {
+                        name: 'Longueur 1.5 Mètre 4K @ 60Hz',
+                        price: 2500,
+                        image: 'images/boutique/cable-hdmi-60hz.jpg',
+                        specs: [
+                            'Longueur de 1,5 mètre idéale pour relier une tour PC, un décodeur ou une console à un téléviseur ou un écran',
+                            'Prend en charge la résolution 4K Ultra HD à 60 images par seconde ainsi que le son surround',
+                            'Connecteurs plaqués or offrant une excellente transmission du signal et évitant l\'oxydation',
+                            'Câble souple facile à dissimuler derrière un meuble TV ou un bureau'
+                        ]
+                    },
+                    {
+                        name: 'Longueur 1.5 Mètre 4K @ 120Hz Tressé',
+                        price: 5000,
+                        image: 'images/boutique/cable-hdmi-tresse.webp',
+                        specs: [
+                            'Câble renforcé avec gaine tressée en nylon résistante aux frottements et aux torsions',
+                            'Supporte les flux vidéo 4K à 120 images par seconde pour une fluidité d\'image optimale',
+                            'Idéal pour les consoles de dernière génération (PS5, Xbox Series) et les écrans PC gamers à haute fréquence',
+                            'Blindage interne anti-parasites garantissant une image stable et un son sans grésillement'
+                        ]
+                    }
+                ]
+            },
+            {
+                id: 'cable-vga',
+                name: 'Câble Vidéo VGA Mâle-Mâle HD',
+                category: 'connectique',
+                categoryLabel: 'Alimentation & Connectique',
+                icon: 'fa-display',
+                accentColor: 'var(--bq-text-dim)',
+                image: 'images/boutique/cable-vga.webp',
+                specs: [
+                    'Câble vidéo analogique VGA mâle vers mâle 15 broches',
+                    'Longueur standard de 1,5 mètre',
+                    'Équipé de deux ferrites anti-parasites',
+                    'Idéal pour brancher un PC sur un moniteur ou un vidéoprojecteur VGA'
+                ],
+                variants: [
+                    {
+                        name: 'Longueur 1.5 Mètre Double Ferrite',
+                        price: 2500,
+                        image: 'images/boutique/cable-vga.webp',
+                        specs: [
+                            'Câble VGA mâle vers mâle standard 15 broches de 1,5 mètre pour relier un ordinateur à un écran d\'affichage',
+                            'Deux tores de ferrite intégrés aux extrémités pour éliminer les parasites électromagnétiques et le flou d\'image',
+                            'Vis de serrage manuel à chaque bout pour un maintien solide sur la prise sans déconnexion accidentelle',
+                            'Compatible avec les écrans d\'ordinateur, les vidéoprojecteurs et les moniteurs bureautiques VGA'
+                        ]
+                    }
+                ]
+            },
+            {
+                id: 'adaptateur-hdmi-vga',
+                name: 'Adaptateur',
+                category: 'connectique',
+                categoryLabel: 'Alimentation & Connectique',
+                icon: 'fa-arrow-right-arrow-left',
+                accentColor: '#ec4899',
+                image: 'images/boutique/adaptateur-hdmi-vga.jpg',
+                specs: [
+                    'Convertit une sortie HDMI en prise d\'écran VGA analogique',
+                    'Résolution vidéo supportée jusqu\'au 1080p Full HD',
+                    'Sortie audio stéréo Jack 3.5mm avec câble Jack fourni',
+                    'Compact et prêt à l\'emploi sans alimentation externe'
+                ],
+                variants: [
+                    {
+                        name: 'HDMI vers VGA + Sortie Jack Audio',
+                        price: 2000,
+                        image: 'images/boutique/adaptateur-hdmi-vga.jpg',
+                        specs: [
+                            'Permet de brancher un ordinateur portable, un PC de bureau ou une console équipée d\'un port HDMI sur un ancien écran ou vidéoprojecteur VGA',
+                            'Prend en charge la vidéo en résolution 1080p Full HD',
+                            'Intègre une prise Jack 3.5mm et inclut un petit câble audio Jack pour brancher des haut-parleurs externes',
+                            'Fonctionne sans adaptateur secteur : branchez simplement et profitez de l\'affichage'
+                        ]
+                    }
+                ]
+            }
+        ];
+
+        /* ==========================================================================
+           GESTION DU THÈME CLAIR / SOMBRE (SYNCHRO AKOULY)
+           ========================================================================== */
+        function initThemeSync() {
+            const saved = localStorage.getItem('AKOULY_THEME') || localStorage.getItem('akouly_theme') || 'dark';
+            applyTheme(saved);
+
+            const toggleBtn = document.getElementById('themeToggleBtn');
+            if (toggleBtn) {
+                toggleBtn.addEventListener('click', () => {
+                    const cur = document.documentElement.getAttribute('data-theme') || 'dark';
+                    const next = cur === 'light' ? 'dark' : 'light';
+                    applyTheme(next);
+                });
+            }
+        }
+
+        function applyTheme(theme) {
+            document.documentElement.setAttribute('data-theme', theme);
+            localStorage.setItem('AKOULY_THEME', theme);
+            localStorage.setItem('akouly_theme', theme);
+
+            const toggleBtn = document.getElementById('themeToggleBtn');
+            if (toggleBtn) {
+                toggleBtn.innerHTML = theme === 'light' ? '<i class="fa-solid fa-sun"></i>' : '<i class="fa-solid fa-moon"></i>';
+            }
+        }
+
+        /* ==========================================================================
+           GESTION DU PANIER (LOCALSTORAGE)
+           ========================================================================== */
+        let cart = [];
+
+        function loadCart() {
+            try {
+                const data = localStorage.getItem('akouly_boutique_cart');
+                if (data) cart = JSON.parse(data);
+            } catch (e) {
+                cart = [];
+            }
+            updateCartUI();
+        }
+
+        function saveCart() {
+            try {
+                localStorage.setItem('akouly_boutique_cart', JSON.stringify(cart));
+            } catch (e) {}
+            updateCartUI();
+        }
+
+        function formatFCFA(amount) {
+            return new Intl.NumberFormat('fr-FR').format(amount) + ' FCFA';
+        }
+
+        function getTomorrowDate() {
+            const d = new Date();
+            d.setDate(d.getDate() + 1);
+            return d.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' });
+        }
+
+        /* ==========================================================================
+           RENDU DES PRODUITS (FORMAT CANVA CARRÉ STRICT 1:1 AVEC IMAGES RÉELLES)
+           ========================================================================== */
+        function renderProducts(catFilter = 'all', query = '') {
+            const container = document.getElementById('productsGrid');
+            container.innerHTML = '';
+
+            const q = query.toLowerCase().trim();
+            const filtered = PRODUCTS.filter(p => {
+                const matchCat = (catFilter === 'all' || p.category === catFilter);
+                const matchQ = p.name.toLowerCase().includes(q) || p.variants.some(v => v.name.toLowerCase().includes(q));
+                return matchCat && matchQ;
+            });
+
+            if (filtered.length === 0) {
+                container.innerHTML = `
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 3.5rem 1rem; color: var(--bq-text-muted);">
+                        <i class="fa-solid fa-box-open" style="font-size: 2.5rem; color: var(--bq-text-dim); margin-bottom: 0.75rem;"></i>
+                        <h4 style="font-family: var(--font-heading); color: var(--bq-text);">Aucun article correspondant</h4>
+                    </div>
+                `;
+                return;
+            }
+
+            filtered.forEach(prod => {
+                const card = document.createElement('div');
+                card.className = 'product-card';
+
+                const defaultVariant = prod.variants[0];
+                const defaultImage = defaultVariant.image || prod.image || '';
+
+                const variantsHTML = prod.variants.map((v, i) => `
+                    <option value="${i}">${v.name} — ${formatFCFA(v.price)}</option>
+                `).join('');
+
+                card.innerHTML = `
+                    <!-- Cadre Canva Carré Strict (1:1) -->
+                    <div class="canva-frame-square" onclick="openDetails('${prod.id}')" title="Cliquer pour voir les détails">
+                        <div class="canva-badges">
+                            <span class="badge-tag">${prod.categoryLabel.split(' ')[0]}</span>
+                            <span class="badge-stock"><i class="fa-solid fa-check"></i> En Stock</span>
+                        </div>
+
+                        <div class="canva-img-wrap">
+                            <img src="${defaultImage}" alt="${prod.name}" class="canva-product-img" id="img-${prod.id}" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <div class="canva-fallback-icon" style="display: none; color: ${prod.accentColor};">
+                                <i class="fa-solid ${prod.icon}"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Corps de la carte épurée -->
+                    <div class="product-body">
+                        <div class="title-row">
+                            <h4 class="product-name">${prod.name}</h4>
+                            <button type="button" class="btn-details" onclick="openDetails('${prod.id}')" title="Détails du produit">
+                                <i class="fa-solid fa-circle-info"></i> En savoir plus
+                            </button>
+                        </div>
+
+                        <div class="variant-box">
+                            <select id="var-${prod.id}" class="variant-dropdown" onchange="onVarChange('${prod.id}')">
+                                ${variantsHTML}
+                            </select>
+                        </div>
+
+                        <div class="price-qty-row">
+                            <span class="price-tag" id="price-${prod.id}">${formatFCFA(defaultVariant.price)}</span>
+
+                            <div class="qty-control">
+                                <button type="button" class="qty-btn" onclick="changeQty('${prod.id}', -1)">-</button>
+                                <input type="number" id="qty-${prod.id}" class="qty-val" value="1" min="1" max="99" readonly>
+                                <button type="button" class="qty-btn" onclick="changeQty('${prod.id}', 1)">+</button>
+                            </div>
+                        </div>
+
+                        <button type="button" class="btn-add" onclick="addToCart('${prod.id}')">
+                            <span class="btn-add-label">Ajouter au panier</span>
+                            <span class="btn-add-arrow">
+                                <svg viewBox="0 0 100 100">
+                                    <use xlink:href="#arrow" href="#arrow"></use>
+                                </svg>
+                            </span>
+                        </button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function onVarChange(id) {
+            const prod = PRODUCTS.find(p => p.id === id);
+            if (!prod) return;
+            const sel = document.getElementById(`var-${id}`);
+            const idx = parseInt(sel.value, 10);
+            const variant = prod.variants[idx];
+            if (!variant) return;
+
+            // Mise à jour du prix
+            document.getElementById(`price-${id}`).innerText = formatFCFA(variant.price);
+
+            // Mise à jour instantanée de l'image de la carte si la variante a sa propre image
+            const cardImg = document.getElementById(`img-${id}`);
+            if (cardImg && (variant.image || prod.image)) {
+                cardImg.src = variant.image || prod.image;
+                cardImg.style.display = 'block';
+                if (cardImg.nextElementSibling) cardImg.nextElementSibling.style.display = 'none';
+            }
+        }
+
+        function changeQty(id, delta) {
+            const input = document.getElementById(`qty-${id}`);
+            if (!input) return;
+            let val = parseInt(input.value, 10) || 1;
+            val += delta;
+            if (val < 1) val = 1;
+            if (val > 99) val = 99;
+            input.value = val;
+        }
+
+        /* ==========================================================================
+           MODALE FLOTTANTE AVEC ZOOM 50% ET SÉLECTION D'ARTICLES
+           ========================================================================== */
+        let currentModalProd = null;
+        let isModalZoomed = true; // Démarre en mode zoom 50% actif
+
+        function openDetails(id, variantIdx = null) {
+            const prod = PRODUCTS.find(p => p.id === id);
+            if (!prod) return;
+
+            currentModalProd = prod;
+
+            // Récupère l'index sélectionné sur la carte s'il n'est pas spécifié
+            if (variantIdx === null) {
+                const cardVarSelect = document.getElementById(`var-${id}`);
+                variantIdx = cardVarSelect ? parseInt(cardVarSelect.value, 10) : 0;
+            }
+
+            document.getElementById('modalTitle').innerText = prod.name;
+            document.getElementById('modalCategory').innerText = prod.categoryLabel;
+
+            // Remplissage des spécifications
+            const list = document.getElementById('modalSpecs');
+            list.innerHTML = prod.specs.map(s => `
+                <li><i class="fa-solid fa-check"></i> <span>${s}</span></li>
+            `).join('');
+
+            // Remplissage des variantes dans la modale
+            const modalVarSelect = document.getElementById('modalVariantSelect');
+            modalVarSelect.innerHTML = prod.variants.map((v, i) => `
+                <option value="${i}" ${i === variantIdx ? 'selected' : ''}>${v.name} — ${formatFCFA(v.price)}</option>
+            `).join('');
+
+            // Remplissage des vignettes miniatures
+            const thumbsRow = document.getElementById('modalThumbsRow');
+            if (prod.variants.length > 1) {
+                thumbsRow.style.display = 'flex';
+                thumbsRow.innerHTML = prod.variants.map((v, i) => `
+                    <button type="button" class="modal-thumb-item ${i === variantIdx ? 'active' : ''}" onclick="selectModalVariantByIndex(${i})" title="${v.name}">
+                        <img src="${v.image || prod.image}" class="modal-thumb-img" alt="${v.name}">
+                    </button>
+                `).join('');
+            } else {
+                thumbsRow.style.display = 'none';
+            }
+
+            // Quantité initiale
+            document.getElementById('modalQtyInput').value = 1;
+
+            // Chargement de l'image, du prix et des spécifications de la variante sélectionnée
+            updateModalVariantView(variantIdx);
+
+            // Active le zoom 50% par défaut
+            isModalZoomed = true;
+            applyModalZoomState();
+
+            // Affichage de la modale
+            document.getElementById('detailsModal').classList.add('active');
+        }
+
+        function updateModalVariantView(idx) {
+            if (!currentModalProd) return;
+            const variant = currentModalProd.variants[idx] || currentModalProd.variants[0];
+
+            // Image
+            const imgEl = document.getElementById('modalZoomImg');
+            const targetSrc = variant.image || currentModalProd.image || '';
+            imgEl.src = targetSrc;
+            imgEl.style.transformOrigin = 'center center';
+
+            // Prix
+            document.getElementById('modalPriceVal').innerText = formatFCFA(variant.price);
+
+            // Spécifications adaptées à la variante sélectionnée
+            const specsList = document.getElementById('modalSpecs');
+            const specsToShow = (variant.specs && variant.specs.length > 0) ? variant.specs : currentModalProd.specs;
+            if (specsList && specsToShow) {
+                specsList.innerHTML = specsToShow.map(s => `
+                    <li><i class="fa-solid fa-check"></i> <span>${s}</span></li>
+                `).join('');
+            }
+
+            // Synchronisation du select
+            const selectEl = document.getElementById('modalVariantSelect');
+            if (selectEl && parseInt(selectEl.value, 10) !== idx) {
+                selectEl.value = idx;
+            }
+
+            // Vignettes actives
+            const thumbs = document.querySelectorAll('.modal-thumb-item');
+            thumbs.forEach((t, i) => {
+                if (i === idx) t.classList.add('active');
+                else t.classList.remove('active');
+            });
+        }
+
+        function selectModalVariantByIndex(idx) {
+            updateModalVariantView(idx);
+        }
+
+        function onModalVarChange() {
+            const selectEl = document.getElementById('modalVariantSelect');
+            const idx = parseInt(selectEl.value, 10);
+            updateModalVariantView(idx);
+        }
+
+        function toggleModalZoom() {
+            isModalZoomed = !isModalZoomed;
+            applyModalZoomState();
+        }
+
+        function applyModalZoomState() {
+            const imgEl = document.getElementById('modalZoomImg');
+            const btnEl = document.getElementById('modalZoomBtn');
+            if (!imgEl) return;
+            if (isModalZoomed) {
+                imgEl.classList.add('is-zoomed');
+                if (btnEl) {
+                    btnEl.innerHTML = '<i class="fa-solid fa-magnifying-glass-minus"></i>';
+                    btnEl.title = 'Désactiver le zoom';
+                }
+            } else {
+                imgEl.classList.remove('is-zoomed');
+                imgEl.style.transformOrigin = 'center center';
+                if (btnEl) {
+                    btnEl.innerHTML = '<i class="fa-solid fa-magnifying-glass-plus"></i>';
+                    btnEl.title = 'Activer le zoom 50%';
+                }
+            }
+        }
+
+        function changeModalQty(delta) {
+            const input = document.getElementById('modalQtyInput');
+            if (!input) return;
+            let val = parseInt(input.value, 10) || 1;
+            val += delta;
+            if (val < 1) val = 1;
+            if (val > 99) val = 99;
+            input.value = val;
+        }
+
+        function addFromModal() {
+            if (!currentModalProd) return;
+            const selectEl = document.getElementById('modalVariantSelect');
+            const varIdx = parseInt(selectEl.value, 10) || 0;
+            const variant = currentModalProd.variants[varIdx];
+            const qty = parseInt(document.getElementById('modalQtyInput').value, 10) || 1;
+
+            const key = `${currentModalProd.id}__v${varIdx}`;
+            const idx = cart.findIndex(i => i.key === key);
+
+            if (idx > -1) {
+                cart[idx].qty += qty;
+            } else {
+                cart.push({
+                    key: key,
+                    id: currentModalProd.id,
+                    name: currentModalProd.name,
+                    icon: currentModalProd.icon,
+                    accentColor: currentModalProd.accentColor,
+                    variantName: variant.name,
+                    price: variant.price,
+                    qty: qty
+                });
+            }
+
+            saveCart();
+            showToast(`<i class="fa-solid fa-circle-check"></i> ${currentModalProd.name} (${variant.name}) ajouté au panier !`);
+            closeDetails();
+            openCart();
+        }
+
+        function closeDetails() {
+            document.getElementById('detailsModal').classList.remove('active');
+        }
+
+        // Suivi de la souris pour naviguer dans l'image agrandie à 50%
+        document.addEventListener('DOMContentLoaded', () => {
+            const viewer = document.getElementById('modalImgViewer');
+            const zoomImg = document.getElementById('modalZoomImg');
+
+            if (viewer && zoomImg) {
+                viewer.addEventListener('mousemove', (e) => {
+                    if (!zoomImg.classList.contains('is-zoomed')) return;
+                    const rect = viewer.getBoundingClientRect();
+                    const x = ((e.clientX - rect.left) / rect.width) * 100;
+                    const y = ((e.clientY - rect.top) / rect.height) * 100;
+                    zoomImg.style.transformOrigin = `${x}% ${y}%`;
+                });
+
+                viewer.addEventListener('mouseleave', () => {
+                    zoomImg.style.transformOrigin = 'center center';
+                });
+            }
+        });
+
+        /* ==========================================================================
+           LOGIQUE DU PANIER
+           ========================================================================== */
+        function addToCart(id) {
+            const prod = PRODUCTS.find(p => p.id === id);
+            if (!prod) return;
+
+            const varSelect = document.getElementById(`var-${id}`);
+            const varIdx = varSelect ? parseInt(varSelect.value, 10) : 0;
+            const variant = prod.variants[varIdx];
+
+            const qtyInput = document.getElementById(`qty-${id}`);
+            const qty = qtyInput ? (parseInt(qtyInput.value, 10) || 1) : 1;
+
+            const key = `${id}__v${varIdx}`;
+            const idx = cart.findIndex(i => i.key === key);
+
+            if (idx > -1) {
+                cart[idx].qty += qty;
+            } else {
+                cart.push({
+                    key: key,
+                    id: prod.id,
+                    name: prod.name,
+                    icon: prod.icon,
+                    accentColor: prod.accentColor,
+                    variantName: variant.name,
+                    price: variant.price,
+                    qty: qty
+                });
+            }
+
+            if (qtyInput) qtyInput.value = 1;
+            saveCart();
+            showToast(`<i class="fa-solid fa-circle-check"></i> ${prod.name} (${variant.name}) ajouté au panier !`);
+            openCart();
+        }
+
+        function updateItemQty(key, delta) {
+            const idx = cart.findIndex(i => i.key === key);
+            if (idx === -1) return;
+            cart[idx].qty += delta;
+            if (cart[idx].qty <= 0) cart.splice(idx, 1);
+            saveCart();
+        }
+
+        function removeItem(key) {
+            cart = cart.filter(i => i.key !== key);
+            saveCart();
+        }
+
+        let appliedPromo = null; // { code, discountPercent, discountAmount }
+
+        function updateCartUI() {
+            const totalCount = cart.reduce((acc, i) => acc + i.qty, 0);
+            document.getElementById('cartBadgeCount').innerText = totalCount;
+
+            const list = document.getElementById('cartItemsList');
+            if (cart.length === 0) {
+                list.innerHTML = `
+                    <div style="text-align: center; color: var(--bq-text-muted); margin: auto; padding: 2rem 1rem;">
+                        <i class="fa-solid fa-cart-shopping" style="font-size: 2.2rem; color: var(--bq-text-dim); margin-bottom: 0.5rem;"></i>
+                        <p style="font-weight: 600;">Votre panier est vide</p>
+                    </div>
+                `;
+            } else {
+                list.innerHTML = cart.map(item => `
+                    <div class="cart-row">
+                        <div class="cart-thumb" style="color: ${item.accentColor || 'var(--bq-primary)'};">
+                            <i class="fa-solid ${item.icon}"></i>
+                        </div>
+                        <div class="cart-info">
+                            <h5 class="cart-info-name">${item.name}</h5>
+                            <span class="cart-info-var">${item.variantName}</span><br>
+                            <span class="cart-info-price">${formatFCFA(item.price)}</span>
+                            <div class="cart-qty-box">
+                                <button type="button" onclick="updateItemQty('${item.key}', -1)">-</button>
+                                <span>${item.qty}</span>
+                                <button type="button" onclick="updateItemQty('${item.key}', 1)">+</button>
+                            </div>
+                        </div>
+                        <button type="button" class="cart-del-btn" onclick="removeItem('${item.key}')" title="Supprimer">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
+                    </div>
+                `).join('');
+            }
+
+            const subtotal = cart.reduce((acc, i) => acc + (i.price * i.qty), 0);
+            const select = document.getElementById('clientCommune');
+            const opt = select ? select.options[select.selectedIndex] : null;
+            const fee = opt ? (parseInt(opt.dataset.fee, 10) || 0) : 0;
+            const communeName = opt && opt.value ? opt.value : 'À définir';
+
+            // Calcul de la remise Promo si code actif
+            let discountAmount = 0;
+            const promoRow = document.getElementById('promoDiscountRow');
+            const promoPct = appliedPromo ? Number(appliedPromo.discountPercent || appliedPromo.reductionPourcentage || appliedPromo.reduction || 0) : 0;
+
+            if (appliedPromo && promoPct > 0 && subtotal > 0) {
+                discountAmount = Math.round((subtotal * promoPct) / 100);
+                appliedPromo.discountAmount = discountAmount;
+                appliedPromo.discountPercent = promoPct;
+                if (promoRow) {
+                    promoRow.style.display = 'flex';
+                    const pVal = document.getElementById('promoPercentVal');
+                    if (pVal) pVal.innerText = `${promoPct}%`;
+                    const dVal = document.getElementById('promoDiscountVal');
+                    if (dVal) dVal.innerText = `-${formatFCFA(discountAmount)}`;
+                }
+            } else {
+                if (promoRow) promoRow.style.display = 'none';
+            }
+
+            const grandTotal = Math.max(0, subtotal - discountAmount) + (subtotal > 0 ? fee : 0);
+
+            document.getElementById('subtotalVal').innerText = formatFCFA(subtotal);
+            document.getElementById('deliveryVal').innerText = fee > 0 ? formatFCFA(fee) : '0 FCFA';
+            document.getElementById('communeLabel').innerText = communeName;
+            document.getElementById('grandTotalVal').innerText = formatFCFA(grandTotal);
+
+            const submitBtn = document.getElementById('btnSubmitOrder');
+            if (submitBtn) submitBtn.disabled = (cart.length === 0);
+        }
+
+        /* ==========================================================================
+           VALIDATION DU CODE PROMO
+           ========================================================================== */
+        async function applyPromoCode() {
+            const input = document.getElementById('clientPromoCode');
+            const code = (input ? input.value : '').trim().toUpperCase();
+            if (!code) {
+                showToast('<i class="fa-solid fa-triangle-exclamation"></i> Entrez un code promo.');
+                return;
+            }
+
+            const subtotal = cart.reduce((acc, i) => acc + (i.price * i.qty), 0);
+            if (subtotal === 0) {
+                showToast('<i class="fa-solid fa-triangle-exclamation"></i> Votre panier est vide.');
+                return;
+            }
+
+            const btn = document.getElementById('btnApplyPromo');
+            const orig = btn.innerText;
+            btn.innerText = '...';
+            btn.disabled = true;
+
+            try {
+                const res = await fetch(`${APPS_SCRIPT_URL}?action=verifierPromo&code=${encodeURIComponent(code)}&subtotal=${subtotal}`);
+                const data = await res.json();
+                if (data && (data.valide || data.valid || data.status === 'ok')) {
+                    const pct = Number(data.discountPercent || data.reductionPourcentage || data.reduction || 0);
+                    const amount = Number(data.discountAmount || data.montantReduction || data.discount || Math.round((subtotal * pct) / 100));
+                    appliedPromo = {
+                        code: data.code || code,
+                        discountPercent: pct,
+                        discountAmount: amount
+                    };
+                    showToast(`<i class="fa-solid fa-circle-check"></i> ${data.message || `Code promo appliqué (-${pct}%) !`}`);
+                    const statusMsg = document.getElementById('promoStatusMsg');
+                    if (statusMsg) statusMsg.innerHTML = `<span style="color: var(--bq-primary); font-weight: 700;">-${pct}% appliqué</span> <button type="button" onclick="cancelPromoCode()" style="background:none; border:none; color:var(--bq-danger); cursor:pointer; font-size:0.75rem; margin-left:4px;" title="Retirer"><i class="fa-solid fa-xmark"></i></button>`;
+                    updateCartUI();
+                } else {
+                    appliedPromo = null;
+                    showToast(`<i class="fa-solid fa-circle-xmark"></i> ${data.message || 'Code promo invalide.'}`);
+                    const statusMsg = document.getElementById('promoStatusMsg');
+                    if (statusMsg) statusMsg.innerText = '';
+                    updateCartUI();
+                }
+            } catch (e) {
+                // Validation locale de secours
+                if (code === 'BIENVENUE10' || code === 'AKOULY10') {
+                    appliedPromo = { code: code, discountPercent: 10, discountAmount: Math.round(subtotal * 0.1) };
+                    showToast('<i class="fa-solid fa-circle-check"></i> Code appliqué (-10%) !');
+                    const statusMsg = document.getElementById('promoStatusMsg');
+                    if (statusMsg) statusMsg.innerHTML = `<span style="color: var(--bq-primary); font-weight: 700;">-10% appliqué</span> <button type="button" onclick="cancelPromoCode()" style="background:none; border:none; color:var(--bq-danger); cursor:pointer; font-size:0.75rem; margin-left:4px;" title="Retirer"><i class="fa-solid fa-xmark"></i></button>`;
+                } else {
+                    showToast('<i class="fa-solid fa-circle-xmark"></i> Erreur lors de la vérification du code.');
+                }
+                updateCartUI();
+            } finally {
+                btn.innerText = orig;
+                btn.disabled = false;
+            }
+        }
+
+        function cancelPromoCode() {
+            appliedPromo = null;
+            const input = document.getElementById('clientPromoCode');
+            if (input) input.value = '';
+            const statusMsg = document.getElementById('promoStatusMsg');
+            if (statusMsg) statusMsg.innerText = '';
+            showToast('<i class="fa-solid fa-info-circle"></i> Code promo retiré.');
+            updateCartUI();
+        }
+        window.cancelPromoCode = cancelPromoCode;
+
+        /* ==========================================================================
+           CHARGEMENT DYNAMIQUE DES PRODUITS DEPUIS GOOGLE SHEETS
+           ========================================================================== */
+        async function fetchDynamicProducts() {
+            try {
+                const res = await fetch(`${APPS_SCRIPT_URL}?action=getProduits`);
+                const data = await res.json();
+                if (data && data.status === 'ok' && Array.isArray(data.products) && data.products.length > 0) {
+                    PRODUCTS = data.products;
+                    const query = document.getElementById('searchInput') ? document.getElementById('searchInput').value : '';
+                    renderProducts(currentCat, query);
+                }
+            } catch (err) {
+                console.warn('Mode local : utilisation du catalogue de secours.', err);
+            }
+        }
+
+        /* ==========================================================================
+           ENREGISTREMENT AUTOMATISÉ DANS GOOGLE SHEETS
+           TABLEAU : https://docs.google.com/spreadsheets/d/14p01xmFOzG6qXOjx8g2vZZJshHl22JpTArorHt9m4l4/edit?usp=sharing
+           ========================================================================== */
+        async function submitOrderToGoogleSheets() {
+            if (cart.length === 0) return alert('Votre panier est vide.');
+
+            const nameInput = document.getElementById('clientName');
+            const phoneInput = document.getElementById('clientPhone');
+            const communeSelect = document.getElementById('clientCommune');
+            const addressInput = document.getElementById('clientAddress');
+
+            const name = nameInput.value.trim();
+            const phone = phoneInput.value.trim();
+            const commune = communeSelect.value;
+            const address = addressInput.value.trim();
+
+            if (!name) {
+                alert('Veuillez entrer votre Nom & Prénom.');
+                nameInput.focus();
+                return;
+            }
+            if (!phone) {
+                alert('Veuillez entrer votre numéro de téléphone.');
+                phoneInput.focus();
+                return;
+            }
+            if (!commune) {
+                alert('Veuillez choisir votre commune de livraison.');
+                communeSelect.focus();
+                return;
+            }
+
+            const submitBtn = document.getElementById('btnSubmitOrder');
+            const originalBtnHTML = submitBtn.innerHTML;
+
+            // État de chargement
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> <span>Enregistrement en cours...</span>`;
+
+            const fee = parseInt(communeSelect.options[communeSelect.selectedIndex].dataset.fee, 10) || 0;
+            const subtotal = cart.reduce((acc, i) => acc + (i.price * i.qty), 0);
+            const discountAmount = appliedPromo && appliedPromo.discountAmount ? appliedPromo.discountAmount : 0;
+            const grandTotal = Math.max(0, subtotal - discountAmount) + fee;
+            const tomorrow = getTomorrowDate();
+
+            // Résumé des articles formaté multi-lignes pour la cellule Google Sheet
+            const itemsSummary = cart.map((i, idx) => 
+                `${idx + 1}. ${i.name} (${i.variantName}) x${i.qty} = ${formatFCFA(i.price * i.qty)}`
+            ).join('\n');
+
+            const payload = {
+                source: "boutique_order",
+                type: "boutique",
+                sheetId: BOUTIQUE_SHEET_ID,
+                name: name,
+                phone: phone,
+                commune: commune,
+                address: address || "Non précisé",
+                subtotal: subtotal,
+                deliveryFee: fee,
+                discount: discountAmount,
+                discountAmount: discountAmount,
+                promoCode: appliedPromo ? appliedPromo.code : "",
+                grandTotal: grandTotal,
+                deliveryDate: `Demain (${tomorrow})`,
+                itemsSummary: itemsSummary,
+                items: cart
+            };
+
+            try {
+                // Envoi vers le Web App Google Apps Script
+                await fetch(APPS_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                // Sauvegarde dans l'historique local
+                try {
+                    const history = JSON.parse(localStorage.getItem('akouly_boutique_history') || '[]');
+                    history.unshift({ ...payload, timestamp: new Date().toISOString() });
+                    localStorage.setItem('akouly_boutique_history', JSON.stringify(history));
+                } catch (e) {}
+
+                // Remplissage de la modale de confirmation
+                document.getElementById('successClientName').innerText = name;
+                document.getElementById('successClientPhone').innerText = phone;
+                document.getElementById('successClientCommune').innerText = commune + (address ? ` — ${address}` : '');
+                document.getElementById('successDeliveryDate').innerText = `Demain (${tomorrow})`;
+                document.getElementById('successGrandTotal').innerText = formatFCFA(grandTotal);
+
+                // Fermer le tiroir et afficher la confirmation
+                closeCart();
+                document.getElementById('orderSuccessModal').classList.add('active');
+
+                // Vider le panier et réinitialiser code promo
+                cart = [];
+                appliedPromo = null;
+                if (document.getElementById('clientPromoCode')) document.getElementById('clientPromoCode').value = '';
+                if (document.getElementById('promoStatusMsg')) document.getElementById('promoStatusMsg').innerText = '';
+                saveCart();
+                if (addressInput) addressInput.value = '';
+
+                showToast('<i class="fa-solid fa-circle-check"></i> Commande enregistrée avec succès !');
+            } catch (err) {
+                console.warn('Erreur réseau / enregistrement local:', err);
+                document.getElementById('successClientName').innerText = name;
+                document.getElementById('successClientPhone').innerText = phone;
+                document.getElementById('successClientCommune').innerText = commune;
+                document.getElementById('successDeliveryDate').innerText = `Demain (${tomorrow})`;
+                document.getElementById('successGrandTotal').innerText = formatFCFA(grandTotal);
+
+                closeCart();
+                document.getElementById('orderSuccessModal').classList.add('active');
+                cart = [];
+                appliedPromo = null;
+                saveCart();
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalBtnHTML;
+            }
+        }
+
+        /* ==========================================================================
+           TOAST & HELPERS
+           ========================================================================== */
+        function showToast(msg) {
+            const container = document.getElementById('toastBox');
+            const t = document.createElement('div');
+            t.className = 'toast-item';
+            t.innerHTML = msg;
+            container.appendChild(t);
+            setTimeout(() => {
+                t.style.opacity = '0';
+                setTimeout(() => t.remove(), 250);
+            }, 2500);
+        }
+
+        function openCart() {
+            document.getElementById('cartOverlay').classList.add('active');
+        }
+
+        function closeCart() {
+            document.getElementById('cartOverlay').classList.remove('active');
+        }
+
+        /* ==========================================================================
+           ANIMATION "PUSH" ENTRE CATÉGORIES (gauche / droite selon l'ordre des chips)
+           ========================================================================== */
+        let currentCat = 'all';
+        let animToken = 0;
+
+        async function switchCategory(newCat) {
+            if (newCat === currentCat) return;
+
+            const chips = [...document.querySelectorAll('.cat-chip')];
+            const order = chips.map(c => c.dataset.cat);
+            const dir = order.indexOf(newCat) > order.indexOf(currentCat) ? 1 : -1; // 1 = vers la droite
+            currentCat = newCat;
+
+            const grid = document.getElementById('productsGrid');
+            const query = document.getElementById('searchInput').value;
+            const token = ++animToken;
+
+            grid.getAnimations().forEach(a => a.cancel());
+
+            // Accessibilité : pas d'animation si l'utilisateur la désactive
+            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                renderProducts(newCat, query);
+                return;
+            }
+
+            const distance = Math.min(80, window.innerWidth * 0.15);
+
+            try {
+                // 1) L'ancienne grille est poussée hors de l'écran
+                await grid.animate([
+                    { transform: 'translateX(0)', opacity: 1 },
+                    { transform: `translateX(${-dir * distance}px)`, opacity: 0 }
+                ], { duration: 180, easing: 'ease-in', fill: 'forwards' }).finished;
+
+                if (token !== animToken) return; // un clic plus récent a pris le relais
+
+                // 2) On change le contenu
+                renderProducts(newCat, query);
+                grid.getAnimations().forEach(a => a.cancel());
+
+                // 3) La nouvelle grille entre du côté opposé
+                await grid.animate([
+                    { transform: `translateX(${dir * distance}px)`, opacity: 0 },
+                    { transform: 'translateX(0)', opacity: 1 }
+                ], { duration: 320, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' }).finished;
+            } catch (e) {
+                /* animation annulée par un clic rapide : rien à faire */
+            }
+        }
+
+        /* ==========================================================================
+           GESTION NEWSLETTER & POPUP FLOTTANT (DÉCLENCHÉ APRÈS 30 SECONDES)
+           ========================================================================== */
+        let newsletterTimer = null;
+
+        function initNewsletterTimer() {
+            // Ne pas afficher si déjà inscrit ou fermé récemment (dans les dernières 24h)
+            const isSubscribed = localStorage.getItem('akouly_newsletter_subscribed');
+            const dismissedAt = localStorage.getItem('akouly_newsletter_dismissed_at');
+            const oneDay = 24 * 60 * 60 * 1000;
+
+            if (isSubscribed) return;
+            if (dismissedAt && (Date.now() - parseInt(dismissedAt, 10)) < oneDay) return;
+
+            newsletterTimer = setTimeout(() => {
+                showNewsletterModal();
+            }, 30000); // 30 secondes
+        }
+
+        function showNewsletterModal() {
+            const isSubscribed = localStorage.getItem('akouly_newsletter_subscribed');
+            if (isSubscribed) return;
+
+            const modal = document.getElementById('newsletterModal');
+            if (modal) modal.classList.add('active');
+        }
+
+        function closeNewsletterModal(isDismissed = false) {
+            const modal = document.getElementById('newsletterModal');
+            if (modal) modal.classList.remove('active');
+
+            if (isDismissed) {
+                localStorage.setItem('akouly_newsletter_dismissed_at', Date.now().toString());
+            }
+        }
+
+        async function handleNewsletterSubmit(e, source) {
+            e.preventDefault();
+
+            let pseudo = '';
+            let email = '';
+            let btnEl = null;
+
+            if (source === 'modal') {
+                pseudo = (document.getElementById('modalNewsletterPseudo').value || '').trim();
+                email = (document.getElementById('modalNewsletterEmail').value || '').trim();
+                btnEl = document.getElementById('modalNewsletterBtn');
+            } else {
+                pseudo = (document.getElementById('newsletterPseudo').value || '').trim();
+                email = (document.getElementById('newsletterEmail').value || '').trim();
+                btnEl = document.getElementById('newsletterBtn');
+            }
+
+            if (!email || !pseudo) {
+                showToast('<i class="fa-solid fa-circle-exclamation"></i> Veuillez renseigner votre pseudo et votre email.');
+                return;
+            }
+
+            if (btnEl) {
+                btnEl.disabled = true;
+                btnEl.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Inscription en cours...';
+            }
+
+            // Envoi au backend Google Apps Script en tâche de fond (mode no-cors)
+            try {
+                fetch(APPS_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        source: 'newsletter',
+                        pseudo: pseudo,
+                        email: email,
+                        date: new Date().toISOString()
+                    })
+                }).catch(err => console.warn('Newsletter sync notice:', err));
+            } catch (err) {
+                console.warn('Newsletter fetch notice:', err);
+            }
+
+            // Enregistrement local
+            localStorage.setItem('akouly_newsletter_subscribed', 'true');
+            localStorage.setItem('akouly_newsletter_user', JSON.stringify({ pseudo: pseudo, email: email, date: new Date().toISOString() }));
+
+            showToast(`<i class="fa-solid fa-circle-check"></i> Merci ${pseudo} ! Inscription à la newsletter réussie.`);
+
+            if (btnEl) {
+                btnEl.innerHTML = '<i class="fa-solid fa-check"></i> Inscrit !';
+                btnEl.style.background = '#059669';
+                btnEl.style.color = '#ffffff';
+            }
+
+            // Si c'est la modale, fermer après 1.2s
+            if (source === 'modal') {
+                setTimeout(() => {
+                    closeNewsletterModal(false);
+                }, 1200);
+            }
+        }
+
+        /* ==========================================================================
+           INITIALISATION
+           ========================================================================== */
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('currentYear').innerText = new Date().getFullYear();
+            initThemeSync();
+            renderProducts('all');
+            loadCart();
+            fetchDynamicProducts();
+            initNewsletterTimer(); // Démarre le compte à rebours de 30 secondes
+
+            // Panier
+            document.getElementById('openCartBtn').addEventListener('click', openCart);
+            document.getElementById('closeCartBtn').addEventListener('click', closeCart);
+            document.getElementById('cartOverlay').addEventListener('click', (e) => {
+                if (e.target.id === 'cartOverlay') closeCart();
+            });
+
+            // Code Promo
+            const applyPromoBtn = document.getElementById('btnApplyPromo');
+            if (applyPromoBtn) applyPromoBtn.addEventListener('click', applyPromoCode);
+            const promoInput = document.getElementById('clientPromoCode');
+            if (promoInput) {
+                promoInput.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        applyPromoCode();
+                    }
+                });
+            }
+
+            // Modale Détails & Zoom 50%
+            document.getElementById('closeDetailsBtn').addEventListener('click', closeDetails);
+            document.getElementById('detailsModal').addEventListener('click', (e) => {
+                if (e.target.id === 'detailsModal') closeDetails();
+            });
+
+            // Modale Newsletter
+            const newsletterModalEl = document.getElementById('newsletterModal');
+            if (newsletterModalEl) {
+                newsletterModalEl.addEventListener('click', (e) => {
+                    if (e.target.id === 'newsletterModal') closeNewsletterModal(true);
+                });
+            }
+
+            // Fermeture avec la touche Échap
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    closeDetails();
+                    closeCart();
+                    closeNewsletterModal(true);
+                }
+            });
+
+            // Modale Confirmation Commande
+            const closeSuccessBtn = document.getElementById('closeSuccessModalBtn');
+            if (closeSuccessBtn) {
+                closeSuccessBtn.addEventListener('click', () => {
+                    document.getElementById('orderSuccessModal').classList.remove('active');
+                });
+            }
+            document.getElementById('orderSuccessModal').addEventListener('click', (e) => {
+                if (e.target.id === 'orderSuccessModal') {
+                    document.getElementById('orderSuccessModal').classList.remove('active');
+                }
+            });
+
+            // Commune
+            document.getElementById('clientCommune').addEventListener('change', updateCartUI);
+
+            // Validation de commande Google Sheets
+            document.getElementById('btnSubmitOrder').addEventListener('click', submitOrderToGoogleSheets);
+
+            // Filtres Catégories (avec animation push)
+            document.querySelectorAll('.cat-chip').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.cat-chip').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    btn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+                    switchCategory(btn.dataset.cat);
+                });
+            });
+
+            // Recherche en direct (sans push, rendu immédiat dans la catégorie courante)
+            document.getElementById('searchInput').addEventListener('input', (e) => {
+                renderProducts(currentCat, e.target.value);
+            });
+        });
+    
+            window.initBoutique = function() {
+                if (typeof renderCategories === 'function') renderCategories();
+                if (typeof filterAndRenderProducts === 'function') filterAndRenderProducts();
+                if (typeof updateCartUI === 'function') updateCartUI();
+            };
+        })();
+
+</script>
 </body>
 </html>
