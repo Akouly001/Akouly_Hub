@@ -216,11 +216,11 @@
             left: 0;
             width: 100vw;
             height: 100vh;
-            background: linear-gradient(135deg, #07090e 0%, #10b981 50%, #06b6d4 100%);
-            z-index: 9999999;
+            background: linear-gradient(135deg, #07090e 0%, #0d1a1c 35%, #10b981 70%, #06b6d4 100%);
+            z-index: 99999999;
             pointer-events: none;
             transform: translateX(-100%);
-            transition: transform 0.42s cubic-bezier(0.77, 0, 0.175, 1);
+            box-shadow: 0 0 60px rgba(16, 185, 129, 0.45);
             will-change: transform;
         }
 
@@ -230,8 +230,9 @@
             top: 0;
             right: 0;
             bottom: 0;
-            width: 80px;
+            width: 100px;
             background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35));
+            box-shadow: 5px 0 30px rgba(0, 240, 255, 0.5);
             pointer-events: none;
         }
 
@@ -1573,64 +1574,6 @@
             color: var(--bq-primary);
         }
 
-        /* ── SECTION SUPÉRIEURE : BOUTONS SWITCHER + PANIER À DROITE ── */
-        .store-top-bar {
-            max-width: 1350px;
-            width: 100%;
-            margin: 1.8rem auto 0;
-            padding: 0 1.25rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-
-        /* Switcher identiste à gaming.html */
-        .gaming-nav-tabs {
-            display: inline-flex;
-            background: var(--bq-surface);
-            border: 1px solid var(--bq-border);
-            border-radius: 14px;
-            padding: 5px;
-            gap: 6px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-        }
-
-        .gaming-tab-btn {
-            padding: 0.75rem 1.5rem;
-            font-family: var(--font-heading, 'Plus Jakarta Sans', sans-serif);
-            font-size: 1.05rem;
-            font-weight: 700;
-            border-radius: 10px;
-            border: 1.5px solid transparent;
-            background: transparent;
-            color: var(--bq-text-muted);
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.6rem;
-            transition: all 0.2s ease;
-            text-decoration: none;
-            user-select: none;
-        }
-
-        .gaming-tab-btn:hover {
-            color: var(--bq-text);
-            background: rgba(16, 185, 129, 0.08);
-        }
-
-        .gaming-tab-btn.active {
-            color: #ffffff;
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.4), rgba(0, 240, 255, 0.25));
-            border-color: var(--bq-primary);
-            box-shadow: 0 4px 15px var(--bq-primary-glow);
-        }
-
-        [data-theme="light"] .gaming-tab-btn.active {
-            color: #059669;
-            background: rgba(16, 185, 129, 0.15);
-        }
 
         /* Bouton Panier à droite de la boutique */
         .cart-trigger-btn {
@@ -2976,20 +2919,6 @@
             .bottom-grid {
                 grid-template-columns: 1fr;
             }
-            .store-top-bar {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            .gaming-nav-tabs {
-                width: 100%;
-                display: flex;
-            }
-            .gaming-tab-btn {
-                flex: 1;
-                justify-content: center;
-                padding: 0.75rem 0.5rem;
-                font-size: 0.95rem;
-            }
             .cart-trigger-btn {
                 justify-content: center;
             }
@@ -3117,13 +3046,6 @@
                         <span class="cart-badge" id="cartBadgeCount">0</span>
                     </button>
                 </div>
-
-                <div id="configSubtitleBlock" style="margin-top: 0.9rem;">
-                    <p style="color: var(--text-muted); font-size: 0.9rem;">
-                        Assemblez votre configuration idéale étape par étape avec calcul en direct du devis
-                    </p>
-                </div>
-            </div>
 
                 <div id="configSubtitleBlock" style="margin-top: 0.9rem;">
                     <p style="color: var(--text-muted); font-size: 0.9rem;">
@@ -6440,14 +6362,19 @@ TOTAL : ${formatNumber(calc.grandTotal)} F CFA
             const configExtraActions = document.getElementById('configExtraActions');
             const openCartBtn = document.getElementById('openCartBtn');
 
-            // Phase 1 : Balayage entrant (Sweep in -> 0%)
             if (loader) {
-                loader.style.transition = 'transform 0.4s cubic-bezier(0.77, 0, 0.175, 1)';
+                // S'assurer de démarrer à gauche hors écran (-100%)
+                loader.style.transition = 'none';
+                loader.style.transform = 'translateX(-100%)';
+                void loader.offsetWidth; // Forcer le reflow du navigateur
+
+                // Phase 1 : Balayage entrant (Sweep in -> 0%)
+                loader.style.transition = 'transform 0.38s cubic-bezier(0.77, 0, 0.175, 1)';
                 loader.style.transform = 'translateX(0%)';
             }
 
             setTimeout(() => {
-                // Phase 2 : Changement de la vue visible
+                // Phase 2 : Changement de la vue visible sous le rideau
                 if (route === 'config') {
                     if (configContainer) configContainer.style.display = 'block';
                     if (boutiqueContainer) boutiqueContainer.style.display = 'none';
@@ -6467,8 +6394,9 @@ TOTAL : ${formatNumber(calc.grandTotal)} F CFA
                     }
                 }
 
-                // Phase 3 : Balayage sortant (Sweep out -> 100%)
+                // Phase 3 : Balayage sortant vers la droite (Sweep out -> 100%)
                 if (loader) {
+                    loader.style.transition = 'transform 0.38s cubic-bezier(0.77, 0, 0.175, 1)';
                     loader.style.transform = 'translateX(100%)';
                 }
 
@@ -6477,10 +6405,11 @@ TOTAL : ${formatNumber(calc.grandTotal)} F CFA
                     if (loader) {
                         loader.style.transition = 'none';
                         loader.style.transform = 'translateX(-100%)';
+                        void loader.offsetWidth;
                     }
                     root.classList.remove('disable-hover');
                     isGamingRouteTransitioning = false;
-                }, 420);
+                }, 400);
             }, 380);
         }
 
@@ -8343,8 +8272,7 @@ TOTAL : ${formatNumber(calc.grandTotal)} F CFA
         });
     
             window.initBoutique = function() {
-                if (typeof renderCategories === 'function') renderCategories();
-                if (typeof filterAndRenderProducts === 'function') filterAndRenderProducts();
+                if (typeof renderProducts === 'function') renderProducts(typeof currentCat !== 'undefined' ? currentCat : 'all');
                 if (typeof updateCartUI === 'function') updateCartUI();
             };
         })();
