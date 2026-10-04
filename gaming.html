@@ -3503,11 +3503,11 @@
                     </div>
                     <div class="total-line final-line">
                         <span>TOTAL NET :</span>
-                        <span class="net-amount" id="grandTotalVal">0 FCFA</span>
+                        <span class="net-amount" id="bqGrandTotalVal">0 FCFA</span>
                     </div>
                 </div>
 
-                <button class="btn-submit-order" id="btnSubmitOrder">
+                <button class="btn-submit-order" id="btnSubmitBoutiqueOrder">
                     <i class="fa-solid fa-check-circle" style="font-size: 1.15rem;"></i>
                     <span>Valider la commande</span>
                 </button>
@@ -3516,7 +3516,7 @@
     </div>
 
     <!-- ── MODALE DE CONFIRMATION DE COMMANDE RÉUSSIE (ENREGISTRÉE DANS GOOGLE SHEETS) ── -->
-    <div class="modal-overlay" id="orderSuccessModal">
+    <div class="modal-overlay" id="boutiqueOrderSuccessModal">
         <div class="modal-card" style="text-align: center; max-width: 480px;">
             <div style="width: 58px; height: 58px; border-radius: 50%; background: rgba(16, 185, 129, 0.15); border: 2px solid var(--bq-primary); display: flex; align-items: center; justify-content: center; font-size: 1.6rem; color: var(--bq-primary); margin: 0 auto 0.4rem;">
                 <i class="fa-solid fa-check"></i>
@@ -3983,7 +3983,7 @@
         <div class="container">
             <!-- Barre Inférieure Unique & Centrée -->
             <div class="footer-bottom">
-                <a href="Forbidden.html">© 2026 Akouly, All rights reserved</a>
+                <a href="Forbidden.html">© <span id="currentYear">2026</span> Akouly, All rights reserved</a>
             </div>
         </div>
     </footer>
@@ -6036,18 +6036,17 @@ TOTAL : ${formatNumber(calc.grandTotal)} F CFA
         }
 
         /* ==========================================================================
-           ROUTAGE DES VUES (CONFIGURATEUR PC / BOUTIQUE) AVEC EFFET LOADER
+           ROUTAGE DES VUES (CONFIGURATEUR PC / BOUTIQUE) AVEC EFFET LOADER & PERSISTANCE
            ========================================================================== */
         let currentGamingRoute = 'config';
         let isGamingRouteTransitioning = false;
 
-        function onGamingRouteClick(route) {
-            if (currentGamingRoute === route || isGamingRouteTransitioning) return;
-            isGamingRouteTransitioning = true;
-            currentGamingRoute = route;
-
-            const root = document.documentElement;
-            root.classList.add('disable-hover');
+        function setRouteViewDOM(route) {
+            const configContainer = document.getElementById('gamingConfigContainer');
+            const boutiqueContainer = document.getElementById('gamingBoutiqueContainer');
+            const configSubtitle = document.getElementById('configSubtitleBlock');
+            const configExtraActions = document.getElementById('configExtraActions');
+            const openCartBtn = document.getElementById('openCartBtn');
 
             // Mise à jour de la classe active sur les boutons d'onglets
             document.querySelectorAll('.gaming-tab-btn').forEach(btn => {
@@ -6058,12 +6057,55 @@ TOTAL : ${formatNumber(calc.grandTotal)} F CFA
                 }
             });
 
+            if (route === 'config') {
+                if (configContainer) configContainer.style.display = 'block';
+                if (boutiqueContainer) boutiqueContainer.style.display = 'none';
+                if (configSubtitle) configSubtitle.style.display = 'block';
+                if (configExtraActions) configExtraActions.style.display = 'flex';
+                if (openCartBtn) openCartBtn.style.display = 'none';
+            } else if (route === 'boutique') {
+                if (configContainer) configContainer.style.display = 'none';
+                if (boutiqueContainer) boutiqueContainer.style.display = 'block';
+                if (configSubtitle) configSubtitle.style.display = 'none';
+                if (configExtraActions) configExtraActions.style.display = 'none';
+                if (openCartBtn) openCartBtn.style.display = 'inline-flex';
+
+                // Initialisation ou rafraîchissement des produits de la boutique
+                if (typeof initBoutique === 'function') {
+                    initBoutique();
+                }
+            }
+        }
+
+        function onGamingRouteClick(route, animate = true) {
+            if (currentGamingRoute === route && !animate) return;
+            if (isGamingRouteTransitioning) return;
+
+            currentGamingRoute = route;
+            try {
+                localStorage.setItem('akouly_gaming_route', route);
+                history.replaceState(null, '', '#' + route);
+            } catch (e) {}
+
+            if (!animate) {
+                setRouteViewDOM(route);
+                return;
+            }
+
+            isGamingRouteTransitioning = true;
+            const root = document.documentElement;
+            root.classList.add('disable-hover');
+
+            // Mise à jour immédiate des boutons d'onglets
+            document.querySelectorAll('.gaming-tab-btn').forEach(btn => {
+                if (btn.getAttribute('data-route') === route) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+
             const loader = document.getElementById('gamingRouteLoader');
-            const configContainer = document.getElementById('gamingConfigContainer');
-            const boutiqueContainer = document.getElementById('gamingBoutiqueContainer');
-            const configSubtitle = document.getElementById('configSubtitleBlock');
-            const configExtraActions = document.getElementById('configExtraActions');
-            const openCartBtn = document.getElementById('openCartBtn');
 
             if (loader) {
                 // S'assurer de démarrer à gauche hors écran (-100%)
@@ -6078,24 +6120,7 @@ TOTAL : ${formatNumber(calc.grandTotal)} F CFA
 
             setTimeout(() => {
                 // Phase 2 : Changement de la vue visible sous le rideau
-                if (route === 'config') {
-                    if (configContainer) configContainer.style.display = 'block';
-                    if (boutiqueContainer) boutiqueContainer.style.display = 'none';
-                    if (configSubtitle) configSubtitle.style.display = 'block';
-                    if (configExtraActions) configExtraActions.style.display = 'flex';
-                    if (openCartBtn) openCartBtn.style.display = 'none';
-                } else if (route === 'boutique') {
-                    if (configContainer) configContainer.style.display = 'none';
-                    if (boutiqueContainer) boutiqueContainer.style.display = 'block';
-                    if (configSubtitle) configSubtitle.style.display = 'none';
-                    if (configExtraActions) configExtraActions.style.display = 'none';
-                    if (openCartBtn) openCartBtn.style.display = 'inline-flex';
-                    
-                    // Initialisation ou rafraîchissement des produits de la boutique
-                    if (typeof initBoutique === 'function') {
-                        initBoutique();
-                    }
-                }
+                setRouteViewDOM(route);
 
                 // Phase 3 : Balayage sortant vers la droite (Sweep out -> 100%)
                 if (loader) {
@@ -6116,8 +6141,35 @@ TOTAL : ${formatNumber(calc.grandTotal)} F CFA
             }, 380);
         }
 
+        // Restauration de l'onglet actif au chargement de la page (persistance avant/après refresh)
+        function initActiveGamingRoute() {
+            let savedRoute = 'config';
+            try {
+                const hash = window.location.hash.replace('#', '').toLowerCase();
+                if (hash === 'boutique' || hash === 'config') {
+                    savedRoute = hash;
+                } else {
+                    const storageRoute = localStorage.getItem('akouly_gaming_route');
+                    if (storageRoute === 'boutique' || storageRoute === 'config') {
+                        savedRoute = storageRoute;
+                    }
+                }
+            } catch (e) {}
+
+            currentGamingRoute = savedRoute;
+            setRouteViewDOM(savedRoute);
+        }
+
         window.addEventListener("DOMContentLoaded", () => {
             initApp();
+            initActiveGamingRoute();
+        });
+
+        window.addEventListener("hashchange", () => {
+            const hash = window.location.hash.replace('#', '').toLowerCase();
+            if ((hash === 'boutique' || hash === 'config') && hash !== currentGamingRoute) {
+                onGamingRouteClick(hash, true);
+            }
         });
     
 
@@ -6125,6 +6177,8 @@ TOTAL : ${formatNumber(calc.grandTotal)} F CFA
         /* ==========================================================================
            LOGIQUE COMPLÈTE DE LA BOUTIQUE INTÉGRÉE
            ========================================================================== */
+        (function() {
+            
         const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbykf59RWgndLXWtbP6rOcRbzwn2pMFlztpf1PhS6NBpT_Y9S2oAsQQcsoE2Nk44uZPibg/exec";
         const BOUTIQUE_SHEET_ID = "14p01xmFOzG6qXOjx8g2vZZJshHl22JpTArorHt9m4l4";
 
@@ -7486,12 +7540,16 @@ TOTAL : ${formatNumber(calc.grandTotal)} F CFA
 
             const grandTotal = Math.max(0, subtotal - discountAmount) + (subtotal > 0 ? fee : 0);
 
-            document.getElementById('subtotalVal').innerText = formatFCFA(subtotal);
-            document.getElementById('deliveryVal').innerText = fee > 0 ? formatFCFA(fee) : '0 FCFA';
-            document.getElementById('communeLabel').innerText = communeName;
-            document.getElementById('grandTotalVal').innerText = formatFCFA(grandTotal);
+            const subTotEl = document.getElementById('subtotalVal');
+            if (subTotEl) subTotEl.innerText = formatFCFA(subtotal);
+            const delValEl = document.getElementById('deliveryVal');
+            if (delValEl) delValEl.innerText = fee > 0 ? formatFCFA(fee) : '0 FCFA';
+            const comLblEl = document.getElementById('communeLabel');
+            if (comLblEl) comLblEl.innerText = communeName;
+            const bqTotEl = document.getElementById('bqGrandTotalVal');
+            if (bqTotEl) bqTotEl.innerText = formatFCFA(grandTotal);
 
-            const submitBtn = document.getElementById('btnSubmitOrder');
+            const submitBtn = document.getElementById('btnSubmitBoutiqueOrder');
             if (submitBtn) submitBtn.disabled = (cart.length === 0);
         }
 
@@ -7617,12 +7675,14 @@ TOTAL : ${formatNumber(calc.grandTotal)} F CFA
                 return;
             }
 
-            const submitBtn = document.getElementById('btnSubmitOrder');
-            const originalBtnHTML = submitBtn.innerHTML;
+            const submitBtn = document.getElementById('btnSubmitBoutiqueOrder');
+            const originalBtnHTML = submitBtn ? submitBtn.innerHTML : 'Valider ma commande';
 
             // État de chargement
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> <span>Enregistrement en cours...</span>`;
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> <span>Enregistrement en cours...</span>`;
+            }
 
             const fee = parseInt(communeSelect.options[communeSelect.selectedIndex].dataset.fee, 10) || 0;
             const subtotal = cart.reduce((acc, i) => acc + (i.price * i.qty), 0);
@@ -7671,15 +7731,21 @@ TOTAL : ${formatNumber(calc.grandTotal)} F CFA
                 } catch (e) {}
 
                 // Remplissage de la modale de confirmation
-                document.getElementById('successClientName').innerText = name;
-                document.getElementById('successClientPhone').innerText = phone;
-                document.getElementById('successClientCommune').innerText = commune + (address ? ` — ${address}` : '');
-                document.getElementById('successDeliveryDate').innerText = `Demain (${tomorrow})`;
-                document.getElementById('successGrandTotal').innerText = formatFCFA(grandTotal);
+                const scName = document.getElementById('successClientName');
+                if (scName) scName.innerText = name;
+                const scPhone = document.getElementById('successClientPhone');
+                if (scPhone) scPhone.innerText = phone;
+                const scComm = document.getElementById('successClientCommune');
+                if (scComm) scComm.innerText = commune + (address ? ` — ${address}` : '');
+                const scDate = document.getElementById('successDeliveryDate');
+                if (scDate) scDate.innerText = `Demain (${tomorrow})`;
+                const scTotal = document.getElementById('successGrandTotal');
+                if (scTotal) scTotal.innerText = formatFCFA(grandTotal);
 
                 // Fermer le tiroir et afficher la confirmation
                 closeCart();
-                document.getElementById('orderSuccessModal').classList.add('active');
+                const bqModal = document.getElementById('boutiqueOrderSuccessModal');
+                if (bqModal) bqModal.classList.add('active');
 
                 // Vider le panier et réinitialiser code promo
                 cart = [];
@@ -7692,20 +7758,28 @@ TOTAL : ${formatNumber(calc.grandTotal)} F CFA
                 showToast('<i class="fa-solid fa-circle-check"></i> Commande enregistrée avec succès !');
             } catch (err) {
                 console.warn('Erreur réseau / enregistrement local:', err);
-                document.getElementById('successClientName').innerText = name;
-                document.getElementById('successClientPhone').innerText = phone;
-                document.getElementById('successClientCommune').innerText = commune;
-                document.getElementById('successDeliveryDate').innerText = `Demain (${tomorrow})`;
-                document.getElementById('successGrandTotal').innerText = formatFCFA(grandTotal);
+                const scName = document.getElementById('successClientName');
+                if (scName) scName.innerText = name;
+                const scPhone = document.getElementById('successClientPhone');
+                if (scPhone) scPhone.innerText = phone;
+                const scComm = document.getElementById('successClientCommune');
+                if (scComm) scComm.innerText = commune;
+                const scDate = document.getElementById('successDeliveryDate');
+                if (scDate) scDate.innerText = `Demain (${tomorrow})`;
+                const scTotal = document.getElementById('successGrandTotal');
+                if (scTotal) scTotal.innerText = formatFCFA(grandTotal);
 
                 closeCart();
-                document.getElementById('orderSuccessModal').classList.add('active');
+                const bqModal = document.getElementById('boutiqueOrderSuccessModal');
+                if (bqModal) bqModal.classList.add('active');
                 cart = [];
                 appliedPromo = null;
                 saveCart();
             } finally {
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = originalBtnHTML;
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalBtnHTML;
+                }
             }
         }
 
@@ -7887,7 +7961,8 @@ TOTAL : ${formatNumber(calc.grandTotal)} F CFA
            INITIALISATION
            ========================================================================== */
         document.addEventListener('DOMContentLoaded', () => {
-            document.getElementById('currentYear').innerText = new Date().getFullYear();
+            const yearEl = document.getElementById('currentYear');
+            if (yearEl) yearEl.innerText = new Date().getFullYear();
             initThemeSync();
             renderProducts('all');
             loadCart();
@@ -7895,11 +7970,16 @@ TOTAL : ${formatNumber(calc.grandTotal)} F CFA
             initNewsletterTimer(); // Démarre le compte à rebours de 30 secondes
 
             // Panier
-            document.getElementById('openCartBtn').addEventListener('click', openCart);
-            document.getElementById('closeCartBtn').addEventListener('click', closeCart);
-            document.getElementById('cartOverlay').addEventListener('click', (e) => {
-                if (e.target.id === 'cartOverlay') closeCart();
-            });
+            const openCartBtn = document.getElementById('openCartBtn');
+            if (openCartBtn) openCartBtn.addEventListener('click', openCart);
+            const closeCartBtn = document.getElementById('closeCartBtn');
+            if (closeCartBtn) closeCartBtn.addEventListener('click', closeCart);
+            const cartOverlay = document.getElementById('cartOverlay');
+            if (cartOverlay) {
+                cartOverlay.addEventListener('click', (e) => {
+                    if (e.target.id === 'cartOverlay') closeCart();
+                });
+            }
 
             // Code Promo
             const applyPromoBtn = document.getElementById('btnApplyPromo');
@@ -7915,10 +7995,14 @@ TOTAL : ${formatNumber(calc.grandTotal)} F CFA
             }
 
             // Modale Détails & Zoom 50%
-            document.getElementById('closeDetailsBtn').addEventListener('click', closeDetails);
-            document.getElementById('detailsModal').addEventListener('click', (e) => {
-                if (e.target.id === 'detailsModal') closeDetails();
-            });
+            const closeDetailsBtn = document.getElementById('closeDetailsBtn');
+            if (closeDetailsBtn) closeDetailsBtn.addEventListener('click', closeDetails);
+            const detailsModal = document.getElementById('detailsModal');
+            if (detailsModal) {
+                detailsModal.addEventListener('click', (e) => {
+                    if (e.target.id === 'detailsModal') closeDetails();
+                });
+            }
 
             // Modale Newsletter
             const newsletterModalEl = document.getElementById('newsletterModal');
@@ -7937,24 +8021,30 @@ TOTAL : ${formatNumber(calc.grandTotal)} F CFA
                 }
             });
 
-            // Modale Confirmation Commande
+            // Modale Confirmation Commande Boutique
             const closeSuccessBtn = document.getElementById('closeSuccessModalBtn');
             if (closeSuccessBtn) {
                 closeSuccessBtn.addEventListener('click', () => {
-                    document.getElementById('orderSuccessModal').classList.remove('active');
+                    const bqModal = document.getElementById('boutiqueOrderSuccessModal');
+                    if (bqModal) bqModal.classList.remove('active');
                 });
             }
-            document.getElementById('orderSuccessModal').addEventListener('click', (e) => {
-                if (e.target.id === 'orderSuccessModal') {
-                    document.getElementById('orderSuccessModal').classList.remove('active');
-                }
-            });
+            const bqOrderSuccessModal = document.getElementById('boutiqueOrderSuccessModal');
+            if (bqOrderSuccessModal) {
+                bqOrderSuccessModal.addEventListener('click', (e) => {
+                    if (e.target.id === 'boutiqueOrderSuccessModal') {
+                        bqOrderSuccessModal.classList.remove('active');
+                    }
+                });
+            }
 
             // Commune
-            document.getElementById('clientCommune').addEventListener('change', updateCartUI);
+            const clientCommune = document.getElementById('clientCommune');
+            if (clientCommune) clientCommune.addEventListener('change', updateCartUI);
 
-            // Validation de commande Google Sheets
-            document.getElementById('btnSubmitOrder').addEventListener('click', submitOrderToGoogleSheets);
+            // Validation de commande Google Sheets Boutique
+            const btnSubmitBoutiqueOrder = document.getElementById('btnSubmitBoutiqueOrder');
+            if (btnSubmitBoutiqueOrder) btnSubmitBoutiqueOrder.addEventListener('click', submitOrderToGoogleSheets);
 
             // Filtres Catégories (avec animation push)
             document.querySelectorAll('.cat-chip').forEach(btn => {
@@ -7967,16 +8057,19 @@ TOTAL : ${formatNumber(calc.grandTotal)} F CFA
             });
 
             // Recherche en direct (sans push, rendu immédiat dans la catégorie courante)
-            document.getElementById('searchInput').addEventListener('input', (e) => {
-                renderProducts(currentCat, e.target.value);
-            });
+            const searchInput = document.getElementById('searchInput');
+            if (searchInput) {
+                searchInput.addEventListener('input', (e) => {
+                    renderProducts(currentCat, e.target.value);
+                });
+            }
         });
     
-        function initBoutique() {
-            if (typeof renderProducts === 'function') renderProducts(typeof currentCat !== 'undefined' ? currentCat : 'all');
-            if (typeof updateCartUI === 'function') updateCartUI();
-        }
-        window.initBoutique = initBoutique;
+            window.initBoutique = function() {
+                if (typeof renderProducts === 'function') renderProducts(typeof currentCat !== 'undefined' ? currentCat : 'all');
+                if (typeof updateCartUI === 'function') updateCartUI();
+            };
+        })();
 
 </script>
 </body>
