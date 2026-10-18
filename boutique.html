@@ -3237,8 +3237,10 @@
         function addFromModal() {
             if (!currentModalProd) return;
             const selectEl = document.getElementById('modalVariantSelect');
-            const varIdx = parseInt(selectEl.value, 10) || 0;
-            const variant = currentModalProd.variants[varIdx];
+            const parsedIdx = selectEl ? parseInt(selectEl.value, 10) : 0;
+            const varIdx = isNaN(parsedIdx) ? 0 : parsedIdx;
+            const variant = (currentModalProd.variants && currentModalProd.variants[varIdx]) || currentModalProd.variants[0];
+            if (!variant) return;
             const qty = parseInt(document.getElementById('modalQtyInput').value, 10) || 1;
 
             const key = `${currentModalProd.id}__v${varIdx}`;
@@ -3297,8 +3299,10 @@
             if (!prod) return;
 
             const varSelect = document.getElementById(`var-${id}`);
-            const varIdx = varSelect ? parseInt(varSelect.value, 10) : 0;
-            const variant = prod.variants[varIdx];
+            const parsedIdx = varSelect ? parseInt(varSelect.value, 10) : 0;
+            const varIdx = isNaN(parsedIdx) ? 0 : parsedIdx;
+            const variant = (prod.variants && prod.variants[varIdx]) || (prod.variants && prod.variants[0]);
+            if (!variant) return;
 
             const qtyInput = document.getElementById(`qty-${id}`);
             const qty = qtyInput ? (parseInt(qtyInput.value, 10) || 1) : 1;
@@ -3806,7 +3810,8 @@
            INITIALISATION
            ========================================================================== */
         document.addEventListener('DOMContentLoaded', () => {
-            document.getElementById('currentYear').innerText = new Date().getFullYear();
+            const yearEl = document.getElementById('currentYear');
+            if (yearEl) yearEl.innerText = new Date().getFullYear();
             initThemeSync();
             renderProducts('all');
             loadCart();
@@ -3890,6 +3895,27 @@
                 renderProducts(currentCat, e.target.value);
             });
         });
+
+        // Exportations globales explicites pour les gestionnaires d'événements inline du DOM
+        window.addToCart = addToCart;
+        window.openDetails = openDetails;
+        window.closeDetails = closeDetails;
+        window.changeQty = changeQty;
+        window.onVarChange = onVarChange;
+        window.updateItemQty = updateItemQty;
+        window.removeItem = removeItem;
+        window.openCart = openCart;
+        window.closeCart = closeCart;
+        window.toggleModalZoom = toggleModalZoom;
+        window.onModalVarChange = onModalVarChange;
+        window.changeModalQty = changeModalQty;
+        window.addFromModal = addFromModal;
+        window.selectModalVariantByIndex = selectModalVariantByIndex;
+        window.closeNewsletterModal = closeNewsletterModal;
+        window.handleNewsletterSubmit = handleNewsletterSubmit;
+        window.submitOrderToGoogleSheets = submitOrderToGoogleSheets;
+        window.applyPromoCode = applyPromoCode;
+        window.cancelPromoCode = cancelPromoCode;
     </script>
 </body>
 </html>

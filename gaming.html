@@ -6177,9 +6177,7 @@ TOTAL : ${formatNumber(calc.grandTotal)} F CFA
         /* ==========================================================================
            LOGIQUE COMPLÈTE DE LA BOUTIQUE INTÉGRÉE
            ========================================================================== */
-        (function() {
-            
-        const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbykf59RWgndLXWtbP6rOcRbzwn2pMFlztpf1PhS6NBpT_Y9S2oAsQQcsoE2Nk44uZPibg/exec";
+        const BOUTIQUE_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbykf59RWgndLXWtbP6rOcRbzwn2pMFlztpf1PhS6NBpT_Y9S2oAsQQcsoE2Nk44uZPibg/exec";
         const BOUTIQUE_SHEET_ID = "14p01xmFOzG6qXOjx8g2vZZJshHl22JpTArorHt9m4l4";
 
         /* ==========================================================================
@@ -7372,8 +7370,10 @@ TOTAL : ${formatNumber(calc.grandTotal)} F CFA
         function addFromModal() {
             if (!currentModalProd) return;
             const selectEl = document.getElementById('modalVariantSelect');
-            const varIdx = parseInt(selectEl.value, 10) || 0;
-            const variant = currentModalProd.variants[varIdx];
+            const parsedIdx = selectEl ? parseInt(selectEl.value, 10) : 0;
+            const varIdx = isNaN(parsedIdx) ? 0 : parsedIdx;
+            const variant = (currentModalProd.variants && currentModalProd.variants[varIdx]) || currentModalProd.variants[0];
+            if (!variant) return;
             const qty = parseInt(document.getElementById('modalQtyInput').value, 10) || 1;
 
             const key = `${currentModalProd.id}__v${varIdx}`;
@@ -7432,8 +7432,10 @@ TOTAL : ${formatNumber(calc.grandTotal)} F CFA
             if (!prod) return;
 
             const varSelect = document.getElementById(`var-${id}`);
-            const varIdx = varSelect ? parseInt(varSelect.value, 10) : 0;
-            const variant = prod.variants[varIdx];
+            const parsedIdx = varSelect ? parseInt(varSelect.value, 10) : 0;
+            const varIdx = isNaN(parsedIdx) ? 0 : parsedIdx;
+            const variant = (prod.variants && prod.variants[varIdx]) || (prod.variants && prod.variants[0]);
+            if (!variant) return;
 
             const qtyInput = document.getElementById(`qty-${id}`);
             const qty = qtyInput ? (parseInt(qtyInput.value, 10) || 1) : 1;
@@ -7576,7 +7578,7 @@ TOTAL : ${formatNumber(calc.grandTotal)} F CFA
             btn.disabled = true;
 
             try {
-                const res = await fetch(`${APPS_SCRIPT_URL}?action=verifierPromo&code=${encodeURIComponent(code)}&subtotal=${subtotal}`);
+                const res = await fetch(`${BOUTIQUE_APPS_SCRIPT_URL}?action=verifierPromo&code=${encodeURIComponent(code)}&subtotal=${subtotal}`);
                 const data = await res.json();
                 if (data && (data.valide || data.valid || data.status === 'ok')) {
                     const pct = Number(data.discountPercent || data.reductionPourcentage || data.reduction || 0);
@@ -7630,7 +7632,7 @@ TOTAL : ${formatNumber(calc.grandTotal)} F CFA
            ========================================================================== */
         async function fetchDynamicProducts() {
             try {
-                const res = await fetch(`${APPS_SCRIPT_URL}?action=getProduits`);
+                const res = await fetch(`${BOUTIQUE_APPS_SCRIPT_URL}?action=getProduits`);
                 const data = await res.json();
                 if (data && data.status === 'ok' && Array.isArray(data.products) && data.products.length > 0) {
                     PRODUCTS = data.products;
@@ -7716,7 +7718,7 @@ TOTAL : ${formatNumber(calc.grandTotal)} F CFA
 
             try {
                 // Envoi vers le Web App Google Apps Script
-                await fetch(APPS_SCRIPT_URL, {
+                await fetch(BOUTIQUE_APPS_SCRIPT_URL, {
                     method: 'POST',
                     mode: 'no-cors',
                     headers: { 'Content-Type': 'application/json' },
@@ -7922,7 +7924,7 @@ TOTAL : ${formatNumber(calc.grandTotal)} F CFA
 
             // Envoi au backend Google Apps Script en tâche de fond (mode no-cors)
             try {
-                fetch(APPS_SCRIPT_URL, {
+                fetch(BOUTIQUE_APPS_SCRIPT_URL, {
                     method: 'POST',
                     mode: 'no-cors',
                     headers: { 'Content-Type': 'application/json' },
@@ -8065,11 +8067,32 @@ TOTAL : ${formatNumber(calc.grandTotal)} F CFA
             }
         });
     
-            window.initBoutique = function() {
-                if (typeof renderProducts === 'function') renderProducts(typeof currentCat !== 'undefined' ? currentCat : 'all');
-                if (typeof updateCartUI === 'function') updateCartUI();
-            };
-        })();
+        function initBoutique() {
+            if (typeof renderProducts === 'function') renderProducts(typeof currentCat !== 'undefined' ? currentCat : 'all');
+            if (typeof updateCartUI === 'function') updateCartUI();
+        }
+        window.initBoutique = initBoutique;
+
+        // Exportations globales explicites pour les gestionnaires d'événements inline du DOM
+        window.addToCart = addToCart;
+        window.openDetails = openDetails;
+        window.closeDetails = closeDetails;
+        window.changeQty = changeQty;
+        window.onVarChange = onVarChange;
+        window.updateItemQty = updateItemQty;
+        window.removeItem = removeItem;
+        window.openCart = openCart;
+        window.closeCart = closeCart;
+        window.toggleModalZoom = toggleModalZoom;
+        window.onModalVarChange = onModalVarChange;
+        window.changeModalQty = changeModalQty;
+        window.addFromModal = addFromModal;
+        window.selectModalVariantByIndex = selectModalVariantByIndex;
+        window.closeNewsletterModal = closeNewsletterModal;
+        window.handleNewsletterSubmit = handleNewsletterSubmit;
+        window.submitOrderToGoogleSheets = submitOrderToGoogleSheets;
+        window.applyPromoCode = applyPromoCode;
+        window.cancelPromoCode = cancelPromoCode;
 
 </script>
 </body>
