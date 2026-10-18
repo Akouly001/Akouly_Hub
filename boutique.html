@@ -740,6 +740,9 @@
             align-items: center;
             justify-content: center;
             padding: 1.2rem;
+            overflow-y: auto;
+            overscroll-behavior: contain;
+            -webkit-overflow-scrolling: touch;
         }
 
         .modal-overlay.active {
@@ -759,8 +762,9 @@
             flex-direction: column;
             gap: 1.2rem;
             animation: popIn 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
-            max-height: 92vh;
+            max-height: calc(100dvh - 2.5rem);
             overflow-y: auto;
+            margin: auto;
         }
 
         @keyframes popIn {
@@ -1010,6 +1014,9 @@
             bottom: 0;
             width: 100%;
             max-width: 440px;
+            height: 100%;
+            height: 100dvh;
+            max-height: 100dvh;
             background: var(--bq-surface);
             border-left: 1px solid var(--bq-border);
             z-index: 2001;
@@ -1018,6 +1025,9 @@
             transform: translateX(100%);
             transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1);
             box-shadow: -10px 0 40px rgba(0, 0, 0, 0.6);
+            overflow-y: auto;
+            overscroll-behavior: contain;
+            -webkit-overflow-scrolling: touch;
         }
 
         .cart-drawer-overlay.active .cart-panel {
@@ -1025,12 +1035,16 @@
         }
 
         .cart-top {
-            padding: 1.1rem 1.3rem;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            padding: 0.95rem 1.2rem;
             border-bottom: 1px solid var(--bq-border);
             display: flex;
             align-items: center;
             justify-content: space-between;
             background: var(--bq-card);
+            backdrop-filter: blur(10px);
         }
 
         .cart-top h3 {
@@ -1055,12 +1069,11 @@
         }
 
         .cart-items {
-            flex: 1;
-            overflow-y: auto;
-            padding: 1.1rem;
+            flex: 0 0 auto;
+            padding: 1rem;
             display: flex;
             flex-direction: column;
-            gap: 0.8rem;
+            gap: 0.75rem;
         }
 
         .cart-row {
@@ -1153,24 +1166,99 @@
             color: var(--bq-danger);
         }
 
+        /* État panier vide */
+        .cart-empty-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2.5rem 1.2rem;
+            margin: auto;
+            gap: 0.75rem;
+        }
+
+        .cart-empty-icon {
+            width: 68px;
+            height: 68px;
+            border-radius: 50%;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1.5px solid rgba(16, 185, 129, 0.25);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.9rem;
+            color: var(--bq-primary);
+        }
+
+        .cart-empty-title {
+            font-family: var(--font-heading, 'Plus Jakarta Sans', sans-serif);
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: var(--bq-text);
+            margin: 0;
+        }
+
+        .cart-empty-text {
+            font-size: 0.84rem;
+            color: var(--bq-text-muted);
+            max-width: 250px;
+            line-height: 1.45;
+            margin: 0;
+        }
+
+        .btn-continue-shopping {
+            margin-top: 0.4rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.65rem 1.25rem;
+            background: linear-gradient(135deg, var(--bq-primary), #047857);
+            color: #ffffff;
+            border: none;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 12px var(--bq-primary-glow);
+        }
+
+        .btn-continue-shopping:hover {
+            filter: brightness(1.1);
+            transform: translateY(-2px);
+        }
+
         /* Formulaire Express & Calculs */
         .cart-bottom-box {
-            padding: 1.1rem;
+            padding: 0.9rem 1.1rem 1.2rem;
             border-top: 1px solid var(--bq-border);
             background: var(--bq-card);
             display: flex;
             flex-direction: column;
-            gap: 0.85rem;
+            gap: 0.75rem;
         }
 
         .checkout-fields {
             display: flex;
             flex-direction: column;
-            gap: 0.6rem;
+            gap: 0.5rem;
             background: var(--bq-surface);
-            padding: 0.85rem;
+            padding: 0.75rem 0.85rem;
             border-radius: var(--bq-radius-md);
             border: 1px solid var(--bq-border);
+        }
+
+        .checkout-grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+        }
+
+        @media (max-width: 360px) {
+            .checkout-grid-2 {
+                grid-template-columns: 1fr;
+            }
         }
 
         .field-group {
@@ -1191,11 +1279,12 @@
             background: var(--bq-input);
             border: 1.5px solid var(--bq-border);
             border-radius: var(--bq-radius-sm);
-            padding: 0.55rem 0.7rem;
+            padding: 0.48rem 0.65rem;
             color: var(--bq-text);
             font-family: var(--font-body, 'Inter', sans-serif);
-            font-size: 0.85rem;
+            font-size: 0.83rem;
             outline: none;
+            box-sizing: border-box;
         }
 
         .field-input:focus, .field-select:focus {
@@ -1205,8 +1294,8 @@
         .totals-box {
             display: flex;
             flex-direction: column;
-            gap: 0.3rem;
-            font-size: 0.84rem;
+            gap: 0.25rem;
+            font-size: 0.82rem;
             padding-top: 0.35rem;
             border-top: 1px dashed var(--bq-border);
         }
@@ -1236,9 +1325,9 @@
             color: #ffffff;
             border: none;
             border-radius: 12px;
-            padding: 0.85rem;
+            padding: 0.8rem;
             font-family: var(--font-heading, 'Plus Jakarta Sans', sans-serif);
-            font-size: 0.95rem;
+            font-size: 0.92rem;
             font-weight: 800;
             cursor: pointer;
             display: flex;
@@ -1247,6 +1336,9 @@
             gap: 0.6rem;
             transition: all 0.25s ease;
             box-shadow: 0 4px 15px var(--bq-primary-glow);
+            position: sticky;
+            bottom: 0.5rem;
+            z-index: 5;
         }
 
         .btn-submit-order:hover {
@@ -1579,7 +1671,7 @@
         @media (max-width: 820px) {
             .products-grid {
                 grid-template-columns: repeat(2, 1fr);
-                gap: 1rem;
+                gap: 0.85rem;
             }
             .bottom-grid {
                 grid-template-columns: 1fr;
@@ -1599,6 +1691,7 @@
                 font-size: 0.95rem;
             }
             .cart-trigger-btn {
+                width: 100%;
                 justify-content: center;
             }
             .unified-newsletter-block {
@@ -1610,6 +1703,44 @@
             }
             .unified-info-grid {
                 grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 660px) {
+            .modal-overlay {
+                padding: 0;
+                align-items: flex-end;
+            }
+
+            .modal-card {
+                border-radius: 20px 20px 0 0;
+                max-height: 90dvh;
+                width: 100%;
+                padding: 1.25rem 1rem 1.5rem;
+                margin: auto 0 0 0;
+            }
+
+            .newsletter-modal-card {
+                padding: 1.4rem 1.1rem 1.6rem;
+            }
+
+            .modal-layout-grid {
+                grid-template-columns: 1fr;
+                gap: 0.85rem;
+            }
+
+            .modal-media-col {
+                align-items: center;
+            }
+
+            .modal-img-viewer {
+                max-width: 210px;
+                max-height: 190px;
+                margin: 0 auto;
+            }
+
+            .modal-thumbs-row {
+                justify-content: center;
             }
         }
 
@@ -1628,23 +1759,81 @@
 
         @media (max-width: 520px) {
             .products-grid {
-                grid-template-columns: 1fr;
-                gap: 1rem;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.6rem;
+            }
+            .product-card {
+                border-radius: 12px;
+            }
+            .canva-img-wrap {
+                padding: 0.55rem;
+            }
+            .badge-tag, .badge-stock {
+                font-size: 0.6rem;
+                padding: 2px 5px;
+            }
+            .product-body {
+                padding: 0.65rem;
+                gap: 0.45rem;
+            }
+            .product-name {
+                font-size: 0.84rem;
+                line-height: 1.2;
+            }
+            .btn-details {
+                font-size: 0.66rem;
+                padding: 2px 5px;
+            }
+            .variant-dropdown {
+                padding: 0.4rem 0.5rem;
+                font-size: 0.76rem;
+            }
+            .price-tag {
+                font-size: 0.92rem;
+            }
+            .qty-btn {
+                width: 22px;
+                height: 22px;
+                font-size: 0.75rem;
+            }
+            .qty-val {
+                width: 24px;
+                height: 22px;
+                font-size: 0.75rem;
+            }
+            .btn-add {
+                font-size: 0.76rem;
+                border-radius: 8px;
+                padding-left: 0.5rem;
+            }
+            .btn-add .btn-add-label {
+                padding: 0.45rem 0;
+                font-size: 0.75rem;
+            }
+            .btn-add .btn-add-arrow {
+                padding: 0.45rem 0.65rem;
             }
             .site-header {
                 padding: 0.65rem 1rem;
             }
             .store-filters-wrap, .store-main-content, .store-unified-bottom {
-                padding-left: 1rem;
-                padding-right: 1rem;
+                padding-left: 0.75rem;
+                padding-right: 0.75rem;
             }
             .canva-icon-art {
-                width: 80px;
-                height: 80px;
-                font-size: 2.4rem;
+                width: 70px;
+                height: 70px;
+                font-size: 2.2rem;
             }
             .cart-panel {
                 max-width: 100%;
+            }
+        }
+
+        @media (max-width: 340px) {
+            .products-grid {
+                grid-template-columns: 1fr;
+                gap: 0.75rem;
             }
         }
     </style>
@@ -1828,21 +2017,23 @@
                 <!-- Liste des articles -->
             </div>
 
-            <div class="cart-bottom-box">
+            <div class="cart-bottom-box" id="cartBottomBox">
                 <!-- Formulaire de commande Express -->
                 <div class="checkout-fields">
                     <div style="font-family: var(--font-heading, sans-serif); font-size: 0.86rem; font-weight: 700; color: var(--bq-text); margin-bottom: 0.15rem;">
                         <i class="fa-solid fa-truck-fast" style="color: var(--bq-gold);"></i> Livraison Express (Sans Compte)
                     </div>
 
-                    <div class="field-group">
-                        <label class="field-label" for="clientName">Nom & Prénom *</label>
-                        <input type="text" id="clientName" class="field-input" placeholder="Ex: Junior Kouadjo" required>
-                    </div>
+                    <div class="checkout-grid-2">
+                        <div class="field-group">
+                            <label class="field-label" for="clientName">Nom & Prénom *</label>
+                            <input type="text" id="clientName" class="field-input" placeholder="Ex: Junior Kouadjo" required>
+                        </div>
 
-                    <div class="field-group">
-                        <label class="field-label" for="clientPhone">Numéro de Téléphone *</label>
-                        <input type="tel" id="clientPhone" class="field-input" placeholder="Ex: 07 00 00 00 00" required>
+                        <div class="field-group">
+                            <label class="field-label" for="clientPhone">Numéro de Téléphone *</label>
+                            <input type="tel" id="clientPhone" class="field-input" placeholder="Ex: 07 00 00 00 00" required>
+                        </div>
                     </div>
 
                     <div class="field-group">
@@ -3351,14 +3542,24 @@
             document.getElementById('cartBadgeCount').innerText = totalCount;
 
             const list = document.getElementById('cartItemsList');
+            const bottomBox = document.getElementById('cartBottomBox');
             if (cart.length === 0) {
+                if (bottomBox) bottomBox.style.display = 'none';
                 list.innerHTML = `
-                    <div style="text-align: center; color: var(--bq-text-muted); margin: auto; padding: 2rem 1rem;">
-                        <i class="fa-solid fa-cart-shopping" style="font-size: 2.2rem; color: var(--bq-text-dim); margin-bottom: 0.5rem;"></i>
-                        <p style="font-weight: 600;">Votre panier est vide</p>
+                    <div class="cart-empty-state">
+                        <div class="cart-empty-icon">
+                            <i class="fa-solid fa-basket-shopping"></i>
+                        </div>
+                        <h4 class="cart-empty-title">Votre panier est vide</h4>
+                        <p class="cart-empty-text">Découvrez notre catalogue gaming et profitez de la livraison rapide !</p>
+                        <button type="button" class="btn-continue-shopping" onclick="closeCart()">
+                            <i class="fa-solid fa-arrow-left"></i>
+                            <span>Continuer mes achats</span>
+                        </button>
                     </div>
                 `;
             } else {
+                if (bottomBox) bottomBox.style.display = 'flex';
                 list.innerHTML = cart.map(item => `
                     <div class="cart-row">
                         <div class="cart-thumb" style="color: ${item.accentColor || 'var(--bq-primary)'};">
