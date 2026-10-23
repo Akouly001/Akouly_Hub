@@ -1,0 +1,320 @@
+/*
+ * AKOULY — Boutique: affichage mobile/tablette et panier.
+ * Cibles : boutique.html + boutique intégrée à gaming.html.
+ * Chargement : après les styles intégrés de chaque page.
+ * Ne change ni les calculs, ni les API, ni les règles commerciales.
+ */
+
+:is(body.akouly-boutique-responsive, #gamingBoutiqueContainer) :is(
+  .store-top-bar, .store-filters-wrap, .store-main-content, .store-unified-bottom,
+  .products-grid, .product-card, .product-body, .title-row,
+  .price-qty-row, .variant-box, .modal-layout-grid, .modal-info-col,
+  .modal-media-col, .newsletter-content, .newsletter-form,
+  .newsletter-inputs, .field-group, .cart-info
+) {
+  min-width: 0;
+}
+
+:is(body.akouly-boutique-responsive, #gamingBoutiqueContainer) :is(.products-grid, .store-main-content) {
+  width: 100%;
+}
+
+:is(body.akouly-boutique-responsive, #gamingBoutiqueContainer) .products-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+:is(body.akouly-boutique-responsive, #gamingBoutiqueContainer) :is(.product-name, .modal-head-title, .cart-info-var) {
+  overflow-wrap: anywhere;
+}
+
+:is(body.akouly-boutique-responsive, #gamingBoutiqueContainer) :is(.title-row, .price-qty-row, .modal-price-row) {
+  flex-wrap: wrap;
+}
+
+:is(body.akouly-boutique-responsive, #gamingBoutiqueContainer) .product-name {
+  min-width: 0;
+  flex: 1 1 130px;
+}
+
+:is(body.akouly-boutique-responsive, #gamingBoutiqueContainer) .btn-details {
+  white-space: normal;
+  line-height: 1.3;
+  min-height: 36px;
+  justify-content: center;
+}
+
+:is(body.akouly-boutique-responsive, #gamingBoutiqueContainer) .variant-dropdown {
+  min-width: 0;
+  max-width: 100%;
+}
+
+:is(body.akouly-boutique-responsive, #gamingBoutiqueContainer) .canva-product-img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+:is(body.akouly-boutique-responsive, #gamingBoutiqueContainer) .modal-layout-grid {
+  grid-template-columns: minmax(0, 270px) minmax(0, 1fr);
+}
+
+:is(body.akouly-boutique-responsive, #gamingBoutiqueContainer) .modal-price-val {
+  overflow-wrap: anywhere;
+}
+
+:is(body.akouly-boutique-responsive, #gamingBoutiqueContainer) .categories-row {
+  max-width: 100%;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+:is(body.akouly-boutique-responsive, #gamingBoutiqueContainer) .cat-chip {
+  flex-shrink: 0;
+}
+
+:is(body.akouly-boutique-responsive, #gamingBoutiqueContainer) .cart-row {
+  min-width: 0;
+}
+
+:is(body.akouly-boutique-responsive, #gamingBoutiqueContainer) .cart-info {
+  overflow-wrap: anywhere;
+}
+
+:is(body.akouly-boutique-responsive, #gamingBoutiqueContainer) .newsletter-inputs {
+  min-width: 0;
+}
+
+/* Fenêtres flottantes hors conteneur boutique (lorsque certaines sont déplacées dans body). */
+body.akouly-boutique-responsive .cart-drawer-overlay,
+body[data-page="gaming"] .cart-drawer-overlay {
+  max-width: 100vw;
+}
+
+@media (max-width: 1120px) {
+  :is(body.akouly-boutique-responsive, #gamingBoutiqueContainer) .products-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 900px) {
+  :is(body.akouly-boutique-responsive, #gamingBoutiqueContainer) .products-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.9rem;
+  }
+
+  :is(body.akouly-boutique-responsive, #gamingBoutiqueContainer) .newsletter-content,
+  :is(body.akouly-boutique-responsive, #gamingBoutiqueContainer) .newsletter-form {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  :is(body.akouly-boutique-responsive, #gamingBoutiqueContainer) .unified-newsletter-block {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1.2rem;
+  }
+
+  :is(body.akouly-boutique-responsive, #gamingBoutiqueContainer) .unified-info-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 660px) {
+  body.akouly-boutique-responsive .store-top-bar,
+  :is(body.akouly-boutique-responsive, #gamingBoutiqueContainer) .gaming-nav-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+  }
+
+  :is(body.akouly-boutique-responsive, #gamingBoutiqueContainer) .gaming-nav-tabs {
+    display: flex;
+    width: 100%;
+    min-width: 0;
+  }
+
+  :is(body.akouly-boutique-responsive, #gamingBoutiqueContainer) .gaming-tab-btn {
+    flex: 1 1 0;
+    min-width: 0;
+    padding: 0.75rem 0.5rem;
+    justify-content: center;
+    text-align: center;
+    white-space: normal;
+    line-height: 1.25;
+  }
+
+  :is(body.akouly-boutique-responsive, #gamingBoutiqueContainer) .cart-trigger-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  :is(body.akouly-boutique-responsive, #gamingBoutiqueContainer) .products-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1rem;
+  }
+
+  :is(body.akouly-boutique-responsive, #gamingBoutiqueContainer) .product-body {
+    padding: 0.85rem;
+    gap: 0.65rem;
+  }
+
+  :is(body.akouly-boutique-responsive, #gamingBoutiqueContainer) .title-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+  }
+
+  :is(body.akouly-boutique-responsive, #gamingBoutiqueContainer) .product-name {
+    font-size: 1rem;
+  }
+
+  :is(body.akouly-boutique-responsive, #gamingBoutiqueContainer) .price-qty-row {
+    gap: 0.7rem;
+  }
+
+  :is(body.akouly-boutique-responsive, #gamingBoutiqueContainer) :is(.qty-btn, .cart-qty-box button) {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+    flex-shrink: 0;
+  }
+
+  :is(body.akouly-boutique-responsive, #gamingBoutiqueContainer) .qty-val {
+    width: 36px;
+    height: 40px;
+    flex-shrink: 0;
+  }
+
+  :is(body.akouly-boutique-responsive, #gamingBoutiqueContainer) .btn-add {
+    min-height: 44px;
+  }
+
+  :is(body.akouly-boutique-responsive, #gamingBoutiqueContainer) .btn-add .btn-add-label {
+    min-width: 0;
+    overflow-wrap: anywhere;
+    font-size: 0.85rem;
+  }
+
+  :is(body.akouly-boutique-responsive, #gamingBoutiqueContainer) .modal-layout-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.9rem;
+  }
+
+  :is(body.akouly-boutique-responsive, #gamingBoutiqueContainer) .modal-price-row {
+    gap: 0.85rem;
+  }
+
+  :is(body.akouly-boutique-responsive, #gamingBoutiqueContainer) .newsletter-inputs {
+    flex-direction: column;
+    gap: 0.65rem;
+  }
+
+  :is(body.akouly-boutique-responsive, #gamingBoutiqueContainer) .checkout-grid-2 {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  :is(body.akouly-boutique-responsive, #gamingBoutiqueContainer) .unified-bottom-card {
+    padding: 1.1rem;
+  }
+
+  :is(body.akouly-boutique-responsive, #gamingBoutiqueContainer) :is(input, select, textarea) {
+    font-size: 16px;
+    max-width: 100%;
+  }
+
+  /* Panier : la liste et le formulaire peuvent défiler indépendamment sur petits écrans. */
+  :is(body.akouly-boutique-responsive, #gamingBoutiqueContainer) .cart-panel {
+    width: 100%;
+    max-width: 100%;
+    height: 100dvh;
+    max-height: 100dvh;
+    overflow-y: hidden;
+  }
+
+  :is(body.akouly-boutique-responsive, #gamingBoutiqueContainer) .cart-items {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  :is(body.akouly-boutique-responsive, #gamingBoutiqueContainer) .cart-bottom-box {
+    flex: 0 1 auto;
+    min-height: 0;
+    max-height: 68dvh;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding-bottom: calc(1.2rem + env(safe-area-inset-bottom, 0px));
+  }
+
+  :is(body.akouly-boutique-responsive, #gamingBoutiqueContainer) .modal-overlay {
+    padding: 0;
+    align-items: flex-end;
+  }
+
+  :is(body.akouly-boutique-responsive, #gamingBoutiqueContainer) .modal-card {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    max-height: 90dvh;
+    margin: auto 0 0;
+    overflow-y: auto;
+    padding: 1.15rem 0.9rem calc(1.25rem + env(safe-area-inset-bottom, 0px));
+    border-radius: 18px 18px 0 0;
+  }
+
+  /* Modal newsletter compact sur téléphone : le formulaire reste entièrement
+     accessible sans occuper presque tout l'écran. */
+  :is(body.akouly-boutique-responsive, #gamingBoutiqueContainer) .newsletter-modal-card {
+    max-height: min(76dvh, 520px);
+    overflow-y: auto;
+    padding: 1rem 0.9rem calc(1rem + env(safe-area-inset-bottom, 0px));
+  }
+
+  :is(body.akouly-boutique-responsive, #gamingBoutiqueContainer) .newsletter-modal-icon {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 0.65rem;
+    font-size: 1.35rem;
+  }
+
+  :is(body.akouly-boutique-responsive, #gamingBoutiqueContainer) .newsletter-modal-title {
+    font-size: 1rem;
+    line-height: 1.25;
+    margin-bottom: 0.4rem;
+  }
+
+  :is(body.akouly-boutique-responsive, #gamingBoutiqueContainer) .newsletter-modal-desc {
+    font-size: 0.78rem;
+    line-height: 1.3;
+    margin-bottom: 0.8rem;
+  }
+
+  :is(body.akouly-boutique-responsive, #gamingBoutiqueContainer) .newsletter-modal-form {
+    gap: 0.55rem;
+  }
+}
+
+@media (max-width: 380px) {
+  :is(body.akouly-boutique-responsive, #gamingBoutiqueContainer) .gaming-nav-tabs {
+    gap: 4px;
+    padding: 4px;
+  }
+
+  :is(body.akouly-boutique-responsive, #gamingBoutiqueContainer) .gaming-tab-btn {
+    font-size: 0.82rem;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  :is(body.akouly-boutique-responsive, #gamingBoutiqueContainer) .modal-price-row {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  :is(body.akouly-boutique-responsive, #gamingBoutiqueContainer) .cart-row {
+    gap: 0.5rem;
+    padding: 0.55rem;
+  }
+}

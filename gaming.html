@@ -7307,6 +7307,17 @@ TOTAL : ${formatNumber(calc.grandTotal)} F CFA
             return new Intl.NumberFormat('fr-FR').format(amount) + ' FCFA';
         }
 
+        // Les produits provenant de Google Sheets peuvent avoir un identifiant
+        // numérique ou contenir des caractères spéciaux.
+        function escapeHtml(value) {
+            return String(value ?? '')
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+
         function getTomorrowDate() {
             const d = new Date();
             d.setDate(d.getDate() + 1);
@@ -7389,7 +7400,7 @@ TOTAL : ${formatNumber(calc.grandTotal)} F CFA
                             </div>
                         </div>
 
-                        <button type="button" class="btn-add" onclick="addToCart('${prod.id}')">
+                        <button type="button" class="btn-add" data-product-id="${escapeHtml(prod.id)}" onclick="addToCart(this.dataset.productId)">
                             <span class="btn-add-label">Ajouter au panier</span>
                             <span class="btn-add-arrow">
                                 <svg viewBox="0 0 100 100">
@@ -7404,7 +7415,7 @@ TOTAL : ${formatNumber(calc.grandTotal)} F CFA
         }
 
         function onVarChange(id) {
-            const prod = PRODUCTS.find(p => p.id === id);
+            const prod = PRODUCTS.find(p => String(p.id) === String(id));
             if (!prod) return;
             const sel = document.getElementById(`var-${id}`);
             const idx = parseInt(sel.value, 10);
@@ -7440,7 +7451,7 @@ TOTAL : ${formatNumber(calc.grandTotal)} F CFA
         let isModalZoomed = true; // Démarre en mode zoom 50% actif
 
         function openDetails(id, variantIdx = null) {
-            const prod = PRODUCTS.find(p => p.id === id);
+            const prod = PRODUCTS.find(p => String(p.id) === String(id));
             if (!prod) return;
 
             currentModalProd = prod;
@@ -7635,7 +7646,7 @@ TOTAL : ${formatNumber(calc.grandTotal)} F CFA
            LOGIQUE DU PANIER
            ========================================================================== */
         function addToCart(id) {
-            const prod = PRODUCTS.find(p => p.id === id);
+            const prod = PRODUCTS.find(p => String(p.id) === String(id));
             if (!prod) return;
 
             const varSelect = document.getElementById(`var-${id}`);
