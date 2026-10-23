@@ -3165,6 +3165,8 @@
         }
     
 </style>
+    <link rel="stylesheet" href="gaming-responsive.css">
+    <link rel="stylesheet" href="boutique-responsive.css">
 </head>
 <body data-page="gaming">
     <!-- ÉCRAN DE CHARGEMENT CIRCULAIRE (PRELOADER) -->
@@ -4923,6 +4925,16 @@
                     ${divider}
                 `;
             }).join('');
+            // Sur mobile, recentrer horizontalement l'étape courante sans déplacer la page.
+            const scroller = nav.closest('.stepper-container');
+            const active = nav.querySelector('.step-item.active');
+            if (scroller && active && window.matchMedia('(max-width: 820px)').matches) {
+                const stepRect = active.getBoundingClientRect();
+                const containerRect = scroller.getBoundingClientRect();
+                const target = scroller.scrollLeft + stepRect.left - containerRect.left
+                    - (scroller.clientWidth - active.clientWidth) / 2;
+                scroller.scrollTo({ left: Math.max(0, target), behavior: 'smooth' });
+            }
         }
 
         function goToStep(num) {
@@ -5290,7 +5302,7 @@
                         </div>
                     </div>
 
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem;">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 1rem;">
                         
                         <div style="background: var(--cfg-bg-card); border: 1px solid var(--cfg-border-subtle); border-radius: var(--radius-md, 12px); padding: 1.2rem; display: flex; flex-direction: column; gap: 0.8rem;">
                             <h4 style="font-size: 1rem; color: #38bdf8; display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0;">
