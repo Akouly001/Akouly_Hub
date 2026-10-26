@@ -3526,6 +3526,65 @@
             <!-- Rendu dynamique JS -->
         </div>
     </main>
+    <!-- ── SECTION UNIQUE UNIFIÉE : NEWSLETTER & TARIFS / ENGAGEMENTS (MÊME CANVA) ── -->
+    <section class="store-unified-bottom" id="newsletterSection">
+        <div class="unified-bottom-card">
+            <!-- Bloc 1 : Newsletter & Offres -->
+            <div class="unified-newsletter-block">
+                <div class="newsletter-content">
+                    <div class="newsletter-badge">
+                        <i class="fa-solid fa-bell"></i>
+                        <span>Newsletter & Offres</span>
+                    </div>
+                    <h3 class="newsletter-title">Envie d'etre informé des promotions, des nouveaux produits, avoir des codes promos, c'est ici</h3>
+                </div>
+                <form class="newsletter-form" id="newsletterForm" onsubmit="handleNewsletterSubmit(event, 'section')">
+                    <div class="newsletter-inputs">
+                        <div class="newsletter-field">
+                            <i class="fa-solid fa-user"></i>
+                            <input type="text" id="newsletterPseudo" class="newsletter-input" placeholder="Votre pseudo" required>
+                        </div>
+                        <div class="newsletter-field">
+                            <i class="fa-solid fa-envelope"></i>
+                            <input type="email" id="newsletterEmail" class="newsletter-input" placeholder="Votre email" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="newsletter-btn" id="newsletterBtn">
+                        <span>S'inscrire</span>
+                        <i class="fa-solid fa-paper-plane"></i>
+                    </button>
+                </form>
+            </div>
+
+            <div class="unified-divider"></div>
+
+            <!-- Bloc 2 : Tarifs de livraison & Engagements -->
+            <div class="unified-info-grid">
+                <div class="unified-info-card">
+                    <h4>Tarifs & Livraison le lendemain</h4>
+                    <ul>
+                        <li><strong>1 500 FCFA :</strong> Abobo, Adjamé, Attécoubé, Cocody, Koumassi, Marcory, Le Plateau, Port-Bouët, Treichville, Yopougon</li>
+                        <li><strong>2 000 FCFA :</strong> Anyama, Bingerville, Songon</li>
+                        <li><strong>Délai :</strong> Livraison programmée dès le lendemain.</li>
+                    </ul>
+                </div>
+
+                <div class="unified-info-card">
+                    <h4>Matériel Garanti 1 Mois</h4>
+                    <p>Tous les équipements sont vérifiés et bénéficient d'une garantie d'un mois. Échange direct sous 48h en cas d'anomalie.</p>
+                </div>
+
+                <div class="unified-info-card">
+                    <h4>Service Client & Suivi</h4>
+                    <p>Besoin d'assistance ou d'un suivi sur votre livraison ? Notre équipe traite les commandes 7j/7.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+            </div><!-- /#gamingBoutiqueContainer -->
+        </section>
+    </main>
+
 
     <!-- ── MODALE FLOTTANTE "EN SAVOIR PLUS & ZOOM 50%" ── -->
     <div class="modal-overlay" id="detailsModal">
@@ -3775,65 +3834,6 @@
             </div>
         </div>
     </div>
-
-    <!-- ── SECTION UNIQUE UNIFIÉE : NEWSLETTER & TARIFS / ENGAGEMENTS (MÊME CANVA) ── -->
-    <section class="store-unified-bottom" id="newsletterSection">
-        <div class="unified-bottom-card">
-            <!-- Bloc 1 : Newsletter & Offres -->
-            <div class="unified-newsletter-block">
-                <div class="newsletter-content">
-                    <div class="newsletter-badge">
-                        <i class="fa-solid fa-bell"></i>
-                        <span>Newsletter & Offres</span>
-                    </div>
-                    <h3 class="newsletter-title">Envie d'etre informé des promotions, des nouveaux produits, avoir des codes promos, c'est ici</h3>
-                </div>
-                <form class="newsletter-form" id="newsletterForm" onsubmit="handleNewsletterSubmit(event, 'section')">
-                    <div class="newsletter-inputs">
-                        <div class="newsletter-field">
-                            <i class="fa-solid fa-user"></i>
-                            <input type="text" id="newsletterPseudo" class="newsletter-input" placeholder="Votre pseudo" required>
-                        </div>
-                        <div class="newsletter-field">
-                            <i class="fa-solid fa-envelope"></i>
-                            <input type="email" id="newsletterEmail" class="newsletter-input" placeholder="Votre email" required>
-                        </div>
-                    </div>
-                    <button type="submit" class="newsletter-btn" id="newsletterBtn">
-                        <span>S'inscrire</span>
-                        <i class="fa-solid fa-paper-plane"></i>
-                    </button>
-                </form>
-            </div>
-
-            <div class="unified-divider"></div>
-
-            <!-- Bloc 2 : Tarifs de livraison & Engagements -->
-            <div class="unified-info-grid">
-                <div class="unified-info-card">
-                    <h4>Tarifs & Livraison le lendemain</h4>
-                    <ul>
-                        <li><strong>1 500 FCFA :</strong> Abobo, Adjamé, Attécoubé, Cocody, Koumassi, Marcory, Le Plateau, Port-Bouët, Treichville, Yopougon</li>
-                        <li><strong>2 000 FCFA :</strong> Anyama, Bingerville, Songon</li>
-                        <li><strong>Délai :</strong> Livraison programmée dès le lendemain.</li>
-                    </ul>
-                </div>
-
-                <div class="unified-info-card">
-                    <h4>Matériel Garanti 1 Mois</h4>
-                    <p>Tous les équipements sont vérifiés et bénéficient d'une garantie d'un mois. Échange direct sous 48h en cas d'anomalie.</p>
-                </div>
-
-                <div class="unified-info-card">
-                    <h4>Service Client & Suivi</h4>
-                    <p>Besoin d'assistance ou d'un suivi sur votre livraison ? Notre équipe traite les commandes 7j/7.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-            </div><!-- /#gamingBoutiqueContainer -->
-        </section>
-    </main>
 
     <!-- Toast Notifications -->
     <div class="toast-box" id="toastBox"></div>
